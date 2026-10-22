@@ -29,6 +29,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Schutz (dem Nutzer so gesagt, „ja“). Ausschalten ohne Code. Die Statistik-Seite `?zahlen` bleibt ohne
   Code (vom Nutzer).
 - Fassungen dieser Kopie heißen „… neu a“, „… neu b“ usw.
+- **Fassung neu b** (vom Nutzer, 22.10.): Kalender-Knopf (`.kal`) und Mannschafts-Schilder in „Unsere Woche“
+  (`.pill.wteam`) grün (`--accentT`, dunkles Türkis aus dem Logo) statt schwarz; Fußzeile „Gemacht von
+  Laurent R. für den FC Koeppchen“ (5×-Schalter `#von` unverändert).
 - **Andere Länder und Roboter zählen getrennt** (vom Nutzer, 22.10.2026): Am ersten Tag öffneten 8 Scanner
   die neue Adresse (Cloudflare-Log: Amazon mit „HeadlessChrome“, Google, Palo Alto, Singapur, Toronto,
   Amsterdam), drei davon direkt nachdem der Nutzer sie im Staatsnetz (CTIE) geöffnet hatte — Firmennetze
