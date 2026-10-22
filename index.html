@@ -348,7 +348,8 @@ function spieltagHeute(v, now) {
     .filter(s => tagLux(Date.parse(s.d)) === tagLux(now))
     .filter(s => !(s.gespielt && s.hs != null) && !istVorbei(s, now))
     .sort((a, b) => a.d.localeCompare(b.d))[0];
-  return sp ? { sp, begonnen: now >= Date.parse(sp.d) } : null;
+  // Uhrzeit offen: nie „Spiel läuft“, sonst stünde das ab Mitternacht da.
+  return sp ? { sp, begonnen: !zeitOffen(sp) && now >= Date.parse(sp.d) } : null;
 }
 
 // Koeppi (Maskottchen, vom Verein angeregt, Plan vom Nutzer 22.10.2026): nur bei den Kinder-Reitern
@@ -577,7 +578,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "22.10.2026 neu j";
+const FASSUNG = "22.10.2026 neu k";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action

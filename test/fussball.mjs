@@ -30,6 +30,7 @@ function gleich(a, b, text) { ok(JSON.stringify(a) === JSON.stringify(b), text +
   ok(!M.istVorbei(offen, sa8) && !M.istVorbei(offen, sa23) && M.istVorbei(offen, so), "Uhrzeit offen: am Spieltag noch nicht vorbei, am Tag danach schon");
   const vv = t => ({ team: { reiter: "U9 1" }, kommend: M.istVorbei(offen, t) ? [] : [offen], gespielt: M.istVorbei(offen, t) ? [offen] : [] });
   ok(M.spieltagHeute(vv(sa8), sa8)?.sp.id === 7 && M.nachDemSpiel(vv(sa8), sa8) === null, "Uhrzeit offen, Spieltag 8 Uhr: Heute-Kasten, noch kein Super-gemacht");
+  ok(M.spieltagHeute(vv(sa8), sa8)?.begonnen === false, "Uhrzeit offen: nicht „Spiel läuft“");
   ok(M.nachDemSpiel(vv(so), so)?.spruch, "Uhrzeit offen, Tag danach: Super-gemacht-Streifen");
   const mitZeit = { ...offen, d: "2026-11-14T10:00:00+01:00" };
   ok(!M.istVorbei(mitZeit, Date.parse("2026-11-14T12:59:00+01:00")) && M.istVorbei(mitZeit, Date.parse("2026-11-14T13:01:00+01:00")), "mit Uhrzeit: 3 h nach Anpfiff vorbei");

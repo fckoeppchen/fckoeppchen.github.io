@@ -60,7 +60,8 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Jetzt `istVorbei`: offen → erst am Tag danach, sonst 3 h nach Anpfiff (in `sicht`, `spieltagHeute`).
   (2) `wocheTage` rechnete in 24-h-Schritten: in der Woche der Frühjahrsumstellung (22.–27.3.2027, 23–24 Uhr)
   fehlte der Sonntag — jetzt Kalendertage (`tagPlus`). (3) `bisDahin` („morgen“/„in 2 Tagen“) nahm die
-  Zeitzone des Handys statt Luxemburg (`tageZwischen`). Tests mit Gegenprobe.
+  Zeitzone des Handys statt Luxemburg (`tageZwischen`). Tests mit Gegenprobe. **Neu k:** bei offener Uhrzeit stand ab
+  Mitternacht „Spiel läuft“ — `begonnen` jetzt nie bei Uhrzeit offen (Browser-Gegenkontrolle).
 - **Fassung neu d** (22.10.): Woche ohne Spiele, Hinweis „Nächstes Spiel: … gegen …“ nannte bei Auswärtsspielen
   Koeppchen als Gegner (`heim` gab es dort nicht) — jetzt über `wir`. Gesehen beim Koeppi-Bild für den Nutzer.
 - **Andere Länder und Roboter zählen getrennt** (vom Nutzer, 22.10.2026): Am ersten Tag öffneten 8 Scanner
