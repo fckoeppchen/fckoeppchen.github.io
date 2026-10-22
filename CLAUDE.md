@@ -32,6 +32,19 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Fassung neu b** (vom Nutzer, 22.10.): Kalender-Knopf (`.kal`) und Mannschafts-Schilder in „Unsere Woche“
   (`.pill.wteam`) grün (`--accentT`, dunkles Türkis aus dem Logo) statt schwarz; Fußzeile „Gemacht von
   Laurent R. für den FC Koeppchen“ (5×-Schalter `#von` unverändert).
+- **Koeppi** (Maskottchen, vom Verein angeregt, Plan in `IDEEN.md`, Fassung neu c, 22.10.2026): Bilder vom Nutzer
+  (freigestellt) in `bilder/koeppi/`, verkleinert (160 px hoch, 128 Farben, 7–9 KB) als `bilder/k-<name>.png`,
+  angezeigt 64×72 (`koeppiBild`, `koeppiZeile`). **Nur Kinder-Reiter** (`istKinder`: U9, U11, U13, U15) und
+  „Unsere Woche“; nie Seniors, BGL, Roude Léiw, nie im Live-Kasten (vom Nutzer). Vortag: neuer Kasten
+  „Morgen Spieltag! ⚽“ (`spieltagMorgen`, `tagNach`, `morgenHtml`) mit Fuß-auf-Ball + „Trinkflasche nicht
+  vergessen! 😉“; Spieltag vor Anpfiff (und Uhrzeit offen) dasselbe im Heute-Kasten; ab Countdown
+  Trinkflasche + „Viel Spaß und viel Glück! 💪“, im Spiel „Daumen drücken! 🤞“ (diese zwei Sätze von Claude,
+  dem Nutzer gesagt). Streifen über den Ergebnissen (`nachDemSpiel`): U13/U15 nur nach Sieg „Gewonnen! 🎉
+  7:1 gegen …“, U9/U11 nach jedem Spiel „Super gemacht, U9 1! 💪 Nächstes Spiel: …“ — höchstens 7 Tage
+  (Claudes Grenze, sonst stünde er die Winterpause durch), weg sobald Vortag/Spieltag des nächsten. Ruhiger
+  Koeppi rechts im Kasten „neue Klasse noch nicht eingetragen“ und bei „Noch keine Termine“. Woche-Kopf:
+  Fahne, nach dem Wochenende bei mehr Siegen als Niederlagen Ball-und-Faust, ohne Spiele ruhig. Tests:
+  Logik mit eigenen kleinen Daten, Gegenprobe; Browser mit gestellter Uhr (alle Fälle, Seniors ohne Koeppi).
 - **Andere Länder und Roboter zählen getrennt** (vom Nutzer, 22.10.2026): Am ersten Tag öffneten 8 Scanner
   die neue Adresse (Cloudflare-Log: Amazon mit „HeadlessChrome“, Google, Palo Alto, Singapur, Toronto,
   Amsterdam), drei davon direkt nachdem der Nutzer sie im Staatsnetz (CTIE) geöffnet hatte — Firmennetze

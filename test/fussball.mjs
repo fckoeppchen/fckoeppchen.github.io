@@ -17,11 +17,32 @@ const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
 const i = src.indexOf("==== Logik"), j = src.indexOf("==== Oberfläche");
 if (i < 0 || j < 0) throw new Error("Abschnittsmarken Logik/Oberfläche nicht gefunden");
 const M = new Function(src.slice(src.lastIndexOf("//", i), src.lastIndexOf("//", j)) + `
-  return { natiLiveSpiel, extraReiter, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz };`)();
+  return { natiLiveSpiel, extraReiter, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach };`)();
 
 let fehler = 0, n = 0;
 function ok(bed, text) { n++; if (!bed) { fehler++; console.log("✗ " + text); } }
 function gleich(a, b, text) { ok(JSON.stringify(a) === JSON.stringify(b), text + " — ist " + JSON.stringify(a) + ", soll " + JSON.stringify(b)); }
+
+// Koeppi (22.10.2026): nur Kinder; Vortag-Kasten; Streifen nach dem Spiel (Sieg bzw. U9/U11 immer).
+{
+  const sp = (id, d, hs, as, erg = true) => ({ id, d, h: { id: 1, n: "FC Koeppchen Wormeldange I" }, a: { id: 9, n: "Gegner" }, wir: 1, erg, gespielt: hs != null, hs, as });
+  const sa = "2026-10-24T14:00:00+02:00", fr18 = Date.parse("2026-10-23T18:00:00+02:00");
+  const v = (reiter, kommend, gespielt) => ({ team: { reiter }, kommend, gespielt });
+  ok(M.istKinder(v("U9 1")) && M.istKinder(v("U13 2")) && M.istKinder(v("U15")) && !M.istKinder(v("Seniors 1")) && !M.istKinder(null), "Koeppi nur bei U9, U11, U13, U15");
+  ok(M.tagNach("2026-10-24") === "2026-10-25" && M.tagNach("2026-10-31") === "2026-11-01" && M.tagNach("2026-12-31") === "2027-01-01", "Folgetag auch über Monats-/Jahresende");
+  ok(M.spieltagMorgen(v("U13 1", [sp(5, sa)], []), fr18)?.sp.id === 5, "Vortag: Morgen-Kasten");
+  ok(M.spieltagMorgen(v("U13 1", [sp(5, sa)], []), Date.parse("2026-10-22T18:00:00+02:00")) === null, "zwei Tage vorher: kein Morgen-Kasten");
+  ok(M.spieltagMorgen(v("U13 1", [sp(5, sa)], []), Date.parse("2026-10-23T23:30:00+02:00"))?.sp.id === 5, "Vortag 23:30 (Ortszeit) noch Morgen-Kasten");
+  const sieg = sp(4, "2026-10-17T14:00:00+02:00", 7, 1), nl = sp(4, "2026-10-17T14:00:00+02:00", 1, 3);
+  const di = Date.parse("2026-10-20T12:00:00+02:00");
+  ok(M.nachDemSpiel(v("U13 1", [sp(5, "2026-10-31T14:00:00+01:00")], [sieg]), di)?.art === "sieg", "nach Sieg: Gewonnen-Streifen");
+  ok(M.nachDemSpiel(v("U13 1", [], [nl]), di) === null, "nach Niederlage: kein Streifen");
+  ok(M.nachDemSpiel(v("Seniors 1", [], [sieg]), di) === null, "Seniors: kein Streifen");
+  ok(M.nachDemSpiel(v("U13 1", [sp(5, sa)], [sieg]), fr18) === null, "Vortag des nächsten Spiels: Streifen weg");
+  ok(M.nachDemSpiel(v("U13 1", [], [sieg]), Date.parse("2026-10-25T15:00:00+01:00")) === null, "nach 7 Tagen: Streifen weg");
+  ok(M.nachDemSpiel(v("U9 1", [], [sp(4, "2026-10-17T10:00:00+02:00", null, null, false)]), di)?.art === "gespielt", "U9: nach jedem Spiel Super-gemacht-Streifen");
+  ok(M.nachDemSpiel(v("U9 1", [], [sp(4, "2026-10-25T10:00:00+01:00", null, null, false)]), di) === null, "Spiel in der Zukunft (z. B. Forfait im Voraus) zählt nicht");
+}
 
 /* --- Rohdaten wie aus der Schnittstelle --- */
 const team = (id, name, club) => ({ id, name, clubId1: club, clubId2: null, clubId3: null, clubId4: null });

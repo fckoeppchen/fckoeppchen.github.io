@@ -69,6 +69,13 @@
   .heute .wann{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;text-align:center;line-height:1.1}
   .heute .wo{text-align:center;font-size:13px;color:var(--muted);margin-top:4px}
   .heute .zusatz{text-align:center;font-size:13px;margin-top:8px}
+  /* Koeppi (Maskottchen): daumengroß, neben einem kurzen Satz */
+  .koeppi{width:64px;height:72px;object-fit:contain;flex:none}
+  .kzeile{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;font-size:14px;font-weight:600}
+  .kzeile.links{justify-content:flex-start;text-align:left}
+  .note.mitk{display:flex;align-items:center;gap:10px}.note.mitk>div{flex:1}
+  .streifen{display:flex;align-items:center;gap:12px;padding:8px 10px;margin-bottom:6px;border-radius:10px;background:#e6f6f2;border:1px solid var(--accent)}
+  .streifen b{display:block;font-size:16px}
   .live{border:2px solid var(--bad)}
   .live .chead{background:#fff4f5}
   .live .punkt{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bad);margin-right:6px;vertical-align:1px;animation:puls 1.6s infinite}
@@ -344,6 +351,28 @@ function spieltagHeute(v, now) {
   return sp ? { sp, begonnen: now >= Date.parse(sp.d) } : null;
 }
 
+// Koeppi (Maskottchen, vom Verein angeregt, Plan vom Nutzer 22.10.2026): nur bei den Kinder-Reitern
+// (U9, U11, U13, U15) und in „Unsere Woche“, nie bei den Seniors, nie im Live-Kasten.
+const istKinder = v => /^U(9|11|13|15)\b/.test(v?.team?.reiter || "");
+// Morgen ein eigenes Spiel? Dann am Vortag der Kasten „Morgen Spieltag!“ (vom Nutzer, Variante A).
+function tagNach(tag) { const [y, m, d] = tag.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d + 1)).toISOString().slice(0, 10); }
+function spieltagMorgen(v, now) {
+  if (!v) return null;
+  const morgen = tagNach(tagLux(now));
+  const sp = v.kommend.filter(s => tagLux(Date.parse(s.d)) === morgen).sort((a, b) => a.d.localeCompare(b.d))[0];
+  return sp ? { sp } : null;
+}
+// Streifen über den Ergebnissen nach dem letzten Spiel: U13/U15 nur nach einem Sieg („Gewonnen!“),
+// U9/U11 (ohne Ergebnisse) nach jedem Spiel („Super gemacht!“). Höchstens 7 Tage, und nicht mehr,
+// sobald das nächste Spiel ansteht (Vortag/Spieltag zeigen ihre eigenen Kästen).
+function nachDemSpiel(v, now) {
+  if (!istKinder(v) || spieltagHeute(v, now) || spieltagMorgen(v, now)) return null;
+  const sp = v.gespielt.find(s => Date.parse(s.d) <= now);
+  if (!sp || now - Date.parse(sp.d) > 7 * 864e5) return null;
+  if (sp.erg === false) return { art: "gespielt", sp };
+  return ausgang(sp, sp.wir) === "s" ? { art: "sieg", sp } : null;
+}
+
 // Countdown in den letzten 15 min vor Anpfiff (vom Nutzer, 19.10.2026, für alle Reiter): Minuten,
 // aufgerundet; null außerhalb und bei „Uhrzeit noch offen“ (00:00 bei der FLF).
 const COUNTDOWN_MS = 15 * 60e3;
@@ -532,7 +561,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "22.10.2026 neu b";
+const FASSUNG = "22.10.2026 neu c";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -705,17 +734,22 @@ function render() {
   LIVE_POLL = !!lv || imLiveFenster(v, now);
   // Spieltag-Kasten, solange (noch) kein LIVE-Kasten da ist.
   const heute = !lv && spieltagHeute(v, now);
+  const kinder = istKinder(v);
   if (heute) h += heuteHtml(heute, v.ids, { live: v.team.reiter === LIVE_REITER || !!(D.fupa || {})[heute.sp.id], pill: sp => sp.typ === "CUP" ? "Pokal" : "",
-    ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist." });
+    ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder });
+  const morgen = kinder && !heute && !lv && spieltagMorgen(v, now);
+  if (morgen) h += morgenHtml(morgen, v.ids, sp => sp.typ === "CUP" ? "Pokal" : "");
   if (lv) h += liveHtml(lv, n => anzeige(n).startsWith("Koeppchen"), "offiziell zählt die FLF");
 
   if (v.status && v.status.was) {
-    h += `<div class="note ${v.status.was.art}"><b>${esc(v.aktuell.n)} ist beendet.</b> ${esc(v.status.was.txt)}` +
-      (v.status.neuFehlt ? `<br><span class="muted">Die neue Klasse ist bei der FLF noch nicht eingetragen. Sobald das erste Spiel drinsteht, erscheint sie hier von selbst.</span>` : "") + `</div>`;
+    // Kinder: wartet die neue Klasse noch, steht der ruhige Koeppi rechts im Kasten.
+    const ruhig = kinder && v.status.neuFehlt;
+    h += `<div class="note ${v.status.was.art}${ruhig ? " mitk" : ""}">${ruhig ? "<div>" : ""}<b>${esc(v.aktuell.n)} ist beendet.</b> ${esc(v.status.was.txt)}` +
+      (v.status.neuFehlt ? `<br><span class="muted">Die neue Klasse ist bei der FLF noch nicht eingetragen. Sobald das erste Spiel drinsteht, erscheint sie hier von selbst.</span>` : "") + `${ruhig ? "</div>" + koeppiBild("ruhig") : ""}</div>`;
   }
 
   h += `<section class="card"><div class="chead"><h2>Nächste Spiele</h2></div><div class="cbody">`;
-  if (!v.kommend.length) h += `<div class="muted">Noch keine Termine eingetragen.</div>`;
+  if (!v.kommend.length) h += kinder ? koeppiZeile("ruhig", "Noch keine Termine eingetragen.", "links") : `<div class="muted">Noch keine Termine eingetragen.</div>`;
   // Höchstens fünf — bei den Seniors stünde sonst die halbe Saison hier.
   const ZEIG = 5;
   v.kommend.slice(0, ZEIG).forEach((sp, i) => {
@@ -748,6 +782,15 @@ function render() {
 
   h += `<section class="card"><div class="chead"><h2>${v.aktuell && !v.aktuell.ergebnisse ? "Bisherige Spiele" : "Unsere Ergebnisse"}</h2></div><div class="cbody">`;
   if (!v.gespielt.length) h += `<div class="muted">Noch nichts gespielt.</div>`;
+  const nach = nachDemSpiel(v, now);
+  if (nach) {
+    const gegner = anzeige(nach.sp.h.id === nach.sp.wir ? nach.sp.a.n : nach.sp.h.n);
+    const wir = nach.sp.h.id === nach.sp.wir ? [nach.sp.hs, nach.sp.as] : [nach.sp.as, nach.sp.hs];
+    const naechst = v.kommend[0];
+    h += `<div class="streifen">${koeppiBild("rennend")}<div>${nach.art === "sieg"
+      ? `<b>Gewonnen! 🎉</b>${wir[0]}:${wir[1]} gegen ${esc(gegner)}`
+      : `<b>Super gemacht, ${esc(v.team.reiter)}! 💪</b>${naechst ? "Nächstes Spiel: " + esc(wann(naechst.d, false)) : ""}`}</div></div>`;
+  }
   for (const sp of v.gespielt) {
     const pokal = art(sp) ? " · " + art(sp) : "";
     const fehlt = !sp.gespielt && sp.erg !== false ? " · Ergebnis noch nicht eingetragen" : "";
@@ -779,7 +822,7 @@ function fuss() {
 }
 
 // „Heute Spieltag“ (Mannschaften und Roude Léiw).
-function heuteHtml(heute, ids, { live, pill, ohneLive }) {
+function heuteHtml(heute, ids, { live, pill, ohneLive, koeppi }) {
   const sp = heute.sp, zeit = wann(sp.d).split(" · ")[1];
   const min = !heute.begonnen && minutenBisAnpfiff(sp, Date.now());
   // Nächster Wechsel des Kastens (Countdown an, Anpfiff) — der Takt unten baut dann neu.
@@ -798,12 +841,29 @@ function heuteHtml(heute, ids, { live, pill, ohneLive }) {
         : "Der Liveticker erscheint hier, falls bei FuPa jemand tickert.")
     : (live ? "Liveticker, wenn verfügbar — sobald bei FuPa jemand tickert." : "");
   const p = pill(sp);
+  // Kinder: vor dem Anpfiff Fuß auf dem Ball, ab „Gleich geht's los!“ und im Spiel die Trinkflasche.
+  const kz = !koeppi ? "" : (!heute.begonnen && !min) || !zeit
+    ? koeppiZeile("fuss-auf-ball", "Trinkflasche nicht vergessen! 😉")
+    : koeppiZeile("trinkflasche", heute.begonnen ? "Daumen drücken! 🤞" : "Viel Spaß und viel Glück! 💪");
   return `<section class="card heute"><div class="chead"><h2>${titel}</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}</div><div class="cbody">
     <div class="wann">${oben}</div>
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}
-    ${unten ? `<div class="zusatz">${esc(unten)}</div>` : ""}
+    ${unten ? `<div class="zusatz">${esc(unten)}</div>` : ""}${kz}
+    </div></section>`;
+}
+const koeppiBild = n => `<img class="koeppi" alt="Koeppi" src="bilder/k-${n}.png">`;
+const koeppiZeile = (n, txt, cls = "") => `<div class="kzeile${cls ? " " + cls : ""}">${koeppiBild(n)}<span>${esc(txt)}</span></div>`;
+// „Morgen Spieltag!“ (nur Kinder-Reiter, Vortag).
+function morgenHtml(m, ids, pill) {
+  const sp = m.sp, zeit = wann(sp.d).split(" · ")[1], p = pill(sp);
+  return `<section class="card heute"><div class="chead"><h2>Morgen Spieltag! ⚽</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}</div><div class="cbody">
+    <div class="wann">${esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen")}</div>
+    <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
+    <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
+    ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}
+    ${koeppiZeile("fuss-auf-ball", "Trinkflasche nicht vergessen! 😉")}
     </div></section>`;
 }
 
@@ -868,7 +928,7 @@ function wocheHtml(tage, alle, now) {
     : vorbei && b.s + b.u + b.n ? `${b.s} ${b.s === 1 ? "Sieg" : "Siege"}, ${b.u} Remis, ${b.n} ${b.n === 1 ? "Niederlage" : "Niederlagen"}`
     : `${alle.length} ${alle.length === 1 ? "Spiel" : "Spiele"}, davon ${heim} zu Hause`;
   let h = `<section class="card"><div class="chead"><h2>Unsere Woche</h2><div class="hint tagdatum">${kurz(tage[0])} – ${kurz(tage[6])}</div></div>
-    <div class="cbody"><div class="wzus">${esc(zus)}</div></div></section>`;
+    <div class="cbody"><div class="kzeile">${koeppiBild(!alle.length ? "ruhig" : vorbei && b.s > b.n ? "ball-faust" : "fahne")}<div class="wzus">${esc(zus)}</div></div></div></section>`;
   if (!alle.length) {
     const naechstes = aufteilen(D).tabs.flatMap(t => sicht(D, t.id, now).kommend.map(sp => ({ ...sp, reiter: t.reiter })))
       .sort((a, b) => a.d.localeCompare(b.d))[0];

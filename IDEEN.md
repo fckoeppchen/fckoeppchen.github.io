@@ -3,7 +3,7 @@
 Gesammelt, noch nicht gebaut. Wer etwas davon angeht, streicht es hier und trägt den Stand in
 `CLAUDE.md` ein.
 
-## Koeppi (Maskottchen) — Plan vom Nutzer, 22.10.2026, noch nicht bauen („noch nichts bauen“)
+## Koeppi (Maskottchen) — Plan vom Nutzer, 22.10.2026 — **gebaut 22.10., Fassung neu c** (Stand in CLAUDE.md)
 
 Vom Verein angeregt („Koeppi als Identifikationsfigur für die Jugendspieler“). Bilder vom Nutzer, freigestellt
 (512 px, durchsichtig, weißer Sticker-Rand), Originale in `bilder/koeppi/`. In der App als eigene Dateien
