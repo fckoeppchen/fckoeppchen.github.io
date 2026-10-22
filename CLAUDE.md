@@ -99,6 +99,10 @@ Datenschutz in der App, Versand in Pakete aufteilen, Worker-Grenze (100 000 Abru
 - Danach: erste Woche Statistik und Worker-Last beobachten; FuPa (Nutzer: „später“); Mitteilungen für alle
   erst mit Versand in Paketen; 5×-Schalter ausbauen (vorher fragen); Android-Test; Kalender-Spiegel Ende 2026 aus.
 
+**Erinnerung Phase 2** (vom Nutzer, 22.10.2026): geplante Aufgabe „Phase 2 Rundschreiben prüfen“ (jeden Montag
+8:31): sobald U13/U15 eine neue Ligaklasse haben und in `REGELN` nichts dafür steht, den Nutzer ums Foto vom
+neuen FLF-Rundschreiben bitten; danach die Aufgabe abschalten.
+
 ## Fußball (`fussball.html`) — Stand und Regeln
 
 Nutzer: Laurent; seine Kinder spielen bei den **U13 Minimes des FC Koeppchen Wormeldange**
