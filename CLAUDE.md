@@ -45,6 +45,13 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Koeppi rechts im Kasten „neue Klasse noch nicht eingetragen“ und bei „Noch keine Termine“. Woche-Kopf:
   Fahne, nach dem Wochenende bei mehr Siegen als Niederlagen Ball-und-Faust, ohne Spiele ruhig. Tests:
   Logik mit eigenen kleinen Daten, Gegenprobe; Browser mit gestellter Uhr (alle Fälle, Seniors ohne Koeppi).
+- **Fassung neu e — Wunsch des Vereins** (22.10.2026): **keine Ergebnisse hervorheben**, Kinder nicht für Siege
+  loben, keine Bilanz. Darum: Streifen nach **jedem** Kinderspiel (U9–U15) gleich, „Super gemacht, U13 1! 💪“ +
+  ein Spruch des Vereins (`SPRUECHE`, je Spiel fest über `sp.id`) + „Nächstes Spiel: …“; kein „Gewonnen“, kein
+  Ergebnis. „Unsere Woche“: **immer Fahnen-Koeppi**, Kopf nur „n Spiele, davon m zu Hause“ — die Bilanz
+  (Siege/Remis/Niederlagen) ist ganz raus, auch für Seniors (`wocheBilanz` bleibt nur für den Test).
+  `k-ball-faust.png` wird nicht mehr benutzt. Noch offen, dem Nutzer als Frage gestellt: grün/rot gefärbte
+  Ergebnisse, „Aufstieg … 🎉“ und Ergebnis-/Tabellen-Mitteilungen bei den Kindern.
 - **Fassung neu d** (22.10.): Woche ohne Spiele, Hinweis „Nächstes Spiel: … gegen …“ nannte bei Auswärtsspielen
   Koeppchen als Gegner (`heim` gab es dort nicht) — jetzt über `wir`. Gesehen beim Koeppi-Bild für den Nutzer.
 - **Andere Länder und Roboter zählen getrennt** (vom Nutzer, 22.10.2026): Am ersten Tag öffneten 8 Scanner

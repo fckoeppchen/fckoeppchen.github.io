@@ -35,12 +35,13 @@ function gleich(a, b, text) { ok(JSON.stringify(a) === JSON.stringify(b), text +
   ok(M.spieltagMorgen(v("U13 1", [sp(5, sa)], []), Date.parse("2026-10-23T23:30:00+02:00"))?.sp.id === 5, "Vortag 23:30 (Ortszeit) noch Morgen-Kasten");
   const sieg = sp(4, "2026-10-17T14:00:00+02:00", 7, 1), nl = sp(4, "2026-10-17T14:00:00+02:00", 1, 3);
   const di = Date.parse("2026-10-20T12:00:00+02:00");
-  ok(M.nachDemSpiel(v("U13 1", [sp(5, "2026-10-31T14:00:00+01:00")], [sieg]), di)?.art === "sieg", "nach Sieg: Gewonnen-Streifen");
-  ok(M.nachDemSpiel(v("U13 1", [], [nl]), di) === null, "nach Niederlage: kein Streifen");
+  // Vom Verein: gelobt wird das Spielen, nicht der Sieg — nach Sieg und Niederlage derselbe Streifen.
+  const s1 = M.nachDemSpiel(v("U13 1", [sp(5, "2026-10-31T14:00:00+01:00")], [sieg]), di), s2 = M.nachDemSpiel(v("U13 1", [], [nl]), di);
+  ok(s1 && s2 && s1.spruch && s1.spruch === s2.spruch && !("art" in s1), "nach Sieg und Niederlage: gleicher Streifen mit Spruch, ohne Ergebnis");
   ok(M.nachDemSpiel(v("Seniors 1", [], [sieg]), di) === null, "Seniors: kein Streifen");
   ok(M.nachDemSpiel(v("U13 1", [sp(5, sa)], [sieg]), fr18) === null, "Vortag des nächsten Spiels: Streifen weg");
   ok(M.nachDemSpiel(v("U13 1", [], [sieg]), Date.parse("2026-10-25T15:00:00+01:00")) === null, "nach 7 Tagen: Streifen weg");
-  ok(M.nachDemSpiel(v("U9 1", [], [sp(4, "2026-10-17T10:00:00+02:00", null, null, false)]), di)?.art === "gespielt", "U9: nach jedem Spiel Super-gemacht-Streifen");
+  ok(M.nachDemSpiel(v("U9 1", [], [sp(4, "2026-10-17T10:00:00+02:00", null, null, false)]), di)?.spruch, "U9: nach jedem Spiel Streifen mit Spruch");
   ok(M.nachDemSpiel(v("U9 1", [], [sp(4, "2026-10-25T10:00:00+01:00", null, null, false)]), di) === null, "Spiel in der Zukunft (z. B. Forfait im Voraus) zählt nicht");
 }
 

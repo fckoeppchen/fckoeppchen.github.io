@@ -362,16 +362,18 @@ function spieltagMorgen(v, now) {
   const sp = v.kommend.filter(s => tagLux(Date.parse(s.d)) === morgen).sort((a, b) => a.d.localeCompare(b.d))[0];
   return sp ? { sp } : null;
 }
-// Streifen über den Ergebnissen nach dem letzten Spiel: U13/U15 nur nach einem Sieg („Gewonnen!“),
-// U9/U11 (ohne Ergebnisse) nach jedem Spiel („Super gemacht!“). Höchstens 7 Tage, und nicht mehr,
+// Streifen über den Ergebnissen nach jedem Spiel, egal wie es ausging (vom Verein, 22.10.2026: keine
+// Ergebnisse hervorheben, gelobt wird das Spielen, nicht der Sieg). Höchstens 7 Tage, und nicht mehr,
 // sobald das nächste Spiel ansteht (Vortag/Spieltag zeigen ihre eigenen Kästen).
 function nachDemSpiel(v, now) {
   if (!istKinder(v) || spieltagHeute(v, now) || spieltagMorgen(v, now)) return null;
   const sp = v.gespielt.find(s => Date.parse(s.d) <= now);
   if (!sp || now - Date.parse(sp.d) > 7 * 864e5) return null;
-  if (sp.erg === false) return { art: "gespielt", sp };
-  return ausgang(sp, sp.wir) === "s" ? { art: "sieg", sp } : null;
+  return { sp, spruch: SPRUECHE[Math.abs(Number(sp.id) || 0) % SPRUECHE.length] };
 }
+// Sprüche vom Verein (22.10.2026); je Spiel fest einer, damit er nicht bei jedem Neuaufbau wechselt.
+const SPRUECHE = ["Talent bringt dich weit, harte Arbeit bringt dich weiter!", "Werde jeden Tag ein kleines Stück besser!",
+  "Bleib hungrig, bleib fokussiert, bleib dran!", "Teamwork makes the dream work!", "Der nächste Schritt beginnt heute!"];
 
 // Countdown in den letzten 15 min vor Anpfiff (vom Nutzer, 19.10.2026, für alle Reiter): Minuten,
 // aufgerundet; null außerhalb und bei „Uhrzeit noch offen“ (00:00 bei der FLF).
@@ -561,7 +563,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "22.10.2026 neu d";
+const FASSUNG = "22.10.2026 neu e";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -784,12 +786,8 @@ function render() {
   if (!v.gespielt.length) h += `<div class="muted">Noch nichts gespielt.</div>`;
   const nach = nachDemSpiel(v, now);
   if (nach) {
-    const gegner = anzeige(nach.sp.h.id === nach.sp.wir ? nach.sp.a.n : nach.sp.h.n);
-    const wir = nach.sp.h.id === nach.sp.wir ? [nach.sp.hs, nach.sp.as] : [nach.sp.as, nach.sp.hs];
     const naechst = v.kommend[0];
-    h += `<div class="streifen">${koeppiBild("rennend")}<div>${nach.art === "sieg"
-      ? `<b>Gewonnen! 🎉</b>${wir[0]}:${wir[1]} gegen ${esc(gegner)}`
-      : `<b>Super gemacht, ${esc(v.team.reiter)}! 💪</b>${naechst ? "Nächstes Spiel: " + esc(wann(naechst.d, false)) : ""}`}</div></div>`;
+    h += `<div class="streifen">${koeppiBild("rennend")}<div><b>Super gemacht, ${esc(v.team.reiter)}! 💪</b>${esc(nach.spruch)}${naechst ? `<br><span class="muted">Nächstes Spiel: ${esc(wann(naechst.d, false))}</span>` : ""}</div></div>`;
   }
   for (const sp of v.gespielt) {
     const pokal = art(sp) ? " · " + art(sp) : "";
@@ -922,13 +920,11 @@ async function holenWorkerAlle() {
 function wocheHtml(tage, alle, now) {
   const kurz = d => { const x = new Date(d + "T12:00:00"); return x.getDate() + "." + (x.getMonth() + 1) + "."; };
   const heim = alle.filter(sp => sp.heim).length;
-  const vorbei = alle.length && alle.every(sp => sp.gespielt || Date.parse(sp.d) < now - 3 * 3600e3);
-  const b = wocheBilanz(alle);
+  // Keine Bilanz (Siege/Niederlagen) im Kopf: vom Verein, 22.10.2026 — es geht nicht ums Gewinnen.
   const zus = !alle.length ? "Diese Woche keine Spiele."
-    : vorbei && b.s + b.u + b.n ? `${b.s} ${b.s === 1 ? "Sieg" : "Siege"}, ${b.u} Remis, ${b.n} ${b.n === 1 ? "Niederlage" : "Niederlagen"}`
     : `${alle.length} ${alle.length === 1 ? "Spiel" : "Spiele"}, davon ${heim} zu Hause`;
   let h = `<section class="card"><div class="chead"><h2>Unsere Woche</h2><div class="hint tagdatum">${kurz(tage[0])} – ${kurz(tage[6])}</div></div>
-    <div class="cbody"><div class="kzeile">${koeppiBild(!alle.length ? "ruhig" : vorbei && b.s > b.n ? "ball-faust" : "fahne")}<div class="wzus">${esc(zus)}</div></div></div></section>`;
+    <div class="cbody"><div class="kzeile">${koeppiBild("fahne")}<div class="wzus">${esc(zus)}</div></div></div></section>`;
   if (!alle.length) {
     const naechstes = aufteilen(D).tabs.flatMap(t => sicht(D, t.id, now).kommend.map(sp => ({ ...sp, reiter: t.reiter })))
       .sort((a, b) => a.d.localeCompare(b.d))[0];
