@@ -369,9 +369,13 @@ function nachDemSpiel(v, now) {
   if (!istKinder(v) || spieltagHeute(v, now) || spieltagMorgen(v, now)) return null;
   const sp = v.gespielt.find(s => Date.parse(s.d) <= now);
   if (!sp || now - Date.parse(sp.d) > 7 * 864e5) return null;
-  return { sp, spruch: SPRUECHE[Math.abs(Number(sp.id) || 0) % SPRUECHE.length] };
+  // Reihum (vom Nutzer): mit jedem gespielten Spiel der nächste Spruch, und jeder Reiter fängt woanders an.
+  // Fest je Spiel, damit er nicht bei jedem Neuaufbau wechselt.
+  const nr = v.gespielt.filter(s => Date.parse(s.d) <= now).length;
+  const versatz = [...v.team.reiter].reduce((x, c) => x + c.charCodeAt(0), 0);
+  return { sp, spruch: SPRUECHE[(nr + versatz) % SPRUECHE.length] };
 }
-// Sprüche vom Verein (22.10.2026); je Spiel fest einer, damit er nicht bei jedem Neuaufbau wechselt.
+// Sprüche vom Verein (22.10.2026).
 const SPRUECHE = ["Talent bringt dich weit, harte Arbeit bringt dich weiter!", "Werde jeden Tag ein kleines Stück besser!",
   "Bleib hungrig, bleib fokussiert, bleib dran!", "Teamwork makes the dream work!", "Der nächste Schritt beginnt heute!"];
 
@@ -563,7 +567,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "22.10.2026 neu g";
+const FASSUNG = "22.10.2026 neu h";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
