@@ -16,7 +16,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   In den Abschnitten unten (aus der alten CLAUDE.md übernommen) stehen noch die alten Namen —
   gemeint sind diese Dateien.
 - **Home-Icon** in Vereinsfarben (vom Verein: Logo auf weiß-schwarz-grünen Streifen, Vorlage als Bild
-  vom Nutzer): `apple-touch-icon` (180 px) und `bilder/icon-192.png`, `-512.png`. In der App selbst
+  vom Nutzer): `apple-touch-icon` (180 px) und `bilder/icon-192.png`, `-512.png` (purpose `any`), dazu für Android `bilder/icon-maskable-192.png`,
+  `-512.png` (purpose `maskable`): Logo auf 58 % verkleinert, damit Androids runde Maske die Streifen
+  stehen lässt und das Logo nicht anschneidet (Vorschau mit 80- und 72-%-Kreis geprüft; am Gerät nicht). In der App selbst
   steht weiter das Logo ohne Streifen (`LOGO` kommt jetzt aus `rel="icon"`, nicht mehr aus dem Home-Icon).
 - **Eigener Worker „fckoeppchen“** (`https://fckoeppchen.rjtp6r9s9h.workers.dev/`), eigene D1-Datenbank
   → Statistik und Mitteilungen fangen neu an (vom Nutzer: „komplett neue Statistik“). Stößt dieses
