@@ -14,11 +14,10 @@ Live-Kasten** (vom Nutzer). Kein trauriger Koeppi nach Niederlagen.
 - Kinder-Reiter, **Vortag und Spieltag bis zum Anpfiff** („Heute Spieltag!“ bzw. „Nächste Spiele“, Satz wie
   „Trinkflasche nicht vergessen! 😉“): `fuss-auf-ball.png` (vom Nutzer getauscht).
 - Kinder-Reiter, **„Gleich geht's los!“ und während des Spiels**: `trinkflasche.png`.
-- **U13/U15 nach einem Sieg**: rennender Koeppi mit Faust (schwarzes Trikot) als Streifen „Gewonnen! 🎉 7:1
-  gegen …“ oben in „Ergebnisse“ über dem neuesten Spiel, bis das nächste Spiel ansteht. **Bild fehlt noch
-  im Repo** (kam als sechstes, wurde nicht gespeichert) — beim Bauen nochmal schicken lassen.
-- **U9/U11** (keine Ergebnisse): nach **jedem** Spiel „Super gemacht, U9 1! 💪 Nächstes Spiel: …“ mit dem
-  rennenden Koeppi, bis das nächste ansteht (vom Nutzer: nur das, kein Saisonzähler, kein Uhrzeit-Hinweis).
+- **U13/U15 nach einem Sieg**: `rennend.png` (Faust, schwarzes Trikot) als Streifen „Gewonnen! 🎉 7:1
+  gegen …“ oben in „Ergebnisse“ über dem neuesten Spiel, bis das nächste Spiel ansteht.
+- **U9/U11** (keine Ergebnisse): nach **jedem** Spiel „Super gemacht, U9 1! 💪 Nächstes Spiel: …“ mit
+  `rennend.png`, bis das nächste ansteht (vom Nutzer: nur das, kein Saisonzähler, kein Uhrzeit-Hinweis).
 - **Leere Stellen** (hellgrüner Hinweis „neue Klasse noch nicht eingetragen“, „Nächste Spiele“ leer,
   Winterpause): `ruhig.png` rechts im Kasten.
 - **Unsere Woche, Kopf**: immer `fahne.png` (#mirvunderkoeppchen); nach dem Wochenende bei positiver Bilanz
