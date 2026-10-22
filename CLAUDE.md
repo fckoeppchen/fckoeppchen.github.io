@@ -47,7 +47,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Logik mit eigenen kleinen Daten, Gegenprobe; Browser mit gestellter Uhr (alle Fälle, Seniors ohne Koeppi).
 - **Fassung neu e — Wunsch des Vereins** (22.10.2026): **keine Ergebnisse hervorheben**, Kinder nicht für Siege
   loben, keine Bilanz. Darum: Streifen nach **jedem** Kinderspiel (U9–U15) gleich, „Super gemacht, U13 1! 💪“ +
-  ein Spruch des Vereins (`SPRUECHE`, reihum: Zahl der gespielten Spiele + Versatz je Reiter aus dem Namen, vom Nutzer neu h — nächstes Spiel = nächster Spruch, Reiter fangen verschieden an; bei 7 Reitern und 5 Sprüchen teilen sich zwei Paare den Start) + „Nächstes Spiel: …“; kein „Gewonnen“, kein
+  ein Spruch des Vereins (`SPRUECHE`, reihum: Zahl der gespielten Spiele + Versatz je Reiter (feste Reihenfolge der 7 Jugend-Reiter), vom Nutzer neu h — nächstes Spiel = nächster Spruch, Reiter fangen verschieden an; seit neu i 8 Sprüche — 5 vom Verein, 3 vom Nutzer aus Claudes Vorschlägen; jeder Reiter startet bei einem eigenen) + „Nächstes Spiel: …“; kein „Gewonnen“, kein
   Ergebnis. „Unsere Woche“: **Fahnen-Koeppi**, Woche ohne Spiele der ruhige (vom Nutzer, neu g). **Es geht nur um Koeppi** (vom Nutzer,
   Fassung neu f): Wochenbilanz-Text, farbige Ergebnisse, „Aufstieg … 🎉“, Mitteilungen bleiben wie sie waren
   (in neu e war die Bilanz kurz raus — zurück). **Neu f, Bilder getauscht** (vom Nutzer): Morgen-Kasten

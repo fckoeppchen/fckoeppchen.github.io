@@ -43,7 +43,7 @@ function gleich(a, b, text) { ok(JSON.stringify(a) === JSON.stringify(b), text +
   const s3 = M.nachDemSpiel(v("U13 1", [], zwei), di);
   ok(s3.spruch !== s1.spruch, "nächstes Spiel: anderer Spruch");
   const jeReiter = new Set(["U13 1", "U13 2", "U15", "U11 1", "U11 2", "U9 1", "U9 2"].map(r => M.nachDemSpiel(v(r, [], [sieg]), di).spruch));
-  ok(jeReiter.size >= 4, "Reiter fangen bei verschiedenen Sprüchen an (" + jeReiter.size + " von 5)");
+  ok(jeReiter.size === 7, "jeder Jugend-Reiter fängt bei einem eigenen Spruch an (" + jeReiter.size + " von 7)");
   ok(M.nachDemSpiel(v("Seniors 1", [], [sieg]), di) === null, "Seniors: kein Streifen");
   ok(M.nachDemSpiel(v("U13 1", [sp(5, sa)], [sieg]), fr18) === null, "Vortag des nächsten Spiels: Streifen weg");
   ok(M.nachDemSpiel(v("U13 1", [], [sieg]), Date.parse("2026-10-25T15:00:00+01:00")) === null, "nach 7 Tagen: Streifen weg");

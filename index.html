@@ -372,12 +372,16 @@ function nachDemSpiel(v, now) {
   // Reihum (vom Nutzer): mit jedem gespielten Spiel der nächste Spruch, und jeder Reiter fängt woanders an.
   // Fest je Spiel, damit er nicht bei jedem Neuaufbau wechselt.
   const nr = v.gespielt.filter(s => Date.parse(s.d) <= now).length;
-  const versatz = [...v.team.reiter].reduce((x, c) => x + c.charCodeAt(0), 0);
+  const fest = ["U13 1", "U13 2", "U15", "U11 1", "U11 2", "U9 1", "U9 2"].indexOf(v.team.reiter);
+  const versatz = fest >= 0 ? fest : [...v.team.reiter].reduce((x, c) => x + c.charCodeAt(0), 0);
   return { sp, spruch: SPRUECHE[(nr + versatz) % SPRUECHE.length] };
 }
 // Sprüche vom Verein (22.10.2026).
 const SPRUECHE = ["Talent bringt dich weit, harte Arbeit bringt dich weiter!", "Werde jeden Tag ein kleines Stück besser!",
-  "Bleib hungrig, bleib fokussiert, bleib dran!", "Teamwork makes the dream work!", "Der nächste Schritt beginnt heute!"];
+  "Bleib hungrig, bleib fokussiert, bleib dran!", "Teamwork makes the dream work!", "Der nächste Schritt beginnt heute!",
+  // dazu vom Nutzer ausgesucht (22.10.2026):
+  "Allein bist du schnell, zusammen kommt ihr weit!", "Together everyone achieves more – TEAM!",
+  "Wer kämpft, kann verlieren. Wer nicht kämpft, hat schon verloren."];
 
 // Countdown in den letzten 15 min vor Anpfiff (vom Nutzer, 19.10.2026, für alle Reiter): Minuten,
 // aufgerundet; null außerhalb und bei „Uhrzeit noch offen“ (00:00 bei der FLF).
@@ -567,7 +571,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "22.10.2026 neu h";
+const FASSUNG = "22.10.2026 neu i";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
