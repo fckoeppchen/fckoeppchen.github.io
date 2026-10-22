@@ -76,6 +76,19 @@ Vor „Mitteilungen für alle“ / dem Newschannel noch: FuPa fragen (am besten 
 Datenschutz in der App, Versand in Pakete aufteilen, Worker-Grenze (100 000 Abrufe/Tag gratis; Live alle
 20 s je Handy) anschauen.
 
+## Start beim Verein — Zeitplan (vom Nutzer, 22.10.2026: Montag 26.10. rausgeben)
+
+- Do 22.10.: 22:25 Worker-Anstoß prüfen (Token/Cron). Statistik vom Nutzer auf null gesetzt (erledigt).
+- Fr 23.10.: 18:00 Heim/Gast Beggen–Koeppchen II bei FuPa ansehen, danach Live-Kasten auf FLF-Reihenfolge
+  (nur neue App). Abends erster echter „Morgen Spieltag!“ mit Koeppi; 19:00 Mitteilung „Morgen Spiel“ doppelt.
+- Sa 24.10.: Kinderspiele (U13 Pokal 14:00). QR-Code für die neue Adresse machen.
+- So 25.10.: Seniors. Abends nach dem „Go“ vom Nutzer: alte `fussball.html` → Umzugsseite, alte
+  `fussball.yml` → Kalender-Spiegel mit Hinweis, alte Live-Action aus; Statistik prüfen, ggf. null.
+  (Zeitumstellung in der Nacht 24./25.10. — Uhrzeiten in App, Kalender, Worker dabei mit ansehen.)
+- Mo 26.10.: Verein verschickt Link + Einladungstext (4 Sprachen) + QR-Code + Koeppi-Text im Newschannel.
+- Danach: erste Woche Statistik und Worker-Last beobachten; FuPa (Nutzer: „später“); Mitteilungen für alle
+  erst mit Versand in Paketen; 5×-Schalter ausbauen (vorher fragen); Android-Test; Kalender-Spiegel Ende 2026 aus.
+
 ## Fußball (`fussball.html`) — Stand und Regeln
 
 Nutzer: Laurent; seine Kinder spielen bei den **U13 Minimes des FC Koeppchen Wormeldange**
