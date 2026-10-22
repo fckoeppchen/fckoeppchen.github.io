@@ -3,6 +3,27 @@
 Gesammelt, noch nicht gebaut. Wer etwas davon angeht, streicht es hier und trägt den Stand in
 `CLAUDE.md` ein.
 
+## Koeppi (Maskottchen) — Plan vom Nutzer, 22.10.2026, noch nicht bauen („noch nichts bauen“)
+
+Vom Verein angeregt („Koeppi als Identifikationsfigur für die Jugendspieler“). Bilder vom Nutzer, freigestellt
+(512 px, durchsichtig, weißer Sticker-Rand), Originale in `bilder/koeppi/`. In der App als eigene Dateien
+(verkleinert ~30–50 KB, nur laden wenn gebraucht), nicht eingebettet. Etwa daumengroß (~70 px).
+**Nur in „Unsere Woche“ und bei den Kinder-Reitern (U9, U11, U13, U15)** — nicht bei den Seniors, **nicht im
+Live-Kasten** (vom Nutzer). Kein trauriger Koeppi nach Niederlagen.
+
+- Kinder-Reiter, **Vortag und Spieltag bis zum Anpfiff** („Heute Spieltag!“ bzw. „Nächste Spiele“, Satz wie
+  „Trinkflasche nicht vergessen! 😉“): `fuss-auf-ball.png` (vom Nutzer getauscht).
+- Kinder-Reiter, **„Gleich geht's los!“ und während des Spiels**: `trinkflasche.png`.
+- **U13/U15 nach einem Sieg**: rennender Koeppi mit Faust (schwarzes Trikot) als Streifen „Gewonnen! 🎉 7:1
+  gegen …“ oben in „Ergebnisse“ über dem neuesten Spiel, bis das nächste Spiel ansteht. **Bild fehlt noch
+  im Repo** (kam als sechstes, wurde nicht gespeichert) — beim Bauen nochmal schicken lassen.
+- **U9/U11** (keine Ergebnisse): nach **jedem** Spiel „Super gemacht, U9 1! 💪 Nächstes Spiel: …“ mit dem
+  rennenden Koeppi, bis das nächste ansteht (vom Nutzer: nur das, kein Saisonzähler, kein Uhrzeit-Hinweis).
+- **Leere Stellen** (hellgrüner Hinweis „neue Klasse noch nicht eingetragen“, „Nächste Spiele“ leer,
+  Winterpause): `ruhig.png` rechts im Kasten.
+- **Unsere Woche, Kopf**: immer `fahne.png` (#mirvunderkoeppchen); nach dem Wochenende bei positiver Bilanz
+  (mehr Siege als Niederlagen, nur Spiele mit Ergebnis) stattdessen `ball-faust.png`; Woche ohne Spiele `ruhig.png`.
+
 ## Vorgemerkt (vom Nutzer, 20.10.2026)
 
 ### Mitteilungen (Plan vom Nutzer, 21.10.2026 — Stufe 1 und 2 gebaut 21.10., Fassung c/d; Stufe 3 „für alle“ offen)
