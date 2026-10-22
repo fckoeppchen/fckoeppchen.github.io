@@ -563,7 +563,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "22.10.2026 neu e";
+const FASSUNG = "22.10.2026 neu f";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -839,10 +839,11 @@ function heuteHtml(heute, ids, { live, pill, ohneLive, koeppi }) {
         : "Der Liveticker erscheint hier, falls bei FuPa jemand tickert.")
     : (live ? "Liveticker, wenn verfügbar — sobald bei FuPa jemand tickert." : "");
   const p = pill(sp);
-  // Kinder: vor dem Anpfiff Fuß auf dem Ball, ab „Gleich geht's los!“ und im Spiel die Trinkflasche.
+  // Kinder (vom Nutzer, 22.10.2026): am Spieltag vor dem Anpfiff Fuß auf dem Ball und Faust hoch, ab
+  // „Gleich geht's los!“ und im Spiel Ball unterm Arm und Faust. Die Trinkflasche gehört zum Vortag.
   const kz = !koeppi ? "" : (!heute.begonnen && !min) || !zeit
     ? koeppiZeile("fuss-auf-ball", "Trinkflasche nicht vergessen! 😉")
-    : koeppiZeile("trinkflasche", heute.begonnen ? "Daumen drücken! 🤞" : "Viel Spaß und viel Glück! 💪");
+    : koeppiZeile("ball-faust", heute.begonnen ? "Daumen drücken! 🤞" : "Viel Spaß und viel Glück! 💪");
   return `<section class="card heute"><div class="chead"><h2>${titel}</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}</div><div class="cbody">
     <div class="wann">${oben}</div>
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
@@ -861,7 +862,7 @@ function morgenHtml(m, ids, pill) {
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}
-    ${koeppiZeile("fuss-auf-ball", "Trinkflasche nicht vergessen! 😉")}
+    ${koeppiZeile("trinkflasche", "Trinkflasche nicht vergessen! 😉")}
     </div></section>`;
 }
 
@@ -920,8 +921,10 @@ async function holenWorkerAlle() {
 function wocheHtml(tage, alle, now) {
   const kurz = d => { const x = new Date(d + "T12:00:00"); return x.getDate() + "." + (x.getMonth() + 1) + "."; };
   const heim = alle.filter(sp => sp.heim).length;
-  // Keine Bilanz (Siege/Niederlagen) im Kopf: vom Verein, 22.10.2026 — es geht nicht ums Gewinnen.
+  const vorbei = alle.length && alle.every(sp => sp.gespielt || Date.parse(sp.d) < now - 3 * 3600e3);
+  const b = wocheBilanz(alle);
   const zus = !alle.length ? "Diese Woche keine Spiele."
+    : vorbei && b.s + b.u + b.n ? `${b.s} ${b.s === 1 ? "Sieg" : "Siege"}, ${b.u} Remis, ${b.n} ${b.n === 1 ? "Niederlage" : "Niederlagen"}`
     : `${alle.length} ${alle.length === 1 ? "Spiel" : "Spiele"}, davon ${heim} zu Hause`;
   let h = `<section class="card"><div class="chead"><h2>Unsere Woche</h2><div class="hint tagdatum">${kurz(tage[0])} – ${kurz(tage[6])}</div></div>
     <div class="cbody"><div class="kzeile">${koeppiBild("fahne")}<div class="wzus">${esc(zus)}</div></div></div></section>`;

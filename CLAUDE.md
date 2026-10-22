@@ -48,10 +48,10 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Fassung neu e — Wunsch des Vereins** (22.10.2026): **keine Ergebnisse hervorheben**, Kinder nicht für Siege
   loben, keine Bilanz. Darum: Streifen nach **jedem** Kinderspiel (U9–U15) gleich, „Super gemacht, U13 1! 💪“ +
   ein Spruch des Vereins (`SPRUECHE`, je Spiel fest über `sp.id`) + „Nächstes Spiel: …“; kein „Gewonnen“, kein
-  Ergebnis. „Unsere Woche“: **immer Fahnen-Koeppi**, Kopf nur „n Spiele, davon m zu Hause“ — die Bilanz
-  (Siege/Remis/Niederlagen) ist ganz raus, auch für Seniors (`wocheBilanz` bleibt nur für den Test).
-  `k-ball-faust.png` wird nicht mehr benutzt. Noch offen, dem Nutzer als Frage gestellt: grün/rot gefärbte
-  Ergebnisse, „Aufstieg … 🎉“ und Ergebnis-/Tabellen-Mitteilungen bei den Kindern.
+  Ergebnis. „Unsere Woche“: **immer Fahnen-Koeppi** (auch ohne Spiele). **Es geht nur um Koeppi** (vom Nutzer,
+  Fassung neu f): Wochenbilanz-Text, farbige Ergebnisse, „Aufstieg … 🎉“, Mitteilungen bleiben wie sie waren
+  (in neu e war die Bilanz kurz raus — zurück). **Neu f, Bilder getauscht** (vom Nutzer): Morgen-Kasten
+  `trinkflasche.png`, Heute vor Anpfiff `fuss-auf-ball.png`, ab Countdown und im Spiel `ball-faust.png`.
 - **Fassung neu d** (22.10.): Woche ohne Spiele, Hinweis „Nächstes Spiel: … gegen …“ nannte bei Auswärtsspielen
   Koeppchen als Gegner (`heim` gab es dort nicht) — jetzt über `wir`. Gesehen beim Koeppi-Bild für den Nutzer.
 - **Andere Länder und Roboter zählen getrennt** (vom Nutzer, 22.10.2026): Am ersten Tag öffneten 8 Scanner
