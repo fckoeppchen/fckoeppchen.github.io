@@ -246,9 +246,9 @@ function sicht(D, tid, now) {
   eigene.sort((a, b) => a.d.localeCompare(b.d));
   // Ein Spiel ohne Ergebnis gilt bis 3 h nach Anpfiff als „kommt noch“, danach als
   // „Ergebnis fehlt noch“ — sonst stünde ein gestriges Spiel ewig oben als nächstes.
-  const grenze = now - 3 * 3600e3;
-  const kommend = eigene.filter(sp => !sp.gespielt && Date.parse(sp.d) >= grenze);
-  const gespielt = eigene.filter(sp => sp.gespielt || Date.parse(sp.d) < grenze).reverse();
+  // Uhrzeit offen (00:00): erst am Tag danach (sonst wäre es ab 3 Uhr morgens am Spieltag „gespielt“).
+  const kommend = eigene.filter(sp => !sp.gespielt && !istVorbei(sp, now));
+  const gespielt = eigene.filter(sp => sp.gespielt || istVorbei(sp, now)).reverse();
 
   let status = null;
   if (aktuell) {
@@ -346,7 +346,7 @@ function spieltagHeute(v, now) {
   if (!v) return null;
   const sp = [...v.kommend, ...v.gespielt]
     .filter(s => tagLux(Date.parse(s.d)) === tagLux(now))
-    .filter(s => !(s.gespielt && s.hs != null) && now <= Date.parse(s.d) + 3 * 3600e3)
+    .filter(s => !(s.gespielt && s.hs != null) && !istVorbei(s, now))
     .sort((a, b) => a.d.localeCompare(b.d))[0];
   return sp ? { sp, begonnen: now >= Date.parse(sp.d) } : null;
 }
@@ -355,7 +355,12 @@ function spieltagHeute(v, now) {
 // (U9, U11, U13, U15) und in „Unsere Woche“, nie bei den Seniors, nie im Live-Kasten.
 const istKinder = v => /^U(9|11|13|15)\b/.test(v?.team?.reiter || "");
 // Morgen ein eigenes Spiel? Dann am Vortag der Kasten „Morgen Spieltag!“ (vom Nutzer, Variante A).
-function tagNach(tag) { const [y, m, d] = tag.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d + 1)).toISOString().slice(0, 10); }
+function tagPlus(tag, n) { const [y, m, d] = tag.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10); }
+const tagNach = tag => tagPlus(tag, 1);
+const tageZwischen = (a, b) => Math.round((Date.parse(b + "T12:00:00Z") - Date.parse(a + "T12:00:00Z")) / 864e5);
+// Ein Spiel ohne Ergebnis gilt bis 3 h nach Anpfiff als „kommt noch“, mit offener Uhrzeit (00:00) bis
+// Ende des Spieltags (Luxemburger Zeit).
+const istVorbei = (sp, now) => zeitOffen(sp) ? tagLux(now) > tagLux(Date.parse(sp.d)) : now > Date.parse(sp.d) + 3 * 3600e3;
 function spieltagMorgen(v, now) {
   if (!v) return null;
   const morgen = tagNach(tagLux(now));
@@ -534,8 +539,9 @@ function wocheTage(now) {
   const wt = new Date(now).toLocaleDateString("en-GB", { timeZone: "Europe/Luxembourg", weekday: "short" });
   const i = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].indexOf(wt);
   const h = +new Date(now).toLocaleTimeString("en-GB", { timeZone: "Europe/Luxembourg", hour: "2-digit", hourCycle: "h23" });
-  const start = now - i * 864e5 + (i === 6 && h >= 22 ? 7 * 864e5 : 0);
-  return [0, 1, 2, 3, 4, 5, 6].map(k => tagLux(start + k * 864e5));
+  // In Kalendertagen zählen, nicht in 24-h-Schritten (sonst fehlt in der Woche der Zeitumstellung ein Tag).
+  const montag = tagPlus(tagLux(now), -i + (i === 6 && h >= 22 ? 7 : 0));
+  return [0, 1, 2, 3, 4, 5, 6].map(k => tagPlus(montag, k));
 }
 function wocheSpiele(D, tage, now) {
   const { tabs } = aufteilen(D);
@@ -571,7 +577,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "22.10.2026 neu i";
+const FASSUNG = "22.10.2026 neu j";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -653,7 +659,7 @@ function wann(iso, mitZeit = true) {
 }
 
 function bisDahin(iso, now) {
-  const tage = Math.round((new Date(iso).setHours(0, 0, 0, 0) - new Date(now).setHours(0, 0, 0, 0)) / 864e5);
+  const tage = tageZwischen(tagLux(now), tagLux(Date.parse(iso)));   // Luxemburger Tage, nicht die Zeitzone des Handys
   return tage === 0 ? "heute" : tage === 1 ? "morgen" : tage > 1 ? `in ${tage} Tagen` : "";
 }
 

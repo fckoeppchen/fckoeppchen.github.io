@@ -54,6 +54,13 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   `trinkflasche.png`, Heute vor Anpfiff `fuss-auf-ball.png`, ab Countdown und im Spiel `ball-faust.png`.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
+- **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
+  **Uhrzeit offen (00:00)** galten ab 3 Uhr morgens am Spieltag als gespielt (kein Heute-Kasten, Spiel unter
+  „Bisherige Spiele“, „Super gemacht“ schon vor dem Spiel) — betraf alle U9/U11-Spiele ab 14.11. (14 Spiele).
+  Jetzt `istVorbei`: offen → erst am Tag danach, sonst 3 h nach Anpfiff (in `sicht`, `spieltagHeute`).
+  (2) `wocheTage` rechnete in 24-h-Schritten: in der Woche der Frühjahrsumstellung (22.–27.3.2027, 23–24 Uhr)
+  fehlte der Sonntag — jetzt Kalendertage (`tagPlus`). (3) `bisDahin` („morgen“/„in 2 Tagen“) nahm die
+  Zeitzone des Handys statt Luxemburg (`tageZwischen`). Tests mit Gegenprobe.
 - **Fassung neu d** (22.10.): Woche ohne Spiele, Hinweis „Nächstes Spiel: … gegen …“ nannte bei Auswärtsspielen
   Koeppchen als Gegner (`heim` gab es dort nicht) — jetzt über `wir`. Gesehen beim Koeppi-Bild für den Nutzer.
 - **Andere Länder und Roboter zählen getrennt** (vom Nutzer, 22.10.2026): Am ersten Tag öffneten 8 Scanner

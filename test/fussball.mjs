@@ -17,12 +17,30 @@ const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
 const i = src.indexOf("==== Logik"), j = src.indexOf("==== Oberfläche");
 if (i < 0 || j < 0) throw new Error("Abschnittsmarken Logik/Oberfläche nicht gefunden");
 const M = new Function(src.slice(src.lastIndexOf("//", i), src.lastIndexOf("//", j)) + `
-  return { natiLiveSpiel, extraReiter, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach };`)();
+  return { natiLiveSpiel, extraReiter, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei };`)();
 
 let fehler = 0, n = 0;
 function ok(bed, text) { n++; if (!bed) { fehler++; console.log("✗ " + text); } }
 function gleich(a, b, text) { ok(JSON.stringify(a) === JSON.stringify(b), text + " — ist " + JSON.stringify(a) + ", soll " + JSON.stringify(b)); }
 
+// Uhrzeit offen (00:00, bei U9/U11 üblich): gilt den ganzen Spieltag als „kommt noch“, nicht nur bis 3 Uhr.
+{
+  const offen = { id: 7, d: "2026-11-14T00:00:01+01:00", h: { id: 1, n: "FC Koeppchen Wormeldange I" }, a: { id: 9, n: "Gegner" }, wir: 1, erg: false, gespielt: false };
+  const sa8 = Date.parse("2026-11-14T08:00:00+01:00"), sa23 = Date.parse("2026-11-14T23:30:00+01:00"), so = Date.parse("2026-11-15T08:00:00+01:00");
+  ok(!M.istVorbei(offen, sa8) && !M.istVorbei(offen, sa23) && M.istVorbei(offen, so), "Uhrzeit offen: am Spieltag noch nicht vorbei, am Tag danach schon");
+  const vv = t => ({ team: { reiter: "U9 1" }, kommend: M.istVorbei(offen, t) ? [] : [offen], gespielt: M.istVorbei(offen, t) ? [offen] : [] });
+  ok(M.spieltagHeute(vv(sa8), sa8)?.sp.id === 7 && M.nachDemSpiel(vv(sa8), sa8) === null, "Uhrzeit offen, Spieltag 8 Uhr: Heute-Kasten, noch kein Super-gemacht");
+  ok(M.nachDemSpiel(vv(so), so)?.spruch, "Uhrzeit offen, Tag danach: Super-gemacht-Streifen");
+  const mitZeit = { ...offen, d: "2026-11-14T10:00:00+01:00" };
+  ok(!M.istVorbei(mitZeit, Date.parse("2026-11-14T12:59:00+01:00")) && M.istVorbei(mitZeit, Date.parse("2026-11-14T13:01:00+01:00")), "mit Uhrzeit: 3 h nach Anpfiff vorbei");
+}
+// Woche in Kalendertagen: auch in der Woche der Zeitumstellung im Frühjahr 7 aufeinanderfolgende Tage.
+{
+  const w = M.wocheTage(Date.parse("2027-03-27T23:30:00+01:00"));
+  ok(w[0] === "2027-03-22" && w[6] === "2027-03-28", "Woche der Frühjahrs-Zeitumstellung: Mo 22.3. bis So 28.3. — ist " + w.join(","));
+  const h = M.wocheTage(Date.parse("2026-10-25T22:30:00+01:00"));
+  ok(h[0] === "2026-10-26" && h[6] === "2026-11-01", "So nach 22 Uhr am Tag der Herbst-Zeitumstellung: nächste Woche");
+}
 // Koeppi (22.10.2026): nur Kinder; Vortag-Kasten; Streifen nach dem Spiel (Sieg bzw. U9/U11 immer).
 {
   const sp = (id, d, hs, as, erg = true) => ({ id, d, h: { id: 1, n: "FC Koeppchen Wormeldange I" }, a: { id: 9, n: "Gegner" }, wir: 1, erg, gespielt: hs != null, hs, as });
