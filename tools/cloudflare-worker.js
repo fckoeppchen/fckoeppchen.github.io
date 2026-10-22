@@ -181,6 +181,21 @@ const TAB_ICH = "CREATE TABLE IF NOT EXISTS ich (tag TEXT NOT NULL, was TEXT NOT
 export async function ichZaehlen(db, tag, was) {
   await db.batch([db.prepare(TAB_ICH), db.prepare("INSERT INTO ich (tag, was, n) VALUES (?1, ?2, 1) ON CONFLICT(tag, was) DO UPDATE SET n = n + 1").bind(tag, was)]);
 }
+// Andere Länder und Roboter (vom Nutzer, 22.10.2026): Kaum war die neue Adresse online, öffneten 8
+// Scanner die App (Amazon, Google, Palo Alto, Singapur, Toronto, Amsterdam; teils „HeadlessChrome“),
+// einige direkt nach dem Öffnen am Arbeitsplatz — Firmennetze prüfen neue Adressen selbst. Gezählt wird
+// darum nur aus Luxemburg und den Nachbarländern; alles andere steht getrennt („fremd“), nichts geht verloren.
+const NAH = new Set(["LU", "DE", "FR", "BE"]);
+export function fremdGrund(req) {
+  const ua = `${req.headers.get("user-agent") || ""} ${req.headers.get("sec-ch-ua") || ""}`;
+  if (/HeadlessChrome|\bbot\b|bot\/|crawler|spider/i.test(ua) || req.cf?.verifiedBotCategory) return "Roboter";
+  const land = req.cf?.country;
+  return land && !NAH.has(land) ? land : "";   // ohne Land (Test, lokal) zählt normal
+}
+const TAB_FREMD = "CREATE TABLE IF NOT EXISTS fremd (tag TEXT NOT NULL, wer TEXT NOT NULL, n INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (tag, wer))";
+export async function fremdZaehlen(db, tag, wer) {
+  await db.batch([db.prepare(TAB_FREMD), db.prepare("INSERT INTO fremd (tag, wer, n) VALUES (?1, ?2, 1) ON CONFLICT(tag, wer) DO UPDATE SET n = n + 1").bind(tag, wer)]);
+}
 export async function zahlenSeite(db, zusatz = "") {
   const tage = (await db.prepare("SELECT tag, handys, oeffnungen FROM tage ORDER BY tag DESC LIMIT 30").all()).results || [];
   const ab = tage.at(-1)?.tag || "";
@@ -195,6 +210,10 @@ export async function zahlenSeite(db, zusatz = "") {
   const ich = await alle("SELECT tag, was, n FROM ich WHERE tag >= ?1");
   const ichTage = [...new Set(ich.map(z => z.tag))].sort().reverse();
   const ichN = (tag, was) => ich.find(z => z.tag === tag && z.was === was)?.n || 0;
+  const fremd = await alle("SELECT tag, wer, n FROM fremd WHERE tag >= ?1");
+  const fremdTage = [...new Set(fremd.map(z => z.tag))].sort().reverse();
+  const fremdZeile = t => { const l = fremd.filter(z => z.tag === t).sort((x, y) => y.n - x.n);
+    return `<tr><td>${kurz(t)}</td><td>${l.reduce((n, z) => n + z.n, 0)}</td><td style="white-space:normal;text-align:left">${l.map(z => `${z.wer} ${z.n}`).join(", ")}</td></tr>`; };
   const neuAm = (tag, x) => e.filter(z => z.tag === tag && (!x || z.art === x)).reduce((s, z) => s + z.n, 0);
   // Am Handy passt die Haupttabelle sonst nicht in die Breite (vom Nutzer, 21.10.): Tag kurz, Neu nur
   // als Zahl — die Aufteilung App/Browser steht im aufklappbaren Tag.
@@ -226,6 +245,8 @@ Neu = zum allerersten Mal geöffnet (gezählt ab 21.10.2026); wer die App aus Sa
 <h2>Alle 30 Tage zusammen</h2>${teile("", ", dieselben Tage")}
 <h2>Eigene Geräte (nicht mitgezählt)</h2><p>Geräte, die in der App als eigenes markiert sind (5× auf „Gemacht von …“ tippen). Sie stehen nur hier.</p>
 <table><tr><th>Tag</th><th>Öffnungen</th><th>Umschalten</th></tr>${ichTage.map(t => `<tr><td>${kurz(t)}</td><td>${ichN(t, "oeffnung")}</td><td>${ichN(t, "umschalten")}</td></tr>`).join("") || "<tr><td colspan=3>—</td></tr>"}</table>
+<h2>Andere Länder und Roboter (nicht mitgezählt)</h2><p>Öffnen und Umschalten von außerhalb Luxemburgs und der Nachbarländer (DE, FR, BE) und von erkannten Robotern. Meist Scanner, die neue Seiten prüfen; ein Vereinsmitglied im Urlaub stünde auch hier.</p>
+<table><tr><th>Tag</th><th>Abrufe</th><th style="text-align:left">woher</th></tr>${fremdTage.map(fremdZeile).join("") || "<tr><td colspan=3>—</td></tr>"}</table>
 ${zusatz}`;
 }
 
@@ -494,6 +515,11 @@ export default {
     }
     if (q.get("ich") === "1" && (q.has("zaehle") || q.has("angesehen"))) {
       if (env.DB) try { await ichZaehlen(env.DB, tagLux(Date.now()), q.has("zaehle") ? "oeffnung" : "umschalten"); } catch (e) { console.log("Zähler:", e.message); }
+      return new Response(null, { status: 204, headers: CORS });
+    }
+    const fremdWer = (q.has("zaehle") || q.has("angesehen")) ? fremdGrund(req) : "";
+    if (fremdWer) {
+      if (env.DB) try { await fremdZaehlen(env.DB, tagLux(Date.now()), fremdWer); } catch (e) { console.log("Zähler:", e.message); }
       return new Response(null, { status: 204, headers: CORS });
     }
     if (q.has("zaehle")) {

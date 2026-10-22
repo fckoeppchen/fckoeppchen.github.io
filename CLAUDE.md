@@ -29,6 +29,15 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Schutz (dem Nutzer so gesagt, „ja“). Ausschalten ohne Code. Die Statistik-Seite `?zahlen` bleibt ohne
   Code (vom Nutzer).
 - Fassungen dieser Kopie heißen „… neu a“, „… neu b“ usw.
+- **Andere Länder und Roboter zählen getrennt** (vom Nutzer, 22.10.2026): Am ersten Tag öffneten 8 Scanner
+  die neue Adresse (Cloudflare-Log: Amazon mit „HeadlessChrome“, Google, Palo Alto, Singapur, Toronto,
+  Amsterdam), drei davon direkt nachdem der Nutzer sie im Staatsnetz (CTIE) geöffnet hatte — Firmennetze
+  prüfen neue Adressen selbst. `fremdGrund(req)`: `user-agent`/`sec-ch-ua` mit HeadlessChrome/bot/crawler/
+  spider oder `cf.verifiedBotCategory` → „Roboter“; Land (`cf.country`) außer LU, DE, FR, BE → das Land.
+  Solche `zaehle`/`angesehen` gehen nur in die Tabelle `fremd` (tag, wer, n), Abschnitt „Andere Länder und
+  Roboter“ auf `?zahlen`. Ohne `cf` (Test) zählt normal. `ich=1` geht vor. Die 9 Einträge vom 22.10.
+  (8 Scanner + 1 Nutzer vor dem Code) stehen noch in den Hauptzahlen — **vor dem Start beim Verein
+  Statistik auf null setzen** (D1-Konsole: Tabellen tage, reiter, arten, stunden, angesehen, erste leeren).
 
 **Parallelbetrieb** (vom Nutzer: ein paar Tage beide vergleichen, bevor der Verein den Link verschickt).
 In der Zeit **Änderungen nur hier**, die alte App bleibt stehen (nur bei echtem Defekt dort nachziehen).

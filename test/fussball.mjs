@@ -432,7 +432,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
 
 // Anonymer Zähler im Worker, mit nachgebautem D1 (nur die drei Anweisungen, die er braucht).
 {
-  const tage = new Map(), rei = new Map(), arten = new Map(), std = new Map(), ges = new Map(), erste = new Map(), ich = new Map();
+  const tage = new Map(), rei = new Map(), arten = new Map(), std = new Map(), ges = new Map(), erste = new Map(), ich = new Map(), fremd = new Map();
   const st = sql => ({ sql, a: [], bind(...a) { this.a = a; return this; },
     async run() {
       if (sql.startsWith("INSERT INTO tage")) { const [t, h] = this.a, x = tage.get(t) || { tag: t, handys: 0, oeffnungen: 0 }; x.handys += h; x.oeffnungen++; tage.set(t, x); }
@@ -441,11 +441,13 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
       if (sql.startsWith("INSERT INTO angesehen")) { const k = this.a.join("|"); ges.set(k, (ges.get(k) || 0) + 1); }
       if (sql.startsWith("INSERT INTO erste")) { const k = this.a.join("|"); erste.set(k, (erste.get(k) || 0) + 1); }
       if (sql.startsWith("INSERT INTO ich")) { const k = this.a.join("|"); ich.set(k, (ich.get(k) || 0) + 1); }
+      if (sql.startsWith("INSERT INTO fremd")) { const k = this.a.join("|"); fremd.set(k, (fremd.get(k) || 0) + 1); }
       if (sql.startsWith("INSERT INTO stunden")) { const k = this.a.join("|"); std.set(k, (std.get(k) || 0) + 1); }
     },
     async all() {
       if (sql.startsWith("SELECT tag, handys")) return { results: [...tage.values()].sort((a, b) => b.tag.localeCompare(a.tag)) };
       if (sql.startsWith("SELECT tag, art, n FROM erste")) return { results: [...erste].map(([k, n]) => { const [tag, art] = k.split("|"); return { tag, art, n }; }) };
+      if (sql.startsWith("SELECT tag, wer")) return { results: [...fremd].map(([k, n]) => { const [tag, wer] = k.split("|"); return { tag, wer, n }; }) };
       if (sql.startsWith("SELECT tag, was")) return { results: [...ich].map(([k, n]) => { const [tag, was] = k.split("|"); return { tag, was, n }; }) };
       if (sql.startsWith("SELECT tag, art")) return { results: [...arten.values()] };
       const quelle = sql.includes("FROM angesehen") ? ges : sql.includes("FROM stunden") ? std : rei;
@@ -489,6 +491,22 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(JSON.stringify([...tage, ...rei, ...arten, ...std, ...ges, ...erste]) === vorherT && ich.size === 2, "Eigenes Gerät: zählt nirgends mit, nur getrennt");
   const mitIch = await zahlenSeite(db);
   ok([...ich.keys()].every(k => k.endsWith("|oeffnung") ? ich.get(k) === 2 : ich.get(k) === 1) && /Eigene Geräte[^]*<td>2<\/td><td>1<\/td>/.test(mitIch), "Zahlen-Seite: eigene Geräte getrennt (2 Öffnungen, 1 Umschalten)");
+  // Andere Länder und Roboter: getrennt, nirgends sonst (Scanner am 22.10. aus US, SG, CA, NL).
+  const anfrageVon = (q, land, ua = "Mozilla/5.0 (iPhone)", chua = "") => ({ method: "GET", url: "https://w/" + q, cf: land ? { country: land } : undefined,
+    headers: new Headers({ "user-agent": ua, ...(chua ? { "sec-ch-ua": chua } : {}) }) });
+  const vorherF = JSON.stringify([...tage, ...rei, ...arten, ...std, ...ges, ...erste]);
+  await worker.fetch(anfrageVon("?zaehle=1&neu=1&erst=1&art=web&reiter=Woche", "US"), { DB: db });
+  await worker.fetch(anfrageVon("?zaehle=1&neu=1&erst=1&art=web&reiter=Woche", "SG"), { DB: db });
+  await worker.fetch(anfrageVon("?angesehen=1&reiter=BGL", "US"), { DB: db });
+  await worker.fetch(anfrageVon("?zaehle=1&neu=1&erst=1&art=web&reiter=Woche", "LU", "Mozilla/5.0 (iPhone)", '"Chromium";v="138", "HeadlessChrome";v="138"'), { DB: db });
+  ok(JSON.stringify([...tage, ...rei, ...arten, ...std, ...ges, ...erste]) === vorherF && fremd.size === 3 && [...fremd.values()].reduce((a, b) => a + b) === 4, "Ausland und Roboter: zählen nicht mit, nur getrennt");
+  const f1 = fremd.size;
+  await worker.fetch(anfrageVon("?zaehle=1&neu=0&art=app&reiter=U13%201", "LU"), { DB: db });
+  await worker.fetch(anfrageVon("?zaehle=1&neu=0&art=app&reiter=U13%201", "FR"), { DB: db });
+  await worker.fetch(anfrageVon("?zaehle=1&neu=0&art=app&reiter=U13%201", "BE", "Mozilla/5.0 (Linux; Android 14; Cubot X)"), { DB: db });
+  ok(fremd.size === f1 && JSON.stringify([...tage, ...rei, ...arten, ...std, ...ges, ...erste]) !== vorherF, "Luxemburg und Nachbarländer zählen normal");
+  const mitFremd = await zahlenSeite(db);
+  ok(/Andere Länder und Roboter[^]*US 2, (SG 1, Roboter 1|Roboter 1, SG 1)/.test(mitFremd), "Zahlen-Seite: Ausland und Roboter getrennt mit Land");
   const ohne = await worker.fetch(new Request("https://w/?zaehle=1&neu=1"), {});
   ok(ohne.status === 204, "Zähler ohne D1: still 204");
   ok((await worker.fetch(new Request("https://w/?zahlen"), {})).status === 503, "Zahlen ohne D1: 503 mit Hinweis");
