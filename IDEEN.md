@@ -11,8 +11,10 @@ Vom Verein angeregt („Koeppi als Identifikationsfigur für die Jugendspieler�
 **Nur in „Unsere Woche“ und bei den Kinder-Reitern (U9, U11, U13, U15)** — nicht bei den Seniors, **nicht im
 Live-Kasten** (vom Nutzer). Kein trauriger Koeppi nach Niederlagen.
 
-- Kinder-Reiter, **Vortag und Spieltag bis zum Anpfiff** („Heute Spieltag!“ bzw. „Nächste Spiele“, Satz wie
-  „Trinkflasche nicht vergessen! 😉“): `fuss-auf-ball.png` (vom Nutzer getauscht).
+- Kinder-Reiter, **Vortag und Spieltag bis zum Anpfiff**: `fuss-auf-ball.png` (vom Nutzer getauscht). Am
+  Vortag ein **neuer Kasten „Morgen Spieltag! ⚽“** oben im Reiter, aufgebaut wie „Heute Spieltag!“ (Tag,
+  Uhrzeit, Gegner, 📍 Ort, „Trinkflasche nicht vergessen! 😉“) — vom Nutzer gewählt (Variante A, nicht nur
+  neben „Nächste Spiele“); am Spieltag wird daraus der Heute-Kasten, Koeppi bleibt. Nur Kinder-Reiter.
 - Kinder-Reiter, **„Gleich geht's los!“ und während des Spiels**: `trinkflasche.png`.
 - **U13/U15 nach einem Sieg**: `rennend.png` (Faust, schwarzes Trikot) als Streifen „Gewonnen! 🎉 7:1
   gegen …“ oben in „Ergebnisse“ über dem neuesten Spiel, bis das nächste Spiel ansteht.
