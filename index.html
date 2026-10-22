@@ -561,7 +561,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "22.10.2026 neu c";
+const FASSUNG = "22.10.2026 neu d";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -932,7 +932,7 @@ function wocheHtml(tage, alle, now) {
   if (!alle.length) {
     const naechstes = aufteilen(D).tabs.flatMap(t => sicht(D, t.id, now).kommend.map(sp => ({ ...sp, reiter: t.reiter })))
       .sort((a, b) => a.d.localeCompare(b.d))[0];
-    if (naechstes) h += `<div class="note">Nächstes Spiel: ${esc(wann(naechstes.d))} · ${esc(naechstes.reiter)} gegen ${esc(anzeige(naechstes.heim === false ? naechstes.h.n : naechstes.a.n))}</div>`;
+    if (naechstes) h += `<div class="note">Nächstes Spiel: ${esc(wann(naechstes.d))} · ${esc(naechstes.reiter)} gegen ${esc(anzeige(naechstes.h.id === naechstes.wir ? naechstes.a.n : naechstes.h.n))}</div>`;
     return h;
   }
   for (const tag of tage) {
