@@ -593,7 +593,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu s";
+const FASSUNG = "23.10.2026 neu t";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -940,7 +940,10 @@ const WS = new Map();
 const ENDE_KEY = KEY + "_ende";
 try {
   const alt = JSON.parse(localStorage.getItem(ENDE_KEY) || "{}");
-  for (const [id, w] of Object.entries(alt)) if (Date.now() - Date.parse(w.abgerufen || 0) < ENDE_FRIST) WS.set(+id, w);
+  const frisch = Object.entries(alt).filter(([, w]) => Date.now() - Date.parse(w.abgerufen || 0) < ENDE_FRIST);
+  for (const [id, w] of frisch) WS.set(+id, w);
+  // Ältere gleich wegräumen, damit sich nichts ansammelt.
+  if (frisch.length < Object.keys(alt).length) localStorage.setItem(ENDE_KEY, JSON.stringify(Object.fromEntries(frisch)));
 } catch (e) {}
 function endeMerken(w) {
   if (w.section !== "POST") return;
