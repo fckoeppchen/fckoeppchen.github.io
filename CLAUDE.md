@@ -127,6 +127,12 @@ Datenschutz in der App, Versand in Pakete aufteilen, Worker-Grenze (100 000 Abru
 **Erinnerung Phase 2** (vom Nutzer, 22.10.2026): geplante Aufgabe „Phase 2 Rundschreiben prüfen“ (jeden Montag
 8:31): sobald U13/U15 eine neue Ligaklasse haben und in `REGELN` nichts dafür steht, den Nutzer ums Foto vom
 neuen FLF-Rundschreiben bitten; danach die Aufgabe abschalten.
+**U13 in Phase 2 vielleicht nur ein Team** (vom Nutzer, 23.10.2026): Ein Reiter bleibt heute die ganze Saison, sobald
+die Mannschaft ein Ligaspiel hatte. 2025-26 hatte die U13 in Phase 1 „FC Koeppchen Wormeldange“ + „II“, ab Phase 2 nur
+noch das erste (ohne I). Dieses Jahr heißt es „… I“ — fällt das I weg, gäbe es einen dritten Reiter „U13“, sonst bleibt
+„U13 2“ mit nur Phase 1 stehen. **Nicht vorab bauen** (vom Nutzer: „schauen wir uns zusammen an, wenn es soweit ist“, ein,
+zwei Tage falsch ist nicht schlimm). Vorgeschlagene Regel, falls nötig: Reiter weg, sobald eine andere Mannschaft derselben
+Altersklasse eine neuere Ligaklasse begonnen hat; alte Spiele unter „frühere Phasen“ beim verbliebenen Reiter.
 
 ## Fußball (`fussball.html`) — Stand und Regeln
 
