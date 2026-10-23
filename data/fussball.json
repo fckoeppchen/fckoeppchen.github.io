@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-23T05:48:47.630Z",
+ "stand": "2026-10-23T08:53:03.788Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -28,6 +28,29 @@
    "reiter": "Seniors 1",
    "datei": "seniors-1.ics",
    "mit": []
+  },
+  {
+   "id": 45399,
+   "ids": [
+    45399,
+    45400
+   ],
+   "n": "FC Koeppchen Wormeldange",
+   "ak": 2,
+   "kat": "U15",
+   "alter": "U15 Scolaires",
+   "klassen": [
+    19563,
+    19115,
+    19599
+   ],
+   "reiter": "U15",
+   "datei": "u15.ics",
+   "mit": [],
+   "gruppe": {
+    "name": "Scolaires U15",
+    "datei": "scolaires-u15.ics"
+   }
   },
   {
    "id": 45398,
@@ -84,29 +107,6 @@
    "gruppe": {
     "name": "Minimes U13",
     "datei": "minimes-u13.ics"
-   }
-  },
-  {
-   "id": 45399,
-   "ids": [
-    45399,
-    45400
-   ],
-   "n": "FC Koeppchen Wormeldange",
-   "ak": 2,
-   "kat": "U15",
-   "alter": "U15 Scolaires",
-   "klassen": [
-    19563,
-    19115,
-    19599
-   ],
-   "reiter": "U15",
-   "datei": "u15.ics",
-   "mit": [],
-   "gruppe": {
-    "name": "Scolaires U15",
-    "datei": "scolaires-u15.ics"
    }
   },
   {
