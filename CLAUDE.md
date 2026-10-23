@@ -131,7 +131,8 @@ neuen FLF-Rundschreiben bitten; danach die Aufgabe abschalten.
 die Mannschaft ein Ligaspiel hatte. 2025-26 hatte die U13 in Phase 1 „FC Koeppchen Wormeldange“ + „II“, ab Phase 2 nur
 noch das erste (ohne I). Dieses Jahr heißt es „… I“ — fällt das I weg, gäbe es einen dritten Reiter „U13“, sonst bleibt
 „U13 2“ mit nur Phase 1 stehen. **Nicht vorab bauen** (vom Nutzer: „schauen wir uns zusammen an, wenn es soweit ist“, ein,
-zwei Tage falsch ist nicht schlimm). Vorgeschlagene Regel, falls nötig: Reiter weg, sobald eine andere Mannschaft derselben
+zwei Tage falsch ist nicht schlimm). **Dann eine Logik für beide Fälle bauen** (I bleibt / I fällt weg), damit es in künftigen
+Saisons von selbst stimmt (vom Nutzer). Die Montags-Aufgabe „Phase 2 Rundschreiben prüfen“ erinnert daran. Vorgeschlagene Regel, falls nötig: Reiter weg, sobald eine andere Mannschaft derselben
 Altersklasse eine neuere Ligaklasse begonnen hat; alte Spiele unter „frühere Phasen“ beim verbliebenen Reiter.
 
 ## Fußball (`fussball.html`) — Stand und Regeln
