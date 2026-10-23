@@ -56,6 +56,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   „Morgen Spieltag!“- und „Heute Spieltag!“-Kasten aller Mannschaften (auch Seniors), nicht bei Roude Léiw.
   Bei den Kindern (neu d, vom Nutzer) direkt unter dem Koeppi-Satz statt ganz unten.
   „Unsere Woche“ (neu b, vom Nutzer gewählt): im Wochen-Kopf unter „n Spiele, davon m zu Hause“ neben dem Koeppi.
+- **„FuPa“ im Heute-Kasten als Link** (vom Nutzer, 23.10.2026, Fassung 23.10. neu e): Hinweis „Liveticker, wenn
+  verfügbar — sobald bei FuPa jemand tickert“ verlinkt FuPa schon vor dem Ticker (`fupaLink`): Spiel per
+  `D.fupa[id]` bzw. `live.json`, Roude Léiw per `sp.slug`, sonst `fupa.net/club/fc-koeppchen`.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
