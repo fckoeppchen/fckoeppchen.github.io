@@ -72,6 +72,7 @@
   /* Koeppi (Maskottchen): daumengroß, neben einem kurzen Satz */
   .koeppi{width:64px;height:72px;object-fit:contain;flex:none}
   .kzeile{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;font-size:14px;font-weight:600}
+  .motto{text-align:center;margin-top:8px;font-size:13px;font-weight:700;color:var(--accentT);letter-spacing:.3px}
   .kzeile.links{justify-content:flex-start;text-align:left}
   .note.mitk{display:flex;align-items:center;gap:10px}.note.mitk>div{flex:1}
   .streifen{display:flex;align-items:center;gap:12px;padding:8px 10px;margin-bottom:6px;border-radius:10px;background:#e6f6f2;border:1px solid var(--accent)}
@@ -578,7 +579,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "22.10.2026 neu k";
+const FASSUNG = "23.10.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -753,7 +754,7 @@ function render() {
   const heute = !lv && spieltagHeute(v, now);
   const kinder = istKinder(v);
   if (heute) h += heuteHtml(heute, v.ids, { live: v.team.reiter === LIVE_REITER || !!(D.fupa || {})[heute.sp.id], pill: sp => sp.typ === "CUP" ? "Pokal" : "",
-    ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder });
+    ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder, motto: true });
   const morgen = kinder && !heute && !lv && spieltagMorgen(v, now);
   if (morgen) h += morgenHtml(morgen, v.ids, sp => sp.typ === "CUP" ? "Pokal" : "");
   if (lv) h += liveHtml(lv, n => anzeige(n).startsWith("Koeppchen"), "offiziell zählt die FLF");
@@ -835,7 +836,7 @@ function fuss() {
 }
 
 // „Heute Spieltag“ (Mannschaften und Roude Léiw).
-function heuteHtml(heute, ids, { live, pill, ohneLive, koeppi }) {
+function heuteHtml(heute, ids, { live, pill, ohneLive, koeppi, motto }) {
   const sp = heute.sp, zeit = wann(sp.d).split(" · ")[1];
   const min = !heute.begonnen && minutenBisAnpfiff(sp, Date.now());
   // Nächster Wechsel des Kastens (Countdown an, Anpfiff) — der Takt unten baut dann neu.
@@ -864,9 +865,11 @@ function heuteHtml(heute, ids, { live, pill, ohneLive, koeppi }) {
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}
-    ${unten ? `<div class="zusatz">${esc(unten)}</div>` : ""}${kz}
+    ${unten ? `<div class="zusatz">${esc(unten)}</div>` : ""}${kz}${motto ? MOTTO : ""}
     </div></section>`;
 }
+// Vereinsmotto (vom Nutzer, 23.10.2026) unten in den Kästen „Morgen/Heute Spieltag“ aller Mannschaften, nicht bei Roude Léiw.
+const MOTTO = `<div class="motto">#mirvunderkoeppchen</div>`;
 const koeppiBild = n => `<img class="koeppi" alt="Koeppi" src="bilder/k-${n}.png">`;
 const koeppiZeile = (n, txt, cls = "") => `<div class="kzeile${cls ? " " + cls : ""}">${koeppiBild(n)}<span>${esc(txt)}</span></div>`;
 // „Morgen Spieltag!“ (nur Kinder-Reiter, Vortag).
@@ -877,7 +880,7 @@ function morgenHtml(m, ids, pill) {
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}
-    ${koeppiZeile("trinkflasche", "Trinkflasche nicht vergessen! 😉")}
+    ${koeppiZeile("trinkflasche", "Trinkflasche nicht vergessen! 😉")}${MOTTO}
     </div></section>`;
 }
 

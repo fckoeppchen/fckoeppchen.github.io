@@ -52,6 +52,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Fassung neu f): Wochenbilanz-Text, farbige Ergebnisse, „Aufstieg … 🎉“, Mitteilungen bleiben wie sie waren
   (in neu e war die Bilanz kurz raus — zurück). **Neu f, Bilder getauscht** (vom Nutzer): Morgen-Kasten
   `trinkflasche.png`, Heute vor Anpfiff `fuss-auf-ball.png`, ab Countdown und im Spiel `ball-faust.png`.
+- **Motto #mirvunderkoeppchen** (vom Nutzer, 23.10.2026, Fassung 23.10. neu a): grüne Zeile (`MOTTO`, `.motto`) unten im
+  „Morgen Spieltag!“- und „Heute Spieltag!“-Kasten aller Mannschaften (auch Seniors), nicht bei Roude Léiw.
+  „Unsere Woche“: Platz noch offen (dem Nutzer vorgeschlagen).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
