@@ -518,9 +518,14 @@ function bglTabelle(bgl) {
 }
 
 // Länderspiel im Live-Fenster (wie bei den Seniors 1), nur mit FuPa-Slug.
-function natiLiveSpiel(v, now) {
-  return [...v.kommend, ...v.gespielt].find(sp => sp.slug && now >= Date.parse(sp.d) - LIVE_FENSTER.vor
-    && now <= Date.parse(sp.d) + LIVE_FENSTER.nach) || null;
+// Nach dem Fenster wie bei den Seniors (`spaet`), bis das Ergebnis in den Daten steht, höchstens ENDE_FRIST.
+function natiLiveSpiel(v, now, spaet = null) {
+  return [...v.kommend, ...v.gespielt].find(sp => {
+    if (!sp.slug) return false;
+    const a = Date.parse(sp.d);
+    if (now >= a - LIVE_FENSTER.vor && now <= a + LIVE_FENSTER.nach) return true;
+    return !!spaet && sp.hs == null && now > a + LIVE_FENSTER.nach && now <= a + ENDE_FRIST && spaet(sp);
+  }) || null;
 }
 
 // Nationalteam: kommend/gespielt wie bei einer Mannschaft (3-h-Grenze).
@@ -588,7 +593,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu r";
+const FASSUNG = "23.10.2026 neu s";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -924,7 +929,7 @@ function liveHtml(lv, wir, zusatz) {
     <div class="stand">${lv.hs ?? "–"} : ${lv.as ?? "–"}</div><div class="t${wir(lv.a) ? " wir" : ""}">${umbruch(anzeige(lv.a))}</div></div>
     <div class="zeit" id="liveZeit">${esc(lv.zeit)}</div>
     ${tore ? `<ul class="tore">${tore}</ul>` : ""}
-    <div class="quelle">Liveticker von <a href="${esc(lv.url)}" target="_blank" rel="noopener">FuPa</a>${lv.ticker ? " (" + esc(lv.ticker) + ")" : ""} · ${WORKER_URL && W ? "fast live" : "bis zu 7 min Verzögerung"}${zusatz ? " · " + zusatz : ""}</div>
+    <div class="quelle">Liveticker von <a href="${esc(lv.url)}" target="_blank" rel="noopener">FuPa</a>${lv.ticker ? " (" + esc(lv.ticker) + ")" : ""}${lv.laeuft ? " · " + (WORKER_URL && W ? "fast live" : "bis zu 7 min Verzögerung") : ""}${zusatz ? " · " + zusatz : ""}</div>
     </div></section>`;
 }
 
@@ -1053,9 +1058,9 @@ function natiHtml(now) {
   const meta = sp => [esc(wann(sp.d)), esc(sp.wett + (sp.runde && !/^\d+$/.test(sp.runde) ? " " + sp.runde : ""))].filter(Boolean).join(" · ");
   let h = "";
   // Liveticker über den Worker (FuPa tickert die Länderspiele), Slug aus den Daten — ohne GitHub-Lauf.
-  LIVE_SP = natiLiveSpiel(v, now);
-  LIVE_POLL = !!LIVE_SP && !!WORKER_URL;
-  const lv = LIVE_SP && liveAnzeige(mitWorker(liveBasis(null, LIVE_SP), W), v, now);
+  LIVE_SP = natiLiveSpiel(v, now, spaet);
+  const lv = LIVE_SP && liveAnzeige(mitWorker(liveBasis(null, LIVE_SP), wFrisch(LIVE_SP)), v, now);
+  LIVE_POLL = !!LIVE_SP && !!WORKER_URL && (imFenster(LIVE_SP, now) || !!lv?.laeuft);
   const heute = !lv && spieltagHeute(v, now);
   if (heute) h += heuteHtml(heute, ids, { live: !!WORKER_URL && !!heute.sp.slug, pill: sp => sp.wett === "Testspiele" ? "Testspiel" : "",
     ohneLive: "Das Ergebnis erscheint, sobald FuPa es hat.", fupaUrl: heute.sp.slug && "https://www.fupa.net/match/" + heute.sp.slug });

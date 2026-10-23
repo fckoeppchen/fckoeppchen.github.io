@@ -458,6 +458,8 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const t4 = Date.parse("2026-11-13T20:45:00+01:00");
   ok(M.natiLiveSpiel(nvs, t4 - 10 * 60e3)?.id === 4 && M.natiLiveSpiel(nvs, t4 + 170 * 60e3)?.id === 4, "Nati live: 15 min vor bis 180 min nach Anstoß");
   ok(M.natiLiveSpiel(nvs, t4 - 20 * 60e3) === null && M.natiLiveSpiel(nvs, t4 + 190 * 60e3) === null, "Nati live: außerhalb des Fensters nichts");
+  ok(M.natiLiveSpiel(nvs, t4 + 190 * 60e3, () => true)?.id === 4, "Nati: Endstand bleibt nach dem Fenster, solange kein Ergebnis da ist");
+  ok(M.natiLiveSpiel(nvs, t4 + 49 * 3600e3, () => true) === null, "Nati: nach 48 h nicht mehr");
   const nh = M.spieltagHeute(M.natiSicht({ spiele: roh.map(natiSpiel), gruppe: null }, t4 - 8 * 3600e3), t4 - 8 * 3600e3);
   ok(nh && nh.sp.id === 4 && !nh.begonnen, "Nati: Heute-Spieltag-Kasten am Länderspieltag");
 }

@@ -121,6 +121,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   mehr. Endstände liegen in localStorage (`fussball_v1_ende`), überstehen also das Schließen. Kasten „Endstand laut FuPa“ bis zum
   FLF-Ergebnis (`liveAnzeige`: POST 48 h, LIVE weiter 4 h); nach Abpfiff kein Minutentakt mehr. Browser-Test mit gestellter Uhr
   (23:16, eine Worker-Anfrage in 5 min, nach Neuladen ohne Worker noch da), Gegenprobe gemacht.
+  **Roude Léiw genauso** (Fassung neu s, `natiLiveSpiel(…, spaet)`): bleibt, bis der FLF-Abruf das FuPa-Ergebnis in die Daten
+  holt (z. B. Anpfiff 18:00 an einem Wochentag → Kasten sonst 21:00 weg, Ergebnis erst 22:15). Nach Abpfiff steht im Kasten
+  kein „fast live“/„bis zu 7 min Verzögerung“ mehr.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
