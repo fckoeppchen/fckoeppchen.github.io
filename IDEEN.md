@@ -78,6 +78,19 @@ Adresszeile, Mitteilungen gehen aber nur dort; merkt sich das Handy). Service Wo
 eingerichtet, alle anderen merken nichts. Stufe 1: Erlauben + Test-Mitteilung. Stufe 2: echte Meldungen nur für ihn, ein, zwei
 Wochenenden. Stufe 3: für alle — **dabei das 5×-Tippen aufs Logo wieder ausbauen**. Aufwand Stufe 1+2 etwa ein Tag, beim Nutzer ~10 min Cloudflare.
 
+### Versand für viele Handys — Plan, besprochen 23.10.2026 (noch nicht gebaut)
+
+Heute schickt der Worker eine fällige Mitteilung in einem Rutsch an alle passenden Abos. Gratis-Plan: höchstens 50
+Abrufe nach draußen und 10 ms Rechenzeit je Lauf; jede Mitteilung je Handy = ein Abruf + Verschlüsselung (+ heute je
+Push eine VAPID-Unterschrift). **Plan (vom Nutzer: „brauchen nicht gleichzeitig anzukommen“, auf Nummer sicher, Pakete
+lieber klein):** Postausgang in D1 — fällige Mitteilung wird je Handy als Zeile eingetragen, jeder Minuten-Lauf schickt
+ein **kleines** Paket (Größe erst messen, eher 10 als 30), Rest in der nächsten Minute; Live (Ticker/Halbzeit/Ende) vor
+dem Rest; VAPID-Kopf je Push-Dienst einige Stunden wiederverwenden. Mit vielen nachgebauten Handys testen, danach im
+Cloudflare-Dashboard die echte Rechenzeit ansehen und die Paketgröße einstellen. Schneller ginge mit Selbstaufruf
+(mehrere Pakete parallel) oder Workers Paid (5 $/Monat, Frage an den Verein) — beides vorerst nicht nötig.
+**Liveticker-Abfrage:** 100 000 Worker-Aufrufe/Tag gratis, der Ticker fragt je offenem Handy alle 20 s. Vom Nutzer:
+**60 s sind in Ordnung**, wenn das besser ist (dreimal weniger Aufrufe; die Minute zählt die App ohnehin selbst weiter).
+
 ### FuPa um Erlaubnis fragen — wenn der Verein die App übernimmt (vom Nutzer, 22.10.2026)
 
 Solange nur er und ein paar Freunde die App nutzen, bleibt es so (private Nutzung, kein Geld, FuPa als
