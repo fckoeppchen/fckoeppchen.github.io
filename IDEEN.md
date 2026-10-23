@@ -78,7 +78,7 @@ Adresszeile, Mitteilungen gehen aber nur dort; merkt sich das Handy). Service Wo
 eingerichtet, alle anderen merken nichts. Stufe 1: Erlauben + Test-Mitteilung. Stufe 2: echte Meldungen nur für ihn, ein, zwei
 Wochenenden. Stufe 3: für alle — **dabei das 5×-Tippen aufs Logo wieder ausbauen**. Aufwand Stufe 1+2 etwa ein Tag, beim Nutzer ~10 min Cloudflare.
 
-### Versand für viele Handys — Plan, besprochen 23.10.2026 (noch nicht gebaut)
+### Versand für viele Handys — Plan, besprochen 23.10.2026 — **gebaut 23.10. (Fassung neu j), Worker neu einfügen nötig**
 
 Heute schickt der Worker eine fällige Mitteilung in einem Rutsch an alle passenden Abos. Gratis-Plan: höchstens 50
 Abrufe nach draußen und 10 ms Rechenzeit je Lauf; jede Mitteilung je Handy = ein Abruf + Verschlüsselung (+ heute je

@@ -77,6 +77,18 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   einer Mitteilung („Minimes U13 · Morgen 2 Spiele“, je Zeile „U13 1: 10:00 gegen …“), id `heute:<id>+<id>`, Feld `spiele`;
   ein Spiel allein wie bisher `heute:<id>`. Noch nicht fällige (ab > jetzt) werden mit neuen Spielen neu gebaut, schon fällige
   decken ihre Spiele ab; ein später bekanntes Spiel kommt einzeln. Tests mit Gegenprobe.
+- **Versand für viele Handys** (vom Nutzer, 23.10.2026, Fassung neu j, „Los“; Plan in `IDEEN.md`): **Postausgang** in D1
+  (`postausgang`: id, endpoint, nachricht, bis, prio, zeit). Fällige Mitteilung → `gemeldet` (an 0, passend n) + je passendem
+  Handy eine Zeile; jeder Minuten-Lauf schickt höchstens **`PAKET` = 10** (vom Nutzer: klein und sicher; erst nach Messung im
+  Dashboard erhöhen), Live (ticker/halbzeit/ende) zuerst, nur 7–22 Uhr; `an` zählt je Erfolg hoch, Fehler je Art einmal in
+  `fehler` (410 löscht das Abo, seine übrigen Zeilen laufen als „Handy abgemeldet“ durch; `bis` vorbei → „abgelaufen“).
+  `?zahlen`: „⏳ wird verschickt: 10 von 25 Handys, 15 warten“. **Höchstzahl** (vom Nutzer, „Lösung 2“): `?push=anmelden`
+  nimmt neue Handys nur bis `MAX_ABOS` (Cloudflare-Variable, ohne sie 50) → 409 `voll`, App löst dann das Abo wieder und sagt
+  „Mitteilungen gibt es bald für alle – im Moment sind alle Plätze vergeben …“. **Empfangsbestätigung** (vom Nutzer): `sw.js`
+  meldet nach dem Anzeigen `?push=angekommen&id=` (Feld `q` in der Nachricht, nicht bei der Test-Mitteilung), `gemeldet.angekommen`,
+  „· angekommen auf 47“; zählt nur bekannte ids, ohne Kennung des Handys. Rechenzeit: Schlüssel und VAPID-Kopf (je Push-Dienst,
+  6 h) bleiben im Speicher (`SCHLUESSEL`, `KOEPFE`). Tests: 25 nachgebaute Handys, Pakete, Vorrang, 410, nachts, abgelaufen,
+  Höchstzahl, Quittung; Gegenproben gemacht. Mit altem Worker harmlos (Quittung → 405, kein 409).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
@@ -108,8 +120,8 @@ von hier, damit alte Abos weiterlaufen) **bis Ende 2026**, mit Hinweis „bitte 
 eigener Termin an den nächsten Spieltagen **und** in jedem Spiel (vom Nutzer: beides); Live-Action dort
 aus. Koeppi (Maskottchen) erst nach dem Umzug (vom Nutzer), dafür ein Bild ohne Hintergrund vom Verein.
 Vor „Mitteilungen für alle“ / dem Newschannel noch: FuPa fragen (am besten der Verein), ein Satz
-Datenschutz in der App, Versand in Pakete aufteilen, Worker-Grenze (100 000 Abrufe/Tag gratis; Live alle
-20 s je Handy) anschauen.
+Datenschutz in der App, ~~Versand in Pakete aufteilen~~ (gebaut 23.10., neu j), Worker-Grenze (100 000 Abrufe/Tag gratis; Live
+seit 23.10. jede Minute je Handy) anschauen.
 
 ## Start beim Verein — Zeitplan (vom Nutzer, 22.10.2026: Montag 26.10. rausgeben)
 

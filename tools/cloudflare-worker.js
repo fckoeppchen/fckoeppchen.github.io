@@ -265,7 +265,12 @@ async function hmac(schl, daten) {
   return new Uint8Array(await crypto.subtle.sign("HMAC", k, daten));
 }
 const TAB_ABOS = "CREATE TABLE IF NOT EXISTS abos (endpoint TEXT PRIMARY KEY, abo TEXT NOT NULL, test INTEGER NOT NULL DEFAULT 1, seit TEXT NOT NULL)";
+// Schlüssel und VAPID-Kopf je Push-Dienst bleiben im Speicher, solange der Worker wach ist: spart je
+// Mitteilung eine Datenbankabfrage und eine Unterschrift (Rechenzeit, vom Nutzer: Pakete klein, sicher).
+let SCHLUESSEL = null;
+const KOEPFE = new Map(); // Herkunft des Push-Dienstes → { kopf, bis }
 export async function vapid(db) {
+  if (SCHLUESSEL) return SCHLUESSEL;
   await db.prepare("CREATE TABLE IF NOT EXISTS push_schluessel (id INTEGER PRIMARY KEY, privat TEXT NOT NULL, oeffentlich TEXT NOT NULL)").run();
   const lesen = () => db.prepare("SELECT privat, oeffentlich FROM push_schluessel WHERE id = 1").first();
   let z = await lesen();
@@ -276,7 +281,7 @@ export async function vapid(db) {
       .bind(JSON.stringify(await crypto.subtle.exportKey("jwk", k.privateKey)), b64u(await crypto.subtle.exportKey("raw", k.publicKey))).run();
     z = await lesen();
   }
-  return z;
+  return (SCHLUESSEL = z);
 }
 export async function vapidKopf(z, endpoint, jetzt = Date.now()) {
   const te = new TextEncoder(), teil = o => b64u(te.encode(JSON.stringify(o)));
@@ -303,25 +308,46 @@ export async function verschluesseln(abo, text) {
   kopf.set(salz); new DataView(kopf.buffer).setUint32(16, 4096); kopf[20] = 65;
   return verbinden(kopf, asPub, inhalt);
 }
+// Die Unterschrift gilt 12 h; nach 6 h kommt eine neue (genug Abstand zum Ablauf).
+async function kopfFuer(z, endpoint, jetzt = Date.now()) {
+  const her = new URL(endpoint).origin, k = KOEPFE.get(her);
+  if (k && k.oeff === z.oeffentlich && k.bis > jetzt) return k.kopf;
+  const kopf = await vapidKopf(z, endpoint, jetzt);
+  KOEPFE.set(her, { kopf, oeff: z.oeffentlich, bis: jetzt + 6 * 3600e3 });
+  return kopf;
+}
 export async function pushSenden(db, abo, nachricht, ttl = 3600) {
   const z = await vapid(db);
   return fetch(abo.endpoint, {
     method: "POST",
-    headers: { authorization: await vapidKopf(z, abo.endpoint), "content-encoding": "aes128gcm", "content-type": "application/octet-stream", ttl: String(ttl), urgency: "normal" },
+    headers: { authorization: await kopfFuer(z, abo.endpoint), "content-encoding": "aes128gcm", "content-type": "application/octet-stream", ttl: String(ttl), urgency: "normal" },
     body: await verschluesseln(abo, JSON.stringify(nachricht)),
   });
 }
 const aboOk = a => a && typeof a.endpoint === "string" && a.endpoint.length < 1000 && PUSH_DIENST.test(a.endpoint)
   && typeof a.keys?.p256dh === "string" && a.keys.p256dh.length < 200 && typeof a.keys?.auth === "string" && a.keys.auth.length < 100;
 const zuletztGetestet = new Map(); // endpoint → Zeit, höchstens ein Test je 20 s
-export async function pushAnfrage(req, db, was) {
+// Höchstzahl der angemeldeten Handys (vom Nutzer, 23.10.2026: schrittweise freigeben). Ändern ohne neuen Code:
+// bei Cloudflare unter Settings → Variables eine Variable MAX_ABOS anlegen (z. B. 100). Ohne sie gilt 50.
+export const MAX_ABOS = 50;
+export async function pushAnfrage(req, db, was, env = {}) {
   if (was === "schluessel") return antwort(JSON.stringify({ schluessel: (await vapid(db)).oeffentlich }));
+  // Empfangsbestätigung (vom Nutzer, 23.10.2026): der Service Worker meldet „angekommen“, ohne Kennung des
+  // Handys. Gezählt wird nur bei Mitteilungen, die es wirklich gab.
+  if (was === "angekommen") {
+    const id = new URL(req.url).searchParams.get("id") || "";
+    if (id && id.length < 200) try { await gemeldetSpalten(db); await db.prepare("UPDATE gemeldet SET angekommen = COALESCE(angekommen, 0) + 1 WHERE id = ?1").bind(id).run(); } catch (e) {}
+    return new Response(null, { status: 204, headers: CORS });
+  }
   if (req.method !== "POST") return antwort('{"fehler":"post"}', 405);
   let x; try { x = JSON.parse(await req.text()); } catch (e) { return antwort('{"fehler":"json"}', 400); }
   await db.prepare(TAB_ABOS).run();
   if (was === "anmelden") {
     if (!aboOk(x)) return antwort('{"fehler":"abo"}', 400);
     const abo = { endpoint: x.endpoint, keys: { p256dh: x.keys.p256dh, auth: x.keys.auth } };
+    const schon = await db.prepare("SELECT endpoint FROM abos WHERE endpoint = ?1").bind(abo.endpoint).first();
+    const max = Number(env.MAX_ABOS) > 0 ? Number(env.MAX_ABOS) : MAX_ABOS;
+    if (!schon && ((await db.prepare("SELECT COUNT(*) AS n FROM abos").first())?.n || 0) >= max) return antwort('{"fehler":"voll"}', 409);
     await db.prepare("INSERT OR REPLACE INTO abos (endpoint, abo, test, seit) VALUES (?1, ?2, 1, ?3)").bind(abo.endpoint, JSON.stringify(abo), new Date().toISOString()).run();
     return antwort('{"ok":true}');
   }
@@ -390,15 +416,18 @@ export function liveEreignisse(c, k, now) {
   return aus;
 }
 async function gemeldetSpalten(db) {
-  for (const sp of ["titel TEXT", "ab INTEGER", "an INTEGER", "passend INTEGER", "fehler TEXT", "verpasst INTEGER"])
+  for (const sp of ["titel TEXT", "ab INTEGER", "an INTEGER", "passend INTEGER", "fehler TEXT", "verpasst INTEGER", "angekommen INTEGER"])
     try { await db.prepare("ALTER TABLE gemeldet ADD COLUMN " + sp).run(); } catch (e) { /* gibt es schon */ }
 }
 // Übersicht auf der Zahlen-Seite (vom Nutzer, 21.10.2026): was geplant war, was rausging, an wie viele
 // Handys, was schiefging — nicht nur „was ging raus“, sonst sähe man Lücken nicht.
 const zeitLux = ms => new Date(ms).toLocaleString("de-DE", { timeZone: "Europe/Luxembourg", weekday: "short", day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit" });
-export function mittStatus(e, g, now) {
+export function mittStatus(e, g, now, wartend = 0) {
   if (g?.verpasst) return "✗ nicht verschickt (abgelaufen" + (g.ab && !tagzeit(g.ab) ? ", war nachts fällig" : "") + ")";
-  if (g) return `✓ ${zeitLux(g.zeit)} an ${g.an ?? "?"} von ${g.passend ?? "?"} Handys` + (g.passend === 0 ? " (niemand hat es angehakt)" : "") + (g.fehler ? ` · Fehler: ${g.fehler}` : "");
+  const fehler = g?.fehler ? ` · Fehler: ${g.fehler}` : "";
+  if (g && wartend) return `⏳ wird verschickt: ${g.an || 0} von ${g.passend ?? "?"} Handys, ${wartend} warten` + fehler;
+  if (g) return `✓ ${zeitLux(g.zeit)} an ${g.an ?? "?"} von ${g.passend ?? "?"} Handys` + (g.passend === 0 ? " (niemand hat es angehakt)" : "")
+    + (g.angekommen ? ` · angekommen auf ${g.angekommen}` : "") + fehler;
   if (e.ab > now) return "⏳ wartet";
   if (!tagzeit(now)) return "🌙 wartet bis 7 Uhr";
   return "⏳ geht in der nächsten Minute raus";
@@ -408,11 +437,12 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
   const abos = await alle("SELECT wahl FROM abos");
   const offen = (await alle("SELECT ereignis FROM offen")).map(z => JSON.parse(z.ereignis));
   const gem = new Map((await alle("SELECT * FROM gemeldet")).filter(g => g.zeit > now - 7 * 24 * 3600e3).map(g => [g.id, g]));
+  const wartend = new Map((await alle("SELECT id, COUNT(*) AS n FROM postausgang GROUP BY id")).map(z => [z.id, z.n]));
   const ev = new Map();
   for (const e of [...(datei?.ereignisse || []), ...offen]) ev.set(e.id, e);
   for (const [id, g] of gem) if (!ev.has(id)) ev.set(id, { id, titel: g.titel || id, ab: g.ab || g.zeit });
   const zeilen = [...ev.values()].sort((a, b) => b.ab - a.ab).slice(0, 50)
-    .map(e => `<tr><td>${esc(e.titel)}${e.text ? `<br><small>${esc(e.text)}</small>` : ""}</td><td>${zeitLux(e.ab)}</td><td class="st">${esc(mittStatus(e, gem.get(e.id), now))}</td></tr>`).join("");
+    .map(e => `<tr><td>${esc(e.titel)}${e.text ? `<br><small>${esc(e.text)}</small>` : ""}</td><td>${zeitLux(e.ab)}</td><td class="st">${esc(mittStatus(e, gem.get(e.id), now, wartend.get(e.id) || 0))}</td></tr>`).join("");
   // Gewählt je Mannschaft und Art, als Anzahl Handys (wer was gewählt hat, steht nirgends).
   const ART_KURZ = { heute: "Spiel steht an", neu: "Neue Phase/Spiel", spieltag: "Spieltag", tabelle: "Tabelle", uhrzeit: "Uhrzeit",
     ticker: "Ticker", halbzeit: "Halbzeit", ende: "Endstand", woche: "Woche" };
@@ -430,6 +460,9 @@ ${live ? `<h3>Heute mit Liveticker</h3><ul>${live}</ul>` : ""}
 <table class="mitt"><tr><th>Mitteilung</th><th>fällig ab</th><th>Stand</th></tr>${zeilen || "<tr><td colspan=3>noch nichts geplant</td></tr>"}</table>`;
 }
 const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+// Handys je Minute (vom Nutzer: lieber klein und sicher). Erst nach Messung im Cloudflare-Dashboard erhöhen.
+export const PAKET = 10;
+const LIVE_ARTEN = ["ticker", "halbzeit", "ende"];
 export async function mitteilungenSenden(db, now = Date.now()) {
   await abosSpalte(db);
   const abos = (await db.prepare("SELECT endpoint, abo, wahl FROM abos WHERE wahl IS NOT NULL").all()).results || [];
@@ -437,6 +470,7 @@ export async function mitteilungenSenden(db, now = Date.now()) {
   await db.batch([
     db.prepare("CREATE TABLE IF NOT EXISTS gemeldet (id TEXT PRIMARY KEY, zeit INTEGER NOT NULL)"),
     db.prepare("CREATE TABLE IF NOT EXISTS offen (id TEXT PRIMARY KEY, ereignis TEXT NOT NULL)"),
+    db.prepare("CREATE TABLE IF NOT EXISTS postausgang (id TEXT NOT NULL, endpoint TEXT NOT NULL, nachricht TEXT NOT NULL, bis INTEGER NOT NULL, prio INTEGER NOT NULL, zeit INTEGER NOT NULL, PRIMARY KEY (id, endpoint))"),
   ]);
   await gemeldetSpalten(db);
   let datei = { ereignisse: [], live: [] };
@@ -473,25 +507,43 @@ export async function mitteilungenSenden(db, now = Date.now()) {
       continue;
     }
     if (e.ab > now || !tagzeit(now) || await schon(e.id)) continue;
-    // Erst als gemeldet eintragen, dann senden: lieber eine Mitteilung verpasst als zehnmal dieselbe.
-    await db.batch([db.prepare("INSERT OR IGNORE INTO gemeldet (id, zeit) VALUES (?1, ?2)").bind(e.id, now),
-                    db.prepare("DELETE FROM offen WHERE id = ?1").bind(e.id)]);
-    let an = 0, passend = 0; const fehler = [];
+    // Fällig: als gemeldet eintragen und je passendem Handy eine Zeile in den Postausgang. Verschickt wird
+    // unten in kleinen Paketen (vom Nutzer, 23.10.2026: „brauchen nicht gleichzeitig anzukommen“).
+    // Erst eintragen, dann senden: lieber eine Mitteilung verpasst als zehnmal dieselbe.
+    const nachricht = JSON.stringify({ titel: e.titel, text: e.text, tag: e.id, url: "./", q: e.id });
+    const zeilen = [];
     for (const a of abos) {
       let wahl = null; try { wahl = JSON.parse(a.wahl); } catch (x) {}
-      if (!passtZu(wahl, e)) continue;
-      passend++;
-      try {
-        const r = await pushSenden(db, JSON.parse(a.abo), { titel: e.titel, text: e.text, tag: e.id, url: "./" }, Math.max(60, Math.round((e.bis - now) / 1000)));
-        if (r.status === 404 || r.status === 410) { fehler.push("Handy abgemeldet (" + r.status + ")"); await db.prepare("DELETE FROM abos WHERE endpoint = ?1").bind(a.endpoint).run(); }
-        else if (r.status >= 300) { fehler.push("Push-Dienst " + r.status); console.log("Push", e.id, r.status); }
-        else { an++; gesendet++; }
-      } catch (x) { fehler.push(x.message.slice(0, 80)); }
+      if (passtZu(wahl, e)) zeilen.push(db.prepare("INSERT OR IGNORE INTO postausgang (id, endpoint, nachricht, bis, prio, zeit) VALUES (?1, ?2, ?3, ?4, ?5, ?6)")
+        .bind(e.id, a.endpoint, nachricht, e.bis, LIVE_ARTEN.includes(e.art) ? 0 : 1, now));
     }
-    await db.prepare("UPDATE gemeldet SET titel = ?2, ab = ?3, an = ?4, passend = ?5, fehler = ?6 WHERE id = ?1")
-      .bind(e.id, e.titel, e.ab, an, passend, [...new Set(fehler)].join(", ") || null).run();
+    await db.batch([db.prepare("INSERT OR IGNORE INTO gemeldet (id, zeit, titel, ab, an, passend) VALUES (?1, ?2, ?3, ?4, 0, ?5)").bind(e.id, now, e.titel, e.ab, zeilen.length),
+                    db.prepare("DELETE FROM offen WHERE id = ?1").bind(e.id), ...zeilen]);
   }
-  await db.prepare("DELETE FROM gemeldet WHERE zeit < ?1").bind(now - 30 * 24 * 3600e3).run();
+  // Postausgang: je Takt höchstens PAKET Handys, Live (Ticker, Halbzeit, Endstand) zuerst, sonst der Reihe nach.
+  if (tagzeit(now)) {
+    const paket = ((await db.prepare("SELECT id, endpoint, nachricht, bis FROM postausgang ORDER BY prio, zeit LIMIT ?1").bind(PAKET).all()).results || []);
+    const aboVon = new Map(abos.map(a => [a.endpoint, a.abo]));
+    for (const p of paket) {
+      await db.prepare("DELETE FROM postausgang WHERE id = ?1 AND endpoint = ?2").bind(p.id, p.endpoint).run();
+      let fehler = "";
+      const abo = aboVon.get(p.endpoint);
+      if (!abo) fehler = "Handy abgemeldet";
+      else if (p.bis <= now) fehler = "abgelaufen";
+      else try {
+        const r = await pushSenden(db, JSON.parse(abo), JSON.parse(p.nachricht), Math.max(60, Math.round((p.bis - now) / 1000)));
+        if (r.status === 404 || r.status === 410) {
+          fehler = "Handy abgemeldet (" + r.status + ")";
+          await db.prepare("DELETE FROM abos WHERE endpoint = ?1").bind(p.endpoint).run();
+          aboVon.delete(p.endpoint);   // seine übrigen Zeilen laufen als „Handy abgemeldet“ durch und stehen so in der Übersicht
+        } else if (r.status >= 300) { fehler = "Push-Dienst " + r.status; console.log("Push", p.id, r.status); }
+      } catch (x) { fehler = x.message.slice(0, 80); }
+      if (!fehler) { gesendet++; await db.prepare("UPDATE gemeldet SET an = COALESCE(an, 0) + 1 WHERE id = ?1").bind(p.id).run(); }
+      else await db.prepare("UPDATE gemeldet SET fehler = CASE WHEN fehler IS NULL THEN ?2 WHEN instr(fehler, ?2) > 0 THEN fehler ELSE fehler || ', ' || ?2 END WHERE id = ?1").bind(p.id, fehler).run();
+    }
+  }
+  await db.batch([db.prepare("DELETE FROM gemeldet WHERE zeit < ?1").bind(now - 30 * 24 * 3600e3),
+                  db.prepare("DELETE FROM postausgang WHERE bis < ?1").bind(now - 24 * 3600e3)]);   // Reste, falls niemand mehr angemeldet ist
   return { gesendet };
 }
 
@@ -511,7 +563,7 @@ export default {
     const q = new URL(req.url).searchParams;
     if (q.has("push")) {
       if (!env.DB) return antwort('{"fehler":"kein D1"}', 503);
-      try { return await pushAnfrage(req, env.DB, q.get("push")); } catch (e) { console.log("Push:", e.message); return antwort('{"fehler":"intern"}', 500); }
+      try { return await pushAnfrage(req, env.DB, q.get("push"), env); } catch (e) { console.log("Push:", e.message); return antwort('{"fehler":"intern"}', 500); }
     }
     if (q.get("ich") === "1" && (q.has("zaehle") || q.has("angesehen"))) {
       if (env.DB) try { await ichZaehlen(env.DB, tagLux(Date.now()), q.has("zaehle") ? "oeffnung" : "umschalten"); } catch (e) { console.log("Zähler:", e.message); }

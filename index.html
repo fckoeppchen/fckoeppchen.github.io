@@ -580,7 +580,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu i";
+const FASSUNG = "23.10.2026 neu j";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1345,7 +1345,11 @@ async function mittAn() {
     const abo = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: roh });
     const a = await pushPost("anmelden", abo.toJSON());
     if (a.ok) await pushPost("wahl", { endpoint: abo.endpoint, ...mWahl() }).catch(() => {});
-    MITT_STAND = a.ok ? "Angemeldet. Jetzt Mannschaften anhaken und „Test-Mitteilung senden“ tippen." : "Anmelden beim Worker ging nicht (" + a.status + ").";
+    // Höchstzahl erreicht (vom Nutzer, 23.10.2026: schrittweise freigeben): Abo wieder lösen, freundlich vertrösten.
+    if (a.status === 409) await abo.unsubscribe().catch(() => {});
+    MITT_STAND = a.ok ? "Angemeldet. Jetzt Mannschaften anhaken und „Test-Mitteilung senden“ tippen."
+      : a.status === 409 ? "Mitteilungen gibt es bald für alle – im Moment sind alle Plätze vergeben. Bitte in ein paar Tagen nochmal versuchen."
+      : "Anmelden beim Worker ging nicht (" + a.status + ").";
   } catch (e) { MITT_STAND = "Fehler: " + e.message; }
   mittHtml();
 }

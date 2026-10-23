@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGruppe, natiTabelle, fupaTabelleMitFlfNamen, reserveSlugs, icsGruppe } from "../tools/fussball.mjs";
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
-import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand } from "../tools/cloudflare-worker.js";
+import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux } from "../tools/mitteilungen.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
@@ -595,12 +595,18 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
       if (sql.startsWith("INSERT OR REPLACE INTO abos")) reihen.abos.set(this.a[0], { abo: this.a[1] });
       if (sql.startsWith("DELETE FROM abos")) reihen.abos.delete(this.a[0]);
     },
-    async first() { return sql.includes("push_schluessel") ? reihen.k : reihen.abos.get(this.a[0]) || null; } }) };
-  const anfrage = (was, body) => worker.fetch(new Request("https://w/?push=" + was, body === undefined ? {} : { method: "POST", body: JSON.stringify(body) }), { DB: db });
+    async first() { return sql.includes("push_schluessel") ? reihen.k : sql.includes("COUNT(*)") ? { n: reihen.abos.size } : reihen.abos.get(this.a[0]) || null; } }) };
+  let envX = {};
+  const anfrage = (was, body) => worker.fetch(new Request("https://w/?push=" + was, body === undefined ? {} : { method: "POST", body: JSON.stringify(body) }), { DB: db, ...envX });
   const s1 = await (await anfrage("schluessel")).json(), s2 = await (await anfrage("schluessel")).json();
   ok(s1.schluessel?.length === 87 && s1.schluessel === s2.schluessel, "Push: Worker erzeugt Schlüssel einmal und behält ihn");
   ok((await anfrage("anmelden", { ...abo, endpoint: "https://boese.example/x" })).status === 400 && (await anfrage("anmelden", { endpoint: abo.endpoint })).status === 400 && reihen.abos.size === 0, "Push: fremder Dienst oder Abo ohne Schlüssel abgelehnt");
   ok((await anfrage("anmelden", abo)).status === 200 && reihen.abos.has(abo.endpoint), "Push: Abo angemeldet");
+  // Höchstzahl (vom Nutzer: schrittweise freigeben): voll → 409, wer schon drin ist, darf sich neu anmelden.
+  envX = { MAX_ABOS: "1" };
+  const voll = await anfrage("anmelden", { ...abo, endpoint: "https://web.push.apple.com/NEU" });
+  ok(voll.status === 409 && (await voll.json()).fehler === "voll" && !reihen.abos.has("https://web.push.apple.com/NEU") && (await anfrage("anmelden", abo)).status === 200, "Push: Höchstzahl erreicht → 409, Angemeldete bleiben");
+  envX = {};
   ok((await anfrage("test", { endpoint: "https://web.push.apple.com/unbekannt" })).status === 404, "Push: Test an unbekanntes Gerät → 404");
   const echt = globalThis.fetch, gesendet = [];
   let antwortStatus = 201;
@@ -630,10 +636,14 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     registration: { scope: "https://fckoeppchen.github.io/", showNotification: async (t, o) => gezeigt.push([t, o]) } };
   new Function("self", fs.readFileSync(path.join(hier, "..", "sw.js"), "utf8"))(selbst);
   const warten = []; const ev = x => ({ ...x, waitUntil: p => warten.push(p) });
-  lauscher.push(ev({ data: { json: () => ({ titel: "FC Koeppchen", text: "Heute Spiel um 10:00" }) } }));
+  const quittungen = [], echtF = globalThis.fetch;
+  globalThis.fetch = async u => { quittungen.push(u); return new Response(null, { status: 204 }); };
+  lauscher.push(ev({ data: { json: () => ({ titel: "FC Koeppchen", text: "Heute Spiel um 10:00", q: "heute:103" }) } }));
   lauscher.push(ev({ data: null }));
   lauscher.notificationclick(ev({ notification: { close() {}, data: { url: "./" } } }));
   await Promise.all(warten);
+  globalThis.fetch = echtF;
+  ok(quittungen.length === 1 && quittungen[0] === "https://fckoeppchen.rjtp6r9s9h.workers.dev/?push=angekommen&id=heute%3A103", "Service Worker: meldet „angekommen“ nur für echte Mitteilungen");
   ok(gezeigt.length === 2 && gezeigt[0][1].body === "Heute Spiel um 10:00" && gezeigt[1][0] === "FC Koeppchen" && geoeffnet[0] === "https://fckoeppchen.github.io/", "Service Worker: zeigt jede Mitteilung, Tippen öffnet die App");
   ok(!lauscher.fetch, "Service Worker hat keinen fetch-Teil (lädt und speichert nichts)");
 }
@@ -764,19 +774,28 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
      && passtZu({ je: { Woche: ["woche"] } }, mo) && !passtZu({ je: {} }, mo), "Mitteilung: je Mannschaft eigene Arten");
 
   // Versand im Worker mit nachgebautem D1: gewählt, einmal, nachts nicht, Live aus FuPa.
-  const T = { abos: new Map(), gemeldet: new Map(), offen: new Map(), k: null };
+  const T = { abos: new Map(), gemeldet: new Map(), offen: new Map(), post: new Map(), k: null };
   const db = { prepare: sql => ({ a: [], bind(...a) { this.a = a; return this; },
     async run() {
       const [x, y] = this.a;
       if (sql.startsWith("INSERT OR IGNORE INTO push_schluessel") && !T.k) T.k = { privat: x, oeffentlich: y };
-      if (sql.startsWith("INSERT OR IGNORE INTO gemeldet")) T.gemeldet.has(x) || T.gemeldet.set(x, y);
+      if (sql.startsWith("INSERT OR IGNORE INTO gemeldet")) T.gemeldet.has(x) || T.gemeldet.set(x, sql.includes("passend") ? { zeit: y, an: 0, passend: this.a[4] } : { zeit: y, verpasst: 1 });
+      if (sql.startsWith("UPDATE gemeldet SET angekommen")) { const g = T.gemeldet.get(x); if (g) g.angekommen = (g.angekommen || 0) + 1; }
+      else if (sql.startsWith("UPDATE gemeldet SET an")) T.gemeldet.get(x).an++;
+      if (sql.startsWith("UPDATE gemeldet SET fehler")) { const g = T.gemeldet.get(x); g.fehler = !g.fehler ? y : g.fehler.includes(y) ? g.fehler : g.fehler + ", " + y; }
       if (sql.startsWith("INSERT OR IGNORE INTO offen")) T.offen.has(x) || T.offen.set(x, y);
+      if (sql.startsWith("INSERT OR IGNORE INTO postausgang")) { const [id, endpoint, nachricht, bis, prio, zeit] = this.a; T.post.has(id + "|" + endpoint) || T.post.set(id + "|" + endpoint, { id, endpoint, nachricht, bis, prio, zeit }); }
+      if (sql.startsWith("DELETE FROM postausgang WHERE id")) T.post.delete(x + "|" + y);
       if (sql.startsWith("DELETE FROM offen")) T.offen.delete(x);
       if (sql.startsWith("DELETE FROM abos")) T.abos.delete(x);
-      if (sql.startsWith("DELETE FROM gemeldet")) for (const [k, z] of T.gemeldet) if (z < x) T.gemeldet.delete(k);
+      if (sql.startsWith("DELETE FROM gemeldet")) for (const [k, z] of T.gemeldet) if (z.zeit < x) T.gemeldet.delete(k);
     },
     async first() { if (sql.includes("push_schluessel")) return T.k; if (sql.includes("FROM gemeldet")) return T.gemeldet.has(this.a[0]) ? { id: this.a[0] } : null; return null; },
-    async all() { if (sql.includes("FROM abos")) return { results: [...T.abos.values()].filter(z => z.wahl) }; if (sql.includes("FROM offen")) return { results: [...T.offen.values()].map(ereignis => ({ ereignis })) }; return { results: [] }; } }),
+    async all() {
+      if (sql.includes("FROM abos")) return { results: [...T.abos.values()].filter(z => z.wahl) };
+      if (sql.includes("FROM offen")) return { results: [...T.offen.values()].map(ereignis => ({ ereignis })) };
+      if (sql.includes("FROM postausgang")) return { results: [...T.post.values()].sort((a, b) => (sql.includes("ORDER BY prio") ? a.prio - b.prio : 0) || a.zeit - b.zeit).slice(0, this.a[0]) };
+      return { results: [] }; } }),
     batch: async l => { for (const x of l) await x.run(); } };
   const b64 = x => Buffer.from(x).toString("base64url");
   const ua = await crypto.subtle.generateKey({ name: "ECDH", namedCurve: "P-256" }, true, ["deriveBits"]);
@@ -806,6 +825,50 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(an.length === 2 && T.offen.has("ende:503"), "Versand: Endstand nach 22 Uhr wartet");
   await mitteilungenSenden(db, Date.parse("2026-10-25T07:00:00+01:00"));
   ok(an.join() === "U13,SEN,SEN" && !T.offen.has("ende:503") && T.gemeldet.has("ende:503"), "Versand: Endstand morgens um 7");
+
+  // Postausgang (vom Nutzer, 23.10.2026): viele Handys in kleinen Paketen, Live zuerst, Zähler stimmen.
+  T.abos.clear(); T.gemeldet.clear(); T.offen.clear(); T.post.clear();
+  for (let i = 0; i < 23; i++) abo("https://web.push.apple.com/W" + i, { je: { Woche: ["woche"], "Seniors 1": ["ende"] } });
+  abo("https://fcm.googleapis.com/fcm/send/G1", { je: { Woche: ["woche"] } });
+  abo("https://web.push.apple.com/WEG", { je: { Woche: ["woche"] } });
+  const p0 = Date.parse("2026-10-26T10:00:00+01:00");
+  const wo = { id: "woche:2026-10-26", reiter: ["Woche"], art: "woche", titel: "Unsere Woche", text: "…", ab: p0, bis: p0 + 12 * 3600e3 };
+  const endEv = { id: "ende:9", reiter: ["Seniors 1"], art: "ende", titel: "Seniors 1 · Endstand", text: "2:1", ab: p0 + 60e3, bis: p0 + 18 * 3600e3 };
+  let datei = { ereignisse: [wo], live: [] };
+  const koepfe = new Set(); let gesamt = 0;
+  globalThis.fetch = async (url, o) => {
+    if (String(url).includes("mitteilungen.json")) return new Response(JSON.stringify(datei));
+    gesamt++; koepfe.add(o.headers.authorization);
+    return new Response("", { status: String(url).endsWith("/WEG") ? 410 : 201 });
+  };
+  const r1 = await mitteilungenSenden(db, p0);
+  ok(r1.gesendet === PAKET && T.post.size === 25 - PAKET && T.gemeldet.get(wo.id).passend === 25 && T.gemeldet.get(wo.id).an === PAKET,
+     `Postausgang: 25 Handys passend, erste Minute nur ${PAKET} verschickt, Rest wartet`);
+  ok(mittStatus(wo, T.gemeldet.get(wo.id), p0, T.post.size) === `⏳ wird verschickt: ${PAKET} von 25 Handys, ${25 - PAKET} warten`, "Übersicht: zeigt, dass noch verschickt wird");
+  datei = { ereignisse: [wo, endEv], live: [] };
+  const vorEnde = gesamt;
+  await mitteilungenSenden(db, p0 + 60e3);
+  const nachEnde = [...T.post.values()].filter(z => z.id === "ende:9").length;
+  ok(nachEnde === 23 - PAKET && T.gemeldet.get("ende:9").an === PAKET && T.gemeldet.get(wo.id).an === PAKET, "Postausgang: Endstand (Live) überholt die Woche");
+  for (let m = 2; m < 10 && T.post.size; m++) await mitteilungenSenden(db, p0 + m * 60e3);
+  const gw = T.gemeldet.get(wo.id), ge = T.gemeldet.get("ende:9");
+  ok(T.post.size === 0 && gw.an === 24 && gw.passend === 25 && gw.fehler === "Handy abgemeldet (410)" && ge.an === 23 && !T.abos.has("https://web.push.apple.com/WEG"),
+     "Postausgang: am Ende alle verschickt, 410 gezählt und Abo gelöscht");
+  ok(koepfe.size === 2, "VAPID: eine Unterschrift je Push-Dienst (Apple, Google), nicht je Handy");
+  ok(mittStatus(wo, gw, p0 + 9 * 60e3, 0).startsWith("✓") && mittStatus(wo, { ...gw, angekommen: 20 }, 0, 0).includes("· angekommen auf 20 · Fehler: Handy abgemeldet (410)"), "Übersicht: verschickt, angekommen und Fehler");
+  // Nachts bleibt der Postausgang liegen; abgelaufene Zeilen zählen als Fehler, nicht als verschickt.
+  T.post.set(wo.id + "|https://web.push.apple.com/W1", { id: wo.id, endpoint: "https://web.push.apple.com/W1", nachricht: "{}", bis: p0 + 24 * 3600e3, prio: 1, zeit: p0 });
+  const vorher2 = gesamt;
+  await mitteilungenSenden(db, Date.parse("2026-10-26T23:00:00+01:00"));
+  ok(gesamt === vorher2 && T.post.size === 1, "Postausgang: nachts wird nichts verschickt");
+  T.post.clear(); T.post.set(wo.id + "|https://web.push.apple.com/W1", { id: wo.id, endpoint: "https://web.push.apple.com/W1", nachricht: "{}", bis: p0 + 60e3, prio: 1, zeit: p0 });
+  await mitteilungenSenden(db, p0 + 11 * 60e3);
+  ok(gesamt === vorher2 && T.post.size === 0 && T.gemeldet.get(wo.id).fehler.includes("abgelaufen"), "Postausgang: abgelaufen → nicht senden, als Fehler vermerkt");
+  const q1 = await worker.fetch(new Request("https://w/?push=angekommen&id=" + encodeURIComponent(wo.id)), { DB: db });
+  await worker.fetch(new Request("https://w/?push=angekommen&id=" + encodeURIComponent(wo.id)), { DB: db });
+  await worker.fetch(new Request("https://w/?push=angekommen&id=gibts-nicht"), { DB: db });
+  ok(q1.status === 204 && T.gemeldet.get(wo.id).angekommen === 2 && !T.gemeldet.has("gibts-nicht"), "Empfangsbestätigung: zählt je Mitteilung, Unbekanntes nicht");
+  void vorEnde;
   globalThis.fetch = echt;
   // Übersicht: geplant, verschickt (an wie viele), nachts wartend, verpasst.
   const e0 = { id: "x", titel: "T", ab: Date.parse("2026-10-23T19:00:00+02:00") };
