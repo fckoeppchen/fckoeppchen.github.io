@@ -1,7 +1,7 @@
 // Mitteilungen, Stufe 2 (vom Nutzer, 21.10.2026; Plan in IDEEN-fussball.md).
 // Der FLF-Abruf vergleicht alten und neuen Stand und legt die Ereignisse in data/mitteilungen.json
 // ab. Der Cloudflare-Worker liest die Datei alle 15 min und schickt, was fällig ist (`ab` ≤ jetzt <
-// `bis`, nur 7–22 Uhr), an die Handys, die Mannschaft und Art gewählt haben. Jedes Ereignis hat eine
+// `bis`, nur 7–23 Uhr), an die Handys, die Mannschaft und Art gewählt haben. Jedes Ereignis hat eine
 // feste `id` — der Worker merkt sich, was er geschickt hat, ein Ereignis kommt also nie doppelt,
 // auch wenn es mehrere Läufe lang in der Datei steht. Was nur live zu sehen ist (FuPa tickert,
 // Endstand vom Ticker), prüft der Worker selbst; dafür stehen die Spiele des Tages unter `live`.

@@ -36,7 +36,7 @@ Nutzer ausgearbeitet. Entscheiden, wann gebaut wird, wenn der Zähler zeigt, das
 **Bedienung:** Zahnrad oben in der App → Benachrichtigungszentrale: Hauptschalter (beim ersten Einschalten
 fragt iOS), „Meine Mannschaften“ zum Abhaken, darunter die Arten (jede für alle abgehakten Mannschaften;
 was es bei einer Mannschaft nicht gibt, fällt dort weg), unten „Test-Mitteilung senden“. Wenige, aber
-wichtige Meldungen für Eltern und Spieler; nachts nichts (nach 22 Uhr → 7 Uhr).
+wichtige Meldungen für Eltern und Spieler; nachts nichts (nach 22 Uhr → 7 Uhr; seit 23.10.2026 nach 23 Uhr, vom Nutzer).
 
 **Was es pro Reiter gibt:**
 

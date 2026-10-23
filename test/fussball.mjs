@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGruppe, natiTabelle, fupaTabelleMitFlfNamen, reserveSlugs, icsGruppe } from "../tools/fussball.mjs";
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
-import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET } from "../tools/cloudflare-worker.js";
+import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux } from "../tools/mitteilungen.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
@@ -821,8 +821,10 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   await mitteilungenSenden(db, spiel);
   ok(an.join() === "U13,SEN" && T.gemeldet.has("ticker:503"), "Versand: Liveticker läuft an Seniors 2");
   fupa = { ...fupa, section: "POST", homeGoal: 1, awayGoal: 4 };
-  await mitteilungenSenden(db, Date.parse("2026-10-24T22:05:00+02:00"));
-  ok(an.length === 2 && T.offen.has("ende:503"), "Versand: Endstand nach 22 Uhr wartet");
+  await mitteilungenSenden(db, Date.parse("2026-10-24T23:00:00+02:00"));   // letzte Minute des Live-Fensters, schon nach 23 Uhr
+  ok(an.length === 2 && T.offen.has("ende:503"), "Versand: Endstand nach 23 Uhr wartet");
+  ok(tagzeit(Date.parse("2026-10-24T22:59:00+02:00")) && !tagzeit(Date.parse("2026-10-24T23:00:00+02:00")) && !tagzeit(Date.parse("2026-10-26T06:59:00+01:00")) && tagzeit(Date.parse("2026-10-26T07:00:00+01:00")),
+     "Versandzeit 7–23 Uhr (vom Nutzer, 23.10.2026), auch im Winter");
   await mitteilungenSenden(db, Date.parse("2026-10-25T07:00:00+01:00"));
   ok(an.join() === "U13,SEN,SEN" && !T.offen.has("ende:503") && T.gemeldet.has("ende:503"), "Versand: Endstand morgens um 7");
 

@@ -382,7 +382,8 @@ export async function pushAnfrage(req, db, was, env = {}) {
 // ---- Mitteilungen, Stufe 2 (vom Nutzer, 21.10.2026): echte Meldungen ----
 // Jede Minute (Cron): data/mitteilungen.json lesen (schreibt der FLF-Abruf, tools/mitteilungen.mjs),
 // dazu für die Spiele des Tages mit Ticker selbst bei FuPa nachsehen (Liveticker läuft, Endstand).
-// Gesendet wird nur 7–22 Uhr Luxemburger Zeit; was nachts fällig wird, wartet bis 7 Uhr (solange
+// Gesendet wird nur 7–23 Uhr Luxemburger Zeit (bis 23 seit 23.10.2026, vom Nutzer: Endstände der Abendspiele
+// noch am selben Abend); was nachts fällig wird, wartet bis 7 Uhr (solange
 // `bis` nicht vorbei ist). Jede id geht nur einmal raus (Tabelle gemeldet).
 const MITT_URL = "https://raw.githubusercontent.com/fckoeppchen/fckoeppchen.github.io/main/data/mitteilungen.json";
 const MITT_ARTEN = ["heute", "spieltag", "tabelle", "uhrzeit", "neu", "ticker", "halbzeit", "ende", "woche"];
@@ -398,7 +399,7 @@ export function passtZu(wahl, e) {
   if (!Array.isArray(wahl.teams) || !e.reiter.some(r => wahl.teams.includes(r))) return false;
   return e.art === "woche" || (wahl.arten || []).includes(e.art);
 }
-export const tagzeit = ms => { const h = stundeLux(ms); return h >= 7 && h < 22; };
+export const tagzeit = ms => { const h = stundeLux(ms); return h >= 7 && h < 23; };
 // Liveticker und Endstand für ein Spiel des Tages (Kandidat aus mitteilungen.json → live).
 export function liveEreignisse(c, k, now) {
   const aus = [], d = Date.parse(c.d);
@@ -454,7 +455,7 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
   }
   const gewaehlt = [...zahl].map(([t, m]) => `<tr><td>${esc(t)}</td><td class="st">${[...m].map(([k, n]) => esc(ART_KURZ[k] || k) + (abos.length > 1 ? ` ${n}` : "")).join(" · ") || "—"}</td></tr>`).join("");
   const live = (datei?.live || []).map(c => `<li>${esc(c.titel)}: ${zeitLux(Date.parse(c.d))} gegen ${esc(c.gegner)} — FuPa wird vom Anpfiff bis 3 h danach jede Minute geprüft${c.slug || c.anstoss ? "" : " (noch ohne FuPa-Spiel)"}</li>`).join("");
-  return `<h2>Mitteilungen</h2><p>${abos.length} ${abos.length === 1 ? "Handy" : "Handys"} angemeldet, davon ${abos.filter(a => a.wahl).length} mit Auswahl. Gesendet wird 7–22 Uhr.</p>
+  return `<h2>Mitteilungen</h2><p>${abos.length} ${abos.length === 1 ? "Handy" : "Handys"} angemeldet, davon ${abos.filter(a => a.wahl).length} mit Auswahl. Gesendet wird 7–23 Uhr.</p>
 <h3>Gewählt${abos.length > 1 ? " (Zahl = so viele Handys)" : ""}</h3><table class="mitt">${gewaehlt || "<tr><td>noch nichts</td></tr>"}</table>
 ${live ? `<h3>Heute mit Liveticker</h3><ul>${live}</ul>` : ""}
 <table class="mitt"><tr><th>Mitteilung</th><th>fällig ab</th><th>Stand</th></tr>${zeilen || "<tr><td colspan=3>noch nichts geplant</td></tr>"}</table>`;
