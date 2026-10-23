@@ -580,7 +580,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu e";
+const FASSUNG = "23.10.2026 neu f";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -785,8 +785,10 @@ function render() {
   if (v.team.datei) {
     // Abo statt Export: die Action schreibt kalender/<reiter>.ics bei jedem Lauf neu, das iPhone
     // holt sie selbst ab — verschobene Spiele wandern mit. webcal:// öffnet die Kalender-App.
-    const url = KALENDER + v.team.datei;
-    h += `<a class="kal" href="${esc(url.replace(/^https:/, "webcal:"))}">📅 ${esc(v.team.reiter)} im Kalender abonnieren</a>
+    // Kinder mit zwei Mannschaften: ein gemeinsamer Kalender (vom Nutzer, 23.10.2026), z. B. „Minimes U13“.
+    const kal = v.team.gruppe || { datei: v.team.datei, name: v.team.reiter };
+    const url = KALENDER + kal.datei;
+    h += `<a class="kal" href="${esc(url.replace(/^https:/, "webcal:"))}">📅 ${esc(kal.name)} im Kalender abonnieren</a>
       <details class="kalhilfe"><summary>Klappt nicht?</summary>
         Einstellungen → Kalender → Accounts → Account hinzufügen → Andere → <b>Kalenderabo hinzufügen</b>, dann diese Adresse:
         <code>${esc(url)}</code><button class="kopie" data-copy="${esc(url)}">Adresse kopieren</button>

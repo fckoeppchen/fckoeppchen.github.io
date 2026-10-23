@@ -24,6 +24,8 @@ export const AGES = [
 const OUT = new URL("../data/fussball.json", import.meta.url);
 const MITT = new URL("../data/mitteilungen.json", import.meta.url);
 const KAL = new URL("../kalender/", import.meta.url);
+// Schreibweise vom Nutzer (23.10.2026).
+const GRUPPEN = { U13: "Minimes U13", U11: "Poussins U11", U9: "Pupilles U9" };
 export const VEREIN = "FC Koeppchen Wormeldange";
 
 const M_FIELDS = `match{ id gameday matchDate isPlayed isForfait homeScore awayScore finalHomeScore finalAwayScore finalScoreComment }
@@ -133,18 +135,23 @@ function falten(z) {
   return teile.join("\r\n");
 }
 
-export function ics(D, t) {
+export const ics = (D, t) => icsAus(D, [t], t.reiter);
+// Ein Kalender für alle Mannschaften einer Altersklasse (vom Nutzer, 23.10.2026): die Kinder werden jede
+// Woche neu auf 1 und 2 verteilt, getrennte Abos würden sie auseinanderdividieren. Im Titel bleibt 1/2.
+export const icsGruppe = (D, g) => icsAus(D, D.teams.filter(t => t.gruppe && t.gruppe.datei === g.datei), g.name);
+function icsAus(D, liste, titel) {
   // Eigene Mannschaft wie der Reiter („Koeppchen U13 1“), nicht wie bei der FLF („… I“) — sonst
   // sind U13 1 und U11 1 im Kalender nicht zu unterscheiden (vom Nutzer gemeldet). Pokal ohne
   // I/II: „Koeppchen U13“.
-  const unsere = new Map(D.teams.filter(o => o.id === t.id || (t.mit || []).includes(o.id))
+  const unsere = new Map(D.teams.filter(o => liste.some(t => o.id === t.id || (t.mit || []).includes(o.id)))
     .flatMap(o => nummern(o).map(id => [id, "Koeppchen " + reiter(o)])));
   const name = s => unsere.get(s.id) || s.n;
-  const dauerMin = t.kat === "Seniors" ? 120 : t.kat === "U9" || t.kat === "U11" ? 90 : 105;
+  const kat = liste[0].kat, dauerMin = kat === "Seniors" ? 120 : kat === "U9" || kat === "U11" ? 90 : 105;
   const z = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//FC Koeppchen//fussball.html//DE", "CALSCALE:GREGORIAN",
-             "METHOD:PUBLISH", `X-WR-CALNAME:${icsText("FC Koeppchen " + t.reiter)}`, "X-WR-TIMEZONE:Europe/Luxembourg",
+             "METHOD:PUBLISH", `X-WR-CALNAME:${icsText("FC Koeppchen " + titel)}`, "X-WR-TIMEZONE:Europe/Luxembourg",
              "REFRESH-INTERVAL;VALUE=DURATION:PT3H", "X-PUBLISHED-TTL:PT3H"];
-  for (const sp of eigeneSpiele(D, t)) {
+  const spiele = [...new Map(liste.flatMap(t => eigeneSpiele(D, t)).map(sp => [sp.id, sp])).values()].sort((a, b) => a.d.localeCompare(b.d));
+  for (const sp of spiele) {
     const art = sp.typ === "CUP" ? " (Pokal)" : sp.typ === "FM" ? " (Freundschaftsspiel)" : "";
     const erg = sp.erg && sp.gespielt && sp.hs != null ? ` ${sp.hs}:${sp.as}` : "";
     z.push("BEGIN:VEVENT", `UID:flf-${sp.id}@fc-koeppchen`, "DTSTAMP:20260701T000000Z");
@@ -381,6 +388,11 @@ export function aufbereiten({ saison, vereinsSpiele, klassen }) {
     t.datei = t.reiter.toLowerCase().replace(/\s+/g, "-") + ".ics";
     t.mit = alle.filter(o => !liga(o) && o.ak === t.ak && (!zusatz(o) || zusatz(o) === zusatz(t))).map(o => o.id);
   }
+  // Gemeinsamer Kalender je Kinder-Altersklasse mit mehr als einer Mannschaft (vom Nutzer, 23.10.2026).
+  for (const [kat, name] of Object.entries(GRUPPEN)) {
+    const g = alle.filter(liga).filter(t => t.kat === kat);
+    if (g.length > 1) for (const t of g) t.gruppe = { name, datei: name.toLowerCase().replace(/\s+/g, "-") + ".ics" };
+  }
 
   return {
     stand: new Date().toISOString(),
@@ -457,6 +469,7 @@ function kalender() {
   for (const t of D.teams.filter(t => t.datei)) {
     writeFileSync(new URL(t.datei, KAL), ics(D, t));
     soll.add(t.datei);
+    if (t.gruppe && !soll.has(t.gruppe.datei)) { writeFileSync(new URL(t.gruppe.datei, KAL), icsGruppe(D, t.gruppe)); soll.add(t.gruppe.datei); }
   }
   // Mannschaft weg (neue Saison) → Datei weg; ein bestehendes Abo zeigt dann nichts mehr.
   for (const f of readdirSync(KAL)) if (f.endsWith(".ics") && !soll.has(f)) unlinkSync(new URL(f, KAL));

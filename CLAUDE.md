@@ -59,6 +59,13 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **„FuPa“ im Heute-Kasten als Link** (vom Nutzer, 23.10.2026, Fassung 23.10. neu e): Hinweis „Liveticker, wenn
   verfügbar — sobald bei FuPa jemand tickert“ verlinkt FuPa schon vor dem Ticker (`fupaLink`): Spiel per
   `D.fupa[id]` bzw. `live.json`, Roude Léiw per `sp.slug`, sonst `fupa.net/club/fc-koeppchen`.
+- **Gemeinsamer Kalender je Kinder-Altersklasse** (vom Nutzer, 23.10.2026, Fassung 23.10. neu f): die Kinder werden
+  jede Woche neu auf 1/2 verteilt — getrennte Abos würden sie auseinanderdividieren. U13 1+2 → „Minimes U13“
+  (`minimes-u13.ics`), U11 → „Poussins U11“, U9 → „Pupilles U9“ (Schreibweise vom Nutzer, `GRUPPEN` in
+  `tools/fussball.mjs`, `t.gruppe` in der JSON, `icsGruppe`). Beide Reiter zeigen denselben Knopf „📅 Minimes U13
+  im Kalender abonnieren“; im Kalender bleibt „Koeppchen U13 1/2“ im Titel (vom Nutzer: man muss wissen, wann
+  welche spielt), Pokal einmal. Reiter bleiben getrennt. Einzel-`.ics` (u13-1 …) werden weiter geschrieben
+  (bestehende Abos), sind aber nicht mehr verlinkt. U15 und Seniors unverändert.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

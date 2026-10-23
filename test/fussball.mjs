@@ -7,7 +7,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGruppe, natiTabelle, fupaTabelleMitFlfNamen, reserveSlugs } from "../tools/fussball.mjs";
+import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGruppe, natiTabelle, fupaTabelleMitFlfNamen, reserveSlugs, icsGruppe } from "../tools/fussball.mjs";
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
 import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux } from "../tools/mitteilungen.mjs";
@@ -227,6 +227,13 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(k.includes("(Pokal)"), "Pokal gekennzeichnet");
   ok(k.split("\r\n").every(z => Buffer.byteLength(z, "utf8") <= 75), "Zeilen höchstens 75 Byte");
   ok(ics(D, t1) === k, "gleicher Stand → gleiche Datei (kein Commit bei jedem Lauf)");
+  // Gemeinsamer Kalender U13 1 + U13 2 (vom Nutzer, 23.10.2026): beide Mannschaften, Pokal einmal, 1/2 im Titel.
+  const t2 = D.teams.find(t => t.id === 45397);
+  ok(t1.gruppe?.datei === "minimes-u13.ics" && t2.gruppe?.datei === "minimes-u13.ics" && t1.gruppe.name === "Minimes U13", "U13 1 und U13 2: ein Kalender „Minimes U13“");
+  const g = icsGruppe(D, t1.gruppe), ids = new Set([...eigeneSpiele(D, t1), ...eigeneSpiele(D, t2)].map(s => s.id));
+  ok((g.match(/BEGIN:VEVENT/g) || []).length === ids.size && ids.size > eigeneSpiele(D, t1).length, "Gruppe: jedes Spiel beider Mannschaften genau einmal");
+  ok(g.includes("Koeppchen U13 1") && g.includes("Koeppchen U13 2") && g.includes("X-WR-CALNAME:FC Koeppchen Minimes U13"), "Gruppe: 1 und 2 im Titel, Name Minimes U13");
+  ok(!D.teams.some(t => t.kat === "U15" && t.gruppe), "U15 (eine Mannschaft) ohne gemeinsamen Kalender");
   // Uhrzeit offen (00:00 Ortszeit) → ganztägig.
   const s9 = roh(DIV4, "CC", "2026-11-07T00:00:00+01:00", K1, G(13), null, null, { tag: 6 });
   const D9 = aufbereiten({ saison: { id: "20262027", name: "Saison 2026-2027" }, vereinsSpiele: [s1, s9],
