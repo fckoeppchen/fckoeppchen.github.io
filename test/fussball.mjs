@@ -710,6 +710,40 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(s2 && sa.live.length === 1 && sa.live[0].slug === "fc-avenir-beggen-mr1-fc-koeppchen-mr1-261024" && sa.live[0].ende === "ende:503" && !sa.live[0].wirHeim, "Mitteilung: Seniors-Spiel heute als Live-Kandidat");
   const mo = mEreignisse(neu, neu, null, Date.parse("2026-10-25T22:30:00+01:00")).ereignisse.find(e => e.id === "woche:2026-10-26");
   ok(mo?.text === "Diese Woche 1 Spiel, davon 1 zu Hause" && mo.ab === umLux("2026-10-26", 10), "Mitteilung: Unsere Woche, ab So 22 Uhr für Montag 10:00 vorbereitet");
+  // Kinder als Altersklasse (23.10.2026): beide U13-Spiele eines Tages in EINER Mitteilung, gewählt über „Minimes U13“.
+  {
+    const G = { name: "Minimes U13", datei: "minimes-u13.ics" };
+    const zwei = (mit3 = false, nur1 = false) => {
+      const d = neuD();
+      d.teams = [{ id: 1, ids: [1], n: K + " I", kat: "U13", reiter: "U13 1", klassen: ["g1"], mit: [], gruppe: G },
+                 { id: 2, ids: [2], n: K + " II", kat: "U13", reiter: "U13 2", klassen: ["g2"], mit: [], gruppe: G },
+                 { id: 3, ids: [3], n: K, kat: "Seniors", reiter: "Seniors 1", klassen: ["g3"], mit: [] }];
+      d.klassen = {
+        g1: { id: "g1", n: "U13 III", typ: "CC", ergebnisse: true, tabelle: null, spiele: [sp(601, "2026-10-24T10:00:00+02:00", 1, [1, K + " I"], [61, "FC Mondorf"], null, null, { ort: "Koeppchen" })] },
+        g2: { id: "g2", n: "U13 VI", typ: "CC", ergebnisse: true, tabelle: null, spiele: nur1 ? [] : [sp(602, "2026-10-24T14:00:00+02:00", 1, [62, "US Hostert"], [2, K + " II"])] },
+        g3: { id: "g3", n: "Promotion", typ: "CC", ergebnisse: true, tabelle: null, spiele: [sp(604, "2026-10-24T16:00:00+02:00", 1, [3, K], [63, "FC Titus"])] } };
+      if (mit3) d.klassen.g2.spiele.push(sp(603, "2026-10-24T17:00:00+02:00", 2, [2, K + " II"], [64, "FC Remich"]));
+      return d;
+    };
+    const fr7 = Date.parse("2026-10-23T07:10:00+02:00"), heuteM = l => l.ereignisse.filter(e => e.art === "heute" && e.id.startsWith("heute:"));
+    const a1 = mEreignisse(zwei(), zwei(), null, fr7), z = heuteM(a1);
+    ok(z.length === 1 && z[0].id === "heute:601+602" && z[0].titel === "Minimes U13 · Morgen 2 Spiele"
+       && z[0].text === "U13 1: 10:00 gegen FC Mondorf · 📍 Koeppchen\nU13 2: 14:00 gegen US Hostert" && z[0].ab === Date.parse("2026-10-23T19:00:00+02:00")
+       && z[0].bis === Date.parse("2026-10-24T14:00:00+02:00"), "Mitteilung: zwei U13-Spiele am Vorabend als eine Mitteilung");
+    ok(passtZu({ je: { "Minimes U13": ["heute"] } }, z[0]) && passtZu({ je: { "U13 2": ["heute"] } }, z[0]) && !passtZu({ je: { "Minimes U13": ["tabelle"] } }, z[0]), "Mitteilung: Auswahl „Minimes U13“ passt (alte „U13 2“ auch)");
+    // Erst ein Spiel bekannt, später das zweite (vor 19 Uhr) → eine gemeinsame, die einzelne fällt weg.
+    const e1 = mEreignisse(zwei(false, true), zwei(false, true), null, fr7);
+    ok(heuteM(e1).map(e => e.id).join() === "heute:601" && heuteM(e1)[0].titel === "U13 1 · Morgen Spiel" && heuteM(e1)[0].reiter.includes("Minimes U13"), "Mitteilung: ein Spiel allein wie bisher, mit Altersklasse");
+    const e2 = mEreignisse(zwei(false, true), zwei(), e1, Date.parse("2026-10-23T12:00:00+02:00"));
+    ok(heuteM(e2).map(e => e.id).join() === "heute:601+602", "Mitteilung: zweites Spiel vor 19 Uhr → noch nicht verschickte wird zusammengelegt");
+    // Nach 19 Uhr (schon verschickt): am Spieltag kein zweites Mal; ein neues Spiel kommt für sich.
+    const sa6 = mEreignisse(zwei(), zwei(), a1, Date.parse("2026-10-24T06:00:00+02:00"));
+    ok(heuteM(sa6).map(e => e.id).sort().join() === "heute:601+602,heute:604", "Mitteilung: am Spieltag nichts doppelt");
+    const sp3 = heuteM(mEreignisse(zwei(), zwei(true), sa6, Date.parse("2026-10-24T08:00:00+02:00")));
+    ok(sp3.map(e => e.id).sort().join() === "heute:601+602,heute:603,heute:604" && sp3.find(e => e.id === "heute:603").titel === "U13 2 · Heute Spiel", "Mitteilung: später dazugekommenes Spiel einzeln");
+    ok(heuteM(mEreignisse(zwei(), zwei(), null, Date.parse("2026-10-24T06:00:00+02:00"))).map(e => e.id).sort().join() === "heute:601+602,heute:604",
+       "Mitteilung: Seniors bleiben einzeln");
+  }
   // Live im Worker: Ticker erst mit echtem Inhalt; Endstand nach FLF-Reihenfolge (FuPa hier vertauscht).
   const c = sa.live[0], t0 = Date.parse(c.d) + 30 * 60e3;
   ok(liveEreignisse(c, { section: "LIVE", hs: null, as: null, ticker: null, tore: [] }, t0).length === 0, "Live: FuPas automatisches LIVE ohne Tickerer → nichts");

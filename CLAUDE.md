@@ -68,6 +68,15 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (bestehende Abos), sind aber nicht mehr verlinkt. Seniors unverändert. **Neu g** (vom Nutzer): auch U15 →
   „Scolaires U15“; Kinder-Kalender heißen **immer** nach der Altersklasse, auch bei nur einer Mannschaft — so bleibt
   das Abo gültig, wenn eine Mannschaft dazukommt oder wegfällt. Neue Altersklasse (U17) = Zeile in `AGES` + `GRUPPEN`.
+- **Mitteilungen: Kinder als Altersklasse** (vom Nutzer, 23.10.2026, Fassung neu h, „im Einklang mit dem Verein“): im Zahnrad
+  „Minimes U13“, „Scolaires U15“, „Poussins U11“, „Pupilles U9“ statt U13 1/U13 2 usw. (`mReiter`, Name aus `t.gruppe`), Seniors
+  einzeln. Alte Auswahl je Mannschaft wird beim Öffnen umgeschrieben (`mGruppiert`, Arten zusammen). Jedes Ereignis in
+  `mitteilungen.json` trägt in `reiter` zusätzlich den Gruppennamen (`mitGruppe`) — **Worker unverändert**, `passtZu` passt so.
+  Titel nennen weiter die Mannschaft („U13 2 · Tabelle“). Spieltag komplett/Tabelle bleiben je Mannschaft (eigene Klassen,
+  kommen zu verschiedenen Zeiten). **Morgen/Heute Spiel zusammengefasst:** alle Spiele einer Altersklasse am selben Tag in
+  einer Mitteilung („Minimes U13 · Morgen 2 Spiele“, je Zeile „U13 1: 10:00 gegen …“), id `heute:<id>+<id>`, Feld `spiele`;
+  ein Spiel allein wie bisher `heute:<id>`. Noch nicht fällige (ab > jetzt) werden mit neuen Spielen neu gebaut, schon fällige
+  decken ihre Spiele ab; ein später bekanntes Spiel kommt einzeln. Tests mit Gegenprobe.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
