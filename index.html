@@ -579,7 +579,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu b";
+const FASSUNG = "23.10.2026 neu c";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -939,10 +939,8 @@ async function holenWorkerAlle() {
 function wocheHtml(tage, alle, now) {
   const kurz = d => { const x = new Date(d + "T12:00:00"); return x.getDate() + "." + (x.getMonth() + 1) + "."; };
   const heim = alle.filter(sp => sp.heim).length;
-  const vorbei = alle.length && alle.every(sp => sp.gespielt || Date.parse(sp.d) < now - 3 * 3600e3);
-  const b = wocheBilanz(alle);
+  // Keine Bilanz (Siege/Remis/Niederlagen): vom Verein, 22.10.2026 — es geht nicht ums Gewinnen.
   const zus = !alle.length ? "Diese Woche keine Spiele."
-    : vorbei && b.s + b.u + b.n ? `${b.s} ${b.s === 1 ? "Sieg" : "Siege"}, ${b.u} Remis, ${b.n} ${b.n === 1 ? "Niederlage" : "Niederlagen"}`
     : `${alle.length} ${alle.length === 1 ? "Spiel" : "Spiele"}, davon ${heim} zu Hause`;
   let h = `<section class="card"><div class="chead"><h2>Unsere Woche</h2><div class="hint tagdatum">${kurz(tage[0])} – ${kurz(tage[6])}</div></div>
     <div class="cbody"><div class="kzeile">${koeppiBild(alle.length ? "fahne" : "ruhig")}<div><div class="wzus">${esc(zus)}</div>${MOTTO}</div></div></div></section>`;

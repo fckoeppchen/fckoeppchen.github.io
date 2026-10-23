@@ -50,7 +50,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   ein Spruch des Vereins (`SPRUECHE`, reihum: Zahl der gespielten Spiele + Versatz je Reiter (feste Reihenfolge der 7 Jugend-Reiter), vom Nutzer neu h — nächstes Spiel = nächster Spruch, Reiter fangen verschieden an; seit neu i 8 Sprüche — 5 vom Verein, 3 vom Nutzer aus Claudes Vorschlägen; jeder Reiter startet bei einem eigenen) + „Nächstes Spiel: …“; kein „Gewonnen“, kein
   Ergebnis. „Unsere Woche“: **Fahnen-Koeppi**, Woche ohne Spiele der ruhige (vom Nutzer, neu g). **Es geht nur um Koeppi** (vom Nutzer,
   Fassung neu f): Wochenbilanz-Text, farbige Ergebnisse, „Aufstieg … 🎉“, Mitteilungen bleiben wie sie waren
-  (in neu e war die Bilanz kurz raus — zurück). **Neu f, Bilder getauscht** (vom Nutzer): Morgen-Kasten
+  — damit waren nur diese drei Punkte gemeint; die **Wochenbilanz ist raus** (vom Verein „ohne Bilanz“; in neu f irrtümlich zurückgeholt, seit 23.10. neu c wieder weg, Kopf immer „n Spiele, davon m zu Hause“; `wocheBilanz` nur noch im Test). **Neu f, Bilder getauscht** (vom Nutzer): Morgen-Kasten
   `trinkflasche.png`, Heute vor Anpfiff `fuss-auf-ball.png`, ab Countdown und im Spiel `ball-faust.png`.
 - **Motto #mirvunderkoeppchen** (vom Nutzer, 23.10.2026, Fassung 23.10. neu a): grüne Zeile (`MOTTO`, `.motto`) unten im
   „Morgen Spieltag!“- und „Heute Spieltag!“-Kasten aller Mannschaften (auch Seniors), nicht bei Roude Léiw.
