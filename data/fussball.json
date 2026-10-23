@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-23T05:32:57.699Z",
+ "stand": "2026-10-23T05:48:47.630Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -103,7 +103,11 @@
    ],
    "reiter": "U15",
    "datei": "u15.ics",
-   "mit": []
+   "mit": [],
+   "gruppe": {
+    "name": "Scolaires U15",
+    "datei": "scolaires-u15.ics"
+   }
   },
   {
    "id": 45395,
