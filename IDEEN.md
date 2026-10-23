@@ -100,6 +100,14 @@ beim nächsten Öffnen der App selbst, das Abo bleibt. Worker einmal neu einfüg
 **Liveticker-Abfrage:** 100 000 Worker-Aufrufe/Tag gratis, der Ticker fragt je offenem Handy alle 20 s. Vom Nutzer:
 **60 s sind in Ordnung**, wenn das besser ist (dreimal weniger Aufrufe; die Minute zählt die App ohnehin selbst weiter).
 
+### Tore als Mitteilung — besprochen 23.10.2026, **später** (vom Nutzer: erst sehen, wie sich die anderen bewähren)
+
+Machbar und nicht teuer (~1–2 h): der Worker holt im Live-Fenster ohnehin jede Minute FuPa samt `tore`; je neuem Tor eine
+Mitteilung „Seniors 1 · Tor! ⚽“ / „Koeppchen 2:1 Beggen · 67. Name“ (id je Tor), Vorrang wie Live. Neuer Haken „Tore“ bei
+Seniors 1–3 und Roude Léiw, **beim Anhaken der Mannschaft NICHT von selbst an** (vom Nutzer: bewusst wählen). Grenzen: FuPa trägt
+oft Minuten später ein, Postausgang 10 Handys/min (bei vielen Handys mehrere Minuten Versatz), falsch getickerte Tore lassen sich
+nicht zurückholen, nur wo jemand tickert.
+
 ### FuPa um Erlaubnis fragen — wenn der Verein die App übernimmt (vom Nutzer, 22.10.2026)
 
 Solange nur er und ein paar Freunde die App nutzen, bleibt es so (private Nutzung, kein Geld, FuPa als
