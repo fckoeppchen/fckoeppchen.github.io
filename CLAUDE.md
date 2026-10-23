@@ -65,7 +65,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   `tools/fussball.mjs`, `t.gruppe` in der JSON, `icsGruppe`). Beide Reiter zeigen denselben Knopf „📅 Minimes U13
   im Kalender abonnieren“; im Kalender bleibt „Koeppchen U13 1/2“ im Titel (vom Nutzer: man muss wissen, wann
   welche spielt), Pokal einmal. Reiter bleiben getrennt. Einzel-`.ics` (u13-1 …) werden weiter geschrieben
-  (bestehende Abos), sind aber nicht mehr verlinkt. U15 und Seniors unverändert.
+  (bestehende Abos), sind aber nicht mehr verlinkt. Seniors unverändert. **Neu g** (vom Nutzer): auch U15 →
+  „Scolaires U15“; Kinder-Kalender heißen **immer** nach der Altersklasse, auch bei nur einer Mannschaft — so bleibt
+  das Abo gültig, wenn eine Mannschaft dazukommt oder wegfällt. Neue Altersklasse (U17) = Zeile in `AGES` + `GRUPPEN`.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

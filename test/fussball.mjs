@@ -233,7 +233,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const g = icsGruppe(D, t1.gruppe), ids = new Set([...eigeneSpiele(D, t1), ...eigeneSpiele(D, t2)].map(s => s.id));
   ok((g.match(/BEGIN:VEVENT/g) || []).length === ids.size && ids.size > eigeneSpiele(D, t1).length, "Gruppe: jedes Spiel beider Mannschaften genau einmal");
   ok(g.includes("Koeppchen U13 1") && g.includes("Koeppchen U13 2") && g.includes("X-WR-CALNAME:FC Koeppchen Minimes U13"), "Gruppe: 1 und 2 im Titel, Name Minimes U13");
-  ok(!D.teams.some(t => t.kat === "U15" && t.gruppe), "U15 (eine Mannschaft) ohne gemeinsamen Kalender");
+  ok(D.teams.filter(t => t.datei && t.kat === "Seniors").every(t => !t.gruppe), "Seniors: eigene Kalender, keine Gruppe");
   // Uhrzeit offen (00:00 Ortszeit) → ganztägig.
   const s9 = roh(DIV4, "CC", "2026-11-07T00:00:00+01:00", K1, G(13), null, null, { tag: 6 });
   const D9 = aufbereiten({ saison: { id: "20262027", name: "Saison 2026-2027" }, vereinsSpiele: [s1, s9],

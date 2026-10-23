@@ -25,7 +25,7 @@ const OUT = new URL("../data/fussball.json", import.meta.url);
 const MITT = new URL("../data/mitteilungen.json", import.meta.url);
 const KAL = new URL("../kalender/", import.meta.url);
 // Schreibweise vom Nutzer (23.10.2026).
-const GRUPPEN = { U13: "Minimes U13", U11: "Poussins U11", U9: "Pupilles U9" };
+const GRUPPEN = { U15: "Scolaires U15", U13: "Minimes U13", U11: "Poussins U11", U9: "Pupilles U9" };
 export const VEREIN = "FC Koeppchen Wormeldange";
 
 const M_FIELDS = `match{ id gameday matchDate isPlayed isForfait homeScore awayScore finalHomeScore finalAwayScore finalScoreComment }
@@ -388,11 +388,10 @@ export function aufbereiten({ saison, vereinsSpiele, klassen }) {
     t.datei = t.reiter.toLowerCase().replace(/\s+/g, "-") + ".ics";
     t.mit = alle.filter(o => !liga(o) && o.ak === t.ak && (!zusatz(o) || zusatz(o) === zusatz(t))).map(o => o.id);
   }
-  // Gemeinsamer Kalender je Kinder-Altersklasse mit mehr als einer Mannschaft (vom Nutzer, 23.10.2026).
-  for (const [kat, name] of Object.entries(GRUPPEN)) {
-    const g = alle.filter(liga).filter(t => t.kat === kat);
-    if (g.length > 1) for (const t of g) t.gruppe = { name, datei: name.toLowerCase().replace(/\s+/g, "-") + ".ics" };
-  }
+  // Kalender je Kinder-Altersklasse (vom Nutzer, 23.10.2026) — auch bei nur einer Mannschaft, damit das Abo
+  // gültig bleibt, wenn eine zweite dazukommt oder wegfällt.
+  for (const [kat, name] of Object.entries(GRUPPEN))
+    for (const t of alle.filter(liga).filter(t => t.kat === kat)) t.gruppe = { name, datei: name.toLowerCase().replace(/\s+/g, "-") + ".ics" };
 
   return {
     stand: new Date().toISOString(),
