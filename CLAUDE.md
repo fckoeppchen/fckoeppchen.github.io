@@ -201,7 +201,7 @@ oder „· 🔴 n Spiele gerade LIVE“. Reiter `"woche"`: alle Spiele aller Koe
 „🔴 LIVE · Minute“ (rot), 📍 Stadion bis die FLF ein Ergebnis hat; Tippen öffnet den Reiter
 (`data-gehe`). Kopf: Zeitraum, „n Spiele, davon m zu Hause“, nach dem Wochenende die Bilanz
 (`wocheBilanz`). „gleichzeitig mit …“ bei < 90 min Abstand und anderem Platz. Live: `liveKandidaten`/
-`holenWorkerAlle` fragen den Worker alle 20 s für jedes Spiel im Live-Fenster (Seniors 1–3), egal
+`holenWorkerAlle` fragen den Worker **seit 23.10. (Fassung neu i, vom Nutzer) jede Minute** (vorher 20 s; 100 000 Aufrufe/Tag gratis, der Ticker war der Hauptverbraucher) für jedes Spiel im Live-Fenster (Seniors 1–3), egal
 welcher Reiter offen ist; `WS` = Stand je FLF-Spiel. Bei vertauschtem FuPa-Spiel dreht die Woche die
 **Zahlen** (FLF-Namen bleiben), der Live-Kasten im Reiter noch die **Namen** — vom Nutzer entschieden:
 auch der Kasten bekommt die FLF-Reihenfolge, **aber erst nach dem Blick am Fr 23.10.** (67 von 68
@@ -298,7 +298,7 @@ Grenzen, dem Nutzer gesagt: leer ohne Tickerer, GitHub startet geplante Läufe o
 **raw.githubusercontent hält Dateien bis 5 min** (`max-age=300`, am 18.10. geprüft: `?t=` hilft
 **nicht**, zweiter Abruf mit anderem `t` war ein Cache-HIT) — über GitHub also 2–7 min Verzögerung.
 **Schneller Weg: Cloudflare Worker** (`tools/cloudflare-worker.js`, vom Nutzer gewünscht): App
-fragt `WORKER_URL?slug=<FuPa-Slug aus live.json>` alle 20 s — **oder, wenn live.json fürs laufende
+fragt `WORKER_URL?slug=<FuPa-Slug aus live.json>` jede Minute (bis 23.10. alle 20 s) — **oder, wenn live.json fürs laufende
 Spiel noch nichts hat, `?anstoss=<FLF-Anstoß>`**: Dann sucht der Worker selbst (`GET api.fupa.net/v1/teams/
 fc-koeppchen-m1-<2026-27>/matches?flavor=current`, Rückfall `past` → `passendesSpiel`, dritte
 Kopie, Test prüft). **Nicht über die Webseite**: die gab dem Worker bei Cloudflare am 18.10.

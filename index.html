@@ -403,7 +403,7 @@ function minutenBisAnpfiff(sp, now) {
 const countdownText = m => `Anpfiff in ${m} ${m === 1 ? "Minute" : "Minuten"}`;
 
 // Liegt bei diesem Reiter gerade ein Spiel im Live-Fenster? Dann fragt die App jede Minute nach.
-// Stand vom Cloudflare-Worker (tools/cloudflare-worker.js, ~20 s alt) über den von GitHub legen
+// Stand vom Cloudflare-Worker (tools/cloudflare-worker.js, bis ~80 s alt: 60 s Abfrage + 20 s Merken) über den von GitHub legen
 // (data/live.json, bis zu 7 min alt). Vom Worker kommt nur der Stand; welches Spiel, Anstoß und
 // Mannschaftsnamen bleiben aus live.json. Passt der Slug nicht (anderes Spiel), gilt GitHub.
 const WORKER_FELDER = ["hs", "as", "section", "period", "running", "minute", "minuteAt", "tore", "karten", "ticker"];
@@ -580,7 +580,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu h";
+const FASSUNG = "23.10.2026 neu i";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1095,13 +1095,14 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden) aktu
 // Während eines Spiels jede Minute den Live-Stand holen (nur, wenn die App sichtbar ist).
 // Neu gebaut wird nur, wenn sich der Stand geändert hat; sonst nur die Minute, damit nichts
 // Aufgeklapptes (z. B. „Klappt nicht?“) jede Minute wieder zuklappt.
-// Mit Worker alle 20 s (so lange merkt er sich den Stand), sonst jede Minute.
+// Jede Minute, auch mit Worker (vom Nutzer, 23.10.2026: vorher 20 s — der Worker hat 100 000 Aufrufe/Tag
+// gratis, und der Ticker war der Hauptverbraucher). Die Spielminute zählt die App selbst weiter.
 let LIVE_POLL = false;
 // Woche und Knopf: alle laufenden Spiele mit Ticker, egal welcher Reiter offen ist.
 setInterval(async () => {
   if (document.hidden || !D || !liveKandidaten(Date.now()).length) return;
   if (await holenWorkerAlle()) render();
-}, 20e3);
+}, 60e3);
 // Countdown: jede 10 s die Minuten nachführen; zum Beginn des Countdowns und beim Anpfiff neu bauen.
 let UMSCHALT = null;
 setInterval(() => {
@@ -1120,7 +1121,7 @@ setInterval(async () => {
   if (JSON.stringify(jetzt) !== vorher) { render(); return; }
   const el = document.getElementById("liveZeit");
   if (el && jetzt) el.textContent = liveZeit(jetzt, Date.now());
-}, WORKER_URL ? 20e3 : 60e3);
+}, 60e3);
 
 // Anonymer Zähler (Worker, ?zahlen): beim Start und nach ≥ 30 min im Hintergrund eine Meldung.
 // „neu“ beim ersten Mal am Tag — das merkt sich nur dieses Handy, der Worker bekommt keine Kennung.
