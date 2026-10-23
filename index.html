@@ -582,7 +582,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu p";
+const FASSUNG = "23.10.2026 neu q";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1289,7 +1289,7 @@ function installHtml() {
 // gemerkt auf dem Handy und beim Worker (?push=wahl). Jede Mannschaft zeigt nur, was es bei ihr gibt.
 const M_ART_TEXT = { heute: "Heute Spiel (10 Uhr)", spieltag: "Spieltag komplett", tabelle: "Tabelle aktualisiert",
   uhrzeit: "Uhrzeit steht fest (wenn vorher keine eingetragen war)", neu: "Neue Phase / neues Spiel", ticker: "Liveticker läuft", halbzeit: "Halbzeitstand (nur mit Ticker)", ende: "Endstand", woche: "Neue Woche",
-  tor: "Tore (fast live, nur mit Ticker — bewusst einschalten)" };
+  tor: "Tore (fast live, nur mit Ticker)" };
 const mKat = r => (D?.teams || []).find(t => t.reiter === r || t.gruppe?.name === r)?.kat || r;
 function mArtenFuer(r) {
   const k = mKat(r);
