@@ -54,6 +54,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   `trinkflasche.png`, Heute vor Anpfiff `fuss-auf-ball.png`, ab Countdown und im Spiel `ball-faust.png`.
 - **Motto #mirvunderkoeppchen** (vom Nutzer, 23.10.2026, Fassung 23.10. neu a): grüne Zeile (`MOTTO`, `.motto`) unten im
   „Morgen Spieltag!“- und „Heute Spieltag!“-Kasten aller Mannschaften (auch Seniors), nicht bei Roude Léiw.
+  Bei den Kindern (neu d, vom Nutzer) direkt unter dem Koeppi-Satz statt ganz unten.
   „Unsere Woche“ (neu b, vom Nutzer gewählt): im Wochen-Kopf unter „n Spiele, davon m zu Hause“ neben dem Koeppi.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
