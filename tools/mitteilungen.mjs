@@ -52,7 +52,7 @@ export function ereignisse(alt, neu, vorher, now) {
   // Jedes Spiel einmal, mit allen Reitern, zu denen es gehört (Pokal ohne I/II: U13 1 und U13 2).
   const jeSpiel = new Map();
   for (const t of teams) for (const sp of eigeneSpiele(neu, t)) {
-    const x = jeSpiel.get(sp.id) || { sp, reiter: [], kat: t.kat };
+    const x = jeSpiel.get(sp.id) || { sp, reiter: [], kat: t.kat, kurz: t.kurz || t.kat };
     x.reiter.push(t.reiter);
     jeSpiel.set(sp.id, x);
   }
@@ -60,8 +60,8 @@ export function ereignisse(alt, neu, vorher, now) {
   for (const k of Object.values(alt?.klassen || {})) for (const sp of k.spiele) altSp.set(sp.id, sp);
   const live = [];
 
-  for (const { sp, reiter, kat } of jeSpiel.values()) {
-    const name = reiter.length > 1 ? kat : reiter[0];
+  for (const { sp, reiter, kat, kurz: kz } of jeSpiel.values()) {
+    const name = reiter.length > 1 ? kz : reiter[0];   // Pokal ohne I/II: „MIN“
     const wirH = unsere.has(sp.h.id), gegner = kurz(wirH ? sp.a.n : sp.h.n), d = Date.parse(sp.d), tag = tagLux(d);
     const wo = sp.ort ? ` · 📍 ${sp.ort}` : "";
     const offen = ohneUhrzeit(sp.d);

@@ -75,7 +75,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   einzeln. Alte Auswahl je Mannschaft wird beim Öffnen umgeschrieben (`mGruppiert`, Arten zusammen). Jedes Ereignis in
   `mitteilungen.json` trägt in `reiter` zusätzlich den Gruppennamen (`mitGruppe`) — **Worker unverändert**, `passtZu` passt so.
   Titel nennen weiter die Mannschaft („U13 2 · Tabelle“). Spieltag komplett/Tabelle bleiben je Mannschaft (eigene Klassen,
-  kommen zu verschiedenen Zeiten). **Morgen/Heute Spiel zusammengefasst:** alle Spiele einer Altersklasse am selben Tag in
+  kommen zu verschiedenen Zeiten). **Morgen/Heute Spiel zusammengefasst (am selben Abend zurückgenommen, siehe unten):** alle Spiele einer Altersklasse am selben Tag in
   einer Mitteilung („Minimes U13 · Morgen 2 Spiele“, je Zeile „U13 1: 10:00 gegen …“), id `heute:<id>+<id>`, Feld `spiele`;
   ein Spiel allein wie bisher `heute:<id>`. Noch nicht fällige (ab > jetzt) werden mit neuen Spielen neu gebaut, schon fällige
   decken ihre Spiele ab; ein später bekanntes Spiel kommt einzeln. Tests mit Gegenprobe.
@@ -91,6 +91,14 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   „· angekommen auf 47“; zählt nur bekannte ids, ohne Kennung des Handys. Rechenzeit: Schlüssel und VAPID-Kopf (je Push-Dienst,
   6 h) bleiben im Speicher (`SCHLUESSEL`, `KOEPFE`). Tests: 25 nachgebaute Handys, Pakete, Vorrang, 410, nachts, abgelaufen,
   Höchstzahl, Quittung; Gegenproben gemacht. Mit altem Worker harmlos (Quittung → 405, kein 409).
+- **Kinder-Namen vom Verein** (23.10.2026, Fassung neu m): Reiter, Mitteilungen, Kalender-Titel und „Unsere Woche“ heißen
+  **SCO, MIN 1, MIN 2, POU 1, POU 2, PUP 1, PUP 2** (Pokal ohne I/II: „MIN“, „SCO“) statt U15, U13 1 … (`kurz` in `AGES`,
+  `reiter(t)`; `reiter(t, true)` gibt den alten Namen). Einzel-Kalender behalten ihren Dateinamen (`u13-1.ics`), Gruppen
+  („Minimes U13“ …) bleiben. `istKinder` geht jetzt nach der Altersklasse (vorher Name mit „U…“ — sonst wäre Koeppi weg gewesen),
+  die Spruch-Reihenfolge (`fest`) mit den neuen Namen in alter Reihenfolge. Statistik zählt ab da unter den neuen Namen.
+- **Kinder wieder je Spiel eine Mitteilung** (vom Nutzer, 23.10.2026 abends): „Pupilles U9 · Morgen 2 Spiele“ war auf dem
+  Sperrbildschirm abgeschnitten. Jetzt wieder `heute:<Spiel>` je Spiel („PUP 1 · Morgen Spiel“), gewählt wird weiter die
+  Altersklasse. Schon fällige alte Zusammenfassungen (`heute:a+b`) decken ihre Spiele ab, wartende fallen weg (Tests, Gegenprobe).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

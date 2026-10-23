@@ -356,7 +356,8 @@ function spieltagHeute(v, now) {
 
 // Koeppi (Maskottchen, vom Verein angeregt, Plan vom Nutzer 22.10.2026): nur bei den Kinder-Reitern
 // (U9, U11, U13, U15) und in „Unsere Woche“, nie bei den Seniors, nie im Live-Kasten.
-const istKinder = v => /^U(9|11|13|15)\b/.test(v?.team?.reiter || "");
+// Nach der Altersklasse, nicht nach dem Namen: Kinder heißen seit neu m „MIN 1“, „SCO“ … (vom Verein).
+const istKinder = v => ["U9", "U11", "U13", "U15"].includes(v?.team?.kat) || /^(U(9|11|13|15)|MIN|SCO|POU|PUP)\b/.test(v?.team?.reiter || "");
 // Morgen ein eigenes Spiel? Dann am Vortag der Kasten „Morgen Spieltag!“ (vom Nutzer, Variante A).
 function tagPlus(tag, n) { const [y, m, d] = tag.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10); }
 const tagNach = tag => tagPlus(tag, 1);
@@ -380,7 +381,7 @@ function nachDemSpiel(v, now) {
   // Reihum (vom Nutzer): mit jedem gespielten Spiel der nächste Spruch, und jeder Reiter fängt woanders an.
   // Fest je Spiel, damit er nicht bei jedem Neuaufbau wechselt.
   const nr = v.gespielt.filter(s => Date.parse(s.d) <= now).length;
-  const fest = ["U13 1", "U13 2", "U15", "U11 1", "U11 2", "U9 1", "U9 2"].indexOf(v.team.reiter);
+  const fest = ["MIN 1", "MIN 2", "SCO", "POU 1", "POU 2", "PUP 1", "PUP 2"].indexOf(v.team.reiter);   // Namen vom Verein, Reihenfolge wie vorher (U13 1, U13 2, U15 …)
   const versatz = fest >= 0 ? fest : [...v.team.reiter].reduce((x, c) => x + c.charCodeAt(0), 0);
   return { sp, spruch: SPRUECHE[(nr + versatz) % SPRUECHE.length] };
 }
@@ -556,7 +557,7 @@ function wocheSpiele(D, tage, now) {
     for (const sp of [...v.kommend, ...v.gespielt]) {
       if (seen.has(sp.id) || !tage.includes(tagLux(Date.parse(sp.d)))) continue;
       const wt = zuTeam.get(sp.wir);
-      seen.set(sp.id, { ...sp, reiter: wt?.reiter || wt?.kat || t.reiter, tab: wt?.reiter ? wt.id : t.id, heim: sp.h.id === sp.wir });
+      seen.set(sp.id, { ...sp, reiter: wt?.reiter || wt?.kurz || wt?.kat || t.reiter, tab: wt?.reiter ? wt.id : t.id, heim: sp.h.id === sp.wir });
     }
   }
   const alle = [...seen.values()].sort((a, b) => a.d.localeCompare(b.d) || a.reiter.localeCompare(b.reiter));
@@ -580,7 +581,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu l";
+const FASSUNG = "23.10.2026 neu m";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action

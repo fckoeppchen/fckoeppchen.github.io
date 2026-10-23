@@ -61,7 +61,7 @@ function gleich(a, b, text) { ok(JSON.stringify(a) === JSON.stringify(b), text +
   const zwei = [sp(3, "2026-10-10T14:00:00+02:00", 1, 1), sieg].reverse();
   const s3 = M.nachDemSpiel(v("U13 1", [], zwei), di);
   ok(s3.spruch !== s1.spruch, "nächstes Spiel: anderer Spruch");
-  const jeReiter = new Set(["U13 1", "U13 2", "U15", "U11 1", "U11 2", "U9 1", "U9 2"].map(r => M.nachDemSpiel(v(r, [], [sieg]), di).spruch));
+  const jeReiter = new Set(["MIN 1", "MIN 2", "SCO", "POU 1", "POU 2", "PUP 1", "PUP 2"].map(r => M.nachDemSpiel(v(r, [], [sieg]), di).spruch));
   ok(jeReiter.size === 7, "jeder Jugend-Reiter fängt bei einem eigenen Spruch an (" + jeReiter.size + " von 7)");
   ok(M.nachDemSpiel(v("Seniors 1", [], [sieg]), di) === null, "Seniors: kein Streifen");
   ok(M.nachDemSpiel(v("U13 1", [sp(5, sa)], [sieg]), fr18) === null, "Vortag des nächsten Spiels: Streifen weg");
@@ -141,8 +141,9 @@ gleich(tabs.map(t => t.id), [45396, 45397], "Reiter nur für Mannschaften mit Li
 gleich(verein.map(t => t.id), [45400, 45398], "Pokalmannschaften ohne I/II zählen zum Verein");
 ok(M.anzeige("FC Koeppchen Wormeldange II") === "Koeppchen II", "eigener Name gekürzt");
 ok(M.anzeige("US Sandweiler") === "US Sandweiler", "Gegner unverändert");
-gleich(D.teams.map(t => reiter(t)), ["U15", "U13", "U13 1", "U13 2"], "Reiter-Beschriftung und Reihenfolge: U15 vor U13 1 / U13 2");
-gleich(D.teams.map(t => t.reiter || null), [null, null, "U13 1", "U13 2"], "Reiter nur für Mannschaften mit Liga");
+gleich(D.teams.map(t => reiter(t)), ["SCO", "MIN", "MIN 1", "MIN 2"], "Reiter-Beschriftung (vom Verein: SCO, MIN 1 …) und Reihenfolge: SCO vor MIN 1 / MIN 2");
+gleich(D.teams.map(t => t.reiter || null), [null, null, "MIN 1", "MIN 2"], "Reiter nur für Mannschaften mit Liga");
+gleich(D.teams.filter(t => t.datei).map(t => t.datei), ["u13-1.ics", "u13-2.ics"], "Einzel-Kalender behalten den alten Dateinamen (bestehende Abos)");
 gleich(D.teams.find(t => t.id === 45396).mit, [45398], "U13-Pokal hängt an U13 1, nicht der U15-Pokal");
 gleich([{ n: "FC Koeppchen Wormeldange", kat: "Seniors", ohne: 1 }, { n: "FC Koeppchen Wormeldange I", kat: "Seniors", plus: 1 },
         { n: "FC Koeppchen Wormeldange II", kat: "Seniors", plus: 1 }].map(t => reiter(t)),
@@ -202,7 +203,7 @@ ok(v4.status === null, "laufende Phase: kein Abschlusshinweis");
   const DP = aufbereiten({ saison: { id: "20262027", name: "Saison 2026-2027" }, vereinsSpiele: [p3, s1, s2, p3b],
     klassen: { 19189: { spiele: [s1, s2], tabelle: [rank(2, K1, 11)] },
                20500: { spiele: [p3, p3b], tabelle: [rank(1, K1neu, 3), rank(2, G(14), 0)] } } });
-  const t1 = DP.teams.filter(t => t.reiter === "U13 1");
+  const t1 = DP.teams.filter(t => t.reiter === "MIN 1");
   ok(t1.length === 1, "neue FLF-Nummer in Phase 3: weiterhin ein Reiter U13 1");
   gleich(t1[0].ids, [45396, 49999], "beide Nummern an derselben Mannschaft, erste bleibt id");
   const vp = M.sicht(DP, 45396, Date.parse("2027-03-01T12:00:00+01:00"));
@@ -222,8 +223,8 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   gleich((k.match(/BEGIN:VEVENT/g) || []).length, eigeneSpiele(D, t1).length, "ein Termin je eigenem Spiel samt Pokal");
   ok(k.includes("UID:flf-" + s5.match.id + "@fc-koeppchen"), "UID = FLF-Spiel-ID");
   ok(k.includes("DTSTART:20261024T120000Z") && k.includes("DTEND:20261024T134500Z"), "Pokal 14:00 Ortszeit = 12:00 UTC, 1:45 h");
-  ok(k.includes("SUMMARY:⚽ Koeppchen U13 1 – Gegner 2 9:0"), "Ergebnis im Titel, Mannschaft wie der Reiter");
-  ok(k.includes("SUMMARY:⚽ Koeppchen U13 – Gegner 6 (Pokal)"), "Pokal ohne I/II: Koeppchen U13");
+  ok(k.includes("SUMMARY:⚽ Koeppchen MIN 1 – Gegner 2 9:0"), "Ergebnis im Titel, Mannschaft wie der Reiter");
+  ok(k.includes("SUMMARY:⚽ Koeppchen MIN – Gegner 6 (Pokal)"), "Pokal ohne I/II: Koeppchen MIN");
   ok(k.includes("(Pokal)"), "Pokal gekennzeichnet");
   ok(k.split("\r\n").every(z => Buffer.byteLength(z, "utf8") <= 75), "Zeilen höchstens 75 Byte");
   ok(ics(D, t1) === k, "gleicher Stand → gleiche Datei (kein Commit bei jedem Lauf)");
@@ -232,7 +233,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(t1.gruppe?.datei === "minimes-u13.ics" && t2.gruppe?.datei === "minimes-u13.ics" && t1.gruppe.name === "Minimes U13", "U13 1 und U13 2: ein Kalender „Minimes U13“");
   const g = icsGruppe(D, t1.gruppe), ids = new Set([...eigeneSpiele(D, t1), ...eigeneSpiele(D, t2)].map(s => s.id));
   ok((g.match(/BEGIN:VEVENT/g) || []).length === ids.size && ids.size > eigeneSpiele(D, t1).length, "Gruppe: jedes Spiel beider Mannschaften genau einmal");
-  ok(g.includes("Koeppchen U13 1") && g.includes("Koeppchen U13 2") && g.includes("X-WR-CALNAME:FC Koeppchen Minimes U13"), "Gruppe: 1 und 2 im Titel, Name Minimes U13");
+  ok(g.includes("Koeppchen MIN 1") && g.includes("Koeppchen MIN 2") && g.includes("X-WR-CALNAME:FC Koeppchen Minimes U13"), "Gruppe: 1 und 2 im Titel, Name Minimes U13");
   ok(D.teams.filter(t => t.datei && t.kat === "Seniors").every(t => !t.gruppe), "Seniors: eigene Kalender, keine Gruppe");
   // Uhrzeit offen (00:00 Ortszeit) → ganztägig.
   const s9 = roh(DIV4, "CC", "2026-11-07T00:00:00+01:00", K1, G(13), null, null, { tag: 6 });
@@ -343,7 +344,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     gleich(M.wocheTage(Date.parse("2026-10-25T22:00:00+01:00"))[0], "2026-10-26", "Sonntag ab 22 Uhr: nächste Woche (auch über die Zeitumstellung)");
     const w = M.wocheSpiele(D, M.wocheTage(di), di);
     ok(w.filter(sp => sp.d.startsWith("2026-10-24")).length === 1, "Pokalspiel nur einmal, obwohl bei U13 1 und U13 2");
-    ok(w.find(sp => sp.d.startsWith("2026-10-24"))?.reiter === "U13", "Pokal ohne I/II heißt „U13“");
+    ok(w.find(sp => sp.d.startsWith("2026-10-24"))?.reiter === "MIN", "Pokal ohne I/II heißt „MIN“");
     ok(!w.some(sp => sp.d.startsWith("2026-10-17")), "Spiel der Vorwoche nicht dabei");
     const bil = M.wocheBilanz([{ gespielt: true, heim: true, hs: 2, as: 1 }, { gespielt: true, heim: false, hs: 2, as: 1 },
       { gespielt: true, heim: true, hs: 1, as: 1 }, { gespielt: true, heim: true, hs: 3, as: 0, erg: false }]);

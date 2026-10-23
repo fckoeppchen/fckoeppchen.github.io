@@ -14,12 +14,14 @@ export const CLUB = 1003703;          // Wormeldange FC Koeppchen
 // am Ende als „Seniors 2“ (Réserves I) und „Seniors 3“ (Réserves II): `plus` verschiebt die
 // Nummer, `ohne` ist die Nummer einer Mannschaft ohne I/II. U7 hat noch keine Spiele (18.10.2026).
 // `reihe` = Platz der Reiter (vom Nutzer, 23.10.2026: U15 vor U13); der Index bleibt, die Tests hängen daran.
+// `kurz` = Name der Kinder-Mannschaften in Reitern, Mitteilungen und Kalender (vom Verein, 23.10.2026: „MIN 1“
+// statt „U13 1“, SCO, POU, PUP). Die Dateinamen der Einzel-Kalender bleiben beim alten Namen (u13-1.ics).
 export const AGES = [
   { id: 1,  kat: "Seniors", n: "Seniors", ohne: 1, reihe: 0 },
-  { id: 4,  kat: "U13", n: "U13 Minimes", reihe: 2 },
-  { id: 11, kat: "U15", n: "U15 Scolaires", reihe: 1 },
-  { id: 7,  kat: "U11", n: "U11 Poussins", reihe: 3 },
-  { id: 5,  kat: "U9",  n: "U9 Pupilles", reihe: 4 },
+  { id: 4,  kat: "U13", n: "U13 Minimes", reihe: 2, kurz: "MIN" },
+  { id: 11, kat: "U15", n: "U15 Scolaires", reihe: 1, kurz: "SCO" },
+  { id: 7,  kat: "U11", n: "U11 Poussins", reihe: 3, kurz: "POU" },
+  { id: 5,  kat: "U9",  n: "U9 Pupilles", reihe: 4, kurz: "PUP" },
   { id: 9999, kat: "Seniors", n: "Seniors Réserves", plus: 1, reihe: 5 },
 ];
 const OUT = new URL("../data/fussball.json", import.meta.url);
@@ -95,10 +97,10 @@ export function tabelle(rankings) {
 // Reiter: „U13 1“, „U13 2“ (vom Nutzer so gewünscht, arabisch statt I/II). Réserves I/II
 // heißen „Seniors 2/3“ (`plus`), die erste Mannschaft ohne I/II „Seniors 1“ (`ohne`).
 const ARAB = { I: 1, II: 2, III: 3, IV: 4, V: 5 };
-export function reiter(t) {
+export function reiter(t, lang = false) {
   const r = t.n.replace(VEREIN, "").trim();
   const nr = ARAB[r] ? ARAB[r] + (t.plus || 0) : r || t.ohne;
-  return [t.kat, nr].filter(Boolean).join(" ") || t.n;
+  return [(!lang && t.kurz) || t.kat, nr].filter(Boolean).join(" ") || t.n;
 }
 
 // Alle Spiele einer Reiter-Mannschaft (eigene + angehängte Pokalmannschaften), nach Datum.
@@ -356,7 +358,7 @@ export function aufbereiten({ saison, vereinsSpiele, klassen }) {
       const k = wer(t, m.ak);
       if (!teams.has(k))
         teams.set(k, { id: t.id, ids: [], n: t.name, ak: m.ak, kat: AGES[m.ak].kat, alter: AGES[m.ak].n,
-                       plus: AGES[m.ak].plus, ohne: AGES[m.ak].ohne, klassen: [] });
+                       plus: AGES[m.ak].plus, ohne: AGES[m.ak].ohne, kurz: AGES[m.ak].kurz, klassen: [] });
       teams.get(k).ids.push(t.id);
       nachId.set(t.id, teams.get(k));
     }
@@ -386,7 +388,7 @@ export function aufbereiten({ saison, vereinsSpiele, klassen }) {
   const zusatz = t => t.n.replace(VEREIN, "").trim();
   for (const t of alle.filter(liga)) {
     t.reiter = reiter(t);
-    t.datei = t.reiter.toLowerCase().replace(/\s+/g, "-") + ".ics";
+    t.datei = reiter(t, true).toLowerCase().replace(/\s+/g, "-") + ".ics";   // alter Name: bestehende Abos
     t.mit = alle.filter(o => !liga(o) && o.ak === t.ak && (!zusatz(o) || zusatz(o) === zusatz(t))).map(o => o.id);
   }
   // Kalender je Kinder-Altersklasse (vom Nutzer, 23.10.2026) — auch bei nur einer Mannschaft, damit das Abo
