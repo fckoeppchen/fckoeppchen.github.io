@@ -798,7 +798,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     async run() {
       const [x, y] = this.a;
       if (sql.startsWith("INSERT OR IGNORE INTO push_schluessel") && !T.k) T.k = { privat: x, oeffentlich: y };
-      if (sql.startsWith("INSERT OR IGNORE INTO gemeldet")) T.gemeldet.has(x) || T.gemeldet.set(x, sql.includes("passend") ? { zeit: y, an: 0, passend: this.a[4] } : { zeit: y, verpasst: 1 });
+      if (sql.startsWith("INSERT OR IGNORE INTO gemeldet")) T.gemeldet.has(x) || T.gemeldet.set(x, sql.includes("passend") ? { zeit: y, an: 0, passend: this.a[4], text: this.a[5] } : { zeit: y, verpasst: 1 });
       if (sql.startsWith("UPDATE gemeldet SET angekommen")) { const g = T.gemeldet.get(x); if (g) g.angekommen = (g.angekommen || 0) + 1; }
       else if (sql.startsWith("UPDATE gemeldet SET an")) T.gemeldet.get(x).an++;
       if (sql.startsWith("UPDATE gemeldet SET fehler")) { const g = T.gemeldet.get(x); g.fehler = !g.fehler ? y : g.fehler.includes(y) ? g.fehler : g.fehler + ", " + y; }
@@ -839,6 +839,9 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(an.length === 1, "Versand: dasselbe nie zweimal");
   await mitteilungenSenden(db, spiel);
   ok(an.join() === "U13,SEN" && T.gemeldet.has("ticker:503"), "Versand: Liveticker läuft an Seniors 2");
+  await mitteilungenSenden(db, spiel + 60e3);
+  ok(an.join() === "U13,SEN" && !T.offen.has("ticker:503") && T.gemeldet.get("ticker:503").text.startsWith("Heute tickert FuPa"),
+     "Versand: Verschicktes liegt nicht jede Minute neu in der Warteschlange, Text gemerkt");
   fupa = { ...fupa, section: "POST", homeGoal: 1, awayGoal: 4 };
   await mitteilungenSenden(db, Date.parse("2026-10-24T23:00:00+02:00"));   // letzte Minute des Live-Fensters, schon nach 23 Uhr
   ok(an.length === 2 && T.offen.has("ende:503"), "Versand: Endstand nach 23 Uhr wartet");
@@ -901,9 +904,11 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
      && mittStatus(e0, { verpasst: 1, ab: Date.parse("2026-10-23T23:00:00+02:00") }, 0) === "✗ nicht verschickt (abgelaufen, war nachts fällig)", "Übersicht: Stand je Mitteilung");
   const seite = await mitteilungenStand({ prepare: sql => ({ async all() {
     if (sql.includes("FROM abos")) return { results: [{ wahl: '{"je":{"U13 2":["tabelle"],"Seniors 1":["ticker","ende"]}}' }, { wahl: '{"je":{"U13 2":["tabelle","heute"]}}' }] };
-    if (sql.includes("FROM gemeldet")) return { results: [{ id: "heute:103", zeit: Date.parse("2026-10-23T19:00:00+02:00"), an: 1, passend: 1, titel: "U13 1 · Morgen Spiel" }] };
+    if (sql.includes("FROM gemeldet")) return { results: [{ id: "heute:103", zeit: Date.parse("2026-10-23T19:00:00+02:00"), an: 1, passend: 1, titel: "U13 1 · Morgen Spiel" },
+      { id: "ende:9", zeit: Date.parse("2026-10-23T21:58:00+02:00"), an: 1, passend: 1, titel: "Seniors 3 · Endstand", text: "Avenir Beggen 2:2 Koeppchen II" }] };
     return { results: [] }; } }) }, sa, Date.parse("2026-10-24T08:00:00+02:00"));
-  ok(seite.includes("2 Handys angemeldet, davon 2 mit Auswahl") && seite.includes("<td>U13 2</td><td class=\"st\">Tabelle 2 · Spiel steht an 1</td>") && seite.includes("Ticker 1 · Endstand 1") && seite.includes("✓ Fr., 23.10., 19:00 an 1 von 1 Handys") && seite.includes("Heute mit Liveticker") && seite.includes("⏳ wartet"), "Übersicht: Seite mit Abos, Live und Stand");
+  ok(seite.includes("2 Handys angemeldet, davon 2 mit Auswahl") && seite.includes("<td>U13 2</td><td class=\"st\">Tabelle 2 · Spiel steht an 1</td>") && seite.includes("Ticker 1 · Endstand 1") && seite.includes("✓ Fr., 23.10., 19:00 an 1 von 1 Handys") && seite.includes("Heute mit Liveticker") && seite.includes("⏳ wartet")
+     && seite.includes("Seniors 3 · Endstand<br><small>Avenir Beggen 2:2 Koeppchen II</small>"), "Übersicht: Seite mit Abos, Live und Stand, Text auch nach dem Versand");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);

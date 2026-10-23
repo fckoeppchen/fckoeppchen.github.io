@@ -427,7 +427,7 @@ export function liveEreignisse(c, k, now) {
   return aus;
 }
 async function gemeldetSpalten(db) {
-  for (const sp of ["titel TEXT", "ab INTEGER", "an INTEGER", "passend INTEGER", "fehler TEXT", "verpasst INTEGER", "angekommen INTEGER"])
+  for (const sp of ["titel TEXT", "ab INTEGER", "an INTEGER", "passend INTEGER", "fehler TEXT", "verpasst INTEGER", "angekommen INTEGER", "text TEXT"])
     try { await db.prepare("ALTER TABLE gemeldet ADD COLUMN " + sp).run(); } catch (e) { /* gibt es schon */ }
 }
 // Übersicht auf der Zahlen-Seite (vom Nutzer, 21.10.2026): was geplant war, was rausging, an wie viele
@@ -451,7 +451,7 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
   const wartend = new Map((await alle("SELECT id, COUNT(*) AS n FROM postausgang GROUP BY id")).map(z => [z.id, z.n]));
   const ev = new Map();
   for (const e of [...(datei?.ereignisse || []), ...offen]) ev.set(e.id, e);
-  for (const [id, g] of gem) if (!ev.has(id)) ev.set(id, { id, titel: g.titel || id, ab: g.ab || g.zeit });
+  for (const [id, g] of gem) if (!ev.has(id)) ev.set(id, { id, titel: g.titel || id, text: g.text || "", ab: g.ab || g.zeit });   // Text seit 23.10. mit gespeichert
   const zeilen = [...ev.values()].sort((a, b) => b.ab - a.ab).slice(0, 50)
     .map(e => `<tr><td>${esc(e.titel)}${e.text ? `<br><small>${esc(e.text)}</small>` : ""}</td><td>${zeitLux(e.ab)}</td><td class="st">${esc(mittStatus(e, gem.get(e.id), now, wartend.get(e.id) || 0))}</td></tr>`).join("");
   // Gewählt je Mannschaft und Art, als Anzahl Handys (wer was gewählt hat, steht nirgends).
@@ -505,8 +505,9 @@ export async function mitteilungenSenden(db, now = Date.now()) {
       const r = await fetch(API + slug, { headers: { accept: "application/json" } });
       if (!r.ok) continue;
       const f = await r.json();
+      // Schon Verschicktes nicht jede Minute neu in die Warteschlange legen (sparte nur Schreibzugriffe).
       for (const e of liveEreignisse(c, { ...kuerzen(f), toreRoh: toreRoh(f) }, now))
-        await db.prepare("INSERT OR IGNORE INTO offen (id, ereignis) VALUES (?1, ?2)").bind(e.id, JSON.stringify(e)).run();
+        if (!(await schon(e.id))) await db.prepare("INSERT OR IGNORE INTO offen (id, ereignis) VALUES (?1, ?2)").bind(e.id, JSON.stringify(e)).run();
     } catch (e) { console.log("Live", c.id, e.message); }
   }
   const offen = ((await db.prepare("SELECT ereignis FROM offen").all()).results || []).map(z => JSON.parse(z.ereignis));
@@ -529,7 +530,7 @@ export async function mitteilungenSenden(db, now = Date.now()) {
       if (passtZu(wahl, e)) zeilen.push(db.prepare("INSERT OR IGNORE INTO postausgang (id, endpoint, nachricht, bis, prio, zeit) VALUES (?1, ?2, ?3, ?4, ?5, ?6)")
         .bind(e.id, a.endpoint, nachricht, e.bis, LIVE_ARTEN.includes(e.art) ? 0 : 1, now));
     }
-    await db.batch([db.prepare("INSERT OR IGNORE INTO gemeldet (id, zeit, titel, ab, an, passend) VALUES (?1, ?2, ?3, ?4, 0, ?5)").bind(e.id, now, e.titel, e.ab, zeilen.length),
+    await db.batch([db.prepare("INSERT OR IGNORE INTO gemeldet (id, zeit, titel, ab, an, passend, text) VALUES (?1, ?2, ?3, ?4, 0, ?5, ?6)").bind(e.id, now, e.titel, e.ab, zeilen.length, e.text || null),
                     db.prepare("DELETE FROM offen WHERE id = ?1").bind(e.id), ...zeilen]);
   }
   // Postausgang: je Takt höchstens PAKET Handys, Live (Ticker, Halbzeit, Endstand) zuerst, sonst der Reihe nach.

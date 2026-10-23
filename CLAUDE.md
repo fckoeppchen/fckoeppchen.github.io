@@ -108,6 +108,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Verschossene Elfmeter im Live-Kasten** (vom Nutzer, 23.10.2026, Fassung neu o): FuPa-`highlights` type `penaltyfail` →
   Feld `fehl` (Worker `kuerzen` und `liveAus`, beide gleich, Test), Zeile „❌ 55. Name · Elfmeter verschossen (Mannschaft)“.
   Keine Mitteilung dafür. FuPa liefert **keine Vorlagengeber und keine Gelben Karten** (am 23.10. in 7 Spielen geprüft).
+- **Text verschickter Mitteilungen gemerkt** (23.10.2026 abends, vom Nutzer): `gemeldet.text`, damit `?zahlen` auch beim Endstand den
+  Text zeigt (vorher nur, solange eine Kopie in `offen` lag). Live-Ereignisse, die schon verschickt sind, legt der Worker nicht mehr
+  jede Minute neu in `offen` (sparte nur Schreibzugriffe). Liste auf `?zahlen`: 7 Tage, höchstens 50; `gemeldet` 30 Tage.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
