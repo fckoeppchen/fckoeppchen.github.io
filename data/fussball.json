@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-23T08:53:03.788Z",
+ "stand": "2026-10-23T18:08:58.940Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -39,12 +39,13 @@
    "ak": 2,
    "kat": "U15",
    "alter": "U15 Scolaires",
+   "kurz": "SCO",
    "klassen": [
     19563,
     19115,
     19599
    ],
-   "reiter": "U15",
+   "reiter": "SCO",
    "datei": "u15.ics",
    "mit": [],
    "gruppe": {
@@ -61,6 +62,7 @@
    "ak": 1,
    "kat": "U13",
    "alter": "U13 Minimes",
+   "kurz": "MIN",
    "klassen": [
     19615
    ]
@@ -74,10 +76,11 @@
    "ak": 1,
    "kat": "U13",
    "alter": "U13 Minimes",
+   "kurz": "MIN",
    "klassen": [
     19189
    ],
-   "reiter": "U13 1",
+   "reiter": "MIN 1",
    "datei": "u13-1.ics",
    "mit": [
     45398
@@ -96,10 +99,11 @@
    "ak": 1,
    "kat": "U13",
    "alter": "U13 Minimes",
+   "kurz": "MIN",
    "klassen": [
     19233
    ],
-   "reiter": "U13 2",
+   "reiter": "MIN 2",
    "datei": "u13-2.ics",
    "mit": [
     45398
@@ -118,11 +122,12 @@
    "ak": 3,
    "kat": "U11",
    "alter": "U11 Poussins",
+   "kurz": "POU",
    "klassen": [
     19563,
     19361
    ],
-   "reiter": "U11 1",
+   "reiter": "POU 1",
    "datei": "u11-1.ics",
    "mit": [],
    "gruppe": {
@@ -139,10 +144,11 @@
    "ak": 3,
    "kat": "U11",
    "alter": "U11 Poussins",
+   "kurz": "POU",
    "klassen": [
     19369
    ],
-   "reiter": "U11 2",
+   "reiter": "POU 2",
    "datei": "u11-2.ics",
    "mit": [],
    "gruppe": {
@@ -159,11 +165,12 @@
    "ak": 4,
    "kat": "U9",
    "alter": "U9 Pupilles",
+   "kurz": "PUP",
    "klassen": [
     19563,
     19447
    ],
-   "reiter": "U9 1",
+   "reiter": "PUP 1",
    "datei": "u9-1.ics",
    "mit": [],
    "gruppe": {
@@ -180,10 +187,11 @@
    "ak": 4,
    "kat": "U9",
    "alter": "U9 Pupilles",
+   "kurz": "PUP",
    "klassen": [
     19451
    ],
-   "reiter": "U9 2",
+   "reiter": "PUP 2",
    "datei": "u9-2.ics",
    "mit": [],
    "gruppe": {
@@ -17177,6 +17185,44 @@
      "ort": "Terrain Op Birkelt (Larochette, synth.)"
     },
     {
+     "id": 13856,
+     "d": "2026-10-24T00:00:01+02:00",
+     "tag": 1,
+     "h": {
+      "id": 44939,
+      "n": "FC Mondercange"
+     },
+     "a": {
+      "id": 45796,
+      "n": "Sporting Mertzig"
+     },
+     "hs": 3,
+     "as": 0,
+     "gespielt": true,
+     "forfait": true,
+     "bem": "FF",
+     "ort": "Terrain 2 (Mondercange, synth.)"
+    },
+    {
+     "id": 13862,
+     "d": "2026-10-24T00:00:01+02:00",
+     "tag": 1,
+     "h": {
+      "id": 46531,
+      "n": "Jeunesse Useldange"
+     },
+     "a": {
+      "id": 45138,
+      "n": "US Esch-Alzette"
+     },
+     "hs": 3,
+     "as": 0,
+     "gespielt": true,
+     "forfait": true,
+     "bem": "FF",
+     "ort": "Stade Rue de la Gare (Useldange)"
+    },
+    {
      "id": 13834,
      "d": "2026-10-24T13:30:00+02:00",
      "tag": 1,
@@ -17247,24 +17293,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
-    },
-    {
-     "id": 13856,
-     "d": "2026-10-24T14:00:00+02:00",
-     "tag": 1,
-     "h": {
-      "id": 44939,
-      "n": "FC Mondercange"
-     },
-     "a": {
-      "id": 45796,
-      "n": "Sporting Mertzig"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Mondercange, synth.)"
     },
     {
      "id": 13860,
@@ -17463,24 +17491,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Rodange, synth.)"
-    },
-    {
-     "id": 13862,
-     "d": "2026-10-24T15:00:00+02:00",
-     "tag": 1,
-     "h": {
-      "id": 46531,
-      "n": "Jeunesse Useldange"
-     },
-     "a": {
-      "id": 45138,
-      "n": "US Esch-Alzette"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Rue de la Gare (Useldange)"
     },
     {
      "id": 13839,
