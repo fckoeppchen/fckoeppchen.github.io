@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-23T18:08:58.940Z",
+ "stand": "2026-10-23T20:16:23.634Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -7342,13 +7342,13 @@
      "pl": 4,
      "id": 45708,
      "n": "Alisontia Steinsel",
-     "sp": 5,
+     "sp": 6,
      "s": 3,
-     "u": 0,
+     "u": 1,
      "nl": 2,
-     "t": 16,
-     "g": 8,
-     "pkt": 9
+     "t": 17,
+     "g": 9,
+     "pkt": 10
     },
     {
      "pl": 5,
@@ -7366,13 +7366,13 @@
      "pl": 6,
      "id": 45607,
      "n": "FC Munsbach",
-     "sp": 5,
+     "sp": 6,
      "s": 2,
-     "u": 1,
+     "u": 2,
      "nl": 2,
-     "t": 14,
-     "g": 19,
-     "pkt": 7
+     "t": 15,
+     "g": 20,
+     "pkt": 8
     },
     {
      "pl": 7,
@@ -8021,9 +8021,9 @@
       "id": 45607,
       "n": "FC Munsbach"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Henri Bausch (Steinsel, synth.)"
     },
