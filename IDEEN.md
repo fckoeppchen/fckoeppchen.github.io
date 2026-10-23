@@ -100,6 +100,14 @@ beim nächsten Öffnen der App selbst, das Abo bleibt. Worker einmal neu einfüg
 **Liveticker-Abfrage:** 100 000 Worker-Aufrufe/Tag gratis, der Ticker fragt je offenem Handy alle 20 s. Vom Nutzer:
 **60 s sind in Ordnung**, wenn das besser ist (dreimal weniger Aufrufe; die Minute zählt die App ohnehin selbst weiter).
 
+### Neuigkeiten-Hinweis in der App — besprochen 23.10.2026, **beim Freischalten der Mitteilungen zum ersten Mal**
+
+Grüner Kasten ganz oben auf jedem Reiter („🆕 Neu: Mitteilungen – werden phasenweise freigeschaltet …“) mit ✕; weggeklickt
+merkt es sich das Handy (localStorage, je Kennung). Nicht an eine Fassung gebunden: jeder Hinweis hat Kennung und **Enddatum**
+(z. B. 4 Wochen) — wer selten öffnet, sieht ihn trotzdem; nach dem Enddatum weg. Neuer Hinweis = neue Kennung (z. B. später der
+Ticker), mehrere gleichzeitig → nur der neueste. Lieber als Push an alle (erreicht nur, wer Mitteilungen schon hat). Text, Dauer,
+Platz erst dann festlegen (vom Nutzer). App geht am 26.10. **ohne** Mitteilungen raus.
+
 ### Tore als Mitteilung — besprochen 23.10.2026, **später** (vom Nutzer: erst sehen, wie sich die anderen bewähren)
 
 Machbar und nicht teuer (~1–2 h): der Worker holt im Live-Fenster ohnehin jede Minute FuPa samt `tore`; je neuem Tor eine
