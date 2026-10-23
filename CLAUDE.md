@@ -111,6 +111,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Text verschickter Mitteilungen gemerkt** (23.10.2026 abends, vom Nutzer): `gemeldet.text`, damit `?zahlen` auch beim Endstand den
   Text zeigt (vorher nur, solange eine Kopie in `offen` lag). Live-Ereignisse, die schon verschickt sind, legt der Worker nicht mehr
   jede Minute neu in `offen` (sparte nur Schreibzugriffe). Liste auf `?zahlen`: 7 Tage, höchstens 50; `gemeldet` 30 Tage.
+- **Live-Kasten nimmt den frischeren Stand** (23.10.2026, Fassung neu p): bei einem Tester stand im Reiter noch „Halbzeit“,
+  in der Woche schon die 82. (zwei getrennte Abrufe: `W` für den offenen Reiter — ruht, während die Woche offen ist —, `WS` für alle
+  Spiele). `wFrisch(sp)` nimmt den mit dem neueren `abgerufen`, für Kasten, Minutentakt und Woche.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

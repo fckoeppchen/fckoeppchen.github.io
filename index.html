@@ -582,7 +582,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu o";
+const FASSUNG = "23.10.2026 neu p";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -631,6 +631,10 @@ let W = null;
 // Mit Slug, wenn live.json schon einen fürs laufende Spiel hat, sonst mit der Anstoßzeit aus dem
 // FLF-Spielplan (der Worker sucht dann selbst bei FuPa).
 let LIVE_SP = null;
+// Zwei Abrufe halten Live-Stände: W (offener Reiter) und WS (alle Spiele, für „Unsere Woche“). Am 23.10. stand bei einem
+// Tester im Reiter noch „Halbzeit“, in der Woche schon die 82. — angezeigt wird darum immer der frischere der beiden.
+const wFrisch = sp => { const a = W && sp && W.fuer === sp.id ? W : null, b = sp ? WS.get(sp.id) || null : null;
+  return !a ? b : !b ? a : (b.abgerufen || "") > (a.abgerufen || "") ? b : a; };
 async function holenWorker() {
   if (!WORKER_URL || !LIVE_SP) return null;
   const sp = LIVE_SP, b = liveBasis(L, sp);
@@ -751,7 +755,7 @@ function render() {
   let h = "";
 
   LIVE_SP = liveSpiel(v, now, D.fupa || {});
-  const lv = liveAnzeige(mitWorker(liveBasis(L, LIVE_SP), W), v, now);
+  const lv = liveAnzeige(mitWorker(liveBasis(L, LIVE_SP), wFrisch(LIVE_SP)), v, now);
   LIVE_POLL = !!lv || imLiveFenster(v, now);
   // Spieltag-Kasten, solange (noch) kein LIVE-Kasten da ist.
   const heute = !lv && spieltagHeute(v, now);
@@ -928,7 +932,7 @@ function liveKandidaten(now) {
   }).filter(Boolean);
 }
 function liveStand(k, now) {
-  return liveAnzeige(mitWorker(liveBasis(L, k.sp), WS.get(k.sp.id) || (W && W.fuer === k.sp.id ? W : null)), k.v, now);
+  return liveAnzeige(mitWorker(liveBasis(L, k.sp), wFrisch(k.sp)), k.v, now);
 }
 function liveZahl(now) { return liveKandidaten(now).filter(k => liveStand(k, now)?.laeuft).length; }
 async function holenWorkerAlle() {
@@ -1116,11 +1120,11 @@ setInterval(() => {
 }, 10e3);
 setInterval(async () => {
   if (!LIVE_POLL || document.hidden || !D) return;
-  const vorher = JSON.stringify(mitWorker(liveBasis(L, LIVE_SP), W));
+  const vorher = JSON.stringify(mitWorker(liveBasis(L, LIVE_SP), wFrisch(LIVE_SP)));
   const [l, w] = await Promise.all([holenLive(), holenWorker()]);
   if (l) L = l;
   if (w) W = w;
-  const jetzt = mitWorker(liveBasis(L, LIVE_SP), W);
+  const jetzt = mitWorker(liveBasis(L, LIVE_SP), wFrisch(LIVE_SP));
   if (JSON.stringify(jetzt) !== vorher) { render(); return; }
   const el = document.getElementById("liveZeit");
   if (el && jetzt) el.textContent = liveZeit(jetzt, Date.now());
