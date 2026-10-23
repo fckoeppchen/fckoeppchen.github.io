@@ -278,11 +278,14 @@ function sicht(D, tid, now) {
 // führt und die FLF noch kein Ergebnis hat — danach steht es normal bei den Ergebnissen.
 // Höchstens 4 h nach Anstoß, falls die Action einmal hängen bleibt.
 const LIVE_FENSTER = { vor: 15 * 60e3, nach: 180 * 60e3 };   // wie tools/fussball-live.mjs
+// Endstand von FuPa bleibt stehen, bis die FLF ihr Ergebnis hat, höchstens 48 h (vom Nutzer, 23.10.2026:
+// Seniors 3 um 20:00, um 23:00 war der Stand weg, die FLF noch leer).
+const ENDE_FRIST = 48 * 3600e3;
 function liveAnzeige(L, v, now) {
   if (!L || !v) return null;
   const sp = [...v.kommend, ...v.gespielt].find(s => s.id === L.flfId);
   if (!sp || (sp.gespielt && sp.hs != null)) return null;
-  if (now > Date.parse(L.anstoss) + 4 * 3600e3) return null;
+  if (now > Date.parse(L.anstoss) + (L.section === "POST" ? ENDE_FRIST : 4 * 3600e3)) return null;
   if (L.section !== "LIVE" && L.section !== "POST") return null;
   // FuPa setzt ab Anpfiff von selbst „LIVE“, auch ohne Tickerer (19.10.2026, Seniors 2 gegen Titus:
   // kein Stand, kein Name). Dann bleibt der Spieltag-Kasten „Spiel läuft“ stehen.
@@ -429,11 +432,14 @@ function hatLive(v) {
 }
 
 // Das Spiel dieses Reiters, das gerade im Live-Fenster liegt, oder null.
-function liveSpiel(v, now, fupa = {}) {
+// Nach dem Fenster bleibt ein Spiel ohne FLF-Ergebnis bis ENDE_FRIST dabei, wenn `spaet(sp)` ja sagt
+// (die App: Endstand schon bekannt, oder in dieser Sitzung noch nicht nachgefragt).
+function liveSpiel(v, now, fupa = {}, spaet = null) {
   if (!hatLive(v)) return null;
   const sp = [...v.kommend, ...v.gespielt].find(sp => {
     const a = Date.parse(sp.d);
-    return now >= a - LIVE_FENSTER.vor && now <= a + LIVE_FENSTER.nach;
+    if (now >= a - LIVE_FENSTER.vor && now <= a + LIVE_FENSTER.nach) return true;
+    return !!spaet && sp.hs == null && now > a + LIVE_FENSTER.nach && now <= a + ENDE_FRIST && spaet(sp);
   }) || null;
   if (!sp || v.team.reiter === LIVE_REITER) return sp;
   const slug = fupa[sp.id];
@@ -582,7 +588,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu q";
+const FASSUNG = "23.10.2026 neu r";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -636,12 +642,13 @@ let LIVE_SP = null;
 const wFrisch = sp => { const a = W && sp && W.fuer === sp.id ? W : null, b = sp ? WS.get(sp.id) || null : null;
   return !a ? b : !b ? a : (b.abgerufen || "") > (a.abgerufen || "") ? b : a; };
 async function holenWorker() {
-  if (!WORKER_URL || !LIVE_SP) return null;
+  if (!WORKER_URL || !LIVE_SP || !brauchtAbruf(LIVE_SP, Date.now())) return null;
   const sp = LIVE_SP, b = liveBasis(L, sp);
+  SPAET_VERSUCHT.add(sp.id);
   const q = b.slug ? "?slug=" + encodeURIComponent(b.slug) : "?anstoss=" + encodeURIComponent(sp.d);
   try {
     const r = await fetch(WORKER_URL + q, { cache: "no-store" });
-    if (r.ok) return { ...(await r.json()), fuer: sp.id };
+    if (r.ok) { const w = { ...(await r.json()), fuer: sp.id }; endeMerken(w); return w; }
   } catch (e) {}
   return null;   // Worker weg → es bleibt beim Stand von GitHub
 }
@@ -754,9 +761,9 @@ function render() {
   const art = sp => sp.typ === "CUP" ? "Pokal" : sp.typ === "FM" ? "Freundschaftsspiel" : "";
   let h = "";
 
-  LIVE_SP = liveSpiel(v, now, D.fupa || {});
+  LIVE_SP = liveSpiel(v, now, D.fupa || {}, spaet);
   const lv = liveAnzeige(mitWorker(liveBasis(L, LIVE_SP), wFrisch(LIVE_SP)), v, now);
-  LIVE_POLL = !!lv || imLiveFenster(v, now);
+  LIVE_POLL = !!lv?.laeuft || imLiveFenster(v, now);   // nach Abpfiff (bis zum FLF-Ergebnis) nicht mehr jede Minute
   // Spieltag-Kasten, solange (noch) kein LIVE-Kasten da ist.
   const heute = !lv && spieltagHeute(v, now);
   const kinder = istKinder(v);
@@ -924,10 +931,31 @@ function liveHtml(lv, wir, zusatz) {
 // Live in der Woche und im Knopf: alle Spiele mit möglichem Ticker im Live-Fenster (Seniors 1–3),
 // je Spiel ein Worker-Stand in WS (FLF-Spiel-ID → Antwort). Unabhängig vom offenen Reiter.
 const WS = new Map();
+// Endstände (FuPa „POST“) überstehen das Schließen der App, bis die FLF ihr Ergebnis hat (ENDE_FRIST).
+const ENDE_KEY = KEY + "_ende";
+try {
+  const alt = JSON.parse(localStorage.getItem(ENDE_KEY) || "{}");
+  for (const [id, w] of Object.entries(alt)) if (Date.now() - Date.parse(w.abgerufen || 0) < ENDE_FRIST) WS.set(+id, w);
+} catch (e) {}
+function endeMerken(w) {
+  if (w.section !== "POST") return;
+  if (!WS.has(w.fuer) || (WS.get(w.fuer).abgerufen || "") < (w.abgerufen || "")) WS.set(w.fuer, w);
+  try {
+    const o = {};
+    for (const [id, x] of WS) if (x.section === "POST") o[id] = x;
+    localStorage.setItem(ENDE_KEY, JSON.stringify(o));
+  } catch (e) {}
+}
+// Nach dem Live-Fenster: einmal je Sitzung nachfragen; mit bekanntem Endstand gar nicht mehr.
+const SPAET_VERSUCHT = new Set();
+const endeBekannt = sp => WS.get(sp.id)?.section === "POST" || (L && L.flfId === sp.id && L.section === "POST");
+const spaet = sp => endeBekannt(sp) || !SPAET_VERSUCHT.has(sp.id);
+const imFenster = (sp, now) => now >= Date.parse(sp.d) - LIVE_FENSTER.vor && now <= Date.parse(sp.d) + LIVE_FENSTER.nach;
+const brauchtAbruf = (sp, now) => imFenster(sp, now) || (!endeBekannt(sp) && !SPAET_VERSUCHT.has(sp.id));
 function liveKandidaten(now) {
   if (!D) return [];
   return aufteilen(D).tabs.map(t => {
-    const v = sicht(D, t.id, now), sp = liveSpiel(v, now, D.fupa || {});
+    const v = sicht(D, t.id, now), sp = liveSpiel(v, now, D.fupa || {}, spaet);
     return sp && { sp, v };
   }).filter(Boolean);
 }
@@ -938,7 +966,8 @@ function liveZahl(now) { return liveKandidaten(now).filter(k => liveStand(k, now
 async function holenWorkerAlle() {
   if (!WORKER_URL) return false;
   let neu = false;
-  await Promise.all(liveKandidaten(Date.now()).map(async k => {
+  await Promise.all(liveKandidaten(Date.now()).filter(k => brauchtAbruf(k.sp, Date.now())).map(async k => {
+    SPAET_VERSUCHT.add(k.sp.id);
     const b = liveBasis(L, k.sp);
     const q = b.slug ? "?slug=" + encodeURIComponent(b.slug) : "?anstoss=" + encodeURIComponent(k.sp.d);
     try {
@@ -946,6 +975,7 @@ async function holenWorkerAlle() {
       if (!r.ok) return;
       const w = { ...(await r.json()), fuer: k.sp.id };
       if (JSON.stringify(WS.get(k.sp.id)) !== JSON.stringify(w)) { WS.set(k.sp.id, w); neu = true; }
+      endeMerken(w);
     } catch (e) {}
   }));
   return neu;

@@ -322,6 +322,17 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const spT = M.liveSpiel(vR, t0, { [flf.id]: vR.ids.has(flf.h.id) ? "beggen-mr1-fc-koeppchen-mr1-261018" : "fc-koeppchen-mr1-x-261018" });
   ok(spT.h.id === flf.a.id && spT.a.id === flf.h.id, "Heim/Gast bei FuPa andersherum: Seiten getauscht");
   ok(M.liveSpiel({ ...vS, team: { ...vS.team, reiter: "Seniors 4" } }, t0, { [flf.id]: "x" }) === null, "andere Reiter nicht");
+  // Endstand von FuPa bleibt, bis die FLF ihr Ergebnis hat (23.10.2026: Seniors 3 um 23 Uhr weg, FLF noch leer).
+  {
+    const an = Date.parse(flf.d), spaet = an + 200 * 60e3;
+    ok(M.liveSpiel(vS, spaet) === null, "nach 180 min ohne Nachfrage-Erlaubnis kein Live-Spiel mehr");
+    ok(M.liveSpiel(vS, spaet, {}, () => true)?.id === flf.id, "nach 180 min: Spiel bleibt, wenn der Endstand bekannt ist");
+    ok(M.liveSpiel(vS, an + 49 * 3600e3, {}, () => true) === null, "nach 48 h nicht mehr");
+    ok(M.liveAnzeige({ ...Lv, section: "POST" }, vS, an + 6 * 3600e3)?.zeit === "Abpfiff", "Endstand laut FuPa auch 6 h nach Anstoß");
+    ok(M.liveAnzeige({ ...Lv, section: "POST" }, vS, an + 49 * 3600e3) === null, "Endstand nach 48 h weg");
+    ok(M.liveAnzeige({ ...Lv, section: "LIVE" }, vS, an + 6 * 3600e3) === null, "hängender LIVE-Stand bleibt bei 4 h");
+    ok(M.liveSpiel(M.sicht(DF, 44831, t0), spaet, {}, () => true) === null, "FLF hat Ergebnis → kein spätes Live-Spiel");
+  }
   {
     const sp = (id, d) => ({ id, d, h: { id: 7, n: "FC Koeppchen Wormeldange I" }, a: { id: 8, n: "B" } });
     const DR = { teams: [{ id: 7, reiter: "Seniors 2", klassen: [5] }, { id: 9, reiter: "U13 1", klassen: [5] }],

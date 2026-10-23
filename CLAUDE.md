@@ -114,6 +114,13 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Live-Kasten nimmt den frischeren Stand** (23.10.2026, Fassung neu p): bei einem Tester stand im Reiter noch „Halbzeit“,
   in der Woche schon die 82. (zwei getrennte Abrufe: `W` für den offenen Reiter — ruht, während die Woche offen ist —, `WS` für alle
   Spiele). `wFrisch(sp)` nimmt den mit dem neueren `abgerufen`, für Kasten, Minutentakt und Woche.
+- **FuPa-Endstand bleibt bis zum FLF-Ergebnis** (vom Nutzer, 23.10.2026, Fassung neu r): Seniors 3 spielte um 20:00, um 23:00
+  (Ende des Live-Fensters, 180 min) waren Kasten und Stand in der Woche weg, die FLF noch leer. Jetzt bleibt ein Spiel ohne
+  FLF-Ergebnis bis 48 h (`ENDE_FRIST`) Live-Kandidat, wenn der Endstand (POST) bekannt ist oder in dieser Sitzung noch nicht
+  nachgefragt wurde (`liveSpiel(…, spaet)`, `SPAET_VERSUCHT`): **einmal je App-Öffnung eine Worker-Frage**, mit Endstand gar keine
+  mehr. Endstände liegen in localStorage (`fussball_v1_ende`), überstehen also das Schließen. Kasten „Endstand laut FuPa“ bis zum
+  FLF-Ergebnis (`liveAnzeige`: POST 48 h, LIVE weiter 4 h); nach Abpfiff kein Minutentakt mehr. Browser-Test mit gestellter Uhr
+  (23:16, eine Worker-Anfrage in 5 min, nach Neuladen ohne Worker noch da), Gegenprobe gemacht.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
