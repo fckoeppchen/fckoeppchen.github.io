@@ -13,9 +13,13 @@
   },
   {
    "reiter": [
-    "U15"
+    "U15",
+    "Scolaires U15"
    ],
    "id": "heute:13775",
+   "spiele": [
+    13775
+   ],
    "art": "heute",
    "titel": "U15 · Morgen Spiel",
    "text": "16:00 gegen CS Oberkorn · 📍 Am Ga (Wormeldange, synth.)",
@@ -25,9 +29,13 @@
   {
    "reiter": [
     "U13 1",
-    "U13 2"
+    "U13 2",
+    "Minimes U13"
    ],
    "id": "heute:13833",
+   "spiele": [
+    13833
+   ],
    "art": "heute",
    "titel": "U13 · Morgen Spiel",
    "text": "14:00 gegen AS Hosingen · 📍 Am Ga (Wormeldange, synth.)",
@@ -36,25 +44,20 @@
   },
   {
    "reiter": [
-    "U9 1"
+    "U9 2",
+    "U9 1",
+    "Pupilles U9"
    ],
-   "id": "heute:6716055",
+   "id": "heute:6717055+6716055",
+   "spiele": [
+    6717055,
+    6716055
+   ],
    "art": "heute",
-   "titel": "U9 1 · Morgen Spiel",
-   "text": "11:30 gegen Union Mertert-Wasserbillig I · 📍 Am Ga (Wormeldange, synth.)",
+   "titel": "Pupilles U9 · Morgen 2 Spiele",
+   "text": "U9 2: 09:30 gegen US Berdorf-Consdorf 01 · 📍 Am Ga (Wormeldange, synth.)\nU9 1: 11:30 gegen Union Mertert-Wasserbillig I · 📍 Am Ga (Wormeldange, synth.)",
    "ab": 1792774800000,
    "bis": 1792834200000
-  },
-  {
-   "reiter": [
-    "U9 2"
-   ],
-   "id": "heute:6717055",
-   "art": "heute",
-   "titel": "U9 2 · Morgen Spiel",
-   "text": "09:30 gegen US Berdorf-Consdorf 01 · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1792774800000,
-   "bis": 1792827000000
   }
  ],
  "live": [
