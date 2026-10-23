@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-22T22:23:06.686Z",
+ "stand": "2026-10-23T05:32:57.699Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -58,7 +58,11 @@
    "datei": "u13-1.ics",
    "mit": [
     45398
-   ]
+   ],
+   "gruppe": {
+    "name": "Minimes U13",
+    "datei": "minimes-u13.ics"
+   }
   },
   {
    "id": 45397,
@@ -76,7 +80,11 @@
    "datei": "u13-2.ics",
    "mit": [
     45398
-   ]
+   ],
+   "gruppe": {
+    "name": "Minimes U13",
+    "datei": "minimes-u13.ics"
+   }
   },
   {
    "id": 45399,
@@ -112,7 +120,11 @@
    ],
    "reiter": "U11 1",
    "datei": "u11-1.ics",
-   "mit": []
+   "mit": [],
+   "gruppe": {
+    "name": "Poussins U11",
+    "datei": "poussins-u11.ics"
+   }
   },
   {
    "id": 45394,
@@ -128,7 +140,11 @@
    ],
    "reiter": "U11 2",
    "datei": "u11-2.ics",
-   "mit": []
+   "mit": [],
+   "gruppe": {
+    "name": "Poussins U11",
+    "datei": "poussins-u11.ics"
+   }
   },
   {
    "id": 45392,
@@ -145,7 +161,11 @@
    ],
    "reiter": "U9 1",
    "datei": "u9-1.ics",
-   "mit": []
+   "mit": [],
+   "gruppe": {
+    "name": "Pupilles U9",
+    "datei": "pupilles-u9.ics"
+   }
   },
   {
    "id": 45393,
@@ -161,7 +181,11 @@
    ],
    "reiter": "U9 2",
    "datei": "u9-2.ics",
-   "mit": []
+   "mit": [],
+   "gruppe": {
+    "name": "Pupilles U9",
+    "datei": "pupilles-u9.ics"
+   }
   },
   {
    "id": 45403,
