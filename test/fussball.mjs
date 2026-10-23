@@ -111,8 +111,8 @@ const D = aufbereiten({
 });
 
 /* --- Aufbereitung --- */
-gleich(D.teams.map(t => t.id), [45398, 45396, 45397, 45400], "Vereinsmannschaften erkannt, nach Altersklasse sortiert");
-gleich(D.teams.map(t => t.alter), ["U13 Minimes", "U13 Minimes", "U13 Minimes", "U15 Scolaires"], "Altersklasse je Mannschaft");
+gleich(D.teams.map(t => t.id), [45400, 45398, 45396, 45397], "Vereinsmannschaften erkannt, nach Reiter-Reihenfolge sortiert (U15 vor U13)");
+gleich(D.teams.map(t => t.alter), ["U15 Scolaires", "U13 Minimes", "U13 Minimes", "U13 Minimes"], "Altersklasse je Mannschaft");
 gleich(D.teams.find(t => t.id === 45396).klassen, [19189], "Koeppchen I: Klasse IV");
 gleich(D.klassen[19189].spiele.map(s => s.d.slice(0, 16)), ["2026-09-19T14:30", "2026-09-19T15:00", "2026-10-17T14:30"],
   "Spiele der Klasse nach Datum, auch die ohne Koeppchen");
@@ -138,11 +138,11 @@ gleich([M.roem(3), M.roem(5)], ["III", "V"], "römische Klassen");
 /* --- Sicht eines Reiters --- */
 const { tabs, verein } = M.aufteilen(D);
 gleich(tabs.map(t => t.id), [45396, 45397], "Reiter nur für Mannschaften mit Liga");
-gleich(verein.map(t => t.id), [45398, 45400], "Pokalmannschaften ohne I/II zählen zum Verein");
+gleich(verein.map(t => t.id), [45400, 45398], "Pokalmannschaften ohne I/II zählen zum Verein");
 ok(M.anzeige("FC Koeppchen Wormeldange II") === "Koeppchen II", "eigener Name gekürzt");
 ok(M.anzeige("US Sandweiler") === "US Sandweiler", "Gegner unverändert");
-gleich(D.teams.map(t => reiter(t)), ["U13", "U13 1", "U13 2", "U15"], "Reiter-Beschriftung U13 1 / U13 2 / U15");
-gleich(D.teams.map(t => t.reiter || null), [null, "U13 1", "U13 2", null], "Reiter nur für Mannschaften mit Liga");
+gleich(D.teams.map(t => reiter(t)), ["U15", "U13", "U13 1", "U13 2"], "Reiter-Beschriftung und Reihenfolge: U15 vor U13 1 / U13 2");
+gleich(D.teams.map(t => t.reiter || null), [null, null, "U13 1", "U13 2"], "Reiter nur für Mannschaften mit Liga");
 gleich(D.teams.find(t => t.id === 45396).mit, [45398], "U13-Pokal hängt an U13 1, nicht der U15-Pokal");
 gleich([{ n: "FC Koeppchen Wormeldange", kat: "Seniors", ohne: 1 }, { n: "FC Koeppchen Wormeldange I", kat: "Seniors", plus: 1 },
         { n: "FC Koeppchen Wormeldange II", kat: "Seniors", plus: 1 }].map(t => reiter(t)),

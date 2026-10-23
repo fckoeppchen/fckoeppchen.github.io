@@ -13,13 +13,14 @@ export const CLUB = 1003703;          // Wormeldange FC Koeppchen
 // der FLF. Die Réserves sind bei der FLF eine eigene Kategorie („Seniors (R)“, 9999) und stehen
 // am Ende als „Seniors 2“ (Réserves I) und „Seniors 3“ (Réserves II): `plus` verschiebt die
 // Nummer, `ohne` ist die Nummer einer Mannschaft ohne I/II. U7 hat noch keine Spiele (18.10.2026).
+// `reihe` = Platz der Reiter (vom Nutzer, 23.10.2026: U15 vor U13); der Index bleibt, die Tests hängen daran.
 export const AGES = [
-  { id: 1,  kat: "Seniors", n: "Seniors", ohne: 1 },
-  { id: 4,  kat: "U13", n: "U13 Minimes" },
-  { id: 11, kat: "U15", n: "U15 Scolaires" },
-  { id: 7,  kat: "U11", n: "U11 Poussins" },
-  { id: 5,  kat: "U9",  n: "U9 Pupilles" },
-  { id: 9999, kat: "Seniors", n: "Seniors Réserves", plus: 1 },
+  { id: 1,  kat: "Seniors", n: "Seniors", ohne: 1, reihe: 0 },
+  { id: 4,  kat: "U13", n: "U13 Minimes", reihe: 2 },
+  { id: 11, kat: "U15", n: "U15 Scolaires", reihe: 1 },
+  { id: 7,  kat: "U11", n: "U11 Poussins", reihe: 3 },
+  { id: 5,  kat: "U9",  n: "U9 Pupilles", reihe: 4 },
+  { id: 9999, kat: "Seniors", n: "Seniors Réserves", plus: 1, reihe: 5 },
 ];
 const OUT = new URL("../data/fussball.json", import.meta.url);
 const MITT = new URL("../data/mitteilungen.json", import.meta.url);
@@ -397,7 +398,7 @@ export function aufbereiten({ saison, vereinsSpiele, klassen }) {
     stand: new Date().toISOString(),
     saison: { id: saison.id, n: saison.name },
     verein: { id: CLUB, n: VEREIN },
-    teams: [...teams.values()].sort((a, b) => a.ak - b.ak || a.n.localeCompare(b.n)),
+    teams: [...teams.values()].sort((a, b) => AGES[a.ak].reihe - AGES[b.ak].reihe || a.n.localeCompare(b.n)),
     klassen: div,
   };
 }
