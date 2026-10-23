@@ -383,7 +383,7 @@ Fünfter in Kl. VI. Nächstes Spiel Pokal 1/32 am 24.10. gegen AS Hosingen.
 **Testen:** `node test/fussball.mjs` — Aufbereitung aus nachgebauten Rohdaten, Regeln, Reiter,
 Abschlusshinweis, 3-h-Grenze für Spiele ohne Ergebnis, Klassenwechsel. Schneidet `Logik`…
 `Oberfläche` aus der HTML. Läuft auch vor jedem Abruf in der Action. Gegenprobe gemacht.
-Abruf live: `NODE_USE_ENV_PROXY=1 node tools/fussball.mjs` (in der Cloud-Umgebung braucht Node
+**Browser-Tests: Worker-Adresse sperren** (`page.route("**/fckoeppchen.rjtp6r9s9h.workers.dev/**", r => r.abort())`) — am 23.10. zählte ein Ladetest von Claude echt beim Worker (landete als „Roboter“ unter „Andere Länder“, nicht in den Hauptzahlen). Abruf live: `NODE_USE_ENV_PROXY=1 node tools/fussball.mjs` (in der Cloud-Umgebung braucht Node
 den Proxy ausdrücklich).
 
 **Wach halten:** GitHub schaltet Zeitpläne nach 60 Tagen ohne Repo-Aktivität ab; Abrufe ohne
