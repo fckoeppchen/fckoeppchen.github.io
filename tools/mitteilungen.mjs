@@ -39,7 +39,14 @@ export function ereignisse(alt, neu, vorher, now) {
   const gruppeVon = new Map(teams.filter(t => t.gruppe).map(t => [t.reiter, t.gruppe.name]));
   const mitGruppe = rs => [...new Set([...rs, ...rs.map(r => gruppeVon.get(r)).filter(Boolean)])];
   const dazu = e => { if (e.bis > now && !aus.has(e.id)) aus.set(e.id, { ...e, reiter: mitGruppe(e.reiter) }); };
-  const kinderHeute = new Map();   // Gruppe + Tag → Spiele, unten zu einer Mitteilung zusammengefasst
+  // Kinder: je Spiel eine eigene Mitteilung, gewählt wird aber die Altersklasse (vom Nutzer, 23.10.2026 abends;
+  // die Zusammenfassung „Pupilles U9 · Morgen 2 Spiele“ vom Nachmittag war auf dem Sperrbildschirm zu lang).
+  // Spiele, die eine schon fällige Zusammenfassung (id heute:<a>+<b>) abdeckt, kommen nicht noch einmal;
+  // noch nicht fällige Zusammenfassungen fallen weg und werden zu Einzelmitteilungen.
+  const spieleVon = e => e.spiele || e.id.slice(6).split("+").map(Number);
+  const gedeckt = new Set();
+  for (const e of [...aus.values()])
+    if (e.art === "heute" && e.id.includes("+")) { if (e.ab <= now) spieleVon(e).forEach(id => gedeckt.add(id)); else aus.delete(e.id); }
   const unsere = new Set(neu.teams.flatMap(t => t.ids || [t.id]));
 
   // Jedes Spiel einmal, mit allen Reitern, zu denen es gehört (Pokal ohne I/II: U13 1 und U13 2).
@@ -66,8 +73,9 @@ export function ereignisse(alt, neu, vorher, now) {
       const was = (offen ? `Uhrzeit noch offen · gegen ${gegner}` : `${uhr(sp.d)} gegen ${gegner}`) + wo;
       const ende = t => offen ? umLux(t, 22) : d;
       if (kat !== "Seniors" && (tag === morgen || tag === heute)) {
-        const g = `${gruppeVon.get(reiter[0]) || name}|${tag}`;
-        (kinderHeute.get(g) || kinderHeute.set(g, []).get(g)).push({ sp, reiter, name, was, bis: ende(tag) });
+        if (!gedeckt.has(sp.id))
+          dazu({ ...basis, id: "heute:" + sp.id, art: "heute", titel: `${name} · ${tag === morgen ? "Morgen" : "Heute"} Spiel`, text: was,
+                 ab: tag === morgen ? umLux(heute, 19) : Math.min(now, umLux(heute, 7, 30)), bis: ende(tag) });
       } else if (tag === heute)
         dazu({ ...basis, id: "heute:" + sp.id, art: "heute", titel: `${name} · Heute Spiel`, text: was,
                ab: kat === "Seniors" && (offen || +uhr(sp.d).slice(0, 2) >= 11) ? umLux(heute, 10) : Math.min(now, umLux(heute, 7, 30)), bis: ende(tag) });
@@ -88,26 +96,6 @@ export function ereignisse(alt, neu, vorher, now) {
                     slug: neu.fupa?.[sp.id] || undefined, anstoss: reiter.includes("Seniors 1") ? sp.d : undefined,
                     fupaWir: "fc-koeppchen", ticker: "ticker:" + sp.id, halbzeit: "halbzeit:" + sp.id, ende: "ende:" + sp.id });
     }
-  }
-
-  // Kinder: alle Spiele einer Altersklasse am selben Tag in EINER Mitteilung (vom Nutzer, 23.10.2026) —
-  // am Vorabend um 19 Uhr „Morgen Spiel“, erst am Spieltag bekannt „Heute Spiel“ ab 7:30. Was schon fällig
-  // war (ab ≤ jetzt, also vielleicht verschickt), bleibt; noch nicht Fälliges wird mit neuen Spielen neu
-  // gebaut. Ein Spiel allein behält die alte id „heute:<Spiel>“.
-  const spieleVon = e => e.spiele || e.id.slice(6).split("+").map(Number);
-  for (const [g, l] of kinderHeute) {
-    const [gruppe, tag] = g.split("|"), ids = new Set(l.map(x => x.sp.id)), gedeckt = new Set();
-    for (const e of [...aus.values()])
-      if (e.art === "heute" && e.id.startsWith("heute:") && spieleVon(e).some(id => ids.has(id))) {
-        if (e.ab <= now) spieleVon(e).forEach(id => gedeckt.add(id)); else aus.delete(e.id);
-      }
-    const rest = l.filter(x => !gedeckt.has(x.sp.id)).sort((a, b) => a.sp.d.localeCompare(b.sp.d));
-    if (!rest.length) continue;
-    const wann = tag === morgen ? "Morgen" : "Heute", eins = rest.length === 1;
-    dazu({ reiter: [...new Set(rest.flatMap(x => x.reiter))], id: "heute:" + rest.map(x => x.sp.id).join("+"), spiele: rest.map(x => x.sp.id), art: "heute",
-           titel: eins ? `${rest[0].name} · ${wann} Spiel` : `${gruppe} · ${wann} ${rest.length} Spiele`,
-           text: eins ? rest[0].was : rest.map(x => `${x.name}: ${x.was}`).join("\n"),
-           ab: tag === morgen ? umLux(heute, 19) : Math.min(now, umLux(heute, 7, 30)), bis: Math.max(...rest.map(x => x.bis)) });
   }
 
   // Spieltag komplett (U13, U15) und Tabelle (U13, U15, Seniors) je Mannschaft in ihrer aktuellen Klasse.
