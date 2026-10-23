@@ -88,6 +88,10 @@ ein **kleines** Paket (Größe erst messen, eher 10 als 30), Rest in der nächst
 dem Rest; VAPID-Kopf je Push-Dienst einige Stunden wiederverwenden. Mit vielen nachgebauten Handys testen, danach im
 Cloudflare-Dashboard die echte Rechenzeit ansehen und die Paketgröße einstellen. Schneller ginge mit Selbstaufruf
 (mehrere Pakete parallel) oder Workers Paid (5 $/Monat, Frage an den Verein) — beides vorerst nicht nötig.
+**Freigabe schrittweise (vom Nutzer, 23.10.2026: „Lösung 2“):** Höchstzahl im Worker — er nimmt nur so viele
+Anmeldungen (`?push=anmelden`) an wie eingestellt (z. B. erst 50), danach in der App „Mitteilungen bald für alle, bitte
+später nochmal versuchen“. Zahl nach jedem ruhigen Wochenende anheben (100, 200 …), eine Zahl im Worker. Verworfen bzw.
+nicht gewählt: Testgruppe per Code, Freigabe nach Mannschaften (ungerecht).
 **Liveticker-Abfrage:** 100 000 Worker-Aufrufe/Tag gratis, der Ticker fragt je offenem Handy alle 20 s. Vom Nutzer:
 **60 s sind in Ordnung**, wenn das besser ist (dreimal weniger Aufrufe; die Minute zählt die App ohnehin selbst weiter).
 
