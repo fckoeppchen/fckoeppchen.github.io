@@ -92,6 +92,11 @@ Cloudflare-Dashboard die echte Rechenzeit ansehen und die Paketgröße einstelle
 Anmeldungen (`?push=anmelden`) an wie eingestellt (z. B. erst 50), danach in der App „Mitteilungen bald für alle, bitte
 später nochmal versuchen“. Zahl nach jedem ruhigen Wochenende anheben (100, 200 …), eine Zahl im Worker. Verworfen bzw.
 nicht gewählt: Testgruppe per Code, Freigabe nach Mannschaften (ungerecht).
+**Empfangsbestätigung (vom Nutzer, 23.10.2026: „ja klar“):** `sw.js` meldet beim `push`-Ereignis nach dem Anzeigen kurz
+`WORKER_URL?push=angekommen&id=<Ereignis-id>` (ohne Kennung des Handys, nur gezählt); `gemeldet` bekommt eine Spalte
+`angekommen`, `?zahlen` zeigt „✓ 19:00 an 48 von 50 Handys · angekommen auf 47“. Gelesen/geöffnet wird bewusst nicht
+gemessen. Kostet je Mitteilung und Handy einen Worker-Aufruf. Kein Neuinstallieren: der Browser holt ein geändertes `sw.js`
+beim nächsten Öffnen der App selbst, das Abo bleibt. Worker einmal neu einfügen (zusammen mit Postausgang/Höchstzahl).
 **Liveticker-Abfrage:** 100 000 Worker-Aufrufe/Tag gratis, der Ticker fragt je offenem Handy alle 20 s. Vom Nutzer:
 **60 s sind in Ordnung**, wenn das besser ist (dreimal weniger Aufrufe; die Minute zählt die App ohnehin selbst weiter).
 
