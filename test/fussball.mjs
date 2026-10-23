@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGruppe, natiTabelle, fupaTabelleMitFlfNamen, reserveSlugs, icsGruppe } from "../tools/fussball.mjs";
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
-import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit } from "../tools/cloudflare-worker.js";
+import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux } from "../tools/mitteilungen.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
@@ -770,6 +770,18 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const en = liveEreignisse({ ...c, wirHeim: true, h: "Koeppchen I", a: "Avenir Beggen" }, { section: "POST", slug: c.slug, hs: 3, as: 1, tore: [] }, t0)[0];
   ok(en?.text === "Koeppchen I 1:3 Avenir Beggen", "Live: Endstand dreht FuPas Zahlen, wenn FuPa Heim/Gast vertauscht");
   ok(liveEreignisse(c, { section: "POST", slug: c.slug, hs: 3, as: 1, tore: [] }, t0)[0].text === "Avenir Beggen 3:1 Koeppchen I", "Live: Endstand ohne Vertauschen");
+  // Tore als Mitteilung (vom Nutzer, 23.10.2026): je Tor eine, Stand nach dem Tor in FLF-Reihenfolge, nur frische Tore, keine Karten.
+  const hl = [{ id: 11, type: "goal", minute: 42, homeGoal: 1, awayGoal: 0, date: new Date(t0 - 30 * 60e3).toISOString(), primaryRole: { firstName: "Alt", lastName: "Tor" } },
+              { id: 12, type: "goal", minute: 50, additionalMinute: 2, homeGoal: 1, awayGoal: 1, date: new Date(t0 - 5 * 60e3).toISOString(), primaryRole: { firstName: "Dario", lastName: "Russo" } },
+              { id: 13, type: "card", minute: 55, date: new Date(t0 - 2 * 60e3).toISOString() }];
+  const tr = toreRoh({ highlights: hl });
+  const torE = l => l.filter(e => e.art === "tor");
+  const t1 = torE(liveEreignisse(c, { section: "LIVE", slug: c.slug, hs: 1, as: 1, ticker: "Paul", tore: [], toreRoh: tr }, t0));
+  ok(t1.length === 1 && t1[0].id === "tor:503:12" && t1[0].titel === "Seniors 2 · Tor ⚽" && t1[0].text === "Avenir Beggen 1:1 Koeppchen I · 50.+2 Dario Russo",
+     "Tor: nur das frische Tor (älter als 20 min nicht), keine Karte, mit Stand und Torschütze");
+  const t2 = torE(liveEreignisse({ ...c, wirHeim: true, h: "Koeppchen I", a: "Avenir Beggen" }, { section: "LIVE", slug: c.slug, hs: 1, as: 1, tore: [], toreRoh: [{ ...tr[1], hs: 2, as: 1 }] }, t0));
+  ok(t2[0]?.text.startsWith("Koeppchen I 1:2 Avenir Beggen"), "Tor: Stand nach FLF gedreht, wenn FuPa Heim/Gast vertauscht");
+  ok(!torE(liveEreignisse(c, { section: "PRE", slug: c.slug, hs: null, as: null, tore: [], toreRoh: tr }, t0)).length, "Tor: vor dem Spiel nichts");
   ok(passtZu({ teams: ["U13 1"], arten: ["heute"] }, h) && !passtZu({ teams: ["U13 2"], arten: ["heute"] }, h) && !passtZu({ teams: ["U13 1"], arten: ["tabelle"] }, h)
      && passtZu({ teams: ["Woche"], arten: [] }, mo) && !passtZu(null, h), "Mitteilung: alte Auswahl (für alle gleich) gilt weiter");
   const tab2 = { ...id("tabelle:k1"), reiter: ["U13 2"] };

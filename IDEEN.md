@@ -108,7 +108,7 @@ merkt es sich das Handy (localStorage, je Kennung). Nicht an eine Fassung gebund
 Ticker), mehrere gleichzeitig → nur der neueste. Lieber als Push an alle (erreicht nur, wer Mitteilungen schon hat). Text, Dauer,
 Platz erst dann festlegen (vom Nutzer). App geht am 26.10. **ohne** Mitteilungen raus.
 
-### Tore als Mitteilung — besprochen 23.10.2026, **später** (vom Nutzer: erst sehen, wie sich die anderen bewähren)
+### Tore als Mitteilung — besprochen 23.10.2026 — **gebaut am selben Abend (neu n), vorerst nur mit eigenem Code**
 
 Machbar und nicht teuer (~1–2 h): der Worker holt im Live-Fenster ohnehin jede Minute FuPa samt `tore`; je neuem Tor eine
 Mitteilung „Seniors 1 · Tor! ⚽“ / „Koeppchen 2:1 Beggen · 67. Name“ (id je Tor), Vorrang wie Live. Neuer Haken „Tore“ bei

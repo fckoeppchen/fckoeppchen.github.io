@@ -99,6 +99,12 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Kinder wieder je Spiel eine Mitteilung** (vom Nutzer, 23.10.2026 abends): „Pupilles U9 · Morgen 2 Spiele“ war auf dem
   Sperrbildschirm abgeschnitten. Jetzt wieder `heute:<Spiel>` je Spiel („PUP 1 · Morgen Spiel“), gewählt wird weiter die
   Altersklasse. Schon fällige alte Zusammenfassungen (`heute:a+b`) decken ihre Spiele ab, wartende fallen weg (Tests, Gegenprobe).
+- **Tore als Mitteilung** (vom Nutzer, 23.10.2026 abends, Fassung neu n; nur Tore, keine Karten): Worker macht im Live-Fenster aus
+  FuPas `highlights` (type goal) je Tor eine Mitteilung „Seniors 1 · Tor ⚽“ / „Avenir Beggen 1:1 Koeppchen II · 50. Dario Russo“
+  (`toreRoh`, id `tor:<Spiel>:<FuPa-id>`, Stand nach dem Tor, FLF-Reihenfolge, nur Tore der letzten 20 min, Vorrang wie Live).
+  Art `tor` nur sichtbar mit **eigenem Code**: der Logo-Merker `fussball_v1_mtest` ist jetzt `"pro"` oder `"test"` (alte `"1"`
+  zählen wie test → Nutzer meldet sich einmal ab und mit eigenem Code wieder an); `mTore()`. Beim Anhaken der Mannschaft ist
+  „Tore“ **nicht** mit an (vom Nutzer: bewusst wählen). Für alle freischalten: `mTore` → true. Worker neu einfügen nötig.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

@@ -386,7 +386,12 @@ export async function pushAnfrage(req, db, was, env = {}) {
 // noch am selben Abend); was nachts fällig wird, wartet bis 7 Uhr (solange
 // `bis` nicht vorbei ist). Jede id geht nur einmal raus (Tabelle gemeldet).
 const MITT_URL = "https://raw.githubusercontent.com/fckoeppchen/fckoeppchen.github.io/main/data/mitteilungen.json";
-const MITT_ARTEN = ["heute", "spieltag", "tabelle", "uhrzeit", "neu", "ticker", "halbzeit", "ende", "woche"];
+const MITT_ARTEN = ["heute", "spieltag", "tabelle", "uhrzeit", "neu", "ticker", "halbzeit", "ende", "woche", "tor"];
+// Tore als Mitteilung (vom Nutzer, 23.10.2026; in der App vorerst nur mit eigenem Code wählbar): FuPas Tore mit eigener
+// id und Stand nach dem Tor. Nur Tore der letzten 20 min — sonst kämen nach einem Neustart oder spät gefundenem Spiel alle alten.
+export const toreRoh = f => (f.highlights || []).filter(x => x.type === "goal" && x.id != null)
+  .map(x => ({ id: x.id, min: x.minute, plus: x.additionalMinute || 0, hs: x.homeGoal, as: x.awayGoal, zeit: Date.parse(x.date) || 0,
+               name: [x.primaryRole?.firstName, x.primaryRole?.lastName].filter(Boolean).join(" ") || null }));
 async function abosSpalte(db) {
   await db.prepare(TAB_ABOS).run();
   try { await db.prepare("ALTER TABLE abos ADD COLUMN wahl TEXT").run(); } catch (e) { /* gibt es schon */ }
@@ -408,7 +413,11 @@ export function liveEreignisse(c, k, now) {
                text: `Heute tickert FuPa das Spiel gegen ${c.gegner} – live in der App.`, ab: now, bis: d + 180 * 60e3 });
   // FuPa führt Heim/Gast manchmal andersherum als die FLF (Beggen–Koeppchen II): Zahlen nach FLF drehen.
   const gleich = (k.slug || "").startsWith(c.fupaWir) === c.wirHeim;
-  const stand = () => { const [h, a] = gleich ? [k.hs, k.as] : [k.as, k.hs]; return `${c.h} ${h}:${a} ${c.a}`; };
+  const stand = (hs = k.hs, as = k.as) => { const [h, a] = gleich ? [hs, as] : [as, hs]; return `${c.h} ${h}:${a} ${c.a}`; };
+  if (k.section === "LIVE" || k.section === "POST")
+    for (const t of k.toreRoh || []) if (t.hs != null && t.as != null && t.zeit > now - 20 * 60e3)
+      aus.push({ id: `tor:${c.id}:${t.id}`, reiter: c.reiter, art: "tor", titel: `${c.titel} · Tor ⚽`,
+                 text: stand(t.hs, t.as) + ` · ${t.min}.${t.plus ? "+" + t.plus : ""}` + (t.name ? ` ${t.name}` : ""), ab: now, bis: d + 180 * 60e3 });
   // Halbzeit (vom Nutzer, 21.10.2026): nur mit Stand, also nur wenn wirklich getickert wird.
   if (k.section === "LIVE" && k.period === "halftime" && k.hs != null && k.as != null)
     aus.push({ id: c.halbzeit || "halbzeit:" + c.id, reiter: c.reiter, art: "halbzeit", titel: `${c.titel} · Halbzeit`, text: stand(), ab: now, bis: d + 180 * 60e3 });
@@ -446,7 +455,7 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
     .map(e => `<tr><td>${esc(e.titel)}${e.text ? `<br><small>${esc(e.text)}</small>` : ""}</td><td>${zeitLux(e.ab)}</td><td class="st">${esc(mittStatus(e, gem.get(e.id), now, wartend.get(e.id) || 0))}</td></tr>`).join("");
   // Gewählt je Mannschaft und Art, als Anzahl Handys (wer was gewählt hat, steht nirgends).
   const ART_KURZ = { heute: "Spiel steht an", neu: "Neue Phase/Spiel", spieltag: "Spieltag", tabelle: "Tabelle", uhrzeit: "Uhrzeit",
-    ticker: "Ticker", halbzeit: "Halbzeit", ende: "Endstand", woche: "Woche" };
+    ticker: "Ticker", halbzeit: "Halbzeit", ende: "Endstand", woche: "Woche", tor: "Tore" };
   const zahl = new Map();
   for (const a of abos) {
     let w = null; try { w = JSON.parse(a.wahl); } catch (e) {}
@@ -463,7 +472,7 @@ ${live ? `<h3>Heute mit Liveticker</h3><ul>${live}</ul>` : ""}
 const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 // Handys je Minute (vom Nutzer: lieber klein und sicher). Erst nach Messung im Cloudflare-Dashboard erhöhen.
 export const PAKET = 10;
-const LIVE_ARTEN = ["ticker", "halbzeit", "ende"];
+const LIVE_ARTEN = ["ticker", "halbzeit", "ende", "tor"];
 export async function mitteilungenSenden(db, now = Date.now()) {
   await abosSpalte(db);
   const abos = (await db.prepare("SELECT endpoint, abo, wahl FROM abos WHERE wahl IS NOT NULL").all()).results || [];
@@ -494,7 +503,8 @@ export async function mitteilungenSenden(db, now = Date.now()) {
       if (!slug) continue;
       const r = await fetch(API + slug, { headers: { accept: "application/json" } });
       if (!r.ok) continue;
-      for (const e of liveEreignisse(c, kuerzen(await r.json()), now))
+      const f = await r.json();
+      for (const e of liveEreignisse(c, { ...kuerzen(f), toreRoh: toreRoh(f) }, now))
         await db.prepare("INSERT OR IGNORE INTO offen (id, ereignis) VALUES (?1, ?2)").bind(e.id, JSON.stringify(e)).run();
     } catch (e) { console.log("Live", c.id, e.message); }
   }

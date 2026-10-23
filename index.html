@@ -581,7 +581,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu m";
+const FASSUNG = "23.10.2026 neu n";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1153,7 +1153,8 @@ async function codeStimmt(frage, auchTest = false) {
   try {
     const h = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(c.trim().toUpperCase())));
     const x = [...h].map(b => b.toString(16).padStart(2, "0")).join("");
-    if (x === CODE_HASH || (auchTest && x === TEST_HASH)) return true;
+    if (x === CODE_HASH) return "pro";
+    if (auchTest && x === TEST_HASH) return "test";
   } catch (e) {}
   alert("Falscher Code.");
   return false;
@@ -1207,7 +1208,10 @@ document.addEventListener("visibilitychange", () => {
 // wird nur mit Merker eingerichtet; ohne Merker wird ein vorhandener wieder entfernt — so ist
 // 5× Tippen zum Ausschalten auch der Weg zurück. SPÄTER WIEDER AUSBAUEN (CLAUDE.md, 5×-Schalter).
 const SW_SCOPE = "./";
-const mtest = () => { try { return localStorage.getItem(KEY + "_mtest") === "1"; } catch (e) { return false; } };
+// Merker: "pro" (eigener Code) oder "test" (Tester-Code); alte Merker "1" (vor 23.10. abends) zählen wie "test".
+const mtest = () => { try { return ["1", "pro", "test"].includes(localStorage.getItem(KEY + "_mtest")); } catch (e) { return false; } };
+// Tore als Mitteilung (vom Nutzer, 23.10.2026): erst nur mit eigenem Code. Für alle freischalten = hier true zurückgeben.
+const mTore = () => { try { return localStorage.getItem(KEY + "_mtest") === "pro"; } catch (e) { return false; } };
 const pushGeht = () => "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
 const istApp = () => navigator.standalone === true || matchMedia("(display-mode: standalone)").matches;
 let MITT_OFFEN = false, MITT_STAND = "";
@@ -1278,15 +1282,17 @@ function installHtml() {
 // Auswahl (Stufe 2, je Mannschaft einzeln, vom Nutzer 21.10.2026): { je: { "U13 2": ["tabelle"], … } },
 // gemerkt auf dem Handy und beim Worker (?push=wahl). Jede Mannschaft zeigt nur, was es bei ihr gibt.
 const M_ART_TEXT = { heute: "Heute Spiel (10 Uhr)", spieltag: "Spieltag komplett", tabelle: "Tabelle aktualisiert",
-  uhrzeit: "Uhrzeit steht fest (wenn vorher keine eingetragen war)", neu: "Neue Phase / neues Spiel", ticker: "Liveticker läuft", halbzeit: "Halbzeitstand (nur mit Ticker)", ende: "Endstand", woche: "Neue Woche" };
+  uhrzeit: "Uhrzeit steht fest (wenn vorher keine eingetragen war)", neu: "Neue Phase / neues Spiel", ticker: "Liveticker läuft", halbzeit: "Halbzeitstand (nur mit Ticker)", ende: "Endstand", woche: "Neue Woche",
+  tor: "Tore (fast live, nur mit Ticker — bewusst einschalten)" };
 const mKat = r => (D?.teams || []).find(t => t.reiter === r || t.gruppe?.name === r)?.kat || r;
 function mArtenFuer(r) {
   const k = mKat(r);
   if (r === "Woche") return ["woche"];
   if (r === "BGL") return ["spieltag"];
-  if (r === "Roude Léiw") return ["heute", "ticker", "halbzeit", "ende"];
+  const tor = mTore() ? ["tor"] : [];
+  if (r === "Roude Léiw") return ["heute", "ticker", "halbzeit", ...tor, "ende"];
   // Uhrzeit nur bei U9/U11, und nur wenn vorher keine da war (vom Nutzer: geänderte Zeiten gibt der Trainer durch).
-  if (k === "Seniors") return ["heute", "tabelle", "ticker", "halbzeit", "ende"];
+  if (k === "Seniors") return ["heute", "tabelle", "ticker", "halbzeit", ...tor, "ende"];
   if (k === "U13" || k === "U15") return ["heute", "neu", "spieltag", "tabelle"];
   return ["heute", "uhrzeit"];   // U9, U11: die FLF zeigt keine Ergebnisse
 }
@@ -1331,7 +1337,7 @@ document.addEventListener("change", e => {
   const c = e.target.closest("#mitt input[type=checkbox][data-t]");
   if (!c) return;
   const w = mWahl(), r = c.dataset.t, k = c.dataset.a;
-  if (!k) { if (c.checked) w.je[r] = mArtenFuer(r); else delete w.je[r]; }   // Mannschaft an: erst einmal alles
+  if (!k) { if (c.checked) w.je[r] = mArtenFuer(r).filter(x => x !== "tor"); else delete w.je[r]; }   // Mannschaft an: alles außer Tore (bewusst wählen, vom Nutzer)
   else { w.je[r] = (w.je[r] || []).filter(x => x !== k); if (c.checked) w.je[r].push(k); }
   try { localStorage.setItem(KEY + "_mwahl", JSON.stringify(w)); } catch (x) {}
   if (!k) mittHtml().then(mWahlSenden); else mWahlSenden();
@@ -1384,8 +1390,9 @@ document.getElementById("logo").addEventListener("click", async () => {
   if (LOGO_TIPPS.length < 5) return;
   LOGO_TIPPS = [];
   const an = !mtest();
-  if (an ? !(await codeStimmt("Mitteilungen zum Ausprobieren einschalten (nur auf diesem Gerät)? Code eingeben:", true)) : !confirm("Mitteilungen-Test ausschalten und auf diesem Gerät abmelden?")) return;
-  try { if (an) localStorage.setItem(KEY + "_mtest", "1"); else localStorage.removeItem(KEY + "_mtest"); } catch (e) {}
+  const code = an ? await codeStimmt("Mitteilungen zum Ausprobieren einschalten (nur auf diesem Gerät)? Code eingeben:", true) : null;
+  if (an ? !code : !confirm("Mitteilungen-Test ausschalten und auf diesem Gerät abmelden?")) return;
+  try { if (an) localStorage.setItem(KEY + "_mtest", code); else localStorage.removeItem(KEY + "_mtest"); } catch (e) {}
   MITT_OFFEN = an; MITT_STAND = "";
   zahnradZeigen();
   if (!an) swAufraeumen();
