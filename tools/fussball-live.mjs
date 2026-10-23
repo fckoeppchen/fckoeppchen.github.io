@@ -89,6 +89,7 @@ export function liveAus(f, flf) {
     minuteAt: l.lastTimestamp || null,
     tore: ereignisse(f, "goal"),
     karten: ereignisse(f, "card"),
+    fehl: ereignisse(f, "penaltyfail"),   // verschossene Elfmeter (vom Nutzer, 23.10.2026)
     ticker: f.tickerAuthor?.name || null,
   };
 }

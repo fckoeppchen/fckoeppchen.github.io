@@ -256,7 +256,8 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     live: { minute: 71, period: "secondHalf", running: true, lastTimestamp: "2026-10-18T17:30:03+02:00" },
     highlights: [{ minute: 12, additionalMinute: 0, type: "goal", subtype: "goal_headed",
       team: { teamSlug: "fc-koeppchen-m1-2026-27" }, primaryRole: { firstName: "Pedro", lastName: "Neves Costa" } },
-      { minute: 30, type: "card", team: { teamSlug: "x" } }],
+      { minute: 30, type: "card", team: { teamSlug: "x" } },
+      { minute: 55, type: "penaltyfail", subtype: "penalty_foul", team: { teamSlug: "fc-koeppchen-m1-2026-27" }, primaryRole: { firstName: "Max", lastName: "Muster" } }],
   };
   const flf = DS.klassen[18888].spiele[0];
   const Lv = liveAus(fupa, flf);
@@ -302,7 +303,9 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(M.liveAnzeige({ ...Lv, flfId: spFlf.match.id }, M.sicht(DF, 44831, t0), t0) === null, "FLF hat Ergebnis → Kasten weg");
   // Worker und GitHub-Lauf müssen dasselbe aus FuPa machen (zwei Kopien derselben Umrechnung).
   const Wk = kuerzen({ ...fupa, homeGoal: 2 });
-  for (const k of ["hs", "as", "section", "period", "running", "minute", "minuteAt", "tore", "karten", "ticker"])
+  ok(Lv.fehl.length === 1 && Lv.fehl[0].name === "Max Muster" && Lv.fehl[0].heim && Lv.tore.length === 1, "verschossener Elfmeter getrennt von den Toren");
+  gleich(M.ereignisListe(Lv).map(e => e.typ + e.min), ["tor12", "karte30", "fehl55"], "Kasten-Liste: Tor, Karte, verschossener Elfmeter nach Minute");
+  for (const k of ["hs", "as", "section", "period", "running", "minute", "minuteAt", "tore", "karten", "fehl", "ticker"])
     ok(JSON.stringify(Wk[k]) === JSON.stringify(liveAus({ ...fupa, homeGoal: 2 }, flf)[k]), "Worker = GitHub-Lauf: " + k);
   ok(M.mitWorker(Lv, Wk).hs === 2 && M.mitWorker(Lv, Wk).h === Lv.h, "Worker-Stand gilt, Namen bleiben aus live.json");
   ok(M.mitWorker(Lv, { ...Wk, slug: "anderes-spiel" }).hs === 1, "Worker zu anderem Spiel wird ignoriert");
@@ -372,7 +375,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     "Torart mit den echten FuPa-Namen aus 11 Spielen");
   gleich(["card_red", "card_yellow_red", "card_yellow"].map(a => M.kartenArt(a).text), ["Rot", "Gelb-Rot", "Gelb"], "Kartenarten");
   gleich(Lv.karten.map(k => [k.min, k.heim]), [[30, false]], "Karte aus FuPa übernommen, Gast erkannt");
-  gleich(M.ereignisListe(Lv).map(e => e.typ + e.min), ["tor12", "karte30"], "Tore und Karten nach Minute");
+  gleich(M.ereignisListe(Lv).map(e => e.typ + e.min), ["tor12", "karte30", "fehl55"], "Tore, Karten und verschossene Elfmeter nach Minute");
   ok(M.ereignisListe({ tore: Lv.tore }).length === 1, "alte live.json ohne Karten geht");
   ok(M.imLiveFenster(vS, t0) && !M.imLiveFenster(vS, Date.parse("2026-10-19T12:00:00+02:00")), "Abfrage jede Minute nur im Fenster");
 }

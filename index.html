@@ -334,11 +334,12 @@ function kartenArt(art) {
   return { zeichen: "🃏", text: "Karte" };
 }
 
-// Tore und Karten in einer Liste, nach Minute (bei gleicher Minute Tor zuerst).
+// Tore, Karten und verschossene Elfmeter (vom Nutzer, 23.10.2026) in einer Liste, nach Minute (bei gleicher Minute Tor zuerst).
 function ereignisListe(lv) {
   const tore = (lv.tore || []).map(t => ({ ...t, typ: "tor" }));
   const karten = (lv.karten || []).map(k => ({ ...k, typ: "karte" }));
-  return [...tore, ...karten].sort((x, y) => x.min - y.min || x.plus - y.plus || (x.typ === "tor" ? -1 : 1));
+  const fehl = (lv.fehl || []).map(k => ({ ...k, typ: "fehl" }));
+  return [...tore, ...karten, ...fehl].sort((x, y) => x.min - y.min || x.plus - y.plus || (x.typ === "tor" ? -1 : 1));
 }
 
 // „Heute Spieltag“ (vom Nutzer gewünscht, für alle Reiter): das erste eigene Spiel heute (Tag in
@@ -407,7 +408,7 @@ const countdownText = m => `Anpfiff in ${m} ${m === 1 ? "Minute" : "Minuten"}`;
 // Stand vom Cloudflare-Worker (tools/cloudflare-worker.js, bis ~80 s alt: 60 s Abfrage + 20 s Merken) über den von GitHub legen
 // (data/live.json, bis zu 7 min alt). Vom Worker kommt nur der Stand; welches Spiel, Anstoß und
 // Mannschaftsnamen bleiben aus live.json. Passt der Slug nicht (anderes Spiel), gilt GitHub.
-const WORKER_FELDER = ["hs", "as", "section", "period", "running", "minute", "minuteAt", "tore", "karten", "ticker"];
+const WORKER_FELDER = ["hs", "as", "section", "period", "running", "minute", "minuteAt", "tore", "karten", "fehl", "ticker"];
 // Passt W zu L? Über den FuPa-Slug, oder — wenn der GitHub-Lauf noch keinen geliefert hat — über
 // das FLF-Spiel, für das die App den Worker per Anstoßzeit gefragt hat (`W.fuer`).
 function mitWorker(L, W) {
@@ -581,7 +582,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu n";
+const FASSUNG = "23.10.2026 neu o";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -902,6 +903,7 @@ function liveHtml(lv, wir, zusatz) {
       const k = kartenArt(e.art);
       return `<li>${k.zeichen} ${min} ${esc(e.name || "")} · <b>${k.text}</b> ${wer}</li>`;
     }
+    if (e.typ === "fehl") return `<li>❌ ${min} ${esc(e.name || "")}${e.name ? " · " : ""}<b>Elfmeter verschossen</b> ${wer}</li>`;
     const art = torArt(e.art);
     return `<li>⚽ ${min} ${esc(e.name || "Tor")}${art ? ` · <b>${art}</b>` : ""} ${wer}</li>`;
   }).join("");

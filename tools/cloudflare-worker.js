@@ -88,6 +88,7 @@ export function kuerzen(f) {
     minuteAt: f.live?.lastTimestamp || null,
     tore: ereignisse(f, "goal"),
     karten: ereignisse(f, "card"),
+    fehl: ereignisse(f, "penaltyfail"),   // verschossene Elfmeter (vom Nutzer, 23.10.2026), nur im Kasten, keine Mitteilung
     ticker: f.tickerAuthor?.name || null,
   };
 }
