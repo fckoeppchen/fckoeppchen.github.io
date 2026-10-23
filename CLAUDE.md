@@ -226,7 +226,7 @@ oder „· 🔴 n Spiele gerade LIVE“. Reiter `"woche"`: alle Spiele aller Koe
 `holenWorkerAlle` fragen den Worker **seit 23.10. (Fassung neu i, vom Nutzer) jede Minute** (vorher 20 s; 100 000 Aufrufe/Tag gratis, der Ticker war der Hauptverbraucher) für jedes Spiel im Live-Fenster (Seniors 1–3), egal
 welcher Reiter offen ist; `WS` = Stand je FLF-Spiel. Bei vertauschtem FuPa-Spiel dreht die Woche die
 **Zahlen** (FLF-Namen bleiben), der Live-Kasten im Reiter noch die **Namen** — vom Nutzer entschieden:
-auch der Kasten bekommt die FLF-Reihenfolge, **aber erst nach dem Blick am Fr 23.10.** (67 von 68
+auch der Kasten bekommt die FLF-Reihenfolge, **aber erst nach dem Blick am Fr 23.10.** — **Blick gemacht, nicht umgebaut** (vom Nutzer, 23.10.: FuPa hatte das Spiel bis 18 Uhr selbst richtiggestellt; „wird sicher während einem getickerten Spiel korrigiert sein“). Kasten bleibt bei FuPas Reihenfolge, Woche/Endstand drehen weiter die Zahlen (67 von 68
 FuPa-Spielen der Saison haben dieselbe Reihenfolge wie die FLF, nur Beggen–Koeppchen II nicht).
 Vereins-Zusätze (Platzbelegung, Woche teilen, Heimspiel-Kalender) zurückgestellt → `IDEEN-fussball.md`.
 Reiter-Raster: Handy 4 je Reihe, ab 600 px 6 je Reihe (12 Knöpfe = 2 volle Reihen).
