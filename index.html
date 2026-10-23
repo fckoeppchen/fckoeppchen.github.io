@@ -580,7 +580,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "23.10.2026 neu j";
+const FASSUNG = "23.10.2026 neu k";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1144,12 +1144,15 @@ let VON_TIPPS = [];
 // Beide 5×-Schalter fragen beim Einschalten nach einem Code (vom Nutzer, 22.10.2026). Er steht nur als
 // SHA-256 in der Datei: nicht einfach ablesbar, aber kein echter Schutz — hält Neugierige ab.
 const CODE_HASH = "452407a9a9f0b6c22b1ea097c91cb140e13a3e35edac52e98785732c19379e9c";
-async function codeStimmt(frage) {
+// Zweiter Code nur für die Mitteilungen (Logo), für ein, zwei Tester (vom Nutzer, 23.10.2026). Die Statistik bleibt beim ersten.
+const TEST_HASH = "694820c22698076593b4a3bd3454ded0eca0e670e4f01ee9dc0d792c167a230c";
+async function codeStimmt(frage, auchTest = false) {
   const c = prompt(frage);
   if (!c) return false;
   try {
     const h = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(c.trim().toUpperCase())));
-    if ([...h].map(b => b.toString(16).padStart(2, "0")).join("") === CODE_HASH) return true;
+    const x = [...h].map(b => b.toString(16).padStart(2, "0")).join("");
+    if (x === CODE_HASH || (auchTest && x === TEST_HASH)) return true;
   } catch (e) {}
   alert("Falscher Code.");
   return false;
@@ -1380,7 +1383,7 @@ document.getElementById("logo").addEventListener("click", async () => {
   if (LOGO_TIPPS.length < 5) return;
   LOGO_TIPPS = [];
   const an = !mtest();
-  if (an ? !(await codeStimmt("Mitteilungen zum Ausprobieren einschalten (nur auf diesem Gerät)? Code eingeben:")) : !confirm("Mitteilungen-Test ausschalten und auf diesem Gerät abmelden?")) return;
+  if (an ? !(await codeStimmt("Mitteilungen zum Ausprobieren einschalten (nur auf diesem Gerät)? Code eingeben:", true)) : !confirm("Mitteilungen-Test ausschalten und auf diesem Gerät abmelden?")) return;
   try { if (an) localStorage.setItem(KEY + "_mtest", "1"); else localStorage.removeItem(KEY + "_mtest"); } catch (e) {}
   MITT_OFFEN = an; MITT_STAND = "";
   zahnradZeigen();

@@ -24,10 +24,12 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   → Statistik und Mitteilungen fangen neu an (vom Nutzer: „komplett neue Statistik“). Stößt dieses
   Repo an (`REPO`), liest `data/mitteilungen.json` von hier. Der alte Worker `koeppchen-live` bleibt
   unverändert für die alte App.
-- **Beide 5×-Schalter fragen beim Einschalten nach einem Code** (vom Nutzer: „PROACCOUNT“), Groß/klein
+- **Beide 5×-Schalter fragen beim Einschalten nach einem Code** (vom Nutzer genannt; steht bewusst nicht hier, das Repo ist öffentlich), Groß/klein
   egal. Steht nur als SHA-256 in der Datei (`CODE_HASH`, `codeStimmt`) — hält Neugierige ab, kein echter
   Schutz (dem Nutzer so gesagt, „ja“). Ausschalten ohne Code. Die Statistik-Seite `?zahlen` bleibt ohne
-  Code (vom Nutzer).
+  Code (vom Nutzer). **Zweiter Code nur fürs Logo/Mitteilungen** (vom Nutzer, 23.10.2026, Fassung neu k, für 1–2 Tester;
+  `TEST_HASH`, `codeStimmt(frage, true)`): schaltet nur die Mitteilungen ein, **nicht** „eigenes Gerät“ in der Statistik —
+  das bleibt beim ersten Code (Tester zählen also normal mit). Wortlaut beider Codes nur beim Nutzer, nie in eine Datei.
 - Fassungen dieser Kopie heißen „… neu a“, „… neu b“ usw.
 - **Fassung neu b** (vom Nutzer, 22.10.): Kalender-Knopf (`.kal`) und Mannschafts-Schilder in „Unsere Woche“
   (`.pill.wteam`) grün (`--accentT`, dunkles Türkis aus dem Logo) statt schwarz; Fußzeile „Gemacht von
