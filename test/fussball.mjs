@@ -86,6 +86,12 @@ function roh(div, typ, d, h, a, hs, as, extra = {}) {
            division: div, matchType: { id: typ }, homeTeam: h, awayTeam: a, sportField: { name: "Am Ga" } };
 }
 const s1 = roh(DIV4, "CC", "2026-09-19T14:30:00+02:00", G(1), K1, 2, 2, { tag: 1 });
+{
+  // U9/U11 (showResult false): Ergebnis wird gar nicht gespeichert, „gespielt“ bleibt.
+  const u9 = spiel(roh({ id: 77, name: "U9 Pupilles", showResult: false, showRanking: false }, "CC", "2026-10-03T11:00:00+02:00", G(1), K1, 20, 1));
+  ok(u9.hs === null && u9.as === null && u9.gespielt === true, "U9/U11: Ergebnis nicht gespeichert, gespielt ja");
+  ok(spiel(roh(DIV4, "CC", "2026-10-03T11:00:00+02:00", G(1), K1, 2, 1)).hs === 2, "andere Klassen: Ergebnis bleibt");
+}
 const s2 = roh(DIV4, "CC", "2026-10-17T14:30:00+02:00", K1, G(2), 9, 0, { tag: 5 });
 const s3 = roh(DIV4, "CC", "2026-09-19T15:00:00+02:00", G(3), G(4), 5, 2, { tag: 1 });
 const s4 = roh(DIV6, "CC", "2026-09-26T14:00:00+02:00", G(5), K2, 9, 5, { tag: 2 });

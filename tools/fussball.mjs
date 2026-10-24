@@ -69,14 +69,17 @@ const istVerein = t => t && [t.clubId1, t.clubId2, t.clubId3, t.clubId4].include
 // Ein Spiel aus der Schnittstelle → schlankes Format der App.
 export function spiel(m) {
   const x = m.match, final = x.finalHomeScore != null;
+  // U9/U11: Die FLF veröffentlicht keine Ergebnisse (showResult false), ihre Schnittstelle liefert sie aber
+  // mit. Wir speichern sie gar nicht erst (24.10.2026, Wunsch des Vereins: keine Ergebnisse bei den Kleinen).
+  const ohne = m.division?.showResult === false;
   return {
     id: x.id,
     d: x.matchDate,
     tag: x.gameday,
     h: { id: m.homeTeam.id, n: m.homeTeam.name },
     a: { id: m.awayTeam.id, n: m.awayTeam.name },
-    hs: final ? x.finalHomeScore : x.homeScore,
-    as: final ? x.finalAwayScore : x.awayScore,
+    hs: ohne ? null : final ? x.finalHomeScore : x.homeScore,
+    as: ohne ? null : final ? x.finalAwayScore : x.awayScore,
     gespielt: !!x.isPlayed,
     forfait: !!x.isForfait,
     bem: x.finalScoreComment || undefined,

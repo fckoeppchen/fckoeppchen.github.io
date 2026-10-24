@@ -593,7 +593,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "24.10.2026 neu b";
+const FASSUNG = "24.10.2026 neu c";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -688,14 +688,15 @@ function spielZeile(sp, ids, meta) {
   // Gefärbt (Sieg/Unentschieden/Niederlage) wird nur, wo eine eigene Mannschaft spielt.
   const tid = ids && (ids.has(sp.h.id) ? sp.h.id : ids.has(sp.a.id) ? sp.a.id : null);
   // Bei U9/U11 veröffentlicht die FLF keine Ergebnisse (showResult) — dann zeigen wir auch
-  // keine, selbst wenn die Schnittstelle eins liefern sollte.
+  // keine, selbst wenn die Schnittstelle eins liefern sollte. „gespielt“ einheitlich ab 3 h nach Anpfiff
+  // (Uhrzeit offen: ab dem Tag danach), egal ob der Spielbericht schon drin ist (vom Nutzer, 24.10.2026).
   const ohne = sp.erg === false;
   const a = !ohne && tid != null && ausgang(sp, tid);
   const sc = !ohne && sp.gespielt && sp.hs != null ? `${sp.hs} : ${sp.as}` : "";
   const wirH = ids && ids.has(sp.h.id), wirA = ids && ids.has(sp.a.id);
   return `<div class="m">
     <div class="t h${wirH ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
-    <div class="sc ${sc ? (a || "") : "offen"}">${sc || (sp.gespielt ? (ohne ? "gespielt" : "–") : Date.parse(sp.d) < Date.now() ? "–" : "offen")}</div>
+    <div class="sc ${sc ? (a || "") : "offen"}">${sc || (ohne && (sp.gespielt || istVorbei(sp, Date.now())) ? "gespielt" : sp.gespielt ? "–" : Date.parse(sp.d) < Date.now() ? "–" : "offen")}</div>
     <div class="t${wirA ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div>
     ${meta ? `<div class="meta">${meta}</div>` : ""}
   </div>`;

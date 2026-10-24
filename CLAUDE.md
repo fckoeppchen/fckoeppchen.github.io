@@ -129,6 +129,10 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   gemeinsam für Handy-Anfragen (`?slug=`) und den Minuten-Lauf der Mitteilungen (vorher fragte der extra). FuPa weg → letzter
   Stand. `abgerufen` = Zeit des FuPa-Abrufs. Stand in der App dadurch bis ~2 min alt. Test mit Zählung der Abrufe, Gegenprobe.
   **Worker neu einfügen nötig.**
+- **U9/U11 einheitlich „gespielt“, Ergebnisse nicht gespeichert** (vom Nutzer, 24.10.2026, Fassung 24.10. neu c): vorher
+  „gespielt“ nur, wenn die FLF den Spielbericht hatte, sonst „–“ (PUP 2 seit 3.10. ohne Bericht). Jetzt ab 3 h nach Anpfiff
+  (Uhrzeit offen: ab dem Tag danach, `istVorbei`) immer „gespielt“. Die FLF-Schnittstelle liefert die versteckten Ergebnisse
+  mit; `spiel()` speichert bei `showResult: false` keine `hs`/`as` mehr (Wunsch des Vereins). Test mit Gegenprobe.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
