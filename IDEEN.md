@@ -185,3 +185,15 @@ Die Wochenvorschau selbst ist gebaut („Unsere Woche“, 20.10.2026); diese Zus
   der Trainer ab und zu anmeldet, kommen von Hand: reicht Datum, Ort, Uhrzeit („Turnier in … um …“) im Reiter, in der Woche
   und im Kalender. Mit dem Verein klären, wer Bescheid gibt. Idee: eine kleine Datei `data/turniere.json` (Mannschaft,
   Datum, Uhrzeit, Ort, Name), die Claude auf Zuruf füllt — oder der Nutzer selbst auf GitHub im Browser.
+
+## Offen vom 24.10.2026 abends (vom Nutzer, morgen angehen)
+
+1. **Koeppi-Streifen mit Ergebnis:** Solange „Super gemacht“ steht (bis 7 Tage, oder bis Vortag/Spieltag des nächsten),
+   das Spiel mit in den Kasten nehmen (größer), danach normal unter „Unsere Ergebnisse“. Achtung Vereinswunsch „keine
+   Ergebnisse hervorheben“ — mit dem Nutzer klären, ob das bei U13/U15 dazu passt (U9/U11 haben ohnehin keine Zahlen).
+2. **Aufklappbare Karten auffälliger** („Alle Spiele der Klasse“, „Frühere Phasen“): grauer Kopf auf Weiß fällt nicht auf.
+   Vorschlag des Nutzers: Kopf grün, Knopf „Anzeigen/Zuklappen“ weiß oder schwarz. Varianten zeigen.
+3. **Spruch doppelt am selben Wochenende** (MIN 1/MIN 2, PUP 1/PUP 2): Index = gespielte Spiele + Versatz (Platz in `fest`,
+   Nachbarn 1 auseinander). Hat ein Team ein Spiel mehr (z. B. Pokal), heben sich die 1 auf → gleicher Spruch. Lösung:
+   Index aus der Woche (Kalenderwoche/Wochenende) + Platz in `fest`; bei 8 Sprüchen und 7 Teams nie zwei gleiche am selben
+   Wochenende, jede Woche ein anderer.
