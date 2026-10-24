@@ -715,6 +715,20 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(id("zeit:301")?.text === "Sa., 31.10. um 10:00 gegen US Berdorf" && !id("zeit:503"), "Mitteilung: Uhrzeit steht fest nur bei U9/U11, nie bei den Seniors");
   ok(id("phase:k4:1")?.text === "Spielplan U13 Klasse II ist da: 2 Spiele, erstes Sa., 7.11. um 14:00 gegen FC Mondorf" && !id("neu:401"), "Mitteilung: neue Phase als eine Mitteilung");
   ok(id("neu:501")?.titel === "U13 1 · Neues Spiel" && id("neu:501").text === "Mi., 11.11. um 18:00 gegen FC Wiltz · 📍 Wiltz", "Mitteilung: neues Spiel (Pokal)");
+  {
+    // Nächste Pokalrunde der U13 ohne I/II (gehört zu MIN 1 und MIN 2): einmal, Titel „MIN“, beide Reiter.
+    const mk = () => { const d = neuD();
+      d.teams[0] = { ...d.teams[0], kurz: "MIN", mit: [5] };
+      d.teams.push({ id: 4, ids: [4], n: K + " II", kat: "U13", kurz: "MIN", reiter: "U13 2", klassen: ["k1"], mit: [5] },
+                   { id: 5, ids: [5], n: K, kat: "U13", kurz: "MIN", klassen: ["k6"], mit: [] });
+      d.klassen.k6 = { id: "k6", n: "Coupe U13", typ: "CUP", ergebnisse: true, tabelle: null, spiele: [] };
+      return d; };
+    const a2 = mk(), n2 = mk();
+    n2.klassen.k6.spiele.push(sp(601, "2026-11-07T14:00:00+01:00", 2, [61, "FC Rodange"], [5, K], null, null, { ort: "Rodange" }));
+    const e = mEreignisse(a2, n2, null, jetzt).ereignisse.filter(x => x.id === "neu:601");
+    ok(e.length === 1 && e[0].titel === "MIN · Neues Spiel" && e[0].reiter.includes("U13 1") && e[0].reiter.includes("U13 2"),
+       "Mitteilung: nächste Pokalrunde ohne I/II einmal als „MIN · Neues Spiel“, für beide Reiter");
+  }
   const umgestellt = neuD(), vorUm = neuD(); vorUm.klassen.k3.spiele[0].d = "2026-10-31T11:00:00+01:00";
   ok(!mEreignisse(vorUm, umgestellt, null, jetzt).ereignisse.length, "Mitteilung: geänderte Uhrzeit (11 → 10 Uhr) meldet nichts");
   ok(id("bgl:9:11") && id("nende:801")?.text === "Luxemburg 2:1 Estland", "Mitteilung: BGL-Spieltag und Länderspiel-Endstand");

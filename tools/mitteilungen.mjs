@@ -144,9 +144,12 @@ export function ereignisse(alt, neu, vorher, now) {
       if (einzeln.length > 3)
         dazu({ reiter: [t.reiter], id: `neu:${t.id}:${einzeln.map(sp => sp.id).join(",")}`, art: "neu", titel: `${t.reiter} · ${einzeln.length} neue Spiele`,
                text: `Erstes ${wann(einzeln[0])} gegen ${gegen(einzeln[0])} · alle in der App`, ab: now, bis: now + 48 * H });
-      else for (const sp of einzeln)
-        dazu({ reiter: [t.reiter], id: `neu:${sp.id}`, art: "neu", titel: `${t.reiter} · Neues Spiel`,
+      else for (const sp of einzeln) {
+        // Pokal ohne I/II gehört zu beiden Reitern: Titel „MIN“, beide Reiter (wie bei „Morgen Spiel“).
+        const x = jeSpiel.get(sp.id), beide = x && x.reiter.length > 1;
+        dazu({ reiter: beide ? x.reiter : [t.reiter], id: `neu:${sp.id}`, art: "neu", titel: `${beide ? x.kurz : t.reiter} · Neues Spiel`,
                text: `${wann(sp)} gegen ${gegen(sp)}` + (sp.ort ? ` · 📍 ${sp.ort}` : ""), ab: now, bis: Math.min(now + 48 * H, Date.parse(sp.d)) });
+      }
     }
 
   // BGL: Spieltag komplett.
