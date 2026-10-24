@@ -66,6 +66,13 @@ async function gq(query, variables = {}) {
 const day = iso => iso.slice(0, 10);
 const istVerein = t => t && [t.clubId1, t.clubId2, t.clubId3, t.clubId4].includes(CLUB);
 
+// Bemerkung der FLF zum Endergebnis. Sie kommt mit kaputten Umlauten („Arr\uFFFDt\uFFFD“), die bekannten werden repariert.
+export function bemerkung(t) {
+  if (!t) return undefined;
+  if (/^arr.t.$/i.test(t.trim())) return "Arrêté";
+  return t.replace(/\uFFFD/g, "?");
+}
+
 // Ein Spiel aus der Schnittstelle → schlankes Format der App.
 export function spiel(m) {
   const x = m.match, final = x.finalHomeScore != null;
@@ -80,9 +87,11 @@ export function spiel(m) {
     a: { id: m.awayTeam.id, n: m.awayTeam.name },
     hs: ohne ? null : final ? x.finalHomeScore : x.homeScore,
     as: ohne ? null : final ? x.finalAwayScore : x.awayScore,
-    gespielt: !!x.isPlayed,
+    // Abgebrochene Spiele („Arrêté“) führt die FLF als nicht gespielt, aber mit gewertetem Endergebnis
+    // (24.10.2026, U15 gegen Oberkorn 2:0): ein Endergebnis zählt darum als gespielt.
+    gespielt: !!x.isPlayed || (final && !x.isForfait),
     forfait: !!x.isForfait,
-    bem: x.finalScoreComment || undefined,
+    bem: bemerkung(x.finalScoreComment),
     ort: m.sportField?.name || undefined,
   };
 }

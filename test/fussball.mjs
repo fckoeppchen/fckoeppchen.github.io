@@ -91,6 +91,12 @@ const s1 = roh(DIV4, "CC", "2026-09-19T14:30:00+02:00", G(1), K1, 2, 2, { tag: 1
   const u9 = spiel(roh({ id: 77, name: "U9 Pupilles", showResult: false, showRanking: false }, "CC", "2026-10-03T11:00:00+02:00", G(1), K1, 20, 1));
   ok(u9.hs === null && u9.as === null && u9.gespielt === true, "U9/U11: Ergebnis nicht gespeichert, gespielt ja");
   ok(spiel(roh(DIV4, "CC", "2026-10-03T11:00:00+02:00", G(1), K1, 2, 1)).hs === 2, "andere Klassen: Ergebnis bleibt");
+  // Abgebrochen („Arrêté“): FLF sagt isPlayed false, hat aber ein gewertetes Endergebnis (24.10.2026, U15–Oberkorn 2:0).
+  const ab = roh(DIV4, "CUP", "2026-10-24T16:00:00+02:00", K1, G(2), null, null, { fh: 2, fa: 0 });
+  ab.match.finalScoreComment = "Arr\uFFFDt\uFFFD";
+  const abS = spiel(ab);
+  ok(abS.gespielt && abS.hs === 2 && abS.as === 0 && abS.bem === "Arrêté", "abgebrochenes Spiel mit Wertung zählt als gespielt, Bemerkung repariert");
+  ok(!spiel(roh(DIV4, "CC", "2026-11-03T11:00:00+02:00", G(1), K1, null, null)).gespielt, "ohne Ergebnis nicht gespielt");
 }
 const s2 = roh(DIV4, "CC", "2026-10-17T14:30:00+02:00", K1, G(2), 9, 0, { tag: 5 });
 const s3 = roh(DIV4, "CC", "2026-09-19T15:00:00+02:00", G(3), G(4), 5, 2, { tag: 1 });

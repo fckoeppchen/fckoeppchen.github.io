@@ -133,6 +133,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   „gespielt“ nur, wenn die FLF den Spielbericht hatte, sonst „–“ (PUP 2 seit 3.10. ohne Bericht). Jetzt ab 3 h nach Anpfiff
   (Uhrzeit offen: ab dem Tag danach, `istVorbei`) immer „gespielt“. Die FLF-Schnittstelle liefert die versteckten Ergebnisse
   mit; `spiel()` speichert bei `showResult: false` keine `hs`/`as` mehr (Wunsch des Vereins). Test mit Gegenprobe.
+- **Abgebrochene Spiele** (24.10.2026, Fassung 24.10. neu d): U15–Oberkorn stand im Extranet „2 - 0“, in der App ohne
+  Ergebnis — die FLF führte es mit `isPlayed` false, aber Endergebnis und Bemerkung „Arrêté“ (kommt als „Arr\uFFFDt\uFFFD“).
+  `spiel()`: Endergebnis (ohne Forfait) = gespielt; `bemerkung()` repariert „Arrêté“; App schreibt „abgebrochen, gewertet“.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
