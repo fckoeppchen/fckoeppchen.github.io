@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-24T14:16:29.943Z",
+ "stand": "2026-10-24T14:31:25.421Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -12573,7 +12573,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Ralingen (synth.)"
     },
