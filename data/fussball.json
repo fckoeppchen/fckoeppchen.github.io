@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-24T16:16:28.434Z",
+ "stand": "2026-10-24T16:46:29.215Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -16825,10 +16825,11 @@
       "id": 45198,
       "n": "CS Oberkorn"
      },
-     "hs": null,
-     "as": null,
+     "hs": 2,
+     "as": 0,
      "gespielt": false,
      "forfait": false,
+     "bem": "Arr�t�",
      "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
@@ -16880,9 +16881,9 @@
       "id": 46334,
       "n": "SC Bettembourg"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Emile Bintner (Luxembourg, synth.)"
     },
@@ -16898,9 +16899,9 @@
       "id": 46569,
       "n": "Etzella Ettelbruck"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 12,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Jos Durbach (Bous, synth.)"
     },
@@ -16952,9 +16953,9 @@
       "id": 46297,
       "n": "FC Kehlen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 8,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Vianden)"
     },
@@ -16970,9 +16971,9 @@
       "id": 45137,
       "n": "US Esch-Alzette"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 12,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Ralingen (synth.)"
     },
@@ -17006,9 +17007,9 @@
       "id": 45562,
       "n": "FC 72 Erpeldange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 12,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Jos Bloes (Bascharage, synth.)"
     },
@@ -17669,9 +17670,9 @@
       "id": 44862,
       "n": "FC Schifflange 95"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 8,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Feidt Frères (Brouch, synth.)"
     },
@@ -17705,10 +17706,11 @@
       "id": 45825,
       "n": "Union Titus Pétange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 5,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 5 - 4",
      "ort": "Terrain 2 (Walferdange, synth.)"
     },
     {
@@ -17723,9 +17725,9 @@
       "id": 46547,
       "n": "FC The Belval Belvaux"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 7,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Am Brill (Moutfort, synth.)"
     },
