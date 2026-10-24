@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-24T19:46:22.945Z",
+ "stand": "2026-10-24T20:53:31.944Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -17025,9 +17025,9 @@
       "id": 45462,
       "n": "FC Mamer 32"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 9,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Emile Müller (Kayl)"
     },
