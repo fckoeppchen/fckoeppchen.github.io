@@ -181,3 +181,7 @@ Die Wochenvorschau selbst ist gebaut („Unsere Woche“, 20.10.2026); diese Zus
   Kategorie (U9/U11 1. Runde 5. bzw. 12./13.12., U13 1. Runde 2./3.1., 2. Runde U13/U9 16./17.1., U11 9./10.1., …,
   Finale 20./21.3.), ohne Mannschaften und Hallen. Die genauen Spielpläne kommen vermutlich später als eigene PDFs
   — Anfang Dezember nachsehen (oder vorher prüfen, ob sie im Extranet auftauchen). Gleicher Weg wie BAM.
+- **Vom Nutzer:** LALUX Indoor = die Indoor-Meisterschaft, wichtig → automatisch aus den FLF-PDFs. **Kleine Turniere**, die
+  der Trainer ab und zu anmeldet, kommen von Hand: reicht Datum, Ort, Uhrzeit („Turnier in … um …“) im Reiter, in der Woche
+  und im Kalender. Mit dem Verein klären, wer Bescheid gibt. Idee: eine kleine Datei `data/turniere.json` (Mannschaft,
+  Datum, Uhrzeit, Ort, Name), die Claude auf Zuruf füllt — oder der Nutzer selbst auf GitHub im Browser.
