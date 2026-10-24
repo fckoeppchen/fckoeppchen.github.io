@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-24T01:02:34.140Z",
+ "stand": "2026-10-24T11:16:20.518Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -10841,8 +10841,8 @@
       "id": 45395,
       "n": "FC Koeppchen Wormeldange I"
      },
-     "hs": 9,
-     "as": 5,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Berbourg, synth.)"
@@ -10859,8 +10859,8 @@
       "id": 44904,
       "n": "Jeunesse Junglinster I"
      },
-     "hs": 1,
-     "as": 3,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Munsbach (synth.)"
@@ -10877,8 +10877,8 @@
       "id": 46269,
       "n": "ENT Canach/Mensdorf I"
      },
-     "hs": 2,
-     "as": 1,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain au Parc (Mertert, synth.)"
@@ -10949,8 +10949,8 @@
       "id": 45934,
       "n": "FC Munsbach I"
      },
-     "hs": 0,
-     "as": 10,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Mensdorf, synth.)"
@@ -10967,8 +10967,8 @@
       "id": 46269,
       "n": "ENT Canach/Mensdorf I"
      },
-     "hs": 3,
-     "as": 2,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Grevenmacher, synth.)"
@@ -10985,8 +10985,8 @@
       "id": 45524,
       "n": "Daring Echternach I"
      },
-     "hs": 9,
-     "as": 9,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
@@ -11003,8 +11003,8 @@
       "id": 46337,
       "n": "Union Mertert-Wasserbillig"
      },
-     "hs": 15,
-     "as": 2,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Munsbach (synth.)"
@@ -11039,8 +11039,8 @@
       "id": 45395,
       "n": "FC Koeppchen Wormeldange I"
      },
-     "hs": 6,
-     "as": 0,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Junglinster, synth.)"
@@ -11463,8 +11463,8 @@
       "id": 45394,
       "n": "FC Koeppchen Wormeldange II"
      },
-     "hs": 3,
-     "as": 0,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Berbourg, synth.)"
@@ -11481,8 +11481,8 @@
       "id": 46195,
       "n": "CS Grevenmacher II"
      },
-     "hs": 6,
-     "as": 7,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Munsbach (synth.)"
@@ -11499,8 +11499,8 @@
       "id": 45318,
       "n": "Victoria Rosport II"
      },
-     "hs": 4,
-     "as": 4,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Mensdorf, synth.)"
@@ -11553,8 +11553,8 @@
       "id": 45394,
       "n": "FC Koeppchen Wormeldange II"
      },
-     "hs": 3,
-     "as": 6,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Christnach, synth)"
@@ -11571,8 +11571,8 @@
       "id": 45935,
       "n": "FC Munsbach II"
      },
-     "hs": 5,
-     "as": 0,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Am Brill (Moutfort, synth.)"
@@ -11625,8 +11625,8 @@
       "id": 46243,
       "n": "ENT Mensdorf/Canach II"
      },
-     "hs": 4,
-     "as": 2,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
@@ -11643,8 +11643,8 @@
       "id": 44705,
       "n": "US Berdorf-Consdorf 01 II"
      },
-     "hs": 17,
-     "as": 0,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Munsbach (synth.)"
@@ -11679,8 +11679,8 @@
       "id": 46381,
       "n": "Olympia Christnach-Waldbillig"
      },
-     "hs": 2,
-     "as": 13,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Mensdorf, synth.)"
@@ -11697,8 +11697,8 @@
       "id": 45394,
       "n": "FC Koeppchen Wormeldange II"
      },
-     "hs": 7,
-     "as": 5,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Grevenmacher, synth.)"
@@ -12157,8 +12157,8 @@
       "id": 46271,
       "n": "ENT Canach/Mensdorf I"
      },
-     "hs": 0,
-     "as": 1,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
@@ -12247,8 +12247,8 @@
       "id": 45392,
       "n": "FC Koeppchen Wormeldange I"
      },
-     "hs": 20,
-     "as": 0,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Junglinster, synth.)"
@@ -12301,8 +12301,8 @@
       "id": 45319,
       "n": "Victoria Rosport I"
      },
-     "hs": 10,
-     "as": 3,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Canach, synth.)"
@@ -12373,8 +12373,8 @@
       "id": 46271,
       "n": "ENT Canach/Mensdorf I"
      },
-     "hs": 6,
-     "as": 16,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Am Brill (Moutfort, synth.)"
@@ -12409,8 +12409,8 @@
       "id": 45392,
       "n": "FC Koeppchen Wormeldange I"
      },
-     "hs": 9,
-     "as": 9,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Munsbach (synth.)"
@@ -12481,8 +12481,8 @@
       "id": 45523,
       "n": "Daring Echternach I"
      },
-     "hs": 8,
-     "as": 12,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Canach, synth.)"
@@ -12887,8 +12887,8 @@
       "id": 46279,
       "n": "Union Mertert-Wasserbillig II"
      },
-     "hs": 3,
-     "as": 0,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
@@ -12941,8 +12941,8 @@
       "id": 46017,
       "n": "Union Remich/Bous II"
      },
-     "hs": 2,
-     "as": 16,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Ralingen (synth.)"
@@ -12977,8 +12977,8 @@
       "id": 46251,
       "n": "US Moutfort-Medingen II"
      },
-     "hs": 28,
-     "as": 4,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Jos Durbach (Bous, synth.)"
@@ -13067,8 +13067,8 @@
       "id": 46349,
       "n": "ENT Biwer/Berbourg II"
      },
-     "hs": 17,
-     "as": 3,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Jos Durbach (Bous, synth.)"
@@ -13211,8 +13211,8 @@
       "id": 46017,
       "n": "Union Remich/Bous II"
      },
-     "hs": 6,
-     "as": 18,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain au Parc (Mertert, synth.)"
