@@ -77,6 +77,9 @@
   .kzeile.links{justify-content:flex-start;text-align:left}
   .note.mitk{display:flex;align-items:center;gap:10px}.note.mitk>div{flex:1}
   .streifen{display:flex;align-items:center;gap:12px;padding:8px 10px;margin-bottom:6px;border-radius:10px;background:#e6f6f2;border:1px solid var(--accent)}
+  .streifenbox{margin-bottom:6px;border-radius:10px;background:#e6f6f2;border:1px solid var(--accent);overflow:hidden}
+  .streifenbox .streifen{margin:0;border:0;border-radius:0}
+  .streifenbox .m{background:#fff;margin:0 8px 8px;border-radius:8px;border-top:0;padding:9px 6px}
   .streifen b{display:block;font-size:16px}
   .live{border:2px solid var(--bad)}
   .live .chead{background:#fff4f5}
@@ -593,7 +596,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "24.10.2026 neu d";
+const FASSUNG = "25.10.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -825,15 +828,18 @@ function render() {
   h += `<section class="card"><div class="chead"><h2>${v.aktuell && !v.aktuell.ergebnisse ? "Bisherige Spiele" : "Unsere Ergebnisse"}</h2></div><div class="cbody">`;
   if (!v.gespielt.length) h += `<div class="muted">Noch nichts gespielt.</div>`;
   const nach = nachDemSpiel(v, now);
-  if (nach) {
-    const naechst = v.kommend[0];
-    h += `<div class="streifen">${koeppiBild("rennend")}<div><b>Super gemacht, ${esc(v.team.reiter)}! 💪</b>${esc(nach.spruch)}${naechst ? `<br><span class="muted">Nächstes Spiel: ${esc(wann(naechst.d, false))}</span>` : ""}</div></div>`;
-  }
-  for (const sp of v.gespielt) {
+  const ergZeile = sp => {
     const pokal = art(sp) ? " · " + art(sp) : "";
     const fehlt = !sp.gespielt && sp.erg !== false ? " · Ergebnis noch nicht eingetragen" : "";
-    h += spielZeile(sp, ids, `${esc(wann(sp.d, false))}${pokal}${sp.forfait ? (Date.parse(sp.d) > now ? " · Forfait, im Voraus gewertet" : " · Forfait") : ""}${sp.bem === "Arrêté" ? " · abgebrochen, gewertet" : ""}${fehlt}`);
+    return spielZeile(sp, ids, `${esc(wann(sp.d, false))}${pokal}${sp.forfait ? (Date.parse(sp.d) > now ? " · Forfait, im Voraus gewertet" : " · Forfait") : ""}${sp.bem === "Arrêté" ? " · abgebrochen, gewertet" : ""}${fehlt}`);
+  };
+  // Solange Koeppi lobt, steht das Spiel mit im Kasten (vom Nutzer, 25.10.2026) — gleich dargestellt wie in der
+  // Liste (Wunsch des Vereins: Ergebnis nicht hervorheben), danach wieder normal unten in der Liste.
+  if (nach) {
+    const naechst = v.kommend[0];
+    h += `<div class="streifenbox"><div class="streifen">${koeppiBild("rennend")}<div><b>Super gemacht, ${esc(v.team.reiter)}! 💪</b>${esc(nach.spruch)}${naechst ? `<br><span class="muted">Nächstes Spiel: ${esc(wann(naechst.d, false))}</span>` : ""}</div></div>${ergZeile(nach.sp)}</div>`;
   }
+  for (const sp of v.gespielt) if (!nach || sp.id !== nach.sp.id) h += ergZeile(sp);
   h += `</div></section>`;
 
   if (v.aktuell) {

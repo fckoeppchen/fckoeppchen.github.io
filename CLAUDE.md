@@ -136,6 +136,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Abgebrochene Spiele** (24.10.2026, Fassung 24.10. neu d): U15–Oberkorn stand im Extranet „2 - 0“, in der App ohne
   Ergebnis — die FLF führte es mit `isPlayed` false, aber Endergebnis und Bemerkung „Arrêté“ (kommt als „Arr\uFFFDt\uFFFD“).
   `spiel()`: Endergebnis (ohne Forfait) = gespielt; `bemerkung()` repariert „Arrêté“; App schreibt „abgebrochen, gewertet“.
+- **Koeppi-Kasten mit dem Spiel** (vom Nutzer, 25.10.2026, Fassung 25.10. neu a): Solange „Super gemacht“ steht
+  (`nachDemSpiel`), steht das Spiel unten im grünen Kasten (`.streifenbox`, `ergZeile`) statt in der Liste darunter —
+  gleich dargestellt wie in der Liste, nicht größer (Vereinswunsch: Ergebnis nicht hervorheben). Bei 390 px geprüft.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
