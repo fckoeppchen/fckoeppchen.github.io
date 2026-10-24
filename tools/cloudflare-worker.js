@@ -19,12 +19,42 @@
 // nur dieses Repo, Actions: Read and write); Settings → Triggers → Cron Triggers → „* * * * *“ (jede Minute; bis 21.10.2026 „*/15 * * * *“).
 
 const API = "https://api.fupa.net/v1/matches/";
-const MERKEN_MS = 20e3;
+// Eine FuPa-Antwort gilt 60 s, für Handys und Mitteilungen gemeinsam (vom Nutzer, 24.10.2026; bis dahin 20 s
+// und die Mitteilungen extra) — so fragt der Worker je Spiel höchstens einmal pro Minute bei FuPa.
+const MERKEN_MS = 60e3;
 const CORS = {
   "access-control-allow-origin": "*",
   "access-control-allow-methods": "GET, POST, OPTIONS",
 };
-const gemerkt = new Map(); // slug → { t, body } (je Worker-Instanz)
+const gemerkt = new Map(); // slug → { t, roh } (je Worker-Instanz; geteilt wird über D1, fupa_spiel)
+
+// Ein FuPa-Spiel, höchstens einmal pro MERKEN_MS: erst der Speicher dieser Instanz, dann D1 (Handy-Anfragen und
+// der Minuten-Lauf laufen oft in verschiedenen Instanzen), dann FuPa. Gibt { t, f } (Abrufzeit, FuPa-JSON) oder null.
+// FuPa nicht erreichbar → der letzte Stand, egal wie alt.
+export async function fupaSpiel(slug, db, now = Date.now()) {
+  let g = gemerkt.get(slug);
+  if (g && now - g.t < MERKEN_MS) return { t: g.t, f: JSON.parse(g.roh) };
+  if (db) try {
+    await db.prepare("CREATE TABLE IF NOT EXISTS fupa_spiel (slug TEXT PRIMARY KEY, t INTEGER NOT NULL, roh TEXT NOT NULL)").run();
+    const z = await db.prepare("SELECT t, roh FROM fupa_spiel WHERE slug = ?1").bind(slug).first();
+    if (z && (!g || z.t > g.t)) { g = { t: z.t, roh: z.roh }; gemerkt.set(slug, g); }
+    if (g && now - g.t < MERKEN_MS) return { t: g.t, f: JSON.parse(g.roh) };
+  } catch (e) { console.log("fupa_spiel lesen:", e.message); }
+  try {
+    const r = await fetch(API + slug, { headers: { accept: "application/json" } });
+    if (r.ok) {
+      const roh = await r.text();
+      JSON.parse(roh);
+      g = { t: now, roh };
+      gemerkt.set(slug, g);
+      if (db) try {
+        await db.prepare("INSERT OR REPLACE INTO fupa_spiel (slug, t, roh) VALUES (?1, ?2, ?3)").bind(slug, now, roh).run();
+        await db.prepare("DELETE FROM fupa_spiel WHERE t < ?1").bind(now - 7 * 86400e3).run();
+      } catch (e) { console.log("fupa_spiel schreiben:", e.message); }
+    } else console.log("FuPa", slug, r.status);
+  } catch (e) { console.log("FuPa", slug, e.message); }
+  return g ? { t: g.t, f: JSON.parse(g.roh) } : null;
+}
 const gefunden = new Map(); // anstoss → { t, slug } — die Suche kostet zwei Seitenabrufe, 6 h merken
 
 // FuPa-Spiel zum FLF-Anstoß. Kopie von passendesSpiel() in tools/fussball-live.mjs (Test prüft).
@@ -502,9 +532,9 @@ export async function mitteilungenSenden(db, now = Date.now()) {
         if (!slug && (slug = await slugZu(c.anstoss))) await db.prepare("INSERT OR REPLACE INTO live_slug (anstoss, slug) VALUES (?1, ?2)").bind(c.anstoss, slug).run();
       }
       if (!slug) continue;
-      const r = await fetch(API + slug, { headers: { accept: "application/json" } });
-      if (!r.ok) continue;
-      const f = await r.json();
+      const sp = await fupaSpiel(slug, db, now);
+      if (!sp) continue;
+      const f = sp.f;
       // Schon Verschicktes nicht jede Minute neu in die Warteschlange legen (sparte nur Schreibzugriffe).
       for (const e of liveEreignisse(c, { ...kuerzen(f), toreRoh: toreRoh(f) }, now))
         if (!(await schon(e.id))) await db.prepare("INSERT OR IGNORE INTO offen (id, ereignis) VALUES (?1, ?2)").bind(e.id, JSON.stringify(e)).run();
@@ -617,13 +647,8 @@ export default {
     // Koeppchen-Spiele und Länderspiele Luxemburgs (Reiter „Roude Léiw“, seit 19.10.2026).
     if (!/^[a-z0-9-_]{5,160}$/.test(slug) || !(slug.includes("fc-koeppchen") || slug.includes("luxemburg-m1"))) return antwort('{"fehler":"slug"}', 400);
 
-    const g = gemerkt.get(slug);
-    if (g && Date.now() - g.t < MERKEN_MS) return antwort(g.body);
-
-    const r = await fetch(API + slug, { headers: { accept: "application/json" } });
-    if (!r.ok) return g ? antwort(g.body) : antwort(`{"fehler":"fupa ${r.status}"}`, 502);
-    const body = JSON.stringify({ ...kuerzen(await r.json()), abgerufen: new Date().toISOString() });
-    gemerkt.set(slug, { t: Date.now(), body });
-    return antwort(body);
+    const sp = await fupaSpiel(slug, env.DB);
+    if (!sp) return antwort('{"fehler":"fupa"}', 502);
+    return antwort(JSON.stringify({ ...kuerzen(sp.f), abgerufen: new Date(sp.t).toISOString() }));
   },
 };

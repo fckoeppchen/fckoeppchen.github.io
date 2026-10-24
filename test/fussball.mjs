@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGruppe, natiTabelle, fupaTabelleMitFlfNamen, reserveSlugs, icsGruppe } from "../tools/fussball.mjs";
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
-import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh } from "../tools/cloudflare-worker.js";
+import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux } from "../tools/mitteilungen.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
@@ -494,6 +494,24 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   globalThis.fetch = async () => new Response(JSON.stringify({ slug: "luxemburg-m1-estland-m1-261113", homeGoal: 1, awayGoal: 0, section: "LIVE" }), { status: 200 });
   const lux = await worker.fetch(new Request("https://w/?slug=luxemburg-m1-estland-m1-261113"));
   ok(lux.status === 200 && (await lux.json()).hs === 1, "Worker: Länderspiel Luxemburg erlaubt");
+  globalThis.fetch = echt;
+  {
+    // Eine FuPa-Antwort gilt 60 s, auch über Instanzen hinweg (D1), für Handys und Minuten-Lauf gemeinsam.
+    const db = new Map(), D1 = { prepare: q => ({ bind: (...v) => ({
+      first: async () => /^SELECT/.test(q) ? db.get(v[0]) || null : null,
+      run: async () => { if (/^INSERT/.test(q)) db.set(v[0], { t: v[1], roh: v[2] }); } }), run: async () => {} }) };
+    let n = 0, stand = 1;
+    globalThis.fetch = async () => { n++; return new Response(JSON.stringify({ homeGoal: stand, awayGoal: 0, section: "LIVE" }), { status: 200 }); };
+    const t0 = Date.parse("2026-11-01T16:30:00+01:00"), slug = "fc-koeppchen-m1-test-merken";
+    const a1 = await fupaSpiel(slug, D1, t0); stand = 2;
+    const a2 = await fupaSpiel(slug, D1, t0 + 30e3), a3 = await fupaSpiel(slug, D1, t0 + 59e3);
+    ok(n === 1 && a1.f.homeGoal === 1 && a2.f.homeGoal === 1 && a3.t === t0, "FuPa: innerhalb 60 s nur ein Abruf");
+    const a4 = await fupaSpiel(slug, D1, t0 + 61e3);
+    ok(n === 2 && a4.f.homeGoal === 2 && db.get(slug).t === t0 + 61e3, "FuPa: nach 60 s neu, Stand in D1 geteilt");
+    globalThis.fetch = async () => { n++; return new Response("", { status: 500 }); };
+    const a5 = await fupaSpiel(slug, D1, t0 + 200e3);
+    ok(n === 3 && a5.f.homeGoal === 2, "FuPa nicht erreichbar: letzter Stand bleibt");
+  }
   globalThis.fetch = echt;
   ok(aufrufe.length === 1 && aufrufe[0][0].endsWith("/actions/workflows/fussball.yml/dispatches")
      && aufrufe[0][1].method === "POST" && JSON.parse(aufrufe[0][1].body).ref === "main"

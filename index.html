@@ -408,7 +408,7 @@ function minutenBisAnpfiff(sp, now) {
 const countdownText = m => `Anpfiff in ${m} ${m === 1 ? "Minute" : "Minuten"}`;
 
 // Liegt bei diesem Reiter gerade ein Spiel im Live-Fenster? Dann fragt die App jede Minute nach.
-// Stand vom Cloudflare-Worker (tools/cloudflare-worker.js, bis ~80 s alt: 60 s Abfrage + 20 s Merken) über den von GitHub legen
+// Stand vom Cloudflare-Worker (tools/cloudflare-worker.js, bis ~2 min alt: 60 s Abfrage + 60 s Merken im Worker) über den von GitHub legen
 // (data/live.json, bis zu 7 min alt). Vom Worker kommt nur der Stand; welches Spiel, Anstoß und
 // Mannschaftsnamen bleiben aus live.json. Passt der Slug nicht (anderes Spiel), gilt GitHub.
 const WORKER_FELDER = ["hs", "as", "section", "period", "running", "minute", "minuteAt", "tore", "karten", "fehl", "ticker"];

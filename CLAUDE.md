@@ -124,6 +124,11 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Roude Léiw genauso** (Fassung neu s, `natiLiveSpiel(…, spaet)`): bleibt, bis der FLF-Abruf das FuPa-Ergebnis in die Daten
   holt (z. B. Anpfiff 18:00 an einem Wochentag → Kasten sonst 21:00 weg, Ergebnis erst 22:15). Nach Abpfiff steht im Kasten
   kein „fast live“/„bis zu 7 min Verzögerung“ mehr.
+- **FuPa höchstens einmal pro Minute je Spiel** (vom Nutzer, 24.10.2026, für den Text an FuPa): `fupaSpiel(slug, db, now)` im
+  Worker merkt eine Antwort 60 s (`MERKEN_MS`, vorher 20 s), erst im Speicher der Instanz, dann in D1 (`fupa_spiel`, 7 Tage),
+  gemeinsam für Handy-Anfragen (`?slug=`) und den Minuten-Lauf der Mitteilungen (vorher fragte der extra). FuPa weg → letzter
+  Stand. `abgerufen` = Zeit des FuPa-Abrufs. Stand in der App dadurch bis ~2 min alt. Test mit Zählung der Abrufe, Gegenprobe.
+  **Worker neu einfügen nötig.**
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
