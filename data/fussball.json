@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-24T14:46:20.799Z",
+ "stand": "2026-10-24T15:16:26.863Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -16627,9 +16627,9 @@
       "id": 46356,
       "n": "ENT Biwer/Berbourg/UMW"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 5,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade F. Schuman (Ehlerange)"
     },
@@ -16681,9 +16681,9 @@
       "id": 45377,
       "n": "ENT Walferdange/Lintgen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 5,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Mondorf, synth.)"
     },
@@ -17379,9 +17379,9 @@
       "id": 45196,
       "n": "CS Oberkorn"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 14,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Strassen, synth.)"
     },
@@ -17433,9 +17433,9 @@
       "id": 46404,
       "n": "AS Red Black Luxembourg"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 7,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Koerich, synth.)"
     },
@@ -17451,9 +17451,9 @@
       "id": 45496,
       "n": "ENT Mondorf/Schengen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 13,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain synth. Centre Scolaire Koetschette"
     },
@@ -17487,9 +17487,9 @@
       "id": 44764,
       "n": "CS Sanem"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 8,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Rodange, synth.)"
     },
@@ -17505,9 +17505,9 @@
       "id": 45458,
       "n": "FC Mamer 32"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 8,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Maartbësch (Berdorf)"
     },
@@ -17523,9 +17523,9 @@
       "id": 45895,
       "n": "US Hostert"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 7,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Sandweiler, synth.)"
     },
