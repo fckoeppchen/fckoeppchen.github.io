@@ -174,3 +174,10 @@ Die Wochenvorschau selbst ist gebaut („Unsere Woche“, 20.10.2026); diese Zus
   Fehler → alter BAM-Stand bleibt, Rest läuft weiter (vom Nutzer: „wir würden dann reparieren“). Lieber nichts
   als etwas Falsches. **Erst versteckt** hinter dem 5×-Logo-Code, ein, zwei Samstage gegen das PDF prüfen,
   dann mit einer Zeile für alle freischalten. Nicht in der alten App testen.
+
+## Indoor (LALUX Indoor Cup) — Winter, noch offen (24.10.2026)
+
+- Seite www.flf.lu/lalux-indoor-84127v4: bisher nur „Calendrier 2026-2027 LALUX Indoor Cup.pdf“ mit den Runden je
+  Kategorie (U9/U11 1. Runde 5. bzw. 12./13.12., U13 1. Runde 2./3.1., 2. Runde U13/U9 16./17.1., U11 9./10.1., …,
+  Finale 20./21.3.), ohne Mannschaften und Hallen. Die genauen Spielpläne kommen vermutlich später als eigene PDFs
+  — Anfang Dezember nachsehen (oder vorher prüfen, ob sie im Extranet auftauchen). Gleicher Weg wie BAM.
