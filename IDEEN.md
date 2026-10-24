@@ -159,3 +159,18 @@ Die Wochenvorschau selbst ist gebaut („Unsere Woche“, 20.10.2026); diese Zus
 - **Anonymer Zähler** (oben): Handys pro Tag und Öffnungen pro Tag (Öffnen = Start oder zurück nach
   ≥ 30 min im Hintergrund), auf Wunsch je Reiter; Speicher D1 statt KV (mehr Schreibvorgänge
   frei); Anzeige über `WORKER_URL?zahlen`, letzte 30 Tage. **Gebaut 20.10.2026** (siehe CLAUDE.md).
+
+## BAM (Bambinis U7) — vom Verein gewünscht, Bau ab 25.10.2026 abgesprochen
+
+- Nicht im Extranet, nur als PDF auf www.flf.lu (in der Umgebung freigeschaltet): „Programmes généraux“
+  (`generaux-92804v4`, PDF „U7_Bambinis Tour 1 programme détaillé 2026-2027“) und „Programme hebdomadaire“
+  (`hebdomadaires-92803v4`, z. B. „20261024 Bambinis.pdf“, „Coup d'envoi 10.30 hrs (sauf modification)“,
+  andere Uhrzeit hinter dem Platz, z. B. „9h30“). Dateien liegen auf clubee-websites-prod (S3).
+- Koeppchen I und II in **Bambinis série 6**, Tour 1: 8 Spieltage 26.09.–28.11. Je Spieltag 4 Spalten = 4
+  Mini-Tournois (Platz, dann 3–4 Mannschaften, „-“ = frei); lange Platznamen laufen in eine zweite Zeile.
+  `pdftotext -layout` liest es.
+- Plan (vom Nutzer): Reiter BAM 1/BAM 2, je Samstag „Mini-Tournoi in … · Uhrzeit · mit …“, keine Ergebnisse/
+  Tabelle; Woche, Kalender „Bambinis U7“, Koeppi, Morgen-Kasten. Im normalen FLF-Abruf mit, eigener Teil:
+  Fehler → alter BAM-Stand bleibt, Rest läuft weiter (vom Nutzer: „wir würden dann reparieren“). Lieber nichts
+  als etwas Falsches. **Erst versteckt** hinter dem 5×-Logo-Code, ein, zwei Samstage gegen das PDF prüfen,
+  dann mit einer Zeile für alle freischalten. Nicht in der alten App testen.
