@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-24T23:18:14.752Z",
+ "stand": "2026-10-25T09:16:24.765Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -16562,8 +16562,8 @@
       "id": 45491,
       "n": "ENT Mondorf/Schengen I"
      },
-     "hs": 8,
-     "as": 7,
+     "hs": null,
+     "as": null,
      "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
