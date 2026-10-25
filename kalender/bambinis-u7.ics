@@ -1,0 +1,184 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//FC Koeppchen//fussball.html//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:FC Koeppchen Bambinis U7
+X-WR-TIMEZONE:Europe/Luxembourg
+REFRESH-INTERVAL;VALUE=DURATION:PT3H
+X-PUBLISHED-TTL:PT3H
+BEGIN:VEVENT
+UID:flf-9202609261@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20260926T083000Z
+DTEND:20260926T100000Z
+SUMMARY:⚽ Koeppchen BAM 1 · Mini-Tournoi in Wormeldange
+LOCATION:Am Ga (Wormeldange\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 1\nMit FC Koeppchen Wormeldange II
+ \, ENT Mensdorf/Canach\, Victoria Rosport\nUhrzeit laut FLF meist 10:30 (s
+ auf changement)
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202609262@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20260926T083000Z
+DTEND:20260926T100000Z
+SUMMARY:⚽ Koeppchen BAM 2 · Mini-Tournoi in Wormeldange
+LOCATION:Am Ga (Wormeldange\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 1\nMit FC Koeppchen Wormeldange I\
+ , ENT Mensdorf/Canach\, Victoria Rosport\nUhrzeit laut FLF meist 10:30 (sa
+ uf changement)
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202610031@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261003T083000Z
+DTEND:20261003T100000Z
+SUMMARY:⚽ Koeppchen BAM 1 · Mini-Tournoi in Mensdorf
+LOCATION:Terrain 2 (Mensdorf\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 2\nMit ENT Mensdorf/Canach\, CS Gr
+ evenmacher II\, FC Koeppchen Wormeldange II\nUhrzeit laut FLF meist 10:30 
+ (sauf changement)
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202610032@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261003T083000Z
+DTEND:20261003T100000Z
+SUMMARY:⚽ Koeppchen BAM 2 · Mini-Tournoi in Mensdorf
+LOCATION:Terrain 2 (Mensdorf\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 2\nMit ENT Mensdorf/Canach\, CS Gr
+ evenmacher II\, FC Koeppchen Wormeldange I\nUhrzeit laut FLF meist 10:30 (
+ sauf changement)
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202610101@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261010T083000Z
+DTEND:20261010T100000Z
+SUMMARY:⚽ Koeppchen BAM 1 · Mini-Tournoi in 
+LOCATION:Terrain Munsbach (synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 3\nMit FC Munsbach\, Union Mertert
+ -Wasserbillig\, US Berdorf-Consdorf 01\nUhrzeit laut FLF meist 10:30 (sauf
+  changement)
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202610102@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261010T083000Z
+DTEND:20261010T100000Z
+SUMMARY:⚽ Koeppchen BAM 2 · Mini-Tournoi in Moutfort
+LOCATION:Terrain Am Brill (Moutfort\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 3\nMit US Moutfort-Medingen\, Vict
+ oria Rosport\, CS Grevenmacher II\nUhrzeit laut FLF meist 10:30 (sauf chan
+ gement)
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202610171@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261017T083000Z
+DTEND:20261017T100000Z
+SUMMARY:⚽ Koeppchen BAM 1 · Mini-Tournoi in Echternach
+LOCATION:Terrain Breil (Echternach\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 4\nMit Daring Echternach I\, Jeune
+ sse Junglinster II\, Victoria Rosport\nUhrzeit laut FLF meist 10:30 (sauf 
+ changement)
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202610172@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261017T083000Z
+DTEND:20261017T100000Z
+SUMMARY:⚽ Koeppchen BAM 2 · Mini-Tournoi in Wormeldange
+LOCATION:Am Ga (Wormeldange\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 4\nMit CS Grevenmacher I\, FC Muns
+ bach\, Daring Echternach II\nUhrzeit laut FLF meist 10:30 (sauf changement
+ )
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202610241@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261024T073000Z
+DTEND:20261024T090000Z
+SUMMARY:⚽ Koeppchen BAM 1 · Mini-Tournoi in Wormeldange
+LOCATION:Am Ga (Wormeldange\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 5\nMit CS Grevenmacher I\, US Berd
+ orf-Consdorf 01\, US Moutfort-Medingen
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202610242@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261024T083000Z
+DTEND:20261024T100000Z
+SUMMARY:⚽ Koeppchen BAM 2 · Mini-Tournoi in Mensdorf
+LOCATION:Terrain 2 (Mensdorf\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 5\nMit ENT Mensdorf/Canach\, Darin
+ g Echternach I\, ENT Biwer/Berbourg I
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202611141@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261114T093000Z
+DTEND:20261114T110000Z
+SUMMARY:⚽ Koeppchen BAM 1 · Mini-Tournoi in Echternach
+LOCATION:Terrain Breil (Echternach\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 6\nMit Daring Echternach II\, ENT 
+ Biwer/Berbourg I\, US Sandweiler II\nUhrzeit laut FLF meist 10:30 (sauf ch
+ angement)
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202611142@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261114T093000Z
+DTEND:20261114T110000Z
+SUMMARY:⚽ Koeppchen BAM 2 · Mini-Tournoi in Grevenmacher
+LOCATION:Terrain 2 (Grevenmacher\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 6\nMit CS Grevenmacher II\, US Ber
+ dorf-Consdorf 01\, ENT Biwer/Berbourg II\nUhrzeit laut FLF meist 10:30 (sa
+ uf changement)
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202611211@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261121T093000Z
+DTEND:20261121T110000Z
+SUMMARY:⚽ Koeppchen BAM 1 · Mini-Tournoi in Echternach
+LOCATION:Terrain Breil (Echternach\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 7\nMit Daring Echternach I\, Darin
+ g Echternach II\, Union Mertert-Wasserbillig\nUhrzeit laut FLF meist 10:30
+  (sauf changement)
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202611212@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261121T093000Z
+DTEND:20261121T110000Z
+SUMMARY:⚽ Koeppchen BAM 2 · Mini-Tournoi in Sandweiler
+LOCATION:Terrain 2 (Sandweiler\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 7\nMit US Sandweiler II\, Jeunesse
+  Junglinster II\, US Moutfort-Medingen\nUhrzeit laut FLF meist 10:30 (sauf
+  changement)
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202611281@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261128T093000Z
+DTEND:20261128T110000Z
+SUMMARY:⚽ Koeppchen BAM 1 · Mini-Tournoi in 
+LOCATION:Terrain Ralingen (synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 8\nMit Victoria Rosport\, ENT Biwe
+ r/Berbourg II\, FC Munsbach\nUhrzeit laut FLF meist 10:30 (sauf changement
+ )
+END:VEVENT
+BEGIN:VEVENT
+UID:flf-9202611282@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261128T093000Z
+DTEND:20261128T110000Z
+SUMMARY:⚽ Koeppchen BAM 2 · Mini-Tournoi in Wormeldange
+LOCATION:Am Ga (Wormeldange\, synth.)
+DESCRIPTION:Bambinis série 6\, Spieltag 8\nMit ENT Mensdorf/Canach\, US Mo
+ utfort-Medingen\, Daring Echternach II\nUhrzeit laut FLF meist 10:30 (sauf
+  changement)
+END:VEVENT
+END:VCALENDAR

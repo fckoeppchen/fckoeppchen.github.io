@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-25T09:16:24.765Z",
+ "stand": "2026-10-25T09:25:56.130Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -197,6 +197,46 @@
    "gruppe": {
     "name": "Pupilles U9",
     "datei": "pupilles-u9.ics"
+   }
+  },
+  {
+   "id": 9000701,
+   "ids": [
+    9000701
+   ],
+   "n": "FC Koeppchen Wormeldange I",
+   "kat": "U7",
+   "alter": "U7 Bambinis",
+   "kurz": "BAM",
+   "klassen": [
+    "bam-6"
+   ],
+   "reiter": "BAM 1",
+   "datei": "u7-1.ics",
+   "mit": [],
+   "gruppe": {
+    "name": "Bambinis U7",
+    "datei": "bambinis-u7.ics"
+   }
+  },
+  {
+   "id": 9000702,
+   "ids": [
+    9000702
+   ],
+   "n": "FC Koeppchen Wormeldange II",
+   "kat": "U7",
+   "alter": "U7 Bambinis",
+   "kurz": "BAM",
+   "klassen": [
+    "bam-6"
+   ],
+   "reiter": "BAM 2",
+   "datei": "u7-2.ics",
+   "mit": [],
+   "gruppe": {
+    "name": "Bambinis U7",
+    "datei": "bambinis-u7.ics"
    }
   },
   {
@@ -17752,6 +17792,432 @@
     }
    ],
    "start": "2026-10-24T14:00:00+02:00"
+  },
+  "bam-6": {
+   "id": "bam-6",
+   "n": "Bambinis série 6",
+   "typ": "CC",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 9202609261,
+     "d": "2026-09-26T10:30:00+02:00",
+     "tag": 1,
+     "h": {
+      "id": 9000701,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "a": {
+      "id": 0,
+      "n": "Mini-Tournoi mit Koeppchen II, ENT Mensdorf/Canach, Victoria Rosport"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)",
+     "bam": {
+      "mit": [
+       "FC Koeppchen Wormeldange II",
+       "ENT Mensdorf/Canach",
+       "Victoria Rosport"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202609262,
+     "d": "2026-09-26T10:30:00+02:00",
+     "tag": 1,
+     "h": {
+      "id": 9000702,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "a": {
+      "id": 0,
+      "n": "Mini-Tournoi mit Koeppchen I, ENT Mensdorf/Canach, Victoria Rosport"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)",
+     "bam": {
+      "mit": [
+       "FC Koeppchen Wormeldange I",
+       "ENT Mensdorf/Canach",
+       "Victoria Rosport"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202610032,
+     "d": "2026-10-03T10:30:00+02:00",
+     "tag": 2,
+     "h": {
+      "id": 0,
+      "n": "Mini-Tournoi mit ENT Mensdorf/Canach, CS Grevenmacher II, Koeppchen I"
+     },
+     "a": {
+      "id": 9000702,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Mensdorf, synth.)",
+     "bam": {
+      "mit": [
+       "ENT Mensdorf/Canach",
+       "CS Grevenmacher II",
+       "FC Koeppchen Wormeldange I"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202610031,
+     "d": "2026-10-03T10:30:00+02:00",
+     "tag": 2,
+     "h": {
+      "id": 0,
+      "n": "Mini-Tournoi mit ENT Mensdorf/Canach, CS Grevenmacher II, Koeppchen II"
+     },
+     "a": {
+      "id": 9000701,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Mensdorf, synth.)",
+     "bam": {
+      "mit": [
+       "ENT Mensdorf/Canach",
+       "CS Grevenmacher II",
+       "FC Koeppchen Wormeldange II"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202610101,
+     "d": "2026-10-10T10:30:00+02:00",
+     "tag": 3,
+     "h": {
+      "id": 0,
+      "n": "Mini-Tournoi mit FC Munsbach, Union Mertert-Wasserbillig, US Berdorf-Consdorf 01"
+     },
+     "a": {
+      "id": 9000701,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Munsbach (synth.)",
+     "bam": {
+      "mit": [
+       "FC Munsbach",
+       "Union Mertert-Wasserbillig",
+       "US Berdorf-Consdorf 01"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202610102,
+     "d": "2026-10-10T10:30:00+02:00",
+     "tag": 3,
+     "h": {
+      "id": 0,
+      "n": "Mini-Tournoi mit US Moutfort-Medingen, Victoria Rosport, CS Grevenmacher II"
+     },
+     "a": {
+      "id": 9000702,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Am Brill (Moutfort, synth.)",
+     "bam": {
+      "mit": [
+       "US Moutfort-Medingen",
+       "Victoria Rosport",
+       "CS Grevenmacher II"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202610172,
+     "d": "2026-10-17T10:30:00+02:00",
+     "tag": 4,
+     "h": {
+      "id": 9000702,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "a": {
+      "id": 0,
+      "n": "Mini-Tournoi mit CS Grevenmacher I, FC Munsbach, Daring Echternach II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)",
+     "bam": {
+      "mit": [
+       "CS Grevenmacher I",
+       "FC Munsbach",
+       "Daring Echternach II"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202610171,
+     "d": "2026-10-17T10:30:00+02:00",
+     "tag": 4,
+     "h": {
+      "id": 0,
+      "n": "Mini-Tournoi mit Daring Echternach I, Jeunesse Junglinster II, Victoria Rosport"
+     },
+     "a": {
+      "id": 9000701,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Breil (Echternach, synth.)",
+     "bam": {
+      "mit": [
+       "Daring Echternach I",
+       "Jeunesse Junglinster II",
+       "Victoria Rosport"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202610241,
+     "d": "2026-10-24T09:30:00+02:00",
+     "tag": 5,
+     "h": {
+      "id": 9000701,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "a": {
+      "id": 0,
+      "n": "Mini-Tournoi mit CS Grevenmacher I, US Berdorf-Consdorf 01, US Moutfort-Medingen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)",
+     "bam": {
+      "mit": [
+       "CS Grevenmacher I",
+       "US Berdorf-Consdorf 01",
+       "US Moutfort-Medingen"
+      ],
+      "zeitSicher": true
+     }
+    },
+    {
+     "id": 9202610242,
+     "d": "2026-10-24T10:30:00+02:00",
+     "tag": 5,
+     "h": {
+      "id": 0,
+      "n": "Mini-Tournoi mit ENT Mensdorf/Canach, Daring Echternach I, ENT Biwer/Berbourg I"
+     },
+     "a": {
+      "id": 9000702,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Mensdorf, synth.)",
+     "bam": {
+      "mit": [
+       "ENT Mensdorf/Canach",
+       "Daring Echternach I",
+       "ENT Biwer/Berbourg I"
+      ],
+      "zeitSicher": true
+     }
+    },
+    {
+     "id": 9202611141,
+     "d": "2026-11-14T10:30:00+01:00",
+     "tag": 6,
+     "h": {
+      "id": 0,
+      "n": "Mini-Tournoi mit Daring Echternach II, ENT Biwer/Berbourg I, US Sandweiler II"
+     },
+     "a": {
+      "id": 9000701,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Breil (Echternach, synth.)",
+     "bam": {
+      "mit": [
+       "Daring Echternach II",
+       "ENT Biwer/Berbourg I",
+       "US Sandweiler II"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202611142,
+     "d": "2026-11-14T10:30:00+01:00",
+     "tag": 6,
+     "h": {
+      "id": 0,
+      "n": "Mini-Tournoi mit CS Grevenmacher II, US Berdorf-Consdorf 01, ENT Biwer/Berbourg II"
+     },
+     "a": {
+      "id": 9000702,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Grevenmacher, synth.)",
+     "bam": {
+      "mit": [
+       "CS Grevenmacher II",
+       "US Berdorf-Consdorf 01",
+       "ENT Biwer/Berbourg II"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202611212,
+     "d": "2026-11-21T10:30:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 0,
+      "n": "Mini-Tournoi mit US Sandweiler II, Jeunesse Junglinster II, US Moutfort-Medingen"
+     },
+     "a": {
+      "id": 9000702,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Sandweiler, synth.)",
+     "bam": {
+      "mit": [
+       "US Sandweiler II",
+       "Jeunesse Junglinster II",
+       "US Moutfort-Medingen"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202611211,
+     "d": "2026-11-21T10:30:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 0,
+      "n": "Mini-Tournoi mit Daring Echternach I, Daring Echternach II, Union Mertert-Wasserbillig"
+     },
+     "a": {
+      "id": 9000701,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Breil (Echternach, synth.)",
+     "bam": {
+      "mit": [
+       "Daring Echternach I",
+       "Daring Echternach II",
+       "Union Mertert-Wasserbillig"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202611282,
+     "d": "2026-11-28T10:30:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 9000702,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "a": {
+      "id": 0,
+      "n": "Mini-Tournoi mit ENT Mensdorf/Canach, US Moutfort-Medingen, Daring Echternach II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)",
+     "bam": {
+      "mit": [
+       "ENT Mensdorf/Canach",
+       "US Moutfort-Medingen",
+       "Daring Echternach II"
+      ],
+      "zeitSicher": false
+     }
+    },
+    {
+     "id": 9202611281,
+     "d": "2026-11-28T10:30:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 0,
+      "n": "Mini-Tournoi mit Victoria Rosport, ENT Biwer/Berbourg II, FC Munsbach"
+     },
+     "a": {
+      "id": 9000701,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Ralingen (synth.)",
+     "bam": {
+      "mit": [
+       "Victoria Rosport",
+       "ENT Biwer/Berbourg II",
+       "FC Munsbach"
+      ],
+      "zeitSicher": false
+     }
+    }
+   ],
+   "start": "2026-09-26"
   }
  },
  "bgl": {
