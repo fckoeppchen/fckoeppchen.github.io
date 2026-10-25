@@ -1029,6 +1029,16 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(D0.teams.map(x => x.kat).join() === "Seniors,U9,U7,U7,Seniors" && D0.klassen["bam-6"], "BAM: hinter den U9 eingehängt");
   const zur = bamAus(D0);
   ok(zur.teams.length === 2 && zur.klassen["bam-6"].spiele.length === 2, "BAM: alter Stand für den Rückfall");
+  // Mitteilungen für BAM (vom Nutzer, 25.10.2026): „Morgen Spiel“ am Vorabend, „Uhrzeit steht fest“ mit dem Wochenprogramm.
+  const altB = { saison: { id: 9 }, ...bamDaten(plan, []) }, neuB = { saison: { id: 9 }, ...bamDaten(plan, t) };
+  const freitag = Date.parse("2026-10-23T12:00:00+02:00");
+  const mb = mEreignisse(altB, neuB, null, freitag).ereignisse;
+  const morgen1 = mb.find(e => e.id === "heute:9202610241"), zeit1 = mb.find(e => e.art === "uhrzeit" && e.id.startsWith("zeit:9202610241"));
+  ok(morgen1?.titel === "BAM 1 · Morgen Spiel" && morgen1.text === "09:30 · Mini-Spieltag · 📍 Am Ga (Wormeldange, synth.)" && morgen1.reiter.includes("Bambinis U7"),
+     "BAM: Morgen-Mitteilung mit Uhrzeit, Mini-Spieltag und Platz, für die Gruppe Bambinis U7");
+  ok(zeit1?.text === "Sa., 24.10. um 09:30 · Mini-Spieltag · 📍 Am Ga (Wormeldange, synth.)", "BAM: Uhrzeit steht fest, sobald das Wochenprogramm da ist");
+  ok(!mEreignisse(neuB, neuB, null, freitag).ereignisse.some(e => e.art === "uhrzeit"), "BAM: keine Uhrzeit-Mitteilung, wenn sie schon sicher war");
+  ok(mEreignisse(altB, altB, null, freitag).ereignisse.find(e => e.id === "heute:9202610241")?.text.startsWith("10:30 (sauf changement)"), "BAM: ohne Wochenprogramm „sauf changement“");
   bamDazu(D0, null);
   ok(D0.teams.length === 5, "BAM: ohne BAM-Daten bleibt alles, wie es ist");
 }

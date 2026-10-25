@@ -604,7 +604,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "25.10.2026 neu e";
+const FASSUNG = "25.10.2026 neu f";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1353,12 +1353,12 @@ function mArtenFuer(r) {
   // Uhrzeit nur bei U9/U11, und nur wenn vorher keine da war (vom Nutzer: geänderte Zeiten gibt der Trainer durch).
   if (k === "Seniors") return ["heute", "tabelle", "ticker", "halbzeit", ...tor, "ende"];
   if (k === "U13" || k === "U15") return ["heute", "neu", "spieltag", "tabelle"];
-  return ["heute", "uhrzeit"];   // U9, U11: die FLF zeigt keine Ergebnisse
+  return ["heute", "uhrzeit"];   // U7, U9, U11: die FLF zeigt keine Ergebnisse (U7: Uhrzeit = Wochenprogramm da)
 }
 const mArtText = (r, k) => k === "heute" && mKat(r) !== "Seniors" && r !== "Roude Léiw" ? "Morgen Spiel (Vorabend 19 Uhr)" : M_ART_TEXT[k];
 // Kinder als Altersklasse („Minimes U13“), Seniors einzeln (vom Nutzer, 23.10.2026: die Kinder werden jede
 // Woche neu auf 1/2 verteilt). Die Titel der Mitteilungen nennen weiter die Mannschaft.
-const mReiter = () => [...new Set((D?.teams || []).filter(t => t.reiter && t.kat !== "U7").map(t => t.gruppe?.name || t.reiter)), "BGL", "Roude Léiw", "Woche"];   // BAM vorerst ohne Mitteilungen
+const mReiter = () => [...new Set((D?.teams || []).filter(t => t.reiter).map(t => t.gruppe?.name || t.reiter)), "BGL", "Roude Léiw", "Woche"];
 // Alte Auswahl je Kinder-Mannschaft („U13 2“) auf die Altersklasse umschreiben, Arten zusammen.
 function mGruppiert(je) {
   if (!D?.teams) return je;

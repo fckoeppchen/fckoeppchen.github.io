@@ -33,7 +33,7 @@ const spieltagFertig = (spiele, tag) => { const s = spiele.filter(sp => sp.tag =
 export function ereignisse(alt, neu, vorher, now) {
   const aus = new Map((vorher?.ereignisse || []).filter(e => e.bis > now).map(e => [e.id, e]));
   const heute = tagLux(now), morgen = tagLux(now + 24 * H);
-  const teams = neu.teams.filter(t => t.reiter && t.kat !== "U7");   // BAM (aus PDFs) vorerst ohne Mitteilungen
+  const teams = neu.teams.filter(t => t.reiter);
   // Kinder wählt man als Altersklasse („Minimes U13“, vom Nutzer 23.10.2026: die Kinder werden jede Woche
   // neu auf 1/2 verteilt). Jedes Ereignis trägt darum neben dem Reiter auch den Namen der Gruppe.
   const gruppeVon = new Map(teams.filter(t => t.gruppe).map(t => [t.reiter, t.gruppe.name]));
@@ -70,7 +70,9 @@ export function ereignisse(alt, neu, vorher, now) {
     // Spieltag um 10 Uhr (Anstoß vor 11 Uhr: 7:30). Kam das Spiel erst am Spieltag in die Daten, gilt
     // für Kinder „Heute Spiel“ ab 7:30 bzw. sofort — gleiche id, also nie beides.
     if (!hatErgebnis(sp) && !sp.forfait) {
-      const was = (offen ? `Uhrzeit noch offen · gegen ${gegner}` : `${uhr(sp.d)} gegen ${gegner}`) + wo;
+      // BAM: kein Gegner, sondern ein Mini-Spieltag mit mehreren Mannschaften (Uhrzeit sicher erst mit dem Wochenprogramm).
+      const was = sp.bam ? `${uhr(sp.d)}${sp.bam.zeitSicher ? "" : " (sauf changement)"} · Mini-Spieltag${wo}`
+        : (offen ? `Uhrzeit noch offen · gegen ${gegner}` : `${uhr(sp.d)} gegen ${gegner}`) + wo;
       const ende = t => offen ? umLux(t, 22) : d;
       if (kat !== "Seniors" && (tag === morgen || tag === heute)) {
         if (!gedeckt.has(sp.id))
@@ -86,6 +88,10 @@ export function ereignisse(alt, neu, vorher, now) {
     if (["U9", "U11"].includes(kat) && a && ohneUhrzeit(a.d) && !offen && d > now)
       dazu({ ...basis, id: `zeit:${sp.id}:${sp.d}`, art: "uhrzeit", titel: `${name} · Uhrzeit steht fest`,
              text: `${datum(sp.d)} um ${uhr(sp.d)} gegen ${gegner}${wo}`, ab: now, bis: d });
+    // BAM: Uhrzeit steht fest, sobald das Wochenprogramm da ist (vorher nur „meist 10:30“), auch wenn es 10:30 bleibt.
+    if (sp.bam?.zeitSicher && a?.bam && !a.bam.zeitSicher && d > now)
+      dazu({ ...basis, id: `zeit:${sp.id}:${sp.d}`, art: "uhrzeit", titel: `${name} · Uhrzeit steht fest`,
+             text: `${datum(sp.d)} um ${uhr(sp.d)} · Mini-Spieltag${wo}`, ab: now, bis: d });
     if (kat === "Seniors") {
       // Endstand von der FLF (wenn niemand getickert hat; vom Ticker kommt er über den Worker, gleiche id).
       if (a && !hatErgebnis(a) && hatErgebnis(sp) && d > now - 48 * H)

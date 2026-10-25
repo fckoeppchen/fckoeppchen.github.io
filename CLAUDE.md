@@ -156,8 +156,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   `u7-1/2.ics` + Gruppe „Bambinis U7“) und eine Klasse `bam-<Série>` (typ CC, ohne Ergebnisse/Tabelle) im Format von `aufbereiten`
   — Reiter, Woche, Kalender, Koeppi, Morgen-Kasten laufen ohne Sonderweg. Spiel = Mini-Spieltag (vom Nutzer 25.10.: nicht „Turnier/Tournoi“, klingt nach Wettkampf): Gegnerseite „Mini-Spieltag mit …“,
   `sp.bam = {mit, zeitSicher}`, Heim = Platz in Wormeldange, Wochenprogramm schlägt Gesamtplan, ohne es 10:30. Kalender-Titel
-  „Koeppchen BAM 1 · Mini-Spieltag in Mensdorf“, Gegner in der Beschreibung. **Keine Mitteilungen für BAM** (mitteilungen.mjs und
-  Zahnrad lassen U7 weg). `KEINE_ERG` hat U7. Spruch: `fest` jetzt 9 Teams bei 8 Sprüchen — BAM 2 und MIN 1 können am selben
+  „Koeppchen BAM 1 · Mini-Spieltag in Mensdorf“, Gegner in der Beschreibung. **Mitteilungen für BAM** (vom Nutzer, 25.10., Fassung neu f; im Zahnrad
+  „Bambinis U7“): „BAM 1 · Morgen Spiel“ am Vorabend 19:00 („09:30 · Mini-Spieltag · 📍 …“, ohne Wochenprogramm „10:30 (sauf
+  changement)“) und „Uhrzeit steht fest“, sobald das Wochenprogramm die Zeit bringt (`bam.zeitSicher` false → true). `KEINE_ERG` hat U7. Spruch: `fest` jetzt 9 Teams bei 8 Sprüchen — BAM 2 und MIN 1 können am selben
   Wochenende denselben haben (dem Nutzer gesagt, ein 9. Spruch löst es). Workflow installiert poppler-utils, falls pdftotext fehlt.
   Am 25.10. gegen beide PDFs geprüft (16 Turniere, 8 Spieltage), Tests mit nachgebauten Wörtern, Gegenprobe.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
