@@ -32,6 +32,17 @@
    "text": "SC Bettembourg 2:1 Koeppchen · alle Ergebnisse in der App",
    "ab": 1792959410135,
    "bis": 1793045810135
+  },
+  {
+   "reiter": [
+    "Woche"
+   ],
+   "id": "woche:2026-10-26",
+   "art": "woche",
+   "titel": "Unsere Woche",
+   "text": "Diese Woche 3 Spiele, davon 1 zu Hause",
+   "ab": 1793005200000,
+   "bis": 1793048400000
   }
  ],
  "live": []
