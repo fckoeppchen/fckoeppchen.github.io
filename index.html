@@ -623,7 +623,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "25.10.2026 neu i";
+const FASSUNG = "25.10.2026 neu j";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -940,7 +940,7 @@ function fuss() {
     </details>
     <div style="margin-top:6px;font-size:11px">Fassung ${FASSUNG}</div></footer>`;
 }
-// Datenschutz bleibt offen, auch wenn die Fußzeile bei einem Takt neu gebaut wird.
+// Datenschutz bleibt offen, wenn die Fußzeile bei einem Takt neu gebaut wird; beim Reiterwechsel zu wie alles andere (vom Nutzer).
 let DS_OFFEN = false;
 document.addEventListener("toggle", e => { if (e.target.id === "datenschutz") DS_OFFEN = e.target.open; }, true);
 
@@ -1205,11 +1205,11 @@ async function aktualisieren() {
 
 document.addEventListener("click", e => {
   const z = e.target.closest("[data-gehe]");
-  if (z) { MITT_OFFEN = false; ST.team = +z.dataset.gehe; persist(); render(); window.scrollTo(0, 0); angesehen(); return; }
+  if (z) { MITT_OFFEN = false; DS_OFFEN = false; ST.team = +z.dataset.gehe; persist(); render(); window.scrollTo(0, 0); angesehen(); return; }
   const b = e.target.closest("button");
   if (!b) return;
   if (b.dataset.t) {
-    MITT_OFFEN = false; ST.team = /^\d+$/.test(b.dataset.t) ? +b.dataset.t : b.dataset.t; persist(); render(); window.scrollTo(0, 0); angesehen();
+    MITT_OFFEN = false; DS_OFFEN = false; ST.team = /^\d+$/.test(b.dataset.t) ? +b.dataset.t : b.dataset.t; persist(); render(); window.scrollTo(0, 0); angesehen();
     // Live-Reiter gewählt: Worker sofort fragen, nicht erst beim nächsten 20-s-Takt.
     if (LIVE_SP) holenWorker().then(w => { if (w) { W = w; render(); } });
   }
