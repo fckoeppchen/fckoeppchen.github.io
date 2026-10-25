@@ -604,7 +604,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "25.10.2026 neu f";
+const FASSUNG = "25.10.2026 neu g";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -682,12 +682,15 @@ function load() { try { ST = { ...ST, ...JSON.parse(localStorage.getItem(KEY) ||
 function persist() { try { localStorage.setItem(KEY, JSON.stringify(ST)); } catch (e) {} }
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-function wann(iso, mitZeit = true) {
-  const d = new Date(iso);
+// `x` ist ein Anstoß (ISO) oder ein Spiel. BAM ohne Wochenprogramm: „ca. 10:30“ (vom Nutzer, 25.10.2026 —
+// die 10:30 sind nur die FLF-Regel „sauf modification“, die echte Zeit kommt ein paar Tage vorher).
+function wann(x, mitZeit = true) {
+  const d = new Date(typeof x === "string" ? x : x.d);
   const tag = d.toLocaleDateString("de-DE", { timeZone: TZ, weekday: "short", day: "numeric", month: "numeric" });
   const zeit = d.toLocaleTimeString("de-DE", { timeZone: TZ, hour: "2-digit", minute: "2-digit" });
+  const ca = typeof x === "object" && x.bam && !x.bam.zeitSicher ? "ca. " : "";
   // 00:00 heißt bei der FLF „Uhrzeit noch nicht festgelegt“.
-  return mitZeit && zeit !== "00:00" ? `${tag} · ${zeit}` : tag;
+  return mitZeit && zeit !== "00:00" ? `${tag} · ${ca}${zeit}` : tag;
 }
 
 function bisDahin(iso, now) {
@@ -806,9 +809,9 @@ function render() {
   v.kommend.slice(0, ZEIG).forEach((sp, i) => {
     const pokal = art(sp) ? `<span class="pill">${art(sp)}</span>` : "";
     if (i === 0) {
-      h += `<div class="next"><div class="when">${esc(wann(sp.d))} <span class="muted" style="font-family:Barlow;font-size:14px;letter-spacing:0">${bisDahin(sp.d, now)}</span></div>
+      h += `<div class="next"><div class="when">${esc(wann(sp))} <span class="muted" style="font-family:Barlow;font-size:14px;letter-spacing:0">${bisDahin(sp.d, now)}</span></div>
         ${spielZeile(sp, ids, `${sp.ort ? "📍 " + esc(sp.ort) : ""}${pokal}<br>${esc(sp.klasse)}`)}</div>`;
-    } else h += spielZeile(sp, ids, `${esc(wann(sp.d))}${sp.ort ? " · 📍 " + esc(sp.ort) : ""}${pokal}`);
+    } else h += spielZeile(sp, ids, `${esc(wann(sp))}${sp.ort ? " · 📍 " + esc(sp.ort) : ""}${pokal}`);
   });
   if (v.kommend.length > ZEIG)
     h += `<div class="muted" style="text-align:center;font-size:12.5px;margin-top:8px">+ ${v.kommend.length - ZEIG} weitere unter „Alle Spiele der Klasse“</div>`;
@@ -875,7 +878,7 @@ function fuss() {
 
 // „Heute Spieltag“ (Mannschaften und Roude Léiw).
 function heuteHtml(heute, ids, { live, pill, ohneLive, koeppi, motto, fupaUrl }) {
-  const sp = heute.sp, zeit = wann(sp.d).split(" · ")[1];
+  const sp = heute.sp, zeit = wann(sp).split(" · ")[1];
   const min = !heute.begonnen && minutenBisAnpfiff(sp, Date.now());
   // Nächster Wechsel des Kastens (Countdown an, Anpfiff) — der Takt unten baut dann neu.
   if (!heute.begonnen && zeit) UMSCHALT = Date.parse(sp.d) - (min ? 0 : COUNTDOWN_MS);
@@ -915,7 +918,7 @@ const koeppiBild = n => `<img class="koeppi" alt="Koeppi" src="bilder/k-${n}.png
 const koeppiZeile = (n, txt, cls = "", motto = false) => `<div class="kzeile${cls ? " " + cls : ""}">${koeppiBild(n)}<span>${esc(txt)}${motto ? `<span class="motto">#mirvunderkoeppchen</span>` : ""}</span></div>`;
 // „Morgen Spieltag!“ (nur Kinder-Reiter, Vortag).
 function morgenHtml(m, ids, pill) {
-  const sp = m.sp, zeit = wann(sp.d).split(" · ")[1], p = pill(sp);
+  const sp = m.sp, zeit = wann(sp).split(" · ")[1], p = pill(sp);
   return `<section class="card heute"><div class="chead"><h2>Morgen Spieltag! ⚽</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}</div><div class="cbody">
     <div class="wann">${esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen")}</div>
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
@@ -1015,7 +1018,7 @@ function wocheHtml(tage, alle, now) {
   if (!alle.length) {
     const naechstes = aufteilen(D).tabs.flatMap(t => sicht(D, t.id, now).kommend.map(sp => ({ ...sp, reiter: t.reiter })))
       .sort((a, b) => a.d.localeCompare(b.d))[0];
-    if (naechstes) h += `<div class="note">Nächstes Spiel: ${esc(wann(naechstes.d))} · ${esc(naechstes.reiter)} gegen ${esc(anzeige(naechstes.h.id === naechstes.wir ? naechstes.a.n : naechstes.h.n))}</div>`;
+    if (naechstes) h += `<div class="note">Nächstes Spiel: ${esc(wann(naechstes))} · ${esc(naechstes.reiter)} gegen ${esc(anzeige(naechstes.h.id === naechstes.wir ? naechstes.a.n : naechstes.h.n))}</div>`;
     return h;
   }
   for (const tag of tage) {
@@ -1036,7 +1039,7 @@ function wocheHtml(tage, alle, now) {
       const teile = [`<span class="pill wteam">${esc(s.reiter)}</span>`, s.heim ? "🏠" : "✈️",
         lv ? `<span class="wlivetxt">${lv.laeuft ? "🔴 LIVE · " + esc(lv.zeit) : "Abpfiff · laut Ticker"}</span>`
           : laeuft ? `<span class="wlivetxt">läuft</span>`
-          : s.gespielt ? "" : esc(zeitOffen(s) ? "Uhrzeit offen" : wann(s.d).split(" · ")[1]),
+          : s.gespielt ? "" : esc(zeitOffen(s) ? "Uhrzeit offen" : wann(s).split(" · ")[1]),
         // Stadion, solange die FLF kein Ergebnis hat — auch während das Spiel läuft (vom Nutzer).
         !s0.gespielt && s.ort ? "📍 " + esc(s.ort) : "",
         s.typ === "CUP" ? "Pokal" : s.typ === "FM" ? "Test" : "",

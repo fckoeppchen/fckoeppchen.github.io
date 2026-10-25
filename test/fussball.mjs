@@ -275,6 +275,11 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const D9 = aufbereiten({ saison: { id: "20262027", name: "Saison 2026-2027" }, vereinsSpiele: [s1, s9],
     klassen: { 19189: { spiele: [s1, s9], tabelle: [] } } });
   ok(ics(D9, D9.teams.find(t => t.id === 45396)).includes("DTSTART;VALUE=DATE:20261107\r\nDTEND;VALUE=DATE:20261108"), "Uhrzeit offen → ganztägig");
+  // Die FLF schreibt „offen“ auch als 00:00:01 (25.10.2026) — ebenfalls ganztägig, nicht 0:00–1:30 nachts.
+  const s9b = roh(DIV4, "CC", "2026-11-14T00:00:01+01:00", K1, G(14), null, null, { tag: 7 });
+  const D9b = aufbereiten({ saison: { id: "20262027", name: "Saison 2026-2027" }, vereinsSpiele: [s1, s9b],
+    klassen: { 19189: { spiele: [s1, s9b], tabelle: [] } } });
+  ok(ics(D9b, D9b.teams.find(t => t.id === 45396)).includes("DTSTART;VALUE=DATE:20261114\r\nDTEND;VALUE=DATE:20261115"), "Uhrzeit offen als 00:00:01 → ganztägig");
 }
 
 /* --- Live (FuPa) — Felder wie am 18.10.2026 gegen Beggen live abgefragt --- */

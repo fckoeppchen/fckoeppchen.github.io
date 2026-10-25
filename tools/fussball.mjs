@@ -172,8 +172,9 @@ function icsAus(D, liste, titel) {
     const art = sp.typ === "CUP" ? " (Pokal)" : sp.typ === "FM" ? " (Freundschaftsspiel)" : "";
     const erg = sp.erg && sp.gespielt && sp.hs != null ? ` ${sp.hs}:${sp.as}` : "";
     z.push("BEGIN:VEVENT", `UID:flf-${sp.id}@fc-koeppchen`, "DTSTAMP:20260701T000000Z");
-    // 00:00 heißt bei der FLF „Uhrzeit noch offen“ → ganztägig.
-    if (ortsZeit(sp.d).endsWith(" 00:00:00")) {
+    // 00:00 heißt bei der FLF „Uhrzeit noch offen“ → ganztägig. Nur Stunde und Minute vergleichen: die FLF
+    // schreibt dafür auch 00:00:01 (gesehen 25.10.2026, 88 Spiele standen nachts 0:00–1:30 im Kalender).
+    if (ortsZeit(sp.d).slice(11, 16) === "00:00") {
       const tag = ortsZeit(sp.d).slice(0, 10).replace(/-/g, "");
       const n = new Date(Date.UTC(+tag.slice(0, 4), +tag.slice(4, 6) - 1, +tag.slice(6) + 1)).toISOString().slice(0, 10).replace(/-/g, "");
       z.push(`DTSTART;VALUE=DATE:${tag}`, `DTEND;VALUE=DATE:${n}`);
