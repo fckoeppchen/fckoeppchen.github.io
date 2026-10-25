@@ -174,6 +174,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Raster:** 60 Spalten (`reiterBreiten`): volle Reihen normal (Handy 4, ab 600 px 6), die **letzte Reihe teilt sich die Breite
   gleichmäßig** (vom Nutzer gewählt statt „nur der letzte Knopf breit“) — nie eine Lücke, egal wie viele Mannschaften dazukommen
   oder wegfallen. Test prüft 1–30 Reiter für Handy und Computer, Gegenprobe gemacht. Bei 390 und 1000 px angesehen.
+- **Datenschutz-Hinweis** (vom Nutzer, 25.10.2026, Fassung neu i, **ohne Kontaktangabe**): aufklappbar in der Fußzeile (`#datenschutz`,
+  `DS_OFFEN` hält ihn bei Neuaufbau offen): anonyme Zählung, Push-Adresse + Auswahl nur bei Mitteilungen, Rest bleibt auf dem Handy,
+  Daten von FLF/FuPa, Video von YouTube. Bei neuen Datenflüssen (z. B. Facebook) mitändern.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

@@ -623,7 +623,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "25.10.2026 neu h";
+const FASSUNG = "25.10.2026 neu i";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -932,8 +932,17 @@ function fuss() {
     Aktualisiert jeden Tag um 7:00 und 23:30 Uhr, Mo–Fr zusätzlich um 22:15 Uhr, Sa/So von 8 bis 22 Uhr alle 15 Minuten.
     <br><button class="teilen" id="teilen">↗︎ App teilen</button>
     <div class="von" id="von">Gemacht von Laurent R. für den FC Koeppchen <img alt="" src="${LOGO}"></div>${eigenesGeraet() ? `<div style="font-size:11px">Dieses Gerät zählt nicht in der Statistik mit.</div>` : ""}
+    <details class="kalhilfe datenschutz" id="datenschutz"${DS_OFFEN ? " open" : ""}><summary>Datenschutz</summary>
+      Die App zählt anonym, wie oft sie geöffnet und welche Reiter angesehen werden — ohne Namen, Telefonnummern oder Standorte.
+      Wer Mitteilungen einschaltet, für den wird nur die Push-Adresse des Handys und die Auswahl der Mannschaften gespeichert; Abmelden löscht beides.
+      Was die App sich merkt (gewählter Reiter, letzter Stand), bleibt auf dem Handy. Keine Werbung, kein Tracking.
+      Spielpläne und Ergebnisse kommen von der FLF und von FuPa. Das Video im Reiter der Jugendkommission wird von YouTube geladen.
+    </details>
     <div style="margin-top:6px;font-size:11px">Fassung ${FASSUNG}</div></footer>`;
 }
+// Datenschutz bleibt offen, auch wenn die Fußzeile bei einem Takt neu gebaut wird.
+let DS_OFFEN = false;
+document.addEventListener("toggle", e => { if (e.target.id === "datenschutz") DS_OFFEN = e.target.open; }, true);
 
 // „Heute Spieltag“ (Mannschaften und Roude Léiw).
 function heuteHtml(heute, ids, { live, pill, ohneLive, koeppi, motto, fupaUrl }) {
