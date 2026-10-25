@@ -30,9 +30,11 @@ export const ARTEN = {
 
 // Tabelle fertig = jede Mannschaft hat in der FLF-Tabelle so viele Spiele wie Ergebnisse in der Klasse (vom Nutzer,
 // 25.10.2026: die Mitteilung kam, als nur unsere Zeile nachgezogen war, die anderen noch nicht — Platz konnte falsch sein).
-export const tabelleFertig = k => {
+// Nur Spiele bis jetzt: ein im Voraus gewertetes Forfait (Larochette, Termin in der Zukunft) hat schon ein Ergebnis,
+// die FLF zählt es in der Tabelle aber erst ab seinem Datum — sonst wäre die Tabelle nie „fertig“.
+export const tabelleFertig = (k, now) => {
   const n = new Map();
-  for (const sp of k.spiele || []) if (hatErgebnis(sp)) for (const id of [sp.h.id, sp.a.id]) n.set(id, (n.get(id) || 0) + 1);
+  for (const sp of k.spiele || []) if (hatErgebnis(sp) && Date.parse(sp.d) <= now) for (const id of [sp.h.id, sp.a.id]) n.set(id, (n.get(id) || 0) + 1);
   return !!k.tabelle?.length && k.tabelle.every(x => x.sp === (n.get(x.id) || 0));
 };
 const spieltagFertig = (spiele, tag) => { const s = spiele.filter(sp => sp.tag === tag); return s.length > 0 && s.every(hatErgebnis); };
@@ -130,7 +132,7 @@ export function ereignisse(alt, neu, vorher, now) {
       const r = k.tabelle.find(x => ich.has(x.id)), ra = ka.tabelle.find(x => ich.has(x.id));
       // Erst wenn die ganze Tabelle nachgezogen ist. War unsere Zeile schon vorher neu (die anderen fehlten noch),
       // kennen wir den alten Platz nicht mehr sicher — dann ohne „vorher“.
-      const neuFertig = tabelleFertig(k) && (r && ra && (r.sp > ra.sp || !tabelleFertig(ka)));
+      const neuFertig = tabelleFertig(k, now) && (r && ra && (r.sp > ra.sp || !tabelleFertig(ka, now)));
       if (neuFertig)
         dazu({ reiter: [t.reiter], id: `tabelle:${k.id}:${r.id}:${r.sp}`, art: "tabelle", titel: `${t.reiter} · Tabelle`,
                text: `${kurz(r.n)} jetzt ${r.pl}. Platz` + (r.sp > ra.sp ? (ra.pl !== r.pl ? ` (vorher ${ra.pl}.)` : " (wie vorher)") : "") + ` · ${r.pkt} Punkte`,

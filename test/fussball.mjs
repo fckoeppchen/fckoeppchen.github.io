@@ -792,6 +792,9 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     ok(!e1.some(e => e.id.startsWith("tabelle:k1")), "Mitteilung: Tabelle nicht, solange nur unsere Zeile nachgezogen ist");
     const e2 = mEreignisse(halb, neu, null, jetzt).ereignisse.find(e => e.id.startsWith("tabelle:k1"));
     ok(e2?.text === "Koeppchen I jetzt 2. Platz · 10 Punkte", "Mitteilung: Tabelle kommt, sobald die anderen nachgezogen sind (ohne „vorher“)");
+    // Im Voraus gewertetes Forfait (Termin in der Zukunft) zählt die FLF erst ab dem Datum — darf nicht blockieren.
+    const ff = neuD(); ff.klassen.k1.spiele.push(sp(104, "2026-12-05T00:00:00+01:00", 9, [12, "US Hostert"], [1, K + " I"], 0, 3, { forfait: true }));
+    ok(mEreignisse(alt, ff, null, jetzt).ereignisse.some(e => e.id.startsWith("tabelle:k1")), "Mitteilung: Tabelle trotz Forfait im Voraus");
   }
   ok(id("ende:201")?.text === "Koeppchen I 2:1 FC Titus" && id("ende:201").reiter[0] === "Seniors 2", "Mitteilung: Endstand Seniors von der FLF");
   ok(id("zeit:301")?.text === "Sa., 31.10. um 10:00 gegen US Berdorf" && !id("zeit:503"), "Mitteilung: Uhrzeit steht fest nur bei U9/U11, nie bei den Seniors");

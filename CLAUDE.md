@@ -182,8 +182,10 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   gewählt hat, muss ihn selbst anhaken). Kinder bleiben: keine Mitteilung nur für unser Spiel (Vereinswunsch).
 - **„Tabelle“ erst, wenn die ganze Tabelle nachgezogen ist** (vom Nutzer, 25.10.2026): vorher kam sie, sobald nur unsere
   Zeile ein Spiel mehr hatte — Platz konnte falsch sein. Jetzt `tabelleFertig(k)`: jede Zeile hat so viele Spiele wie Ergebnisse
-  in der Klasse. War unsere Zeile schon vorher neu, ohne „(vorher …)“. Am 25.10. gegen echte Daten: 5 Klassen fertig,
-  Réserves Cl3 S2 hing nach. Kinder und Seniors gleich. Test mit Gegenprobe.
+  in der Klasse. War unsere Zeile schon vorher neu, ohne „(vorher …)“. **Nur Spiele bis jetzt zählen**: im Voraus gewertete
+  Forfaits (Larochette zog sich zurück, Termine bis Mai mit 0:3) zählt die FLF erst ab dem Datum — die erste Fassung hielt
+  Réserves Cl3 S2 darum fälschlich für „nicht fertig“. Am 25.10. abends: alle 6 Klassen fertig. Kinder und Seniors gleich.
+  Tests mit Gegenprobe.
 - **Workflows: Checkout `ref: main`, Rebase `-X theirs` + `rebase --abort`** (25.10.2026, nach einem roten Lauf in
   fussball-vereine: ein wartender Lauf arbeitete mit altem Stand → Konflikt in data/fussball.json). Bei uns noch nie rot,
   aber dieselbe Lage (Worker-Anstoß und verspäteter GitHub-Zeitplan gleichzeitig, z. B. 23:30 → sonst erst 7:00 wieder).
