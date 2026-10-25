@@ -180,6 +180,10 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **„Spieltag komplett“ auch für Seniors 1–3** (vom Nutzer, 25.10.2026, Fassung neu k): wenn alle Spiele des Spieltags der Klasse
   eingetragen sind, mit unserem Ergebnis; danach wie bisher „Tabelle“. Im Zahnrad neuer Haken bei den Seniors (wer Seniors schon
   gewählt hat, muss ihn selbst anhaken). Kinder bleiben: keine Mitteilung nur für unser Spiel (Vereinswunsch).
+- **Workflows: Checkout `ref: main`, Rebase `-X theirs` + `rebase --abort`** (25.10.2026, nach einem roten Lauf in
+  fussball-vereine: ein wartender Lauf arbeitete mit altem Stand → Konflikt in data/fussball.json). Bei uns noch nie rot,
+  aber dieselbe Lage (Worker-Anstoß und verspäteter GitHub-Zeitplan gleichzeitig, z. B. 23:30 → sonst erst 7:00 wieder).
+  `fussball-live.yml` auch `ref: main`. `bgl.namen` geht dabei nicht verloren (jeder Lauf liest den neuesten Stand).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

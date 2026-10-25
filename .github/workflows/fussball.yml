@@ -33,7 +33,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      # ref: main — ein Lauf, der wegen concurrency gewartet hat, holt sonst den Stand vom Moment des
+      # Auslösens und stößt beim Speichern auf den neueren Commit (gesehen in fussball-vereine, 25.10.2026).
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -48,8 +52,11 @@ jobs:
           git config user.name "fussball-abruf"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Fußball: Daten aktualisiert"
+          # -X theirs: bei Konflikt gilt dieser (neuere) Abruf — Daten und Kalender werden jedes Mal ganz neu
+          # geschrieben. Ein abgebrochener Rebase wird aufgeräumt, sonst scheitern die Wiederholungen daran.
           for i in 1 2 3; do
-            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            git pull --rebase -X theirs origin main && git push origin HEAD:main && exit 0
+            git rebase --abort 2>/dev/null || true
             sleep $((i * 10))
           done
           exit 1
