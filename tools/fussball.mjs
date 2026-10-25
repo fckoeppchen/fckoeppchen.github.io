@@ -180,9 +180,9 @@ function icsAus(D, liste, titel) {
     } else {
       z.push(`DTSTART:${utc(sp.d)}`, `DTEND:${utc(new Date(Date.parse(sp.d) + dauerMin * 60e3).toISOString())}`);
     }
-    // BAM: ein Mini-Tournoi mit mehreren Gegnern — Mannschaft und Ort im Titel, die Gegner in der Beschreibung.
+    // BAM: ein Mini-Spieltag mit mehreren Gegnern — Mannschaft und Ort im Titel, die Gegner in der Beschreibung.
     const bamWir = sp.bam && [sp.h, sp.a].find(x => x.id);
-    z.push(`SUMMARY:${icsText(bamWir ? `⚽ ${name(bamWir)} · Mini-Tournoi${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : `⚽ ${name(sp.h)} – ${name(sp.a)}${erg}${art}`)}`);
+    z.push(`SUMMARY:${icsText(bamWir ? `⚽ ${name(bamWir)} · Mini-Spieltag${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : `⚽ ${name(sp.h)} – ${name(sp.a)}${erg}${art}`)}`);
     if (sp.ort) z.push(`LOCATION:${icsText(sp.ort)}`);
     z.push(`DESCRIPTION:${icsText(sp.klasse + (sp.tag ? `, Spieltag ${sp.tag}` : "") + (sp.bam ? `\nMit ${sp.bam.mit.join(", ")}${sp.bam.zeitSicher ? "" : "\nUhrzeit laut FLF meist 10:30 (sauf changement)"}` : ""))}`, "END:VEVENT");
   }

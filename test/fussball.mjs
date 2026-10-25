@@ -1013,7 +1013,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(plan[0].zeit === null, "BAM: Gesamtplan ohne Uhrzeit");
   const d = bamDaten(plan, t);
   const sp1 = d.klassen["bam-6"].spiele.find(x => x.h.id === 9000701);
-  ok(d.teams.map(x => x.reiter).join() === "BAM 1,BAM 2" && sp1.d === "2026-10-24T09:30:00+02:00" && sp1.bam.zeitSicher && sp1.a.n.startsWith("Mini-Tournoi mit CS Grevenmacher I"),
+  ok(d.teams.map(x => x.reiter).join() === "BAM 1,BAM 2" && sp1.d === "2026-10-24T09:30:00+02:00" && sp1.bam.zeitSicher && sp1.a.n.startsWith("Mini-Spieltag mit CS Grevenmacher I"),
      "BAM: Wochenprogramm schlägt Gesamtplan, Heim in Wormeldange, Gegner im Namen");
   ok(bamDaten(plan, []).klassen["bam-6"].spiele.every(x => x.d.endsWith("T10:30:00+02:00") && !x.bam.zeitSicher), "BAM: ohne Wochenprogramm 10:30, als unsicher markiert");
   ok(isoLux("2026-11-14", "10:30") === "2026-11-14T10:30:00+01:00" && isoLux("2027-03-28", "10:30") === "2027-03-28T10:30:00+02:00", "BAM: Uhrzeit mit Sommer-/Winterzeit");

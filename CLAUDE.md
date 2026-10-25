@@ -154,9 +154,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   solcher Spieltag nicht ins Muster → Fehler → **alter BAM-Stand** (`bamAus`), Rest des Abrufs läuft (vom Nutzer: „wir würden dann
   reparieren“). `bamDaten` baut Mannschaften (`kat` U7, `kurz` BAM, ids 9000701/9000702, Reiter BAM 1/2 hinter den PUP, Kalender
   `u7-1/2.ics` + Gruppe „Bambinis U7“) und eine Klasse `bam-<Série>` (typ CC, ohne Ergebnisse/Tabelle) im Format von `aufbereiten`
-  — Reiter, Woche, Kalender, Koeppi, Morgen-Kasten laufen ohne Sonderweg. Spiel = Mini-Tournoi: Gegnerseite „Mini-Tournoi mit …“,
+  — Reiter, Woche, Kalender, Koeppi, Morgen-Kasten laufen ohne Sonderweg. Spiel = Mini-Spieltag (vom Nutzer 25.10.: nicht „Turnier/Tournoi“, klingt nach Wettkampf): Gegnerseite „Mini-Spieltag mit …“,
   `sp.bam = {mit, zeitSicher}`, Heim = Platz in Wormeldange, Wochenprogramm schlägt Gesamtplan, ohne es 10:30. Kalender-Titel
-  „Koeppchen BAM 1 · Mini-Tournoi in Mensdorf“, Gegner in der Beschreibung. **Keine Mitteilungen für BAM** (mitteilungen.mjs und
+  „Koeppchen BAM 1 · Mini-Spieltag in Mensdorf“, Gegner in der Beschreibung. **Keine Mitteilungen für BAM** (mitteilungen.mjs und
   Zahnrad lassen U7 weg). `KEINE_ERG` hat U7. Spruch: `fest` jetzt 9 Teams bei 8 Sprüchen — BAM 2 und MIN 1 können am selben
   Wochenende denselben haben (dem Nutzer gesagt, ein 9. Spruch löst es). Workflow installiert poppler-utils, falls pdftotext fehlt.
   Am 25.10. gegen beide PDFs geprüft (16 Turniere, 8 Spieltage), Tests mit nachgebauten Wörtern, Gegenprobe.

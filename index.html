@@ -604,7 +604,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "25.10.2026 neu d";
+const FASSUNG = "25.10.2026 neu e";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -827,7 +827,7 @@ function render() {
   h += `</div></section>`;
 
   if (v.aktuell && !v.aktuell.ergebnisse && !v.aktuell.tabelle) {
-    h += `<div class="note">In der ${esc(v.team.kat)} veröffentlicht die FLF keine Ergebnisse und keine Tabelle — hier stehen darum nur die Termine.${v.team.kat === "U7" ? ` Die Mini-Tournois stehen nicht im Extranet, sondern als PDF auf <a href="https://www.flf.lu/generaux-92804v4" target="_blank" rel="noopener">flf.lu</a>. Anstoß meist 10:30 (sauf changement), die genaue Uhrzeit kommt mit dem Wochenprogramm.` : ""}</div>`;
+    h += `<div class="note">In der ${esc(v.team.kat)} veröffentlicht die FLF keine Ergebnisse und keine Tabelle — hier stehen darum nur die Termine.${v.team.kat === "U7" ? ` Die Mini-Spieltage stehen nicht im Extranet, sondern als PDF auf <a href="https://www.flf.lu/generaux-92804v4" target="_blank" rel="noopener">flf.lu</a>. Anstoß meist 10:30 (sauf changement), die genaue Uhrzeit kommt mit dem Wochenprogramm.` : ""}</div>`;
   } else if (v.aktuell) {
     h += `<section class="card"><div class="chead"><h2>Tabelle</h2><div class="hint">${esc(v.aktuell.n)}</div></div>
       <div class="cbody">${tabelleHtml(v.aktuell, v.eigen)}</div></section>`;

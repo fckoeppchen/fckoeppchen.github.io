@@ -1,7 +1,7 @@
 // BAM (Bambinis U7): stehen nicht im Extranet, nur als PDF auf www.flf.lu (vom Verein, 24.10.2026).
 // „Programmes généraux“ hat den ganzen Plan einer Tour (ohne Uhrzeiten), „Programme hebdomadaire“ je
 // Samstag ein PDF mit Uhrzeiten („Coup d'envoi 10.30 hrs (sauf modification)“, andere Zeit hinter dem Platz).
-// Je Spieltag vier Mini-Tournois nebeneinander: Platz, darunter bis zu vier Mannschaften („-“ = frei).
+// Je Spieltag vier Mini-Spieltage nebeneinander: Platz, darunter bis zu vier Mannschaften („-“ = frei).
 //
 // Gelesen wird mit `pdftotext -bbox` (Lage jedes Wortes), nicht mit -layout: die Spalten stehen an festen
 // Stellen, lange Namen laufen aber über. Wer hier etwas ändert: lieber nichts als etwas Falsches —
@@ -62,7 +62,7 @@ export function zeitAusOrt(ort) {
   return m ? { ort: ort.slice(0, m.index).trim(), zeit: m[1].padStart(2, "0") + ":" + m[2] } : { ort: ort.trim(), zeit: null };
 }
 
-// Alle Mini-Tournois mit Koeppchen aus einem PDF: [{datum, journee, serie, ort, zeit, teams[]}].
+// Alle Mini-Spieltage mit Koeppchen aus einem PDF: [{datum, journee, serie, ort, zeit, teams[]}].
 // `standard` = Anstoßzeit aus dem Kopf („Coup d'envoi 10.30 hrs“), sonst null.
 export function turniere(seiten) {
   const aus = [];
@@ -136,7 +136,7 @@ export function bamDaten(allgemein, woche) {
     const id = BAM_IDS[x.nr], heim = /Wormeldange/i.test(x.ort);
     const andere = x.teams.filter(n => n !== `FC Koeppchen Wormeldange ${x.nr}`);
     const kurz = n => n.replace(/^FC Koeppchen Wormeldange\b/, "Koeppchen");
-    const wir = { id, n: `FC Koeppchen Wormeldange ${x.nr}` }, tur = { id: 0, n: "Mini-Tournoi mit " + andere.map(kurz).join(", ") };
+    const wir = { id, n: `FC Koeppchen Wormeldange ${x.nr}` }, tur = { id: 0, n: "Mini-Spieltag mit " + andere.map(kurz).join(", ") };
     klassen[kid].spiele.push({ id: Number(`9${x.datum.replace(/-/g, "")}${x.nr === "I" ? 1 : 2}`), d: isoLux(x.datum, x.zeit || "10:30"),
       tag: x.journee, h: heim ? wir : tur, a: heim ? tur : wir, hs: null, as: null, gespielt: false, forfait: false, ort: x.ort,
       bam: { mit: andere, zeitSicher: x.quelle === "woche" && x.zeitSicher } });
