@@ -2,30 +2,6 @@
  "ereignisse": [
   {
    "reiter": [
-    "POU 1",
-    "Poussins U11"
-   ],
-   "id": "heute:6685053",
-   "art": "heute",
-   "titel": "POU 1 · Morgen Spiel",
-   "text": "10:30 gegen ENT Canach/Mensdorf I · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1792861200000,
-   "bis": 1792920600000
-  },
-  {
-   "reiter": [
-    "POU 2",
-    "Poussins U11"
-   ],
-   "id": "heute:6687053",
-   "art": "heute",
-   "titel": "POU 2 · Morgen Spiel",
-   "text": "10:30 gegen US Moutfort-Medingen · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1792861200000,
-   "bis": 1792920600000
-  },
-  {
-   "reiter": [
     "Seniors 1"
    ],
    "id": "heute:1002108",
