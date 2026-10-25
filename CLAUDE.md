@@ -166,6 +166,14 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (App und Mitteilungen prüften schon so). Test mit Gegenprobe. (2) **BAM „ca. 10:30“** (vom Nutzer) solange das Wochenprogramm
   fehlt: `wann(sp)` nimmt auch ein Spiel und setzt „ca.“ bei `sp.bam.zeitSicher` false (Reiter, Woche, Morgen-/Heute-Kasten).
   Im Kalender bleiben es 10:30 mit Hinweis in der Beschreibung (ganztägig wäre schlechter).
+- **Reiter „Jugendkommission“ + flexibles Raster** (vom Nutzer, 25.10.2026, Fassung 25.10. neu h): letzter Reiter immer `jk`
+  (`extraReiter`, Knopf = Logo der Jugendkommissioun auf weißem Feld, `bilder/jk-logo-klein.png`; Statistik-Name „Jugend“).
+  Inhalt (`jkHtml`): großes Logo (`bilder/jk-logo.png`), Foto der Jugendkommission (`bilder/jugendkommissioun.jpg`, 900 px;
+  Originale in `bilder/jk/`), YouTube-Video `JK_VIDEO` über `youtube-nocookie.com` (spielt in der App), darunter **alle
+  Kalender-Abos** (`alleKalender`: Kinder als Altersklasse, je einmal, Reiter-Reihenfolge; `kalKnopf` auch in den Mannschafts-Reitern).
+  **Raster:** 60 Spalten (`reiterBreiten`): volle Reihen normal (Handy 4, ab 600 px 6), die **letzte Reihe teilt sich die Breite
+  gleichmäßig** (vom Nutzer gewählt statt „nur der letzte Knopf breit“) — nie eine Lücke, egal wie viele Mannschaften dazukommen
+  oder wegfallen. Test prüft 1–30 Reiter für Handy und Computer, Gegenprobe gemacht. Bei 390 und 1000 px angesehen.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
@@ -296,7 +304,7 @@ welcher Reiter offen ist; `WS` = Stand je FLF-Spiel. Bei vertauschtem FuPa-Spiel
 auch der Kasten bekommt die FLF-Reihenfolge, **aber erst nach dem Blick am Fr 23.10.** — **Blick gemacht, nicht umgebaut** (vom Nutzer, 23.10.: FuPa hatte das Spiel bis 18 Uhr selbst richtiggestellt; „wird sicher während einem getickerten Spiel korrigiert sein“). Kasten bleibt bei FuPas Reihenfolge, Woche/Endstand drehen weiter die Zahlen (67 von 68
 FuPa-Spielen der Saison haben dieselbe Reihenfolge wie die FLF, nur Beggen–Koeppchen II nicht).
 Vereins-Zusätze (Platzbelegung, Woche teilen, Heimspiel-Kalender) zurückgestellt → `IDEEN-fussball.md`.
-Reiter-Raster: Handy 4 je Reihe, ab 600 px 6 je Reihe (12 Knöpfe = 2 volle Reihen).
+Reiter-Raster: Handy 4 je Reihe, ab 600 px 6 je Reihe; letzte Reihe teilt sich die Breite (`reiterBreiten`, seit 25.10. neu h).
 **Anonymer Zähler** (vom Nutzer, 20.10.2026): App meldet `WORKER_URL?zaehle=1&neu=0|1&reiter=…` nach
 dem ersten Laden und nach ≥ 30 min im Hintergrund; `neu` merkt sich nur das Handy
 (`fussball_v1_gezaehlt` = Tag). Worker schreibt in **D1** (Binding `DB`, Tabellen `tage`, `reiter`, legt

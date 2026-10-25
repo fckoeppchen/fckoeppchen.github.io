@@ -37,12 +37,16 @@
   h1{font-family:'Bebas Neue',sans-serif;letter-spacing:1.5px;margin:0;font-size:28px;color:#fff;line-height:1.05}
   .sub{color:#b9bfbc;font-size:12.5px;margin-top:1px}
   /* Reiter im Raster: acht passen in zwei Reihen à vier, auch auf dem kleinen iPhone. */
-  .seg{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#333;border:1px solid #333;border-radius:10px;overflow:hidden;margin-top:9px}
+  /* 60 Spalten: geht in 4 (Handy) und 6 (ab 600 px) auf. Jeder Knopf bekommt seine Breite (--sp/--spd) aus
+     reiterBreiten(); die letzte Reihe teilt sich den Platz gleichmäßig (vom Nutzer, 25.10.2026). */
+  .seg{display:grid;grid-template-columns:repeat(60,1fr);gap:1px;background:#333;border:1px solid #333;border-radius:10px;overflow:hidden;margin-top:9px}
   .seg button{background:#222;white-space:nowrap;color:#b9bfbc;border:0;padding:9px 10px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;letter-spacing:.3px}
+  .seg button{grid-column:span var(--sp,15)}
   .seg button img{height:28px;display:block;margin:-6px auto}
+  .seg button img.jk{background:#fff;border-radius:5px;padding:1px 4px}
   .seg button.on{background:#fff;color:#111}
-  @media (min-width:600px){.seg{grid-template-columns:repeat(6,1fr)}}
-  .seg button.woche{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:10px;text-transform:uppercase;letter-spacing:.6px}
+  @media (min-width:600px){.seg button{grid-column:span var(--spd,10)}}
+  .seg button.woche{grid-column:1/-1 !important;display:flex;align-items:center;justify-content:center;gap:10px;text-transform:uppercase;letter-spacing:.6px}
   .seg button.woche img{height:22px;margin:-4px 0;display:inline-block}
   .wzus{font-size:15px;font-weight:600;text-align:center}
   .wzeile{cursor:pointer}
@@ -132,6 +136,10 @@
   .next .when{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;color:var(--text)}
   .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--accent);border:0;color:#fff;margin-left:6px;vertical-align:2px}
   .kal{display:block;text-align:center;margin-top:12px;padding:11px 12px;border-radius:10px;background:var(--accentT);color:#fff;font-weight:700;font-size:14.5px;text-decoration:none}
+  .jkfoto{display:block;width:100%;height:auto;border-radius:10px}
+  .jkvideo{position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000}
+  .jkvideo iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .kalliste .kal{margin-top:8px}
   .kalhilfe{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.45}
   .kalhilfe summary{cursor:pointer;text-align:center;color:var(--accentT);font-weight:600}
   .kalhilfe code{display:block;word-break:break-all;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 9px;margin:6px 0;font-size:12px;color:var(--text)}
@@ -481,7 +489,18 @@ function imLiveFenster(v, now) {
 // ---- BGL Ligue und Nationalteam (eigene Reiter, vom Nutzer 19.10.2026) ----
 // Zusätzliche Reiter hinter den Mannschaften; `id` ist Text, die Mannschaften haben Zahlen.
 function extraReiter(D) {
-  return [D.bgl && { id: "bgl", reiter: "BGL" }, D.nati && { id: "nati", reiter: "Roude Léiw", bild: true }].filter(Boolean);
+  return [D.bgl && { id: "bgl", reiter: "BGL" }, D.nati && { id: "nati", reiter: "Roude Léiw", bild: "flf" },
+    // Jugendkommission (vom Nutzer, 25.10.2026): immer der letzte, mit Foto, Video und allen Kalender-Abos.
+    { id: "jk", reiter: "Jugend", bild: "bilder/jk-logo-klein.png", klasse: "jk" }].filter(Boolean);
+}
+
+// Reiter-Raster (vom Nutzer, 25.10.2026): Handy 4, ab 600 px 6 je Reihe. Volle Reihen normal breit, die
+// letzte Reihe teilt sich die ganze Breite gleichmäßig — so bleibt nie eine Lücke, egal wie viele Mannschaften
+// es gibt. Raster mit 60 Spalten (geht in 1–6 auf); Rückgabe je Knopf [Handy, Computer] in Spalten.
+function reiterBreiten(n) {
+  const fuer = sp => { const rest = n % sp, voll = n - rest; return i => 60 / (i < voll ? sp : rest); };
+  const h = fuer(4), c = fuer(6);
+  return Array.from({ length: n }, (_, i) => [h(i), c(i)]);
 }
 
 // BGL: letzter Spieltag = der höchste, an dem schon gespielt wurde (auch angefangen — die offenen
@@ -604,7 +623,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "25.10.2026 neu g";
+const FASSUNG = "25.10.2026 neu h";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -750,8 +769,9 @@ function render() {
   const heuteN = wAlle.filter(sp => tagLux(Date.parse(sp.d)) === tagLux(Date.now())).length;
   const liveN = liveZahl(Date.now());
   const wZahl = liveN ? `🔴 ${liveN} ${liveN === 1 ? "Spiel" : "Spiele"} gerade LIVE` : heuteN ? `heute ${heuteN} ${heuteN === 1 ? "Spiel" : "Spiele"}` : `${wAlle.length} ${wAlle.length === 1 ? "Spiel" : "Spiele"}`;
-  document.getElementById("seg").innerHTML = `<button data-t="woche" class="woche${ST.team === "woche" ? " on" : ""}"><img alt="" src="${LOGO}">Unsere Woche · ${wZahl}<img alt="" src="${LOGO}"></button>` + [...tabs, ...extra].map(t =>
-    `<button data-t="${t.id}" class="${t.id === ST.team ? "on" : ""}">${t.bild ? `<img alt="${esc(t.reiter)}" src="${FLF_LOGO}">` : esc(t.reiter || t.n)}</button>`).join("");
+  const alleReiter = [...tabs, ...extra], breit = reiterBreiten(alleReiter.length);
+  document.getElementById("seg").innerHTML = `<button data-t="woche" class="woche${ST.team === "woche" ? " on" : ""}"><img alt="" src="${LOGO}">Unsere Woche · ${wZahl}<img alt="" src="${LOGO}"></button>` + alleReiter.map((t, i) =>
+    `<button data-t="${t.id}" style="--sp:${breit[i][0]};--spd:${breit[i][1]}" class="${t.id === ST.team ? "on" : ""}">${t.bild ? `<img alt="${esc(t.reiter)}" src="${t.bild === "flf" ? FLF_LOGO : t.bild}"${t.klasse ? ` class="${t.klasse}"` : ""}>` : esc(t.reiter || t.n)}</button>`).join("");
   if (ST.team == null) { main.innerHTML = `<div class="note">Keine Spiele gefunden.</div>`; return; }
   // Zahnrad = eigener Reiter (vom Nutzer, 21.10.2026). Wird nicht bei jedem Takt neu gebaut, damit
   // Haken und Knöpfe stehen bleiben; der gewählte Mannschafts-Reiter bleibt gemerkt.
@@ -768,6 +788,12 @@ function render() {
     LIVE_SP = null; LIVE_POLL = false;
     document.getElementById("sub").textContent = "Unsere Woche · " + D.saison.n.replace("Saison ", "");
     main.innerHTML = wocheHtml(wTage, wAlle, now) + fuss();
+    return;
+  }
+  if (ST.team === "jk") {
+    LIVE_SP = null; LIVE_POLL = false;
+    document.getElementById("sub").textContent = "Jugendkommission";
+    main.innerHTML = jkHtml(tabs) + fuss();
     return;
   }
   if (ST.team === "bgl" || ST.team === "nati") {
@@ -819,13 +845,7 @@ function render() {
     // Abo statt Export: die Action schreibt kalender/<reiter>.ics bei jedem Lauf neu, das iPhone
     // holt sie selbst ab — verschobene Spiele wandern mit. webcal:// öffnet die Kalender-App.
     // Kinder mit zwei Mannschaften: ein gemeinsamer Kalender (vom Nutzer, 23.10.2026), z. B. „Minimes U13“.
-    const kal = v.team.gruppe || { datei: v.team.datei, name: v.team.reiter };
-    const url = KALENDER + kal.datei;
-    h += `<a class="kal" href="${esc(url.replace(/^https:/, "webcal:"))}">📅 ${esc(kal.name)} im Kalender abonnieren</a>
-      <details class="kalhilfe"><summary>Klappt nicht?</summary>
-        Einstellungen → Kalender → Accounts → Account hinzufügen → Andere → <b>Kalenderabo hinzufügen</b>, dann diese Adresse:
-        <code>${esc(url)}</code><button class="kopie" data-copy="${esc(url)}">Adresse kopieren</button>
-      </details>`;
+    h += kalKnopf(v.team.gruppe || { datei: v.team.datei, name: v.team.reiter });
   }
   h += `</div></section>`;
 
@@ -863,6 +883,45 @@ function render() {
   }
 
   main.innerHTML = h + fuss();
+}
+
+function kalKnopf(kal, ohneHilfe) {
+  const url = KALENDER + kal.datei;
+  return `<a class="kal" href="${esc(url.replace(/^https:/, "webcal:"))}">📅 ${esc(kal.name)} im Kalender abonnieren</a>` + (ohneHilfe ? "" :
+    `<details class="kalhilfe"><summary>Klappt nicht?</summary>
+        Einstellungen → Kalender → Accounts → Account hinzufügen → Andere → <b>Kalenderabo hinzufügen</b>, dann diese Adresse:
+        <code>${esc(url)}</code><button class="kopie" data-copy="${esc(url)}">Adresse kopieren</button>
+      </details>`);
+}
+
+// Alle Kalender, je einmal (Kinder als Altersklasse), in Reiter-Reihenfolge.
+function alleKalender(tabs) {
+  const seen = new Set();
+  return tabs.map(t => t.datei && (t.gruppe || { datei: t.datei, name: t.reiter })).filter(k => k && !seen.has(k.datei) && seen.add(k.datei));
+}
+
+// Reiter Jugendkommission (vom Nutzer, 25.10.2026): Logo, Foto, Video, alle Kalender-Abos.
+const JK_VIDEO = "fjIkYf6GGWs";
+function jkHtml(tabs) {
+  const kal = alleKalender(tabs);
+  return `<section class="card"><div class="cbody" style="text-align:center">
+      <img src="bilder/jk-logo.png" alt="Jugendkommissioun FC Koeppchen" style="width:min(260px,70%);height:auto">
+    </div></section>
+    <section class="card"><div class="chead"><h2>Eis Jugendkommissioun</h2></div><div class="cbody">
+      <img class="jkfoto" src="bilder/jugendkommissioun.jpg" alt="Die Jugendkommission des FC Koeppchen" loading="lazy" width="900" height="900">
+    </div></section>
+    <section class="card"><div class="chead"><h2>Video</h2></div><div class="cbody">
+      <div class="jkvideo"><iframe src="https://www.youtube-nocookie.com/embed/${JK_VIDEO}?playsinline=1&rel=0" title="Video FC Koeppchen"
+        loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    </div></section>
+    <section class="card"><div class="chead"><h2>Alle Kalender</h2><div class="hint">Spiele direkt im Handy-Kalender</div></div><div class="cbody kalliste">
+      <div class="muted" style="font-size:13px">Einmal antippen, dann kommen alle Spiele der Mannschaft in den Kalender — verschobene Spiele wandern von selbst mit.</div>
+      ${kal.map(k => kalKnopf(k, true)).join("")}
+      <details class="kalhilfe"><summary>Klappt nicht?</summary>
+        Einstellungen → Kalender → Accounts → Account hinzufügen → Andere → <b>Kalenderabo hinzufügen</b>, dann eine dieser Adressen:
+        ${kal.map(k => `<div style="margin-top:6px"><b>${esc(k.name)}</b><code>${esc(KALENDER + k.datei)}</code><button class="kopie" data-copy="${esc(KALENDER + k.datei)}">Adresse kopieren</button></div>`).join("")}
+      </details>
+    </div></section>`;
 }
 
 function fuss() {
@@ -1232,7 +1291,7 @@ document.addEventListener("click", async e => {
   try { if (an) localStorage.setItem(KEY + "_ich", "1"); else localStorage.removeItem(KEY + "_ich"); } catch (e) {}
   render();
 });
-const reiterName = () => typeof ST.team === "number" ? (D?.teams.find(t => t.id === ST.team)?.reiter || "") : ST.team === "woche" ? "Woche" : ST.team === "bgl" ? "BGL" : ST.team === "nati" ? "Roude Léiw" : "";
+const reiterName = () => typeof ST.team === "number" ? (D?.teams.find(t => t.id === ST.team)?.reiter || "") : ST.team === "woche" ? "Woche" : ST.team === "bgl" ? "BGL" : ST.team === "nati" ? "Roude Léiw" : ST.team === "jk" ? "Jugend" : "";
 // Umschalten auf einen anderen Reiter (Reiter-Knopf oder Tippen auf ein Spiel in der Woche).
 // Derselbe Reiter zweimal hintereinander zählt einmal.
 function angesehen() {

@@ -19,7 +19,7 @@ const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
 const i = src.indexOf("==== Logik"), j = src.indexOf("==== Oberfläche");
 if (i < 0 || j < 0) throw new Error("Abschnittsmarken Logik/Oberfläche nicht gefunden");
 const M = new Function(src.slice(src.lastIndexOf("//", i), src.lastIndexOf("//", j)) + `
-  return { natiLiveSpiel, extraReiter, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei };`)();
+  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei };`)();
 
 let fehler = 0, n = 0;
 function ok(bed, text) { n++; if (!bed) { fehler++; console.log("✗ " + text); } }
@@ -474,7 +474,19 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   // FuPa-Seite nicht eindeutig (zwei Zeilen mit gleichen Zahlen) → keine Zuordnung.
   const zwei = fupaTabelleMitFlfNamen([st(1, "a", "X1", 2, 1, 1, 0, 3, 1, 4), st(2, "z", "X2", 2, 1, 1, 0, 3, 1, 4)], erg, {}, 1);
   ok(zwei.tabelle.every(r => r.n.startsWith("X")), "BGL: gleiche Zahlen auf FuPa-Seite → keine Zuordnung");
-  gleich(M.extraReiter({ bgl, nati: null }).map(t => t.id), ["bgl"], "Reiter nur, wenn Daten da sind");
+  gleich(M.extraReiter({ bgl, nati: null }).map(t => t.id), ["bgl", "jk"], "BGL/Roude Léiw nur, wenn Daten da sind; Jugend immer, als letzter");
+  // Reiter-Raster: jede Reihe füllt genau 60 Spalten, Handy (4) und Computer (6), für jede Zahl von Reitern.
+  for (let n = 1; n <= 30; n++) {
+    const b = M.reiterBreiten(n);
+    for (const [k, sp] of [[0, 4], [1, 6]]) {
+      let reihe = 0, ok = true, volle = 0;
+      b.forEach(x => { const w = x[k]; if (!Number.isInteger(w)) ok = false; reihe += w; if (reihe === 60) { reihe = 0; volle++; } else if (reihe > 60) ok = false; });
+      if (!ok || reihe !== 0 || volle !== Math.ceil(n / sp)) { gleich([n, sp, b.map(x => x[k])], "volle Reihen", "Reiter-Raster ohne Lücke"); break; }
+    }
+  }
+  gleich(M.reiterBreiten(15).map(x => x[0]).slice(-4), [15, 20, 20, 20], "15 Reiter am Handy: letzte Reihe 3 gleich breite");
+  gleich(M.reiterBreiten(15).map(x => x[1]).slice(-4), [10, 20, 20, 20], "15 Reiter am Computer: letzte Reihe 3 gleich breite");
+  gleich(M.reiterBreiten(16).map(x => x[0]).slice(-4), [15, 15, 15, 15], "16 Reiter am Handy: alle gleich");
 
   const r = (typ, slug, title, cat) => ({ type: typ, slug, title, competitionSeason: { slug: "uefa-nations-league", name: "UEFA Nations League", category: { id: cat } } });
   const f = (id, kickoff, section, round) => ({ id, kickoff, section, homeTeam: { name: { full: "Luxemburg" } }, awayTeam: { name: { full: "Estland" } },
