@@ -186,6 +186,15 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Forfaits (Larochette zog sich zurück, Termine bis Mai mit 0:3) zählt die FLF erst ab dem Datum — die erste Fassung hielt
   Réserves Cl3 S2 darum fälschlich für „nicht fertig“. Am 25.10. abends: alle 6 Klassen fertig. Kinder und Seniors gleich.
   Tests mit Gegenprobe.
+- **Spieltag komplett / Tabelle nach Spieltag** (vom Nutzer, 25.10.2026 abends, Fassung neu l): `spieltagStand(spiele, tag, now)` in
+  `tools/mitteilungen.mjs`: Haupttermin = mittlerer Termin; ein Spiel ohne Ergebnis gilt als **verlegt** (hält nicht auf), wenn es
+  > 7 Tage vom Haupttermin weg ist oder sein Termin > 3 Tage vorbei ist (FLF lässt beim Verlegen das alte Datum stehen, Koeppchen II –
+  Syra 3.10.); ein Dienstagsspiel nach Freitag wird abgewartet. „Spieltag komplett“ dann, Titel „(1 Spiel verlegt)“, ist unser Spiel
+  verlegt „unser Spiel noch offen“. **„Tabelle“ erst, wenn der Spieltag unseres letzten Spiels komplett ist und `tabelleFertig`**
+  (Anlass: Seniors 1 bekam „11. Platz“, zwei Spiele des Spieltags fehlten, danach 12.). Alter Stand wird zu `alt.stand` beurteilt;
+  nur Spieltage der letzten 10 Tage. BGL genauso. Später vielleicht beide zu einer Meldung zusammenlegen, wenn sie meist gleichzeitig
+  kommen (vom Nutzer: erst beobachten). **App:** in „Alle Spiele der Klasse“ hat jedes offene Spiel seinen Termin (am Spieltag-Tag
+  nur Uhrzeit), alte offene „noch nicht gespielt (verlegt)“, gespielte an anderem Tag das Datum; Kopf = mittlerer Termin.
 - **Workflows: Checkout `ref: main`, Rebase `-X theirs` + `rebase --abort`** (25.10.2026, nach einem roten Lauf in
   fussball-vereine: ein wartender Lauf arbeitete mit altem Stand → Konflikt in data/fussball.json). Bei uns noch nie rot,
   aber dieselbe Lage (Worker-Anstoß und verspäteter GitHub-Zeitplan gleichzeitig, z. B. 23:30 → sonst erst 7:00 wieder).

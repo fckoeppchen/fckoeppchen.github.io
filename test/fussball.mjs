@@ -10,7 +10,7 @@ import { fileURLToPath } from "url";
 import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGruppe, natiTabelle, fupaTabelleMitFlfNamen, reserveSlugs, icsGruppe } from "../tools/fussball.mjs";
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
 import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel } from "../tools/cloudflare-worker.js";
-import { ereignisse as mEreignisse, umLux } from "../tools/mitteilungen.mjs";
+import { ereignisse as mEreignisse, umLux, spieltagStand } from "../tools/mitteilungen.mjs";
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
 import { bamAus, bamDazu } from "../tools/fussball.mjs";
 
@@ -795,6 +795,24 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     // Im Voraus gewertetes Forfait (Termin in der Zukunft) zählt die FLF erst ab dem Datum — darf nicht blockieren.
     const ff = neuD(); ff.klassen.k1.spiele.push(sp(104, "2026-12-05T00:00:00+01:00", 9, [12, "US Hostert"], [1, K + " I"], 0, 3, { forfait: true }));
     ok(mEreignisse(alt, ff, null, jetzt).ereignisse.some(e => e.id.startsWith("tabelle:k1")), "Mitteilung: Tabelle trotz Forfait im Voraus");
+    // Ein Spiel desselben Spieltags fehlt noch (gleicher Tag, FLF noch nicht eingetragen): weder Spieltag noch Tabelle (vom Nutzer, 25.10.2026).
+    const fehlt = neuD(); fehlt.klassen.k1.spiele.push(sp(105, "2026-10-18T15:00:00+02:00", 5, [13, "FC Remich"], [14, "AS Hosingen"]));
+    const fehltVor = neuD(); fehltVor.klassen.k1.spiele.push({ ...fehlt.klassen.k1.spiele.at(-1) });
+    fehltVor.klassen.k1.tabelle = fehltVor.klassen.k1.tabelle.map(x => ({ ...x, sp: 0 }));   // FLF-Tabelle hing noch hinterher
+    const ef = [...mEreignisse(alt, fehlt, null, jetzt).ereignisse, ...mEreignisse(fehltVor, fehlt, null, jetzt).ereignisse];
+    ok(!ef.some(e => e.id.startsWith("spieltag:k1:5")) && !ef.some(e => e.id.startsWith("tabelle:k1")), "Mitteilung: Spieltag/Tabelle warten auf ein fehlendes Spiel vom selben Wochenende");
+    // Kommt es nach, gehen beide raus.
+    const ek = mEreignisse(fehlt, (() => { const d = neuD(); d.klassen.k1.spiele.push(sp(105, "2026-10-18T15:00:00+02:00", 5, [13, "FC Remich"], [14, "AS Hosingen"], 1, 1));
+      d.klassen.k1.tabelle.push({ pl: 3, id: 13, n: "FC Remich", sp: 2, pkt: 2 }, { pl: 4, id: 14, n: "AS Hosingen", sp: 1, pkt: 1 }); return d; })(), null, jetzt).ereignisse;
+    ok(ek.some(e => e.id === "spieltag:k1:5") && ek.some(e => e.id.startsWith("tabelle:k1")), "Mitteilung: nachgetragenes Spiel → Spieltag komplett und Tabelle");
+    // Verlegtes Spiel mit altem Datum (über 3 Tage her, ohne Ergebnis) hält nicht auf; steht im Titel.
+    const vl = neuD(); vl.klassen.k1.spiele.push(sp(106, "2026-10-16T20:00:00+02:00", 5, [13, "FC Remich"], [14, "AS Hosingen"]));
+    const ev = mEreignisse(alt, vl, null, jetzt + 2 * 864e5).ereignisse.find(e => e.id === "spieltag:k1:5");
+    ok(ev?.titel === "U13 1 · Spieltag 5 komplett (1 Spiel verlegt)", "Mitteilung: verlegtes Spiel hält nicht auf, „(1 Spiel verlegt)“");
+    // Spiel am Dienstag nach dem Spieltag (Syra – Moutfort) wird abgewartet.
+    const st = spieltagStand([sp(1, "2026-10-23T20:00:00+02:00", 6, [1, "a"], [2, "b"], 1, 0), sp(2, "2026-10-24T18:30:00+02:00", 6, [3, "c"], [4, "d"], 2, 2),
+      sp(3, "2026-10-27T20:00:00+01:00", 6, [5, "e"], [6, "f"])], 6, Date.parse("2026-10-25T21:00:00+01:00"));
+    ok(st && !st.komplett && st.verlegt === 0, "Spieltag: Dienstagsspiel wird abgewartet");
   }
   ok(id("ende:201")?.text === "Koeppchen I 2:1 FC Titus" && id("ende:201").reiter[0] === "Seniors 2", "Mitteilung: Endstand Seniors von der FLF");
   ok(id("zeit:301")?.text === "Sa., 31.10. um 10:00 gegen US Berdorf" && !id("zeit:503"), "Mitteilung: Uhrzeit steht fest nur bei U9/U11, nie bei den Seniors");

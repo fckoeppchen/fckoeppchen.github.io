@@ -37,7 +37,19 @@ export const tabelleFertig = (k, now) => {
   for (const sp of k.spiele || []) if (hatErgebnis(sp) && Date.parse(sp.d) <= now) for (const id of [sp.h.id, sp.a.id]) n.set(id, (n.get(id) || 0) + 1);
   return !!k.tabelle?.length && k.tabelle.every(x => x.sp === (n.get(x.id) || 0));
 };
-const spieltagFertig = (spiele, tag) => { const s = spiele.filter(sp => sp.tag === tag); return s.length > 0 && s.every(hatErgebnis); };
+// Spieltag komplett = alle Spiele um den Termin des Spieltags haben ein Ergebnis (vom Nutzer, 25.10.2026). Haupttermin =
+// mittlerer Termin. Verlegt (hält nichts auf): mehr als 7 Tage vom Haupttermin weg, oder Termin seit 3 Tagen vorbei und noch
+// ohne Ergebnis — die FLF lässt beim Verlegen oft das alte Datum stehen (Koeppchen II – Syra, 3.10.). Ein Spiel am Dienstag
+// nach einem Freitag-Spieltag (Syra spielt zu Hause dienstags) gehört dazu und wird abgewartet.
+const TAG_MS = 24 * H;
+export function spieltagStand(spiele, tag, now) {
+  const s = spiele.filter(sp => sp.tag === tag);
+  if (!s.length) return null;
+  const ds = s.map(sp => Date.parse(sp.d)).sort((a, b) => a - b), haupt = ds[Math.floor((ds.length - 1) / 2)];
+  const verlegt = s.filter(sp => !hatErgebnis(sp) && (Math.abs(Date.parse(sp.d) - haupt) > 7 * TAG_MS || Date.parse(sp.d) < now - 3 * TAG_MS));
+  const fehlt = s.filter(sp => !hatErgebnis(sp) && !verlegt.includes(sp));
+  return { haupt, komplett: !fehlt.length && s.some(hatErgebnis), verlegt: verlegt.length };
+}
 
 export function ereignisse(alt, neu, vorher, now) {
   const aus = new Map((vorher?.ereignisse || []).filter(e => e.bis > now).map(e => [e.id, e]));
@@ -116,23 +128,31 @@ export function ereignisse(alt, neu, vorher, now) {
   // Spieltag komplett (U13, U15, seit 25.10.2026 auch Seniors, vom Nutzer) und Tabelle (U13, U15, Seniors) je Mannschaft in ihrer aktuellen Klasse.
   // Alle Ligaklassen der Mannschaft, nicht nur die neueste: beim Phasenwechsel steht die neue Klasse
   // schon da, während in der alten noch die letzten Ergebnisse kommen.
+  // Der alte Stand wird zu seiner eigenen Zeit beurteilt: so wird ein Spieltag auch dann „komplett“, wenn nur die Zeit
+  // ein liegengebliebenes Spiel zu „verlegt“ macht.
+  const altZeit = Date.parse(alt?.stand) || now;
   for (const t of teams) for (const k of t.klassen.map(id => neu.klassen[id]).filter(k => k && k.typ === "CC")) {
     const ka = alt?.klassen?.[k.id];
     if (!ka || !k.ergebnisse) continue;
-    if (["U13", "U15", "Seniors"].includes(t.kat))
-      for (const tag of new Set(k.spiele.map(sp => sp.tag))) {
-        if (!spieltagFertig(k.spiele, tag) || spieltagFertig(ka.spiele, tag)) continue;
-        const unser = k.spiele.find(sp => sp.tag === tag && (unsere.has(sp.h.id) || unsere.has(sp.a.id)));
-        dazu({ reiter: [t.reiter], id: `spieltag:${k.id}:${tag}`, art: "spieltag", titel: `${t.reiter} · Spieltag ${tag} komplett`,
-               text: (unser ? `${kurz(unser.h.n)} ${unser.hs}:${unser.as} ${kurz(unser.a.n)} · ` : "") + "alle Ergebnisse in der App",
-               ab: now, bis: now + 24 * H });
-      }
-    if (["U13", "U15", "Seniors"].includes(t.kat) && k.tabelle && ka.tabelle) {
+    if (!["U13", "U15", "Seniors"].includes(t.kat)) continue;
+    const ist = sp => unsere.has(sp.h.id) || unsere.has(sp.a.id);
+    for (const tag of new Set(k.spiele.map(sp => sp.tag))) {
+      const sn = spieltagStand(k.spiele, tag, now), sa = spieltagStand(ka.spiele, tag, altZeit);
+      if (!sn?.komplett || sa?.komplett || sn.haupt < now - 10 * TAG_MS) continue;
+      const unser = k.spiele.find(sp => sp.tag === tag && ist(sp));
+      dazu({ reiter: [t.reiter], id: `spieltag:${k.id}:${tag}`, art: "spieltag",
+             titel: `${t.reiter} · Spieltag ${tag} komplett` + (sn.verlegt ? ` (${sn.verlegt} ${sn.verlegt === 1 ? "Spiel" : "Spiele"} verlegt)` : ""),
+             text: (unser ? (hatErgebnis(unser) ? `${kurz(unser.h.n)} ${unser.hs}:${unser.as} ${kurz(unser.a.n)} · ` : "unser Spiel noch offen · ") : "") + "alle Ergebnisse in der App",
+             ab: now, bis: now + 24 * H });
+    }
+    if (k.tabelle && ka.tabelle) {
       const ich = new Set(t.ids || [t.id]);
       const r = k.tabelle.find(x => ich.has(x.id)), ra = ka.tabelle.find(x => ich.has(x.id));
-      // Erst wenn die ganze Tabelle nachgezogen ist. War unsere Zeile schon vorher neu (die anderen fehlten noch),
-      // kennen wir den alten Platz nicht mehr sicher — dann ohne „vorher“.
-      const neuFertig = tabelleFertig(k, now) && (r && ra && (r.sp > ra.sp || !tabelleFertig(ka, now)));
+      // Tabelle erst, wenn der Spieltag unseres letzten Spiels komplett ist UND die FLF die Tabelle damit nachgezogen hat
+      // (vom Nutzer, 25.10.2026). Eine Meldung je Spiel von uns (id mit Spielzahl, der Worker schickt jede id nur einmal).
+      const g = k.spiele.filter(sp => ist(sp) && hatErgebnis(sp) && Date.parse(sp.d) <= now).sort((a, b) => Date.parse(b.d) - Date.parse(a.d))[0];
+      const bereit = (kk, zeit) => tabelleFertig(kk, zeit) && !!spieltagStand(kk.spiele, g.tag, zeit)?.komplett;
+      const neuFertig = g && r && ra && Date.parse(g.d) > now - 10 * TAG_MS && bereit(k, now) && !bereit(ka, altZeit);
       if (neuFertig)
         dazu({ reiter: [t.reiter], id: `tabelle:${k.id}:${r.id}:${r.sp}`, art: "tabelle", titel: `${t.reiter} · Tabelle`,
                text: `${kurz(r.n)} jetzt ${r.pl}. Platz` + (r.sp > ra.sp ? (ra.pl !== r.pl ? ` (vorher ${ra.pl}.)` : " (wie vorher)") : "") + ` · ${r.pkt} Punkte`,
@@ -172,10 +192,13 @@ export function ereignisse(alt, neu, vorher, now) {
 
   // BGL: Spieltag komplett.
   if (neu.bgl?.spiele && alt?.bgl?.spiele)
-    for (const tag of new Set(neu.bgl.spiele.map(sp => sp.tag)))
-      if (spieltagFertig(neu.bgl.spiele, tag) && !spieltagFertig(alt.bgl.spiele, tag))
-        dazu({ reiter: ["BGL"], id: `bgl:${neu.saison?.id}:${tag}`, art: "spieltag", titel: `BGL · Spieltag ${tag} komplett`,
+    for (const tag of new Set(neu.bgl.spiele.map(sp => sp.tag))) {
+      const sn = spieltagStand(neu.bgl.spiele, tag, now), sa = spieltagStand(alt.bgl.spiele, tag, Date.parse(alt.stand) || now);
+      if (sn?.komplett && !sa?.komplett && sn.haupt > now - 10 * TAG_MS)
+        dazu({ reiter: ["BGL"], id: `bgl:${neu.saison?.id}:${tag}`, art: "spieltag",
+               titel: `BGL · Spieltag ${tag} komplett` + (sn.verlegt ? ` (${sn.verlegt} ${sn.verlegt === 1 ? "Spiel" : "Spiele"} verlegt)` : ""),
                text: "Alle Ergebnisse in der App", ab: now, bis: now + 24 * H });
+    }
 
   // Roude Léiw: Heute Spiel, Endstand (von FuPa), Liveticker über den Worker.
   const altNati = new Map((alt?.nati?.spiele || []).map(sp => [sp.id, sp]));
