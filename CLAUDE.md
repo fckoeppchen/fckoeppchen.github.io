@@ -246,6 +246,8 @@ seit 23.10. jede Minute je Handy) anschauen.
   `fussball.yml` → Kalender-Spiegel mit Hinweis, alte Live-Action aus; Statistik prüfen, ggf. null.
   (Zeitumstellung in der Nacht 24./25.10. — Uhrzeiten in App, Kalender, Worker dabei mit ansehen.)
 - Mo 26.10.: Verein verschickt Link + Einladungstext (4 Sprachen) + QR-Code + Koeppi-Text im Newschannel.
+  **Verschoben** (vom Nutzer, 25.10.2026 abends): der Verein wartet erst FuPas Antwort ab. Bis zum „Go“ des Vereins bleibt die alte
+  App unverändert (kein Umzug, kein Kalender-Spiegel); direkt vor dem Start Statistik prüfen/auf null.
 - Danach: erste Woche Statistik und Worker-Last beobachten; FuPa (Nutzer: „später“); Mitteilungen für alle
   erst mit Versand in Paketen; 5×-Schalter ausbauen (vorher fragen); Android-Test; Kalender-Spiegel Ende 2026 aus.
 
