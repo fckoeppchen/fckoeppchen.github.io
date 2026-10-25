@@ -172,18 +172,13 @@ function icsAus(D, liste, titel) {
     const art = sp.typ === "CUP" ? " (Pokal)" : sp.typ === "FM" ? " (Freundschaftsspiel)" : "";
     const erg = sp.erg && sp.gespielt && sp.hs != null ? ` ${sp.hs}:${sp.as}` : "";
     z.push("BEGIN:VEVENT", `UID:flf-${sp.id}@fc-koeppchen`, "DTSTAMP:20260701T000000Z");
-    // 00:00 heißt bei der FLF „Uhrzeit noch offen“ → ganztägig. Nur Stunde und Minute vergleichen: die FLF
-    // schreibt dafür auch 00:00:01 (gesehen 25.10.2026, 88 Spiele standen nachts 0:00–1:30 im Kalender).
-    if (ortsZeit(sp.d).slice(11, 16) === "00:00") {
-      const tag = ortsZeit(sp.d).slice(0, 10).replace(/-/g, "");
-      const n = new Date(Date.UTC(+tag.slice(0, 4), +tag.slice(4, 6) - 1, +tag.slice(6) + 1)).toISOString().slice(0, 10).replace(/-/g, "");
-      z.push(`DTSTART;VALUE=DATE:${tag}`, `DTEND;VALUE=DATE:${n}`);
-    } else {
-      z.push(`DTSTART:${utc(sp.d)}`, `DTEND:${utc(new Date(Date.parse(sp.d) + dauerMin * 60e3).toISOString())}`);
-    }
+    // 00:00 heißt bei der FLF „Uhrzeit noch offen“ (auch 00:00:01). Bewusst kein Ganztagstermin, sondern 00:00
+    // (vom Nutzer, 25.10.2026: „dann wissen die Leute, dass es noch gesetzt werden muss“), dazu im Titel „Uhrzeit offen“.
+    const offen = ortsZeit(sp.d).slice(11, 16) === "00:00";
+    z.push(`DTSTART:${utc(sp.d)}`, `DTEND:${utc(new Date(Date.parse(sp.d) + dauerMin * 60e3).toISOString())}`);
     // BAM: ein Mini-Spieltag mit mehreren Gegnern — Mannschaft und Ort im Titel, die Gegner in der Beschreibung.
     const bamWir = sp.bam && [sp.h, sp.a].find(x => x.id);
-    z.push(`SUMMARY:${icsText(bamWir ? `⚽ ${name(bamWir)} · Mini-Spieltag${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : `⚽ ${name(sp.h)} – ${name(sp.a)}${erg}${art}`)}`);
+    z.push(`SUMMARY:${icsText((bamWir ? `⚽ ${name(bamWir)} · Mini-Spieltag${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : `⚽ ${name(sp.h)} – ${name(sp.a)}${erg}${art}`) + (offen ? " · Uhrzeit offen" : ""))}`);
     if (sp.ort) z.push(`LOCATION:${icsText(sp.ort)}`);
     z.push(`DESCRIPTION:${icsText(sp.klasse + (sp.tag ? `, Spieltag ${sp.tag}` : "") + (sp.bam ? `\nMit ${sp.bam.mit.join(", ")}${sp.bam.zeitSicher ? "" : "\nUhrzeit laut FLF meist 10:30 (sauf changement)"}` : ""))}`, "END:VEVENT");
   }

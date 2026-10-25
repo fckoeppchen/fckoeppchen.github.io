@@ -161,7 +161,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   changement)“) und „Uhrzeit steht fest“, sobald das Wochenprogramm die Zeit bringt (`bam.zeitSicher` false → true). `KEINE_ERG` hat U7. Spruch: `fest` jetzt 9 Teams bei 8 Sprüchen — BAM 2 und MIN 1 können am selben
   Wochenende denselben haben (dem Nutzer gesagt, ein 9. Spruch löst es). Workflow installiert poppler-utils, falls pdftotext fehlt.
   Am 25.10. gegen beide PDFs geprüft (16 Turniere, 8 Spieltage), Tests mit nachgebauten Wörtern, Gegenprobe.
-- **Fassung 25.10. neu g:** (1) **Kalender: Uhrzeit offen auch bei 00:00:01** — die FLF schreibt „offen“ inzwischen als 00:00:01,
+- **Fassung 25.10. neu g:** (1) **Kalender: Uhrzeit offen auch bei 00:00:01** (am selben Tag vom Nutzer geändert: **keine Ganztagstermine** mehr, Termin um 00:00 mit „· Uhrzeit offen“ im Titel — „dann wissen die Leute, dass es noch gesetzt werden muss“) — die FLF schreibt „offen“ inzwischen als 00:00:01,
   `ics()` prüfte auf „ 00:00:00“ → 88 Spiele (U9/U11 ab 14.11.) standen 0:00–1:30 nachts statt ganztägig; jetzt Stunde:Minute
   (App und Mitteilungen prüften schon so). Test mit Gegenprobe. (2) **BAM „ca. 10:30“** (vom Nutzer) solange das Wochenprogramm
   fehlt: `wann(sp)` nimmt auch ein Spiel und setzt „ca.“ bei `sp.bam.zeitSicher` false (Reiter, Woche, Morgen-/Heute-Kasten).
