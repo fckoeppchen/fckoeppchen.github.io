@@ -35,6 +35,17 @@
   },
   {
    "reiter": [
+    "BGL"
+   ],
+   "id": "bgl:20262027:11",
+   "art": "spieltag",
+   "titel": "BGL · Spieltag",
+   "text": "Spieltag 11 komplett: alle Ergebnisse in der App",
+   "ab": 1792967503063,
+   "bis": 1793053903063
+  },
+  {
+   "reiter": [
     "Woche"
    ],
    "id": "woche:2026-10-26",
