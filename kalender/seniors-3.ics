@@ -138,9 +138,10 @@ END:VEVENT
 BEGIN:VEVENT
 UID:flf-1015104@fc-koeppchen
 DTSTAMP:20260701T000000Z
-DTSTART;VALUE=DATE:20261205
-DTEND;VALUE=DATE:20261206
-SUMMARY:⚽ Koeppchen Seniors 3 – AS Rupensia Lusitanos Larochette 3:0
+DTSTART:20261204T230001Z
+DTEND:20261205T010001Z
+SUMMARY:⚽ Koeppchen Seniors 3 – AS Rupensia Lusitanos Larochette 3:0 ·
+  Uhrzeit offen
 LOCATION:Am Ga (Wormeldange\, synth.)
 DESCRIPTION:Réserves Classe 3 Série 2\, Spieltag 10
 END:VEVENT
@@ -228,9 +229,10 @@ END:VEVENT
 BEGIN:VEVENT
 UID:flf-1015204@fc-koeppchen
 DTSTAMP:20260701T000000Z
-DTSTART;VALUE=DATE:20270503
-DTEND;VALUE=DATE:20270504
-SUMMARY:⚽ AS Rupensia Lusitanos Larochette – Koeppchen Seniors 3 0:3
+DTSTART:20270502T220001Z
+DTEND:20270503T000001Z
+SUMMARY:⚽ AS Rupensia Lusitanos Larochette – Koeppchen Seniors 3 0:3 ·
+  Uhrzeit offen
 LOCATION:Terrain Op Birkelt (Larochette\, synth.)
 DESCRIPTION:Réserves Classe 3 Série 2\, Spieltag 20
 END:VEVENT
