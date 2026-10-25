@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-25T17:16:31.779Z",
+ "stand": "2026-10-25T17:46:31.021Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -1808,9 +1808,9 @@
       "id": 45208,
       "n": "FC Luxembourg City"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade E. Mayrisch (Esch)"
     },
@@ -1826,9 +1826,9 @@
       "id": 45041,
       "n": "FC Rodange 91"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 5,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 1 (Lorentzweiler)"
     },
@@ -1862,9 +1862,9 @@
       "id": 44799,
       "n": "FC The Belval Belvaux"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Fernand Weber (Canach)"
     },
@@ -1880,9 +1880,9 @@
       "id": 44831,
       "n": "FC Koeppchen Wormeldange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Municipal (Bettembourg, synth.)"
     },
@@ -1916,9 +1916,9 @@
       "id": 44650,
       "n": "Marisca Mersch"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 1 (Mondercange)"
     },
@@ -19711,9 +19711,9 @@
      "id": 44823,
      "n": "US Rumelange"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 3,
+    "as": 3,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade Am Pëtz (Weidingen)"
    },
@@ -19729,9 +19729,9 @@
      "id": 44543,
      "n": "US Mondorf-les-Bains"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 6,
+    "as": 0,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade Achille Hammerel (Luxembourg)"
    },
@@ -19765,9 +19765,9 @@
      "id": 44790,
      "n": "Atert Bissen"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 1,
+    "as": 2,
+    "gespielt": true,
     "forfait": false,
     "ort": "Dribbel (Bascharage)"
    },
@@ -19801,9 +19801,9 @@
      "id": 44598,
      "n": "Résidence Walferdange"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 4,
+    "as": 1,
+    "gespielt": true,
     "forfait": false,
     "ort": "Party-Rent-Arena (Rosport)"
    },
