@@ -104,13 +104,13 @@ export function ereignisse(alt, neu, vorher, now) {
     }
   }
 
-  // Spieltag komplett (U13, U15) und Tabelle (U13, U15, Seniors) je Mannschaft in ihrer aktuellen Klasse.
+  // Spieltag komplett (U13, U15, seit 25.10.2026 auch Seniors, vom Nutzer) und Tabelle (U13, U15, Seniors) je Mannschaft in ihrer aktuellen Klasse.
   // Alle Ligaklassen der Mannschaft, nicht nur die neueste: beim Phasenwechsel steht die neue Klasse
   // schon da, während in der alten noch die letzten Ergebnisse kommen.
   for (const t of teams) for (const k of t.klassen.map(id => neu.klassen[id]).filter(k => k && k.typ === "CC")) {
     const ka = alt?.klassen?.[k.id];
     if (!ka || !k.ergebnisse) continue;
-    if (["U13", "U15"].includes(t.kat))
+    if (["U13", "U15", "Seniors"].includes(t.kat))
       for (const tag of new Set(k.spiele.map(sp => sp.tag))) {
         if (!spieltagFertig(k.spiele, tag) || spieltagFertig(ka.spiele, tag)) continue;
         const unser = k.spiele.find(sp => sp.tag === tag && (unsere.has(sp.h.id) || unsere.has(sp.a.id)));

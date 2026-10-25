@@ -623,7 +623,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "25.10.2026 neu j";
+const FASSUNG = "25.10.2026 neu k";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1422,7 +1422,7 @@ function mArtenFuer(r) {
   const tor = mTore() ? ["tor"] : [];
   if (r === "Roude Léiw") return ["heute", "ticker", "halbzeit", ...tor, "ende"];
   // Uhrzeit nur bei U9/U11, und nur wenn vorher keine da war (vom Nutzer: geänderte Zeiten gibt der Trainer durch).
-  if (k === "Seniors") return ["heute", "tabelle", "ticker", "halbzeit", ...tor, "ende"];
+  if (k === "Seniors") return ["heute", "spieltag", "tabelle", "ticker", "halbzeit", ...tor, "ende"];
   if (k === "U13" || k === "U15") return ["heute", "neu", "spieltag", "tabelle"];
   return ["heute", "uhrzeit"];   // U7, U9, U11: die FLF zeigt keine Ergebnisse (U7: Uhrzeit = Wochenprogramm da)
 }

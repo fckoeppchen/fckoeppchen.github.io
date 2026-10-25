@@ -781,6 +781,8 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const jetzt = Date.parse("2026-10-20T20:00:00+02:00");
   const m = mEreignisse(alt, neu, null, jetzt), id = x => m.ereignisse.find(e => e.id.startsWith(x));
   ok(id("spieltag:k1:5")?.text === "Koeppchen I 3:1 FC Mondorf · alle Ergebnisse in der App" && id("spieltag:k1:5").titel === "U13 1 · Spieltag 5 komplett", "Mitteilung: Spieltag komplett mit unserem Ergebnis");
+  ok(id("spieltag:k2:7")?.text === "Koeppchen I 2:1 FC Titus · alle Ergebnisse in der App" && id("spieltag:k2:7").titel === "Seniors 2 · Spieltag 7 komplett", "Mitteilung: Spieltag komplett auch bei den Seniors");
+  ok(!id("spieltag:k2:8"), "Mitteilung: Seniors-Spieltag ohne alle Ergebnisse nicht komplett");
   ok(id("tabelle:k1")?.text === "Koeppchen I jetzt 2. Platz (vorher 1.) · 10 Punkte" && id("tabelle:k2")?.text === "Koeppchen I jetzt 3. Platz (wie vorher) · 13 Punkte", "Mitteilung: Tabelle mit Platz und vorher");
   ok(id("ende:201")?.text === "Koeppchen I 2:1 FC Titus" && id("ende:201").reiter[0] === "Seniors 2", "Mitteilung: Endstand Seniors von der FLF");
   ok(id("zeit:301")?.text === "Sa., 31.10. um 10:00 gegen US Berdorf" && !id("zeit:503"), "Mitteilung: Uhrzeit steht fest nur bei U9/U11, nie bei den Seniors");
