@@ -186,7 +186,7 @@ Die Wochenvorschau selbst ist gebaut („Unsere Woche“, 20.10.2026); diese Zus
   und im Kalender. Mit dem Verein klären, wer Bescheid gibt. Idee: eine kleine Datei `data/turniere.json` (Mannschaft,
   Datum, Uhrzeit, Ort, Name), die Claude auf Zuruf füllt — oder der Nutzer selbst auf GitHub im Browser.
 
-## Offen vom 24.10.2026 abends (vom Nutzer, morgen angehen)
+## Vom 24.10.2026 abends (vom Nutzer) — alle drei erledigt am 25.10. (neu a, neu b)
 
 1. **Koeppi-Streifen mit Ergebnis:** Solange „Super gemacht“ steht (bis 7 Tage, oder bis Vortag/Spieltag des nächsten),
    das Spiel mit in den Kasten nehmen (größer), danach normal unter „Unsere Ergebnisse“. Achtung Vereinswunsch „keine

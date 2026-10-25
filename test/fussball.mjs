@@ -57,10 +57,13 @@ function gleich(a, b, text) { ok(JSON.stringify(a) === JSON.stringify(b), text +
   // Vom Verein: gelobt wird das Spielen, nicht der Sieg — nach Sieg und Niederlage derselbe Streifen.
   const s1 = M.nachDemSpiel(v("U13 1", [sp(5, "2026-10-31T14:00:00+01:00")], [sieg]), di), s2 = M.nachDemSpiel(v("U13 1", [], [nl]), di);
   ok(s1 && s2 && s1.spruch && s1.spruch === s2.spruch && !("art" in s1), "nach Sieg und Niederlage: gleicher Streifen mit Spruch, ohne Ergebnis");
-  // Sprüche reihum: nächstes Spiel derselben Mannschaft → nächster Spruch; andere Reiter fangen woanders an.
-  const zwei = [sp(3, "2026-10-10T14:00:00+02:00", 1, 1), sieg].reverse();
-  const s3 = M.nachDemSpiel(v("U13 1", [], zwei), di);
-  ok(s3.spruch !== s1.spruch, "nächstes Spiel: anderer Spruch");
+  // Sprüche je Woche (seit 25.10.2026): nächste Woche → nächster Spruch; am selben Wochenende nie zwei gleiche,
+  // auch wenn eine Mannschaft ein Spiel mehr hat (24.10.: MIN 1 mit Pokal, MIN 2 ohne → vorher gleicher Spruch).
+  const woNach = sp(4, "2026-10-24T14:00:00+02:00", 2, 0), mo = Date.parse("2026-10-26T12:00:00+01:00");
+  ok(M.nachDemSpiel(v("U13 1", [], [woNach, sieg]), mo).spruch !== s1.spruch, "nächste Woche: anderer Spruch");
+  const pokal = sp(6, "2026-10-24T10:00:00+02:00", 5, 2);
+  ok(M.nachDemSpiel(v("MIN 1", [], [pokal, sieg]), mo).spruch !== M.nachDemSpiel(v("MIN 2", [], [woNach]), mo).spruch,
+     "MIN 1 mit einem Spiel mehr und MIN 2 am selben Wochenende: verschiedene Sprüche");
   const jeReiter = new Set(["MIN 1", "MIN 2", "SCO", "POU 1", "POU 2", "PUP 1", "PUP 2"].map(r => M.nachDemSpiel(v(r, [], [sieg]), di).spruch));
   ok(jeReiter.size === 7, "jeder Jugend-Reiter fängt bei einem eigenen Spruch an (" + jeReiter.size + " von 7)");
   ok(M.nachDemSpiel(v("Seniors 1", [], [sieg]), di) === null, "Seniors: kein Streifen");

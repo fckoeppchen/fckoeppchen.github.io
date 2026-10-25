@@ -139,6 +139,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Koeppi-Kasten mit dem Spiel** (vom Nutzer, 25.10.2026, Fassung 25.10. neu a): Solange „Super gemacht“ steht
   (`nachDemSpiel`), steht das Spiel unten im grünen Kasten (`.streifenbox`, `ergZeile`) statt in der Liste darunter —
   gleich dargestellt wie in der Liste, nicht größer (Vereinswunsch: Ergebnis nicht hervorheben). Bei 390 px geprüft.
+- **Fassung 25.10. neu b** (vom Nutzer): aufklappbare Karten mit grünem Kopf, weißer Schrift, Knopf „Anzeigen ▾“ weiß
+  (grüne Schrift), offen „Zuklappen ▴“ schwarz. **Spruch je Woche** statt je Spielzahl (`nachDemSpiel`: Woche des Spiels +
+  Platz in `fest`) — am 24.10. hatten MIN 1 (mit Pokal ein Spiel mehr) und MIN 2 denselben Spruch. Test mit Gegenprobe.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

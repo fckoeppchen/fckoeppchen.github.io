@@ -60,6 +60,11 @@
   details.card>summary::after{content:"Anzeigen ▾";flex:none;font-size:13px;font-weight:700;color:#fff;background:var(--accentT);padding:5px 11px;border-radius:20px}
   details.card[open]>summary::after{content:"Zuklappen ▴";background:#fff;color:var(--accentT);box-shadow:inset 0 0 0 1.5px var(--accentT)}
   details.card:not([open])>summary{border-bottom:0}
+  /* Aufklappbare Karten fallen auf (vom Nutzer, 25.10.2026: grau auf weiß sah man nicht): Kopf grün, Knopf weiß. */
+  details.card>summary{background:var(--accentT);border-bottom-color:var(--accentT)}
+  details.card>summary h2,details.card>summary .hint{color:#fff}
+  details.card>summary::after{background:#fff;color:var(--accentT)}
+  details.card[open]>summary::after{background:#111;color:#fff;box-shadow:none}
   h2{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1px;margin:0;flex:1}
   .hint{font-size:12px;color:var(--muted);text-align:right}
   .hint.tagdatum{font-size:15px;font-weight:600;color:var(--text)}
@@ -385,9 +390,12 @@ function nachDemSpiel(v, now) {
   if (!istKinder(v) || spieltagHeute(v, now) || spieltagMorgen(v, now)) return null;
   const sp = v.gespielt.find(s => Date.parse(s.d) <= now);
   if (!sp || now - Date.parse(sp.d) > 7 * 864e5) return null;
-  // Reihum (vom Nutzer): mit jedem gespielten Spiel der nächste Spruch, und jeder Reiter fängt woanders an.
+  // Reihum (vom Nutzer): jede Woche der nächste Spruch, und jeder Reiter fängt woanders an.
   // Fest je Spiel, damit er nicht bei jedem Neuaufbau wechselt.
-  const nr = v.gespielt.filter(s => Date.parse(s.d) <= now).length;
+  // Seit 25.10.2026 nach der Woche des Spiels statt nach der Zahl der Spiele (vom Nutzer): sonst hoben sich der
+  // Versatz und ein Spiel mehr (Pokal) auf, und MIN 1 und MIN 2 hatten denselben Spruch. 8 Sprüche, 7 Teams:
+  // am selben Wochenende nie zwei gleiche, jede Woche der nächste.
+  const nr = Math.floor((Date.parse(tagLux(Date.parse(sp.d)) + "T12:00:00Z") / 864e5 + 3) / 7);
   const fest = ["MIN 1", "MIN 2", "SCO", "POU 1", "POU 2", "PUP 1", "PUP 2"].indexOf(v.team.reiter);   // Namen vom Verein, Reihenfolge wie vorher (U13 1, U13 2, U15 …)
   const versatz = fest >= 0 ? fest : [...v.team.reiter].reduce((x, c) => x + c.charCodeAt(0), 0);
   return { sp, spruch: SPRUECHE[(nr + versatz) % SPRUECHE.length] };
@@ -596,7 +604,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "25.10.2026 neu a";
+const FASSUNG = "25.10.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
