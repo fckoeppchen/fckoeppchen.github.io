@@ -752,11 +752,11 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
         sp(101, "2026-10-18T10:00:00+02:00", 5, [1, K + " I"], [11, "FC Mondorf"], 3, 1),
         sp(102, "2026-10-18T10:00:00+02:00", 5, [12, "US Hostert"], [13, "FC Remich"], 2, 2),
         sp(103, "2026-10-24T14:00:00+02:00", 6, [14, "AS Hosingen"], [1, K + " I"], null, null, { ort: "Op der Bleech" }) ],
-        tabelle: [{ pl: 1, id: 12, n: "US Hostert", sp: 5, pkt: 11 }, { pl: 2, id: 1, n: K + " I", sp: 5, pkt: 10 }] },
+        tabelle: [{ pl: 1, id: 12, n: "US Hostert", sp: 1, pkt: 11 }, { pl: 2, id: 1, n: K + " I", sp: 1, pkt: 10 }] },
       k2: { id: "k2", n: "Promotion", typ: "CC", ergebnisse: true, spiele: [
         sp(201, "2026-10-19T16:00:00+02:00", 7, [2, K + " I"], [21, "FC Titus"], 2, 1),
         sp(503, "2026-10-24T20:00:00+02:00", 8, [22, "Avenir Beggen"], [2, K + " I"]) ],
-        tabelle: [{ pl: 3, id: 2, n: K + " I", sp: 7, pkt: 13 }] },
+        tabelle: [{ pl: 3, id: 2, n: K + " I", sp: 1, pkt: 13 }] },
       k3: { id: "k3", n: "U9", typ: "CC", ergebnisse: false, spiele: [
         sp(301, "2026-10-31T10:00:00+01:00", 3, [3, K + " I"], [31, "US Berdorf"]),
         sp(302, "2026-10-25T09:30:00+01:00", 2, [3, K + " I"], [32, "FC Rodange"]) ], tabelle: null },
@@ -772,9 +772,10 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   neu.teams[0].klassen = ["k1", "k5", "k4"];
   alt.klassen.k2.spiele[1].d = "2026-10-24T00:00:00+02:00";
   alt.klassen.k1.spiele[1].hs = alt.klassen.k1.spiele[1].as = null;              // Spieltag 5 war noch offen
-  alt.klassen.k1.tabelle = [{ pl: 1, id: 1, n: K + " I", sp: 4, pkt: 9 }, { pl: 2, id: 12, n: "US Hostert", sp: 4, pkt: 8 }];
+  alt.klassen.k1.spiele[0].hs = alt.klassen.k1.spiele[0].as = null;              // Tabelle der Tests passt zu den Ergebnissen
+  alt.klassen.k1.tabelle = [{ pl: 1, id: 1, n: K + " I", sp: 0, pkt: 9 }, { pl: 2, id: 12, n: "US Hostert", sp: 0, pkt: 8 }];
   alt.klassen.k2.spiele[0].hs = alt.klassen.k2.spiele[0].as = null;              // Seniors-Ergebnis neu
-  alt.klassen.k2.tabelle = [{ pl: 3, id: 2, n: K + " I", sp: 6, pkt: 10 }];
+  alt.klassen.k2.tabelle = [{ pl: 3, id: 2, n: K + " I", sp: 0, pkt: 10 }];
   alt.klassen.k3.spiele[0].d = "2026-10-31T00:00:00+01:00";                       // Uhrzeit war offen
   alt.bgl.spiele[0].hs = alt.bgl.spiele[0].as = null;
   alt.nati.spiele[0].hs = alt.nati.spiele[0].as = null;
@@ -784,6 +785,14 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(id("spieltag:k2:7")?.text === "Koeppchen I 2:1 FC Titus · alle Ergebnisse in der App" && id("spieltag:k2:7").titel === "Seniors 2 · Spieltag 7 komplett", "Mitteilung: Spieltag komplett auch bei den Seniors");
   ok(!id("spieltag:k2:8"), "Mitteilung: Seniors-Spieltag ohne alle Ergebnisse nicht komplett");
   ok(id("tabelle:k1")?.text === "Koeppchen I jetzt 2. Platz (vorher 1.) · 10 Punkte" && id("tabelle:k2")?.text === "Koeppchen I jetzt 3. Platz (wie vorher) · 13 Punkte", "Mitteilung: Tabelle mit Platz und vorher");
+  {
+    // Tabelle erst, wenn sie ganz nachgezogen ist (vom Nutzer, 25.10.2026).
+    const halb = neuD(); halb.klassen.k1.tabelle = [{ pl: 1, id: 12, n: "US Hostert", sp: 0, pkt: 8 }, { pl: 2, id: 1, n: K + " I", sp: 1, pkt: 10 }];
+    const e1 = mEreignisse(alt, halb, null, jetzt).ereignisse;
+    ok(!e1.some(e => e.id.startsWith("tabelle:k1")), "Mitteilung: Tabelle nicht, solange nur unsere Zeile nachgezogen ist");
+    const e2 = mEreignisse(halb, neu, null, jetzt).ereignisse.find(e => e.id.startsWith("tabelle:k1"));
+    ok(e2?.text === "Koeppchen I jetzt 2. Platz · 10 Punkte", "Mitteilung: Tabelle kommt, sobald die anderen nachgezogen sind (ohne „vorher“)");
+  }
   ok(id("ende:201")?.text === "Koeppchen I 2:1 FC Titus" && id("ende:201").reiter[0] === "Seniors 2", "Mitteilung: Endstand Seniors von der FLF");
   ok(id("zeit:301")?.text === "Sa., 31.10. um 10:00 gegen US Berdorf" && !id("zeit:503"), "Mitteilung: Uhrzeit steht fest nur bei U9/U11, nie bei den Seniors");
   ok(id("phase:k4:1")?.text === "Spielplan U13 Klasse II ist da: 2 Spiele, erstes Sa., 7.11. um 14:00 gegen FC Mondorf" && !id("neu:401"), "Mitteilung: neue Phase als eine Mitteilung");
