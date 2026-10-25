@@ -251,7 +251,7 @@ function sicht(D, tid, now) {
     const k = D.klassen[id];
     for (const sp of k.spiele)
       if (ids.has(sp.h.id) || ids.has(sp.a.id))
-        eigene.push({ ...sp, klasse: k.n, typ: k.typ, erg: k.ergebnisse && !["U9", "U11"].includes(team.kat), wir: ids.has(sp.h.id) ? sp.h.id : sp.a.id });
+        eigene.push({ ...sp, klasse: k.n, typ: k.typ, erg: k.ergebnisse && !["U7", "U9", "U11"].includes(team.kat), wir: ids.has(sp.h.id) ? sp.h.id : sp.a.id });
   }
   eigene.sort((a, b) => a.d.localeCompare(b.d));
   // Ein Spiel ohne Ergebnis gilt bis 3 h nach Anpfiff als „kommt noch“, danach als
@@ -369,7 +369,7 @@ function spieltagHeute(v, now) {
 // Koeppi (Maskottchen, vom Verein angeregt, Plan vom Nutzer 22.10.2026): nur bei den Kinder-Reitern
 // (U9, U11, U13, U15) und in „Unsere Woche“, nie bei den Seniors, nie im Live-Kasten.
 // Nach der Altersklasse, nicht nach dem Namen: Kinder heißen seit neu m „MIN 1“, „SCO“ … (vom Verein).
-const istKinder = v => ["U9", "U11", "U13", "U15"].includes(v?.team?.kat) || /^(U(9|11|13|15)|MIN|SCO|POU|PUP)\b/.test(v?.team?.reiter || "");
+const istKinder = v => ["U7", "U9", "U11", "U13", "U15"].includes(v?.team?.kat) || /^(U(7|9|11|13|15)|MIN|SCO|POU|PUP|BAM)\b/.test(v?.team?.reiter || "");
 // Morgen ein eigenes Spiel? Dann am Vortag der Kasten „Morgen Spieltag!“ (vom Nutzer, Variante A).
 function tagPlus(tag, n) { const [y, m, d] = tag.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10); }
 const tagNach = tag => tagPlus(tag, 1);
@@ -396,7 +396,7 @@ function nachDemSpiel(v, now) {
   // Versatz und ein Spiel mehr (Pokal) auf, und MIN 1 und MIN 2 hatten denselben Spruch. 8 Sprüche, 7 Teams:
   // am selben Wochenende nie zwei gleiche, jede Woche der nächste.
   const nr = Math.floor((Date.parse(tagLux(Date.parse(sp.d)) + "T12:00:00Z") / 864e5 + 3) / 7);
-  const fest = ["MIN 1", "MIN 2", "SCO", "POU 1", "POU 2", "PUP 1", "PUP 2"].indexOf(v.team.reiter);   // Namen vom Verein, Reihenfolge wie vorher (U13 1, U13 2, U15 …)
+  const fest = ["MIN 1", "MIN 2", "SCO", "POU 1", "POU 2", "PUP 1", "PUP 2", "BAM 1", "BAM 2"].indexOf(v.team.reiter);   // Namen vom Verein, Reihenfolge wie vorher (U13 1, U13 2, U15 …)
   const versatz = fest >= 0 ? fest : [...v.team.reiter].reduce((x, c) => x + c.charCodeAt(0), 0);
   return { sp, spruch: SPRUECHE[(nr + versatz) % SPRUECHE.length] };
 }
@@ -604,7 +604,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "25.10.2026 neu c";
+const FASSUNG = "25.10.2026 neu d";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -827,7 +827,7 @@ function render() {
   h += `</div></section>`;
 
   if (v.aktuell && !v.aktuell.ergebnisse && !v.aktuell.tabelle) {
-    h += `<div class="note">In der ${esc(v.team.kat)} veröffentlicht die FLF keine Ergebnisse und keine Tabelle — hier stehen darum nur die Termine.</div>`;
+    h += `<div class="note">In der ${esc(v.team.kat)} veröffentlicht die FLF keine Ergebnisse und keine Tabelle — hier stehen darum nur die Termine.${v.team.kat === "U7" ? ` Die Mini-Tournois stehen nicht im Extranet, sondern als PDF auf <a href="https://www.flf.lu/generaux-92804v4" target="_blank" rel="noopener">flf.lu</a>. Anstoß meist 10:30 (sauf changement), die genaue Uhrzeit kommt mit dem Wochenprogramm.` : ""}</div>`;
   } else if (v.aktuell) {
     h += `<section class="card"><div class="chead"><h2>Tabelle</h2><div class="hint">${esc(v.aktuell.n)}</div></div>
       <div class="cbody">${tabelleHtml(v.aktuell, v.eigen)}</div></section>`;
@@ -1358,7 +1358,7 @@ function mArtenFuer(r) {
 const mArtText = (r, k) => k === "heute" && mKat(r) !== "Seniors" && r !== "Roude Léiw" ? "Morgen Spiel (Vorabend 19 Uhr)" : M_ART_TEXT[k];
 // Kinder als Altersklasse („Minimes U13“), Seniors einzeln (vom Nutzer, 23.10.2026: die Kinder werden jede
 // Woche neu auf 1/2 verteilt). Die Titel der Mitteilungen nennen weiter die Mannschaft.
-const mReiter = () => [...new Set((D?.teams || []).filter(t => t.reiter).map(t => t.gruppe?.name || t.reiter)), "BGL", "Roude Léiw", "Woche"];
+const mReiter = () => [...new Set((D?.teams || []).filter(t => t.reiter && t.kat !== "U7").map(t => t.gruppe?.name || t.reiter)), "BGL", "Roude Léiw", "Woche"];   // BAM vorerst ohne Mitteilungen
 // Alte Auswahl je Kinder-Mannschaft („U13 2“) auf die Altersklasse umschreiben, Arten zusammen.
 function mGruppiert(je) {
   if (!D?.teams) return je;

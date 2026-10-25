@@ -33,7 +33,7 @@ const spieltagFertig = (spiele, tag) => { const s = spiele.filter(sp => sp.tag =
 export function ereignisse(alt, neu, vorher, now) {
   const aus = new Map((vorher?.ereignisse || []).filter(e => e.bis > now).map(e => [e.id, e]));
   const heute = tagLux(now), morgen = tagLux(now + 24 * H);
-  const teams = neu.teams.filter(t => t.reiter);
+  const teams = neu.teams.filter(t => t.reiter && t.kat !== "U7");   // BAM (aus PDFs) vorerst ohne Mitteilungen
   // Kinder wählt man als Altersklasse („Minimes U13“, vom Nutzer 23.10.2026: die Kinder werden jede Woche
   // neu auf 1/2 verteilt). Jedes Ereignis trägt darum neben dem Reiter auch den Namen der Gruppe.
   const gruppeVon = new Map(teams.filter(t => t.gruppe).map(t => [t.reiter, t.gruppe.name]));

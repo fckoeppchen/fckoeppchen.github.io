@@ -11,6 +11,8 @@ import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGru
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
 import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux } from "../tools/mitteilungen.mjs";
+import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
+import { bamAus, bamDazu } from "../tools/fussball.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
 const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
@@ -987,6 +989,48 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     return { results: [] }; } }) }, sa, Date.parse("2026-10-24T08:00:00+02:00"));
   ok(seite.includes("2 Handys angemeldet, davon 2 mit Auswahl") && seite.includes("<td>U13 2</td><td class=\"st\">Tabelle 2 · Spiel steht an 1</td>") && seite.includes("Ticker 1 · Endstand 1") && seite.includes("✓ Fr., 23.10., 19:00 an 1 von 1 Handys") && seite.includes("Heute mit Liveticker") && seite.includes("⏳ wartet")
      && seite.includes("Seniors 3 · Endstand<br><small>Avenir Beggen 2:2 Koeppchen II</small>"), "Übersicht: Seite mit Abos, Live und Stand, Text auch nach dem Versand");
+}
+// BAM (Bambinis U7) aus den FLF-PDFs: Wörter wie aus `pdftotext -bbox`, nachgebaut (vier Spalten).
+{
+  const zelle = (x, y, t) => { const w = []; for (const teil of t.split(" ")) { w.push({ x0: x, x1: x + teil.length * 3.5, y, t: teil }); x += teil.length * 3.5 + 2; } return w; };
+  const zeile = (y, ...zellen) => zellen.flatMap((t, i) => t ? zelle([18, 152, 287, 429][i], y, t) : []);
+  const tag = (y0, j, datum, orte, reihen) => [...zelle(18, y0, `Journée ${j} – ${datum}`), ...zeile(y0 + 10, ...orte), ...reihen.flatMap((r, i) => zeile(y0 + 22 + 12 * i, ...r))];
+  const seite = [...zelle(152, 14, "Bambinis série 6"),
+    ...tag(42, 5, "24/10/26", ["Am Ga (Wormeldange, synth.) 9h30", "Terrain Munsbach (synth.)", "Terrain 2 (Mensdorf, synth.)", "Terrain au Parc (Mertert, synth.)"],
+      [["FC Koeppchen Wormeldange I", "FC Munsbach", "ENT Mensdorf/Canach", "Union Mertert-Wasserbillig"],
+       ["CS Grevenmacher I", "ENT Biwer/Berbourg II", "Daring Echternach I", "CS Grevenmacher II"],
+       ["US Berdorf-Consdorf 01", "US Sandweiler II", "ENT Biwer/Berbourg I", "Daring Echternach II"],
+       ["US Moutfort-Medingen", "Victoria Rosport", "FC Koeppchen Wormeldange II", "-"]]),
+    ...zelle(152, 160, "Bambinis série 7"),
+    ...tag(180, 5, "24/10/26", ["Platz A", "Platz B", "Platz C", "Platz D"], [["A1", "B1", "C1", "D1"], ["A2", "B2", "C2", "D2"], ["A3", "B3", "C3", "D3"], ["A4", "B4", "C4", "D4"]])];
+  const kopf = zelle(100, 2, "Coup d'envoi 10.30 hrs, (sauf modification)");
+  const t = turniere([[...kopf, ...seite]]);
+  ok(t.length === 2 && t[0].ort === "Am Ga (Wormeldange, synth.)" && t[0].zeit === "09:30" && t[0].teams.length === 4 && t[0].serie === 6 && t[0].datum === "2026-10-24",
+     "BAM: Turnier BAM 1 mit Platz, eigener Uhrzeit (9h30) und vier Mannschaften");
+  ok(t[1].ort === "Terrain 2 (Mensdorf, synth.)" && t[1].zeit === "10:30" && t[1].teams.join("|") === "ENT Mensdorf/Canach|Daring Echternach I|ENT Biwer/Berbourg I|FC Koeppchen Wormeldange II",
+     "BAM: BAM 2 in Spalte 3, Uhrzeit aus dem Kopf, fremde Série übergangen");
+  const plan = turniere([seite.filter(w => w.t !== "9h30")]);   // Gesamtplan: ohne Uhrzeiten
+  ok(plan[0].zeit === null, "BAM: Gesamtplan ohne Uhrzeit");
+  const d = bamDaten(plan, t);
+  const sp1 = d.klassen["bam-6"].spiele.find(x => x.h.id === 9000701);
+  ok(d.teams.map(x => x.reiter).join() === "BAM 1,BAM 2" && sp1.d === "2026-10-24T09:30:00+02:00" && sp1.bam.zeitSicher && sp1.a.n.startsWith("Mini-Tournoi mit CS Grevenmacher I"),
+     "BAM: Wochenprogramm schlägt Gesamtplan, Heim in Wormeldange, Gegner im Namen");
+  ok(bamDaten(plan, []).klassen["bam-6"].spiele.every(x => x.d.endsWith("T10:30:00+02:00") && !x.bam.zeitSicher), "BAM: ohne Wochenprogramm 10:30, als unsicher markiert");
+  ok(isoLux("2026-11-14", "10:30") === "2026-11-14T10:30:00+01:00" && isoLux("2027-03-28", "10:30") === "2027-03-28T10:30:00+02:00", "BAM: Uhrzeit mit Sommer-/Winterzeit");
+  ok(zeitAusOrt("Millewiss (Bastendorf) 11h00").zeit === "11:00" && zeitAusOrt("Terrain Ralingen (synth.)").zeit === null, "BAM: Uhrzeit hinter dem Platz");
+  // Lieber nichts als etwas Falsches: ein Spieltag mit Koeppchen, dem eine Zeile fehlt, bricht ab.
+  const kaputt = seite.filter(w => w.y !== 100);
+  let geworfen = false; try { turniere([kaputt]); } catch (e) { geworfen = true; }
+  ok(geworfen, "BAM: unklarer Spieltag mit Koeppchen → Abbruch (alter Stand bleibt)");
+  ok(pdfListe('x {"url":"https://s3/a.pdf","mime":"application/pdf","name":"20261024 Bambinis.pdf","size":1}').map(p => p.name).join() === "20261024 Bambinis.pdf", "BAM: PDF-Liste aus der Seite");
+  // Einhängen und Rückfall: BAM hinter die U9, alter Stand wieder herausziehbar.
+  const D0 = { teams: [{ kat: "Seniors", id: 1 }, { kat: "U9", id: 2 }, { kat: "Seniors", id: 3, plus: 1 }], klassen: {} };
+  bamDazu(D0, d);
+  ok(D0.teams.map(x => x.kat).join() === "Seniors,U9,U7,U7,Seniors" && D0.klassen["bam-6"], "BAM: hinter den U9 eingehängt");
+  const zur = bamAus(D0);
+  ok(zur.teams.length === 2 && zur.klassen["bam-6"].spiele.length === 2, "BAM: alter Stand für den Rückfall");
+  bamDazu(D0, null);
+  ok(D0.teams.length === 5, "BAM: ohne BAM-Daten bleibt alles, wie es ist");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);

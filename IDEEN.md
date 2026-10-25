@@ -160,7 +160,7 @@ Die Wochenvorschau selbst ist gebaut („Unsere Woche“, 20.10.2026); diese Zus
   ≥ 30 min im Hintergrund), auf Wunsch je Reiter; Speicher D1 statt KV (mehr Schreibvorgänge
   frei); Anzeige über `WORKER_URL?zahlen`, letzte 30 Tage. **Gebaut 20.10.2026** (siehe CLAUDE.md).
 
-## BAM (Bambinis U7) — vom Verein gewünscht, Bau ab 25.10.2026 abgesprochen
+## BAM (Bambinis U7) — gebaut am 25.10.2026 (Fassung neu d), sofort sichtbar statt versteckt (vom Nutzer)
 
 - Nicht im Extranet, nur als PDF auf www.flf.lu (in der Umgebung freigeschaltet): „Programmes généraux“
   (`generaux-92804v4`, PDF „U7_Bambinis Tour 1 programme détaillé 2026-2027“) und „Programme hebdomadaire“

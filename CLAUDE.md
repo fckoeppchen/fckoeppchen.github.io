@@ -146,6 +146,20 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   hat `showResult: true`, darum stand bei PUP 1 „– · Ergebnis noch nicht eingetragen“. `KEINE_ERG` (tools/fussball.mjs):
   `aufbereiten` löscht `hs`/`as` aller Spiele mit einer U9/U11-Mannschaft von uns (fremde bleiben), `eigeneSpiele` und
   `sicht` setzen `erg: false` → „gespielt“. Test mit Gegenprobe.
+- **BAM (Bambinis U7)** (vom Verein über den Nutzer, 24./25.10.2026, Fassung 25.10. neu d; vom Nutzer: gleich sichtbar, nur zwei
+  Nutzer bisher): nicht im Extranet, nur als PDF auf www.flf.lu. `tools/bambini.mjs`: PDF-Listen aus dem JSON der Seiten
+  „Programmes généraux“ (`U7…Bambini…`, ganze Tour, ohne Uhrzeit) und „Programme hebdomadaire“ (`…Bambinis.pdf`, mit Uhrzeit,
+  „9h30“ hinter dem Platz, sonst „Coup d'envoi 10.30“ im Kopf); `pdftotext -bbox` (Lage jedes Worts), je Seite die vier
+  Spaltenanfänge, je Spieltag die letzten vier Zeilen = Mannschaften, davor der Platz. Nur Turniere mit Koeppchen; passt ein
+  solcher Spieltag nicht ins Muster → Fehler → **alter BAM-Stand** (`bamAus`), Rest des Abrufs läuft (vom Nutzer: „wir würden dann
+  reparieren“). `bamDaten` baut Mannschaften (`kat` U7, `kurz` BAM, ids 9000701/9000702, Reiter BAM 1/2 hinter den PUP, Kalender
+  `u7-1/2.ics` + Gruppe „Bambinis U7“) und eine Klasse `bam-<Série>` (typ CC, ohne Ergebnisse/Tabelle) im Format von `aufbereiten`
+  — Reiter, Woche, Kalender, Koeppi, Morgen-Kasten laufen ohne Sonderweg. Spiel = Mini-Tournoi: Gegnerseite „Mini-Tournoi mit …“,
+  `sp.bam = {mit, zeitSicher}`, Heim = Platz in Wormeldange, Wochenprogramm schlägt Gesamtplan, ohne es 10:30. Kalender-Titel
+  „Koeppchen BAM 1 · Mini-Tournoi in Mensdorf“, Gegner in der Beschreibung. **Keine Mitteilungen für BAM** (mitteilungen.mjs und
+  Zahnrad lassen U7 weg). `KEINE_ERG` hat U7. Spruch: `fest` jetzt 9 Teams bei 8 Sprüchen — BAM 2 und MIN 1 können am selben
+  Wochenende denselben haben (dem Nutzer gesagt, ein 9. Spruch löst es). Workflow installiert poppler-utils, falls pdftotext fehlt.
+  Am 25.10. gegen beide PDFs geprüft (16 Turniere, 8 Spieltage), Tests mit nachgebauten Wörtern, Gegenprobe.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

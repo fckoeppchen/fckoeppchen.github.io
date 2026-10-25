@@ -118,7 +118,7 @@ export function reiter(t, lang = false) {
 // Alle Spiele einer Reiter-Mannschaft (eigene + angehängte Pokalmannschaften), nach Datum.
 export const nummern = t => t.ids || [t.id];
 // Altersklassen ohne Ergebnisse (FLF: showResult false; auch Freundschaftsspiele, vom Nutzer 25.10.2026).
-export const KEINE_ERG = ["U9", "U11"];
+export const KEINE_ERG = ["U7", "U9", "U11"];
 export function eigeneSpiele(D, t) {
   const wir = D.teams.filter(o => o.id === t.id || (t.mit || []).includes(o.id));
   const ids = new Set(wir.flatMap(nummern));
@@ -163,7 +163,7 @@ function icsAus(D, liste, titel) {
   const unsere = new Map(D.teams.filter(o => liste.some(t => o.id === t.id || (t.mit || []).includes(o.id)))
     .flatMap(o => nummern(o).map(id => [id, "Koeppchen " + reiter(o)])));
   const name = s => unsere.get(s.id) || s.n;
-  const kat = liste[0].kat, dauerMin = kat === "Seniors" ? 120 : kat === "U9" || kat === "U11" ? 90 : 105;
+  const kat = liste[0].kat, dauerMin = kat === "Seniors" ? 120 : KEINE_ERG.includes(kat) ? 90 : 105;
   const z = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//FC Koeppchen//fussball.html//DE", "CALSCALE:GREGORIAN",
              "METHOD:PUBLISH", `X-WR-CALNAME:${icsText("FC Koeppchen " + titel)}`, "X-WR-TIMEZONE:Europe/Luxembourg",
              "REFRESH-INTERVAL;VALUE=DURATION:PT3H", "X-PUBLISHED-TTL:PT3H"];
@@ -180,13 +180,18 @@ function icsAus(D, liste, titel) {
     } else {
       z.push(`DTSTART:${utc(sp.d)}`, `DTEND:${utc(new Date(Date.parse(sp.d) + dauerMin * 60e3).toISOString())}`);
     }
-    z.push(`SUMMARY:${icsText(`⚽ ${name(sp.h)} – ${name(sp.a)}${erg}${art}`)}`);
+    // BAM: ein Mini-Tournoi mit mehreren Gegnern — Mannschaft und Ort im Titel, die Gegner in der Beschreibung.
+    const bamWir = sp.bam && [sp.h, sp.a].find(x => x.id);
+    z.push(`SUMMARY:${icsText(bamWir ? `⚽ ${name(bamWir)} · Mini-Tournoi${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : `⚽ ${name(sp.h)} – ${name(sp.a)}${erg}${art}`)}`);
     if (sp.ort) z.push(`LOCATION:${icsText(sp.ort)}`);
-    z.push(`DESCRIPTION:${icsText(sp.klasse + (sp.tag ? `, Spieltag ${sp.tag}` : ""))}`, "END:VEVENT");
+    z.push(`DESCRIPTION:${icsText(sp.klasse + (sp.tag ? `, Spieltag ${sp.tag}` : "") + (sp.bam ? `\nMit ${sp.bam.mit.join(", ")}${sp.bam.zeitSicher ? "" : "\nUhrzeit laut FLF meist 10:30 (sauf changement)"}` : ""))}`, "END:VEVENT");
   }
   z.push("END:VCALENDAR");
   return z.map(falten).join("\r\n") + "\r\n";
 }
+
+// „Terrain 2 (Mensdorf, synth.)“ → „Mensdorf“, „Am Ga (Wormeldange, synth.)“ → „Wormeldange“.
+export const ortKurz = o => (o.match(/\(([^,)]+)/)?.[1] || o).replace(/\s*synth\.?$/, "").trim();
 
 // ---- BGL Ligue und Nationalmannschaft (zwei Reiter, vom Nutzer 19.10.2026) ----
 // Ohne Kalender, ohne Ticker. BGL aus der FLF (Klasse per Name gesucht, die Nummer wechselt je
@@ -424,6 +429,20 @@ export function aufbereiten({ saison, vereinsSpiele, klassen }) {
   };
 }
 
+// BAM-Teil eines alten Stands (Rückfall, wenn die PDFs nicht lesbar sind).
+export function bamAus(D) {
+  if (!D?.teams) return null;
+  const teams = D.teams.filter(t => t.kat === "U7");
+  return teams.length ? { teams, klassen: Object.fromEntries(teams.flatMap(t => t.klassen).map(id => [id, D.klassen[id]]).filter(([, k]) => k)) } : null;
+}
+// BAM-Mannschaften hinter die U9 (vor die Réserves) und ihre Klassen dazu.
+export function bamDazu(D, bam) {
+  if (!bam?.teams?.length) return;
+  const i = D.teams.findLastIndex(t => ["U15", "U13", "U11", "U9"].includes(t.kat));
+  D.teams.splice(i + 1, 0, ...bam.teams);
+  Object.assign(D.klassen, bam.klassen);
+}
+
 async function main() {
   const d = await gq(Q_DEFAULTS);
   const saison = d.seasons.find(s => s.id === d.defaultValues.currentSeasonId);
@@ -460,6 +479,11 @@ async function main() {
   try { neu.bgl = await bglHolen(saison, zeit, alt.bgl); } catch (e) { console.error("BGL:", e.message); neu.bgl = alt.bgl || null; }
   try { neu.nati = await natiHolen(); } catch (e) { console.error("Nationalteam:", e.message); neu.nati = alt.nati || null; }
   try { neu.fupa = await reserveHolen(neu, saison); } catch (e) { console.error("FuPa Reserven:", e.message); neu.fupa = alt.fupa || {}; }
+  // BAM aus den FLF-PDFs (tools/bambini.mjs). Darf den Abruf nicht kippen: Fehler → alter BAM-Stand.
+  let bam = null;
+  try { bam = await (await import("./bambini.mjs")).bamHolen(); console.log("BAM:", bam.quellen.join(", ")); }
+  catch (e) { console.error("BAM:", e.message); bam = bamAus(alt); }
+  bamDazu(neu, bam);
   // Mitteilungen: Ereignisse aus dem Vergleich alt/neu (tools/mitteilungen.mjs). Vor der
   // „unverändert“-Prüfung, weil „Heute Spiel“ auch ohne neue FLF-Daten fällig wird. Darf den
   // Abruf nicht kippen.
