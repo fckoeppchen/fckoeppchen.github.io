@@ -117,6 +117,8 @@ export function reiter(t, lang = false) {
 
 // Alle Spiele einer Reiter-Mannschaft (eigene + angehängte Pokalmannschaften), nach Datum.
 export const nummern = t => t.ids || [t.id];
+// Altersklassen ohne Ergebnisse (FLF: showResult false; auch Freundschaftsspiele, vom Nutzer 25.10.2026).
+export const KEINE_ERG = ["U9", "U11"];
 export function eigeneSpiele(D, t) {
   const wir = D.teams.filter(o => o.id === t.id || (t.mit || []).includes(o.id));
   const ids = new Set(wir.flatMap(nummern));
@@ -124,7 +126,7 @@ export function eigeneSpiele(D, t) {
   for (const id of new Set(wir.flatMap(o => o.klassen))) {
     const k = D.klassen[id];
     for (const sp of k.spiele)
-      if (ids.has(sp.h.id) || ids.has(sp.a.id)) aus.push({ ...sp, klasse: k.n, typ: k.typ, erg: k.ergebnisse });
+      if (ids.has(sp.h.id) || ids.has(sp.a.id)) aus.push({ ...sp, klasse: k.n, typ: k.typ, erg: k.ergebnisse && !KEINE_ERG.includes(t.kat) });
   }
   return aus.sort((a, b) => a.d.localeCompare(b.d));
 }
@@ -390,6 +392,11 @@ export function aufbereiten({ saison, vereinsSpiele, klassen }) {
     div[id].tabelle = k.tabelle ? tabelle(k.tabelle) : null;
   }
   for (const t of teams.values()) t.klassen.sort((a, b) => div[a].start.localeCompare(div[b].start));
+  // U9/U11: keine Ergebnisse, auch nicht in Freundschaftsspielen (deren Klasse „Amicaux“ zeigt sie bei der FLF;
+  // vom Nutzer, 25.10.2026). Nur unsere Spiele — fremde gehören uns nicht.
+  const ohneErg = new Set([...nachId].filter(([, t]) => KEINE_ERG.includes(t.kat)).map(([id]) => id));
+  for (const k of Object.values(div)) for (const sp of k.spiele || [])
+    if (ohneErg.has(sp.h.id) || ohneErg.has(sp.a.id)) sp.hs = sp.as = null;
 
   // Mannschaften mit Ligaspielen bekommen einen Reiter (und einen Kalender). Pokalmannschaften
   // ohne Liga hängen sich an (`mit`): ohne I/II an alle derselben Altersklasse (U13-Pokal), mit

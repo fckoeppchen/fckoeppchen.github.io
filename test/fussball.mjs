@@ -193,6 +193,24 @@ ok(v4.aktuell.id === 20001, "neue Klasse ist die aktuelle");
 gleich(v4.frueher.map(k => k.id), [19189], "alte Klasse unter „früher“");
 ok(v4.status === null, "laufende Phase: kein Abschlusshinweis");
 
+// U9/U11: auch Freundschaftsspiele (Klasse „Amicaux“ mit showResult true) ohne Ergebnis, „gespielt“ statt „–“.
+{
+  const P1 = team(45500, "FC Koeppchen Wormeldange I", CLUB);
+  const U9L = { id: 30001, name: "U9 Pupilles S6 Tour 1", showResult: false, showRanking: false };
+  const AM = { id: 30002, name: "Amicaux 2", showResult: true, showRanking: true };
+  const l1 = roh(U9L, "CC", "2026-10-03T11:00:00+02:00", P1, G(9), 3, 1, { ak: 4 });
+  const f1 = roh(AM, "FM", "2026-09-19T14:00:00+02:00", P1, G(10), 8, 0, { ak: 4 });
+  const f2 = roh(AM, "FM", "2026-09-20T14:00:00+02:00", P1, G(11), null, null, { ak: 4 });
+  const fremd = roh(AM, "FM", "2026-09-19T14:00:00+02:00", G(12), G(13), 4, 4, { ak: 0 });
+  const DU = aufbereiten({ saison: { id: "20262027", name: "Saison 2026-2027" }, vereinsSpiele: [l1, f1, f2],
+    klassen: { 30001: { spiele: [l1], tabelle: null }, 30002: { spiele: [f1, f2, fremd], tabelle: null } } });
+  const am = DU.klassen[30002].spiele;
+  ok(am.find(x => x.h.id === 45500 && x.gespielt).hs === null && am.find(x => x.h.id === 12000 + 500000 || x.h.n === "Gegner 12").hs === 4,
+     "U9-Freundschaftsspiel: Ergebnis nicht gespeichert, fremdes Spiel derselben Klasse unverändert");
+  const vU = M.sicht(DU, 45500, Date.parse("2026-10-10T12:00:00+02:00"));
+  ok(vU.gespielt.length === 3 && vU.gespielt.every(x => x.erg === false), "U9: alle eigenen Spiele ohne Ergebnis, auch Freundschaftsspiele");
+}
+
 // Réserves-Pokal: Pokalmannschaften mit I/II gehören nur zur gleichnamigen Ligamannschaft.
 {
   const R1 = team(45403, "FC Koeppchen Wormeldange I", CLUB), R2 = team(45404, "FC Koeppchen Wormeldange II", CLUB);

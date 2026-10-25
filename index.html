@@ -251,7 +251,7 @@ function sicht(D, tid, now) {
     const k = D.klassen[id];
     for (const sp of k.spiele)
       if (ids.has(sp.h.id) || ids.has(sp.a.id))
-        eigene.push({ ...sp, klasse: k.n, typ: k.typ, erg: k.ergebnisse, wir: ids.has(sp.h.id) ? sp.h.id : sp.a.id });
+        eigene.push({ ...sp, klasse: k.n, typ: k.typ, erg: k.ergebnisse && !["U9", "U11"].includes(team.kat), wir: ids.has(sp.h.id) ? sp.h.id : sp.a.id });
   }
   eigene.sort((a, b) => a.d.localeCompare(b.d));
   // Ein Spiel ohne Ergebnis gilt bis 3 h nach Anpfiff als „kommt noch“, danach als
@@ -604,7 +604,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "25.10.2026 neu b";
+const FASSUNG = "25.10.2026 neu c";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
