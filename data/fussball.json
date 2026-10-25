@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-25T09:25:56.130Z",
+ "stand": "2026-10-25T09:39:54.450Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -17810,7 +17810,7 @@
      },
      "a": {
       "id": 0,
-      "n": "Mini-Tournoi mit Koeppchen II, ENT Mensdorf/Canach, Victoria Rosport"
+      "n": "Mini-Spieltag mit Koeppchen II, ENT Mensdorf/Canach, Victoria Rosport"
      },
      "hs": null,
      "as": null,
@@ -17836,7 +17836,7 @@
      },
      "a": {
       "id": 0,
-      "n": "Mini-Tournoi mit Koeppchen I, ENT Mensdorf/Canach, Victoria Rosport"
+      "n": "Mini-Spieltag mit Koeppchen I, ENT Mensdorf/Canach, Victoria Rosport"
      },
      "hs": null,
      "as": null,
@@ -17858,7 +17858,7 @@
      "tag": 2,
      "h": {
       "id": 0,
-      "n": "Mini-Tournoi mit ENT Mensdorf/Canach, CS Grevenmacher II, Koeppchen I"
+      "n": "Mini-Spieltag mit ENT Mensdorf/Canach, CS Grevenmacher II, Koeppchen I"
      },
      "a": {
       "id": 9000702,
@@ -17884,7 +17884,7 @@
      "tag": 2,
      "h": {
       "id": 0,
-      "n": "Mini-Tournoi mit ENT Mensdorf/Canach, CS Grevenmacher II, Koeppchen II"
+      "n": "Mini-Spieltag mit ENT Mensdorf/Canach, CS Grevenmacher II, Koeppchen II"
      },
      "a": {
       "id": 9000701,
@@ -17910,7 +17910,7 @@
      "tag": 3,
      "h": {
       "id": 0,
-      "n": "Mini-Tournoi mit FC Munsbach, Union Mertert-Wasserbillig, US Berdorf-Consdorf 01"
+      "n": "Mini-Spieltag mit FC Munsbach, Union Mertert-Wasserbillig, US Berdorf-Consdorf 01"
      },
      "a": {
       "id": 9000701,
@@ -17936,7 +17936,7 @@
      "tag": 3,
      "h": {
       "id": 0,
-      "n": "Mini-Tournoi mit US Moutfort-Medingen, Victoria Rosport, CS Grevenmacher II"
+      "n": "Mini-Spieltag mit US Moutfort-Medingen, Victoria Rosport, CS Grevenmacher II"
      },
      "a": {
       "id": 9000702,
@@ -17966,7 +17966,7 @@
      },
      "a": {
       "id": 0,
-      "n": "Mini-Tournoi mit CS Grevenmacher I, FC Munsbach, Daring Echternach II"
+      "n": "Mini-Spieltag mit CS Grevenmacher I, FC Munsbach, Daring Echternach II"
      },
      "hs": null,
      "as": null,
@@ -17988,7 +17988,7 @@
      "tag": 4,
      "h": {
       "id": 0,
-      "n": "Mini-Tournoi mit Daring Echternach I, Jeunesse Junglinster II, Victoria Rosport"
+      "n": "Mini-Spieltag mit Daring Echternach I, Jeunesse Junglinster II, Victoria Rosport"
      },
      "a": {
       "id": 9000701,
@@ -18018,7 +18018,7 @@
      },
      "a": {
       "id": 0,
-      "n": "Mini-Tournoi mit CS Grevenmacher I, US Berdorf-Consdorf 01, US Moutfort-Medingen"
+      "n": "Mini-Spieltag mit CS Grevenmacher I, US Berdorf-Consdorf 01, US Moutfort-Medingen"
      },
      "hs": null,
      "as": null,
@@ -18040,7 +18040,7 @@
      "tag": 5,
      "h": {
       "id": 0,
-      "n": "Mini-Tournoi mit ENT Mensdorf/Canach, Daring Echternach I, ENT Biwer/Berbourg I"
+      "n": "Mini-Spieltag mit ENT Mensdorf/Canach, Daring Echternach I, ENT Biwer/Berbourg I"
      },
      "a": {
       "id": 9000702,
@@ -18066,7 +18066,7 @@
      "tag": 6,
      "h": {
       "id": 0,
-      "n": "Mini-Tournoi mit Daring Echternach II, ENT Biwer/Berbourg I, US Sandweiler II"
+      "n": "Mini-Spieltag mit Daring Echternach II, ENT Biwer/Berbourg I, US Sandweiler II"
      },
      "a": {
       "id": 9000701,
@@ -18092,7 +18092,7 @@
      "tag": 6,
      "h": {
       "id": 0,
-      "n": "Mini-Tournoi mit CS Grevenmacher II, US Berdorf-Consdorf 01, ENT Biwer/Berbourg II"
+      "n": "Mini-Spieltag mit CS Grevenmacher II, US Berdorf-Consdorf 01, ENT Biwer/Berbourg II"
      },
      "a": {
       "id": 9000702,
@@ -18118,7 +18118,7 @@
      "tag": 7,
      "h": {
       "id": 0,
-      "n": "Mini-Tournoi mit US Sandweiler II, Jeunesse Junglinster II, US Moutfort-Medingen"
+      "n": "Mini-Spieltag mit US Sandweiler II, Jeunesse Junglinster II, US Moutfort-Medingen"
      },
      "a": {
       "id": 9000702,
@@ -18144,7 +18144,7 @@
      "tag": 7,
      "h": {
       "id": 0,
-      "n": "Mini-Tournoi mit Daring Echternach I, Daring Echternach II, Union Mertert-Wasserbillig"
+      "n": "Mini-Spieltag mit Daring Echternach I, Daring Echternach II, Union Mertert-Wasserbillig"
      },
      "a": {
       "id": 9000701,
@@ -18174,7 +18174,7 @@
      },
      "a": {
       "id": 0,
-      "n": "Mini-Tournoi mit ENT Mensdorf/Canach, US Moutfort-Medingen, Daring Echternach II"
+      "n": "Mini-Spieltag mit ENT Mensdorf/Canach, US Moutfort-Medingen, Daring Echternach II"
      },
      "hs": null,
      "as": null,
@@ -18196,7 +18196,7 @@
      "tag": 8,
      "h": {
       "id": 0,
-      "n": "Mini-Tournoi mit Victoria Rosport, ENT Biwer/Berbourg II, FC Munsbach"
+      "n": "Mini-Spieltag mit Victoria Rosport, ENT Biwer/Berbourg II, FC Munsbach"
      },
      "a": {
       "id": 9000701,
