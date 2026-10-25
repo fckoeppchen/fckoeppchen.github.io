@@ -781,8 +781,8 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   alt.nati.spiele[0].hs = alt.nati.spiele[0].as = null;
   const jetzt = Date.parse("2026-10-20T20:00:00+02:00");
   const m = mEreignisse(alt, neu, null, jetzt), id = x => m.ereignisse.find(e => e.id.startsWith(x));
-  ok(id("spieltag:k1:5")?.text === "Koeppchen I 3:1 FC Mondorf · alle Ergebnisse in der App" && id("spieltag:k1:5").titel === "U13 1 · Spieltag 5 komplett", "Mitteilung: Spieltag komplett mit unserem Ergebnis");
-  ok(id("spieltag:k2:7")?.text === "Koeppchen I 2:1 FC Titus · alle Ergebnisse in der App" && id("spieltag:k2:7").titel === "Seniors 2 · Spieltag 7 komplett", "Mitteilung: Spieltag komplett auch bei den Seniors");
+  ok(id("spieltag:k1:5")?.text === "Spieltag 5 komplett: Koeppchen I 3:1 FC Mondorf · alle Ergebnisse in der App" && id("spieltag:k1:5").titel === "U13 1 · Spieltag", "Mitteilung: Spieltag komplett mit unserem Ergebnis, kurzer Titel");
+  ok(id("spieltag:k2:7")?.text === "Spieltag 7 komplett: Koeppchen I 2:1 FC Titus · alle Ergebnisse in der App" && id("spieltag:k2:7").titel === "Seniors 2 · Spieltag", "Mitteilung: Spieltag komplett auch bei den Seniors");
   ok(!id("spieltag:k2:8"), "Mitteilung: Seniors-Spieltag ohne alle Ergebnisse nicht komplett");
   ok(id("tabelle:k1")?.text === "Koeppchen I jetzt 2. Platz (vorher 1.) · 10 Punkte" && id("tabelle:k2")?.text === "Koeppchen I jetzt 3. Platz (wie vorher) · 13 Punkte", "Mitteilung: Tabelle mit Platz und vorher");
   {
@@ -808,14 +808,14 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     // Verlegtes Spiel mit altem Datum (über 3 Tage her, ohne Ergebnis) hält nicht auf; steht im Titel.
     const vl = neuD(); vl.klassen.k1.spiele.push(sp(106, "2026-10-16T20:00:00+02:00", 5, [13, "FC Remich"], [14, "AS Hosingen"]));
     const ev = mEreignisse(alt, vl, null, jetzt + 2 * 864e5).ereignisse.find(e => e.id === "spieltag:k1:5");
-    ok(ev?.titel === "U13 1 · Spieltag 5 komplett (1 Spiel verlegt)", "Mitteilung: verlegtes Spiel hält nicht auf, „(1 Spiel verlegt)“");
+    ok(ev?.text.startsWith("Spieltag 5 komplett (1 Spiel verlegt): "), "Mitteilung: verlegtes Spiel hält nicht auf, „(1 Spiel verlegt)“");
     // Spiel am Dienstag nach dem Spieltag (Syra – Moutfort) wird abgewartet.
     const st = spieltagStand([sp(1, "2026-10-23T20:00:00+02:00", 6, [1, "a"], [2, "b"], 1, 0), sp(2, "2026-10-24T18:30:00+02:00", 6, [3, "c"], [4, "d"], 2, 2),
       sp(3, "2026-10-27T20:00:00+01:00", 6, [5, "e"], [6, "f"])], 6, Date.parse("2026-10-25T21:00:00+01:00"));
     ok(st && !st.komplett && st.verlegt === 0, "Spieltag: Dienstagsspiel wird abgewartet");
   }
   ok(id("ende:201")?.text === "Koeppchen I 2:1 FC Titus" && id("ende:201").reiter[0] === "Seniors 2", "Mitteilung: Endstand Seniors von der FLF");
-  ok(id("zeit:301")?.text === "Sa., 31.10. um 10:00 gegen US Berdorf" && !id("zeit:503"), "Mitteilung: Uhrzeit steht fest nur bei U9/U11, nie bei den Seniors");
+  ok(id("zeit:301")?.text === "Uhrzeit steht fest: Sa., 31.10. um 10:00 gegen US Berdorf" && !id("zeit:503"), "Mitteilung: Uhrzeit steht fest nur bei U9/U11, nie bei den Seniors");
   ok(id("phase:k4:1")?.text === "Spielplan U13 Klasse II ist da: 2 Spiele, erstes Sa., 7.11. um 14:00 gegen FC Mondorf" && !id("neu:401"), "Mitteilung: neue Phase als eine Mitteilung");
   ok(id("neu:501")?.titel === "U13 1 · Neues Spiel" && id("neu:501").text === "Mi., 11.11. um 18:00 gegen FC Wiltz · 📍 Wiltz", "Mitteilung: neues Spiel (Pokal)");
   {
@@ -1086,7 +1086,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const morgen1 = mb.find(e => e.id === "heute:9202610241"), zeit1 = mb.find(e => e.art === "uhrzeit" && e.id.startsWith("zeit:9202610241"));
   ok(morgen1?.titel === "BAM 1 · Morgen Spiel" && morgen1.text === "09:30 · Mini-Spieltag · 📍 Am Ga (Wormeldange, synth.)" && morgen1.reiter.includes("Bambinis U7"),
      "BAM: Morgen-Mitteilung mit Uhrzeit, Mini-Spieltag und Platz, für die Gruppe Bambinis U7");
-  ok(zeit1?.text === "Sa., 24.10. um 09:30 · Mini-Spieltag · 📍 Am Ga (Wormeldange, synth.)", "BAM: Uhrzeit steht fest, sobald das Wochenprogramm da ist");
+  ok(zeit1?.text === "Uhrzeit steht fest: Sa., 24.10. um 09:30 · Mini-Spieltag · 📍 Am Ga (Wormeldange, synth.)", "BAM: Uhrzeit steht fest, sobald das Wochenprogramm da ist");
   ok(!mEreignisse(neuB, neuB, null, freitag).ereignisse.some(e => e.art === "uhrzeit"), "BAM: keine Uhrzeit-Mitteilung, wenn sie schon sicher war");
   ok(mEreignisse(altB, altB, null, freitag).ereignisse.find(e => e.id === "heute:9202610241")?.text.startsWith("10:30 (sauf changement)"), "BAM: ohne Wochenprogramm „sauf changement“");
   bamDazu(D0, null);

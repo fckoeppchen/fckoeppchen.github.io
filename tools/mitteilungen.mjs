@@ -42,6 +42,7 @@ export const tabelleFertig = (k, now) => {
 // ohne Ergebnis — die FLF lässt beim Verlegen oft das alte Datum stehen (Koeppchen II – Syra, 3.10.). Ein Spiel am Dienstag
 // nach einem Freitag-Spieltag (Syra spielt zu Hause dienstags) gehört dazu und wird abgewartet.
 const TAG_MS = 24 * H;
+const verlegtText = sn => sn.verlegt ? ` (${sn.verlegt} ${sn.verlegt === 1 ? "Spiel" : "Spiele"} verlegt)` : "";
 export function spieltagStand(spiele, tag, now) {
   const s = spiele.filter(sp => sp.tag === tag);
   if (!s.length) return null;
@@ -107,12 +108,12 @@ export function ereignisse(alt, neu, vorher, now) {
     // Uhrzeit steht fest — nur U9/U11 und nur, wenn vorher gar keine Zeit da war (00:00). Eine geänderte
     // Uhrzeit meldet die App nie: die gibt der Trainer durch, der kann intern umgestellt haben (vom Nutzer).
     if (["U9", "U11"].includes(kat) && a && ohneUhrzeit(a.d) && !offen && d > now)
-      dazu({ ...basis, id: `zeit:${sp.id}:${sp.d}`, art: "uhrzeit", titel: `${name} · Uhrzeit steht fest`,
-             text: `${datum(sp.d)} um ${uhr(sp.d)} gegen ${gegner}${wo}`, ab: now, bis: d });
+      dazu({ ...basis, id: `zeit:${sp.id}:${sp.d}`, art: "uhrzeit", titel: `${name} · Uhrzeit`,
+             text: `Uhrzeit steht fest: ${datum(sp.d)} um ${uhr(sp.d)} gegen ${gegner}${wo}`, ab: now, bis: d });
     // BAM: Uhrzeit steht fest, sobald das Wochenprogramm da ist (vorher nur „meist 10:30“), auch wenn es 10:30 bleibt.
     if (sp.bam?.zeitSicher && a?.bam && !a.bam.zeitSicher && d > now)
-      dazu({ ...basis, id: `zeit:${sp.id}:${sp.d}`, art: "uhrzeit", titel: `${name} · Uhrzeit steht fest`,
-             text: `${datum(sp.d)} um ${uhr(sp.d)} · Mini-Spieltag${wo}`, ab: now, bis: d });
+      dazu({ ...basis, id: `zeit:${sp.id}:${sp.d}`, art: "uhrzeit", titel: `${name} · Uhrzeit`,
+             text: `Uhrzeit steht fest: ${datum(sp.d)} um ${uhr(sp.d)} · Mini-Spieltag${wo}`, ab: now, bis: d });
     if (kat === "Seniors") {
       // Endstand von der FLF (wenn niemand getickert hat; vom Ticker kommt er über den Worker, gleiche id).
       if (a && !hatErgebnis(a) && hatErgebnis(sp) && d > now - 48 * H)
@@ -140,9 +141,9 @@ export function ereignisse(alt, neu, vorher, now) {
       const sn = spieltagStand(k.spiele, tag, now), sa = spieltagStand(ka.spiele, tag, altZeit);
       if (!sn?.komplett || sa?.komplett || sn.haupt < now - 10 * TAG_MS) continue;
       const unser = k.spiele.find(sp => sp.tag === tag && ist(sp));
-      dazu({ reiter: [t.reiter], id: `spieltag:${k.id}:${tag}`, art: "spieltag",
-             titel: `${t.reiter} · Spieltag ${tag} komplett` + (sn.verlegt ? ` (${sn.verlegt} ${sn.verlegt === 1 ? "Spiel" : "Spiele"} verlegt)` : ""),
-             text: (unser ? (hatErgebnis(unser) ? `${kurz(unser.h.n)} ${unser.hs}:${unser.as} ${kurz(unser.a.n)} · ` : "unser Spiel noch offen · ") : "") + "alle Ergebnisse in der App",
+      // Titel kurz (iOS schneidet ihn nach ~20 Zeichen ab, vom Nutzer 25.10.2026: „Seniors 1 · Spieltag 1…“), „komplett“ in den Text.
+      dazu({ reiter: [t.reiter], id: `spieltag:${k.id}:${tag}`, art: "spieltag", titel: `${t.reiter} · Spieltag`,
+             text: `Spieltag ${tag} komplett${verlegtText(sn)}: ` + (unser ? (hatErgebnis(unser) ? `${kurz(unser.h.n)} ${unser.hs}:${unser.as} ${kurz(unser.a.n)} · ` : "unser Spiel noch offen · ") : "") + "alle Ergebnisse in der App",
              ab: now, bis: now + 24 * H });
     }
     if (k.tabelle && ka.tabelle) {
@@ -195,9 +196,8 @@ export function ereignisse(alt, neu, vorher, now) {
     for (const tag of new Set(neu.bgl.spiele.map(sp => sp.tag))) {
       const sn = spieltagStand(neu.bgl.spiele, tag, now), sa = spieltagStand(alt.bgl.spiele, tag, Date.parse(alt.stand) || now);
       if (sn?.komplett && !sa?.komplett && sn.haupt > now - 10 * TAG_MS)
-        dazu({ reiter: ["BGL"], id: `bgl:${neu.saison?.id}:${tag}`, art: "spieltag",
-               titel: `BGL · Spieltag ${tag} komplett` + (sn.verlegt ? ` (${sn.verlegt} ${sn.verlegt === 1 ? "Spiel" : "Spiele"} verlegt)` : ""),
-               text: "Alle Ergebnisse in der App", ab: now, bis: now + 24 * H });
+        dazu({ reiter: ["BGL"], id: `bgl:${neu.saison?.id}:${tag}`, art: "spieltag", titel: "BGL · Spieltag",
+               text: `Spieltag ${tag} komplett${verlegtText(sn)}: alle Ergebnisse in der App`, ab: now, bis: now + 24 * H });
     }
 
   // Roude Léiw: Heute Spiel, Endstand (von FuPa), Liveticker über den Worker.
@@ -205,8 +205,8 @@ export function ereignisse(alt, neu, vorher, now) {
   for (const sp of neu.nati?.spiele || []) {
     const d = Date.parse(sp.d), lux = sp.h.n === "Luxemburg", gegner = lux ? sp.a.n : sp.h.n, basis = { reiter: ["Roude Léiw"] };
     if (tagLux(d) === heute && !hatErgebnis(sp)) {
-      dazu({ ...basis, id: "nheute:" + sp.id, art: "heute", titel: "Roude Léiw · Heute Länderspiel",
-             text: `${uhr(sp.d)} gegen ${gegner}` + (sp.wett ? ` · ${sp.wett}` : ""), ab: umLux(heute, 10), bis: d });
+      dazu({ ...basis, id: "nheute:" + sp.id, art: "heute", titel: "Roude Léiw · Heute",
+             text: `Länderspiel um ${uhr(sp.d)} gegen ${gegner}` + (sp.wett ? ` · ${sp.wett}` : ""), ab: umLux(heute, 10), bis: d });
       if (sp.slug) live.push({ id: sp.id, reiter: ["Roude Léiw"], titel: "Roude Léiw", d: sp.d, h: sp.h.n, a: sp.a.n, wirHeim: lux,
                                gegner, slug: sp.slug, fupaWir: "luxemburg-m1", ticker: "nticker:" + sp.id, halbzeit: "nhalbzeit:" + sp.id, ende: "nende:" + sp.id });
     }

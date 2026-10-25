@@ -195,6 +195,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   nur Spieltage der letzten 10 Tage. BGL genauso. Später vielleicht beide zu einer Meldung zusammenlegen, wenn sie meist gleichzeitig
   kommen (vom Nutzer: erst beobachten). **App:** in „Alle Spiele der Klasse“ hat jedes offene Spiel seinen Termin (am Spieltag-Tag
   nur Uhrzeit), alte offene „noch nicht gespielt (verlegt)“, gespielte an anderem Tag das Datum; Kopf = mittlerer Termin.
+- **Kurze Titel** (vom Nutzer, 25.10.2026, Bild vom Sperrbildschirm: „Seniors 1 · Spieltag 1…“): iOS zeigt vom Titel nur ~22 Zeichen,
+  den Text ganz. Darum „… · Spieltag“ (Text „Spieltag 10 komplett: …“), „… · Uhrzeit“ (Text „Uhrzeit steht fest: …“), „Roude Léiw ·
+  Heute“ (Text „Länderspiel um …“). Neue Titel: Mannschaft + ein Wort.
 - **Workflows: Checkout `ref: main`, Rebase `-X theirs` + `rebase --abort`** (25.10.2026, nach einem roten Lauf in
   fussball-vereine: ein wartender Lauf arbeitete mit altem Stand → Konflikt in data/fussball.json). Bei uns noch nie rot,
   aber dieselbe Lage (Worker-Anstoß und verspäteter GitHub-Zeitplan gleichzeitig, z. B. 23:30 → sonst erst 7:00 wieder).
