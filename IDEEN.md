@@ -248,7 +248,8 @@ Für Freundschaftsspiele, Turniere u. Ä., die nicht im Extranet stehen. Ersetzt
   bleiben und können übernommen werden.
 - **Felder:** Art (Freundschaftsspiel · Turnier · Hallenturnier · Sonstiges), Mannschaft, Datum, Uhrzeit (oder offen),
   Gegner/Veranstalter, Ort (zu Hause Wormeldange oder Freitext), Bemerkung.
-- **Weg:** Worker speichert (D1) und stößt den Abruf an; `tools/fussball.mjs` holt die Spiele und baut sie wie BAM ins
+- **Weg:** Worker speichert (D1) und stößt **sofort** den Abruf an (vom Nutzer, 26.10.: lieber sofort als bis zum nächsten Abruf
+  warten — Trainer sieht, dass es geklappt hat, kurzfristige Absagen kommen gleich an; im COACH-Reiter sofort sichtbar); `tools/fussball.mjs` holt die Spiele und baut sie wie BAM ins
   Format von `aufbereiten` → Reiter, Unsere Woche, Kalender, Mitteilungen, Koeppi ohne Sonderweg. ~5–10 min bis sichtbar.
 - Trainernamen nie in öffentlichen Daten. Datenschutz-Hinweis ergänzen. Trägt die FLF dasselbe Spiel später ein: Hinweis
   im COACH-Reiter („steht jetzt auch bei der FLF, deins löschen?“).
