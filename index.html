@@ -29,7 +29,7 @@
     --head:#111111; --good:#1fa88c; --bad:#d9485a;
   }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Barlow,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  html,body{overscroll-behavior-y:none;margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Barlow,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   header{position:sticky;top:0;z-index:20;background:var(--head);color:#fff;transform:translateZ(0)}
   /* Reiter-Leiste eigenes sticky-Element unter dem Kopf: beim Runterscrollen schiebt sie sich hinter den Kopf
      (nur transform, kein Sprung im Inhalt — iOS kennt kein Scroll-Anchoring), Hochscrollen holt sie zurück
@@ -629,7 +629,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "26.10.2026 neu d";
+const FASSUNG = "26.10.2026 neu e";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -955,6 +955,7 @@ function fuss() {
       Wer Mitteilungen einschaltet, für den wird nur die Push-Adresse des Handys und die Auswahl der Mannschaften gespeichert; Abmelden löscht beides.
       Was die App sich merkt (gewählter Reiter, letzter Stand), bleibt auf dem Handy. Keine Werbung, kein Tracking.
       Spielpläne und Ergebnisse kommen von der FLF und von FuPa. Das Video im Reiter der Jugendkommission wird von YouTube geladen.
+      Fragen: <a href="mailto:koeppchenapp@hotmail.com">koeppchenapp@hotmail.com</a>
     </details>
     <div style="margin-top:6px;font-size:11px">Fassung ${FASSUNG}</div></footer>`;
 }
@@ -1551,8 +1552,8 @@ if (!mtest()) swAufraeumen();   // Rückweg: ohne Merker kein Service Worker, ke
 
 // Reiter-Leiste beim Runterscrollen weg, beim Hochscrollen wieder da (vom Nutzer, 26.10.2026). Weg nach 30 px
 // runter (schon ab 60 px von oben), zurück erst nach 150 px hoch (am iPhone kam sie sonst bei jedem kleinen
-// Zurückscrollen); oben immer sichtbar. Die letzten 80 px vor dem Ende zählen nicht; unten ist das Nachfedern
-// beim Ziehen aus (dort flackerte der Kopf), oben bleibt es (vom Nutzer: zum Neuladen in Safari). Tippen auf den Kopf holt sie auch zurück.
+// Zurückscrollen); oben immer sichtbar. Die letzten 80 px vor dem Ende zählen nicht; Nachfedern ist oben und unten
+// aus (overscroll-behavior: unten flackerte der Kopf, nur unten abfangen ließ ihn unter die Reiter federn). Tippen auf den Kopf holt sie auch zurück.
 const LEISTE = document.getElementById("leiste");
 let L_Y = 0, L_SUMME = 0;
 function kopfHoehe() { document.documentElement.style.setProperty("--kopfH", document.querySelector("header").offsetHeight + "px"); }
@@ -1566,16 +1567,6 @@ addEventListener("scroll", () => {
   if (L_SUMME > 30) LEISTE.classList.add("weg");
   else if (L_SUMME < -150) leisteZeigen();
 }, { passive: true });
-// Nur unten nicht nachfedern: CSS kann das nur für beide Richtungen, darum hier — am Ende der Seite wird ein
-// Weiterziehen nach oben (Finger hoch, mehr senkrecht als waagerecht) abgefangen. Ein Wischen mit Schwung
-// kann trotzdem kurz federn.
-let T_X = 0, T_Y = 0;
-addEventListener("touchstart", e => { T_X = e.touches[0].clientX; T_Y = e.touches[0].clientY; }, { passive: true });
-addEventListener("touchmove", e => {
-  const x = e.touches[0].clientX, y = e.touches[0].clientY, dx = x - T_X, dy = y - T_Y;
-  T_X = x; T_Y = y;
-  if (dy < 0 && -dy > Math.abs(dx) && scrollY >= document.documentElement.scrollHeight - innerHeight - 1) e.preventDefault();
-}, { passive: false });
 addEventListener("resize", kopfHoehe);
 document.querySelector("header").addEventListener("click", e => { if (!e.target.closest("#zahnrad")) leisteZeigen(); });
 kopfHoehe();

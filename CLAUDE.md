@@ -177,6 +177,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Datenschutz-Hinweis** (vom Nutzer, 25.10.2026, Fassung neu i, **ohne Kontaktangabe**): aufklappbar in der Fußzeile (`#datenschutz`,
   `DS_OFFEN` hält ihn bei Takten offen, Reiterwechsel klappt ihn zu wie alles andere — vom Nutzer): anonyme Zählung, Push-Adresse + Auswahl nur bei Mitteilungen, Rest bleibt auf dem Handy,
   Daten von FLF/FuPa, Video von YouTube. Bei neuen Datenflüssen (z. B. Facebook) mitändern.
+  **Seit 26.10. (Fassung neu e, vom Nutzer) mit Kontakt** `koeppchenapp@hotmail.com` (mailto-Link) — vorher bewusst ohne.
 - **„Spieltag komplett“ auch für Seniors 1–3** (vom Nutzer, 25.10.2026, Fassung neu k): wenn alle Spiele des Spieltags der Klasse
   eingetragen sind, mit unserem Ergebnis; danach wie bisher „Tabelle“. Im Zahnrad neuer Haken bei den Seniors (wer Seniors schon
   gewählt hat, muss ihn selbst anhaken). Kinder bleiben: keine Mitteilung nur für unser Spiel (Vereinswunsch).
@@ -215,6 +216,8 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Neu d** (vom Nutzer: Flackern war nur unten, oben zum Neuladen lassen; „ein klein wenig langsamer“): `overscroll-behavior` wieder
   raus, stattdessen fängt ein `touchmove`-Lauscher (passive: false) am Seitenende das Weiterziehen nach oben ab — CSS kann nicht nur
   eine Richtung; ein Wischen mit Schwung kann unten trotzdem kurz federn. Bewegung 0,85 s.
+  **Neu e** (vom Nutzer): nur-unten federte die Überschrift unter die Reiter → wieder **oben und unten aus** (`overscroll-behavior-y:none`),
+  Lauscher raus; Neuladen im Browser über dessen Knopf. Bewegung bleibt 0,85 s.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
