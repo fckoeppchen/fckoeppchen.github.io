@@ -254,3 +254,12 @@ Für Freundschaftsspiele, Turniere u. Ä., die nicht im Extranet stehen. Ersetzt
 - Trainernamen nie in öffentlichen Daten. Datenschutz-Hinweis ergänzen. Trägt die FLF dasselbe Spiel später ein: Hinweis
   im COACH-Reiter („steht jetzt auch bei der FLF, deins löschen?“).
 - Offen: Ergebnisse bei Seniors-Spielen? (Kinder: keine, Vereinswunsch.)
+
+## Reiter beim Runterscrollen ausblenden (vom Nutzer, 26.10.2026, **vorgemerkt, noch nicht bauen**)
+
+Anlass: 16 Knöpfe (Woche + 15 Reiter) im festen Kopf (`header{position:sticky}`) nehmen am Handy ~¼ des Bildschirms, auch
+beim Scrollen. Gewählt (Variante 1 von 4): beim **Runterscrollen** schiebt sich `#seg` weg, oben bleibt eine schmale Leiste
+(Logo + Name des aktuellen Reiters, z. B. „MIN 1“); ein Stück **Hochscrollen** holt alle Reiter zurück (wie Safaris
+Adresszeile). Kein Tipp mehr als heute. Verworfen/zurückgestellt: zuklappen mit „Mannschaft wechseln ▾“ (ein Tipp mehr),
+Wisch-Reihe (versteckt Reiter); „Meine Mannschaften“ (Favoriten + „Alle ▾“) ggf. später, wenn Eltern es wünschen.
+Beim Bauen auf iPhone achten: Gummiband-Scrollen oben/unten darf nicht flackern, Zahnrad/Live-Kasten nicht verdecken.
