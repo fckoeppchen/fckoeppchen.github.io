@@ -235,3 +235,21 @@ falls gewünscht, Bild vom Verein). **Drei Sprachen DE · FR · EN** (vom Nutzer
 > of the club's matches this week. · 📅 With the calendar subscription, the matches go straight into your phone's
 > calendar, even if a time changes.
 > Have fun and see you at the pitch! ⚽ **#mirvunderkoeppchen**  [ Let's go! ]
+
+## COACH-Reiter: Trainer tragen eigene Spiele ein (vom Nutzer, 26.10.2026, **noch nicht bauen**)
+
+Für Freundschaftsspiele, Turniere u. Ä., die nicht im Extranet stehen. Ersetzt die alte Idee `data/turniere.json`.
+- **Eingang:** 5× aufs Vereinslogo → Name + **eigener Code** (Name allein reicht nicht, App ist öffentlich — Claudes Einwand,
+  vom Nutzer so übernommen). Code prüft der **Worker** (nie in der Datei). Ein Eingang, der Code entscheidet: Tester-Code →
+  Mitteilungen, Trainer-Code → Reiter **COACH**. Bleibt auf dem Handy bis Abmelden.
+- **Trainer:** sieht/ändert/löscht **nur eigene** Spiele, und **nur für seine Mannschaft(en)** (vom Nutzer). FLF-Spiele nie.
+- **Verwalter:** Laurent, Präsident der Jugendkommission, Jugendkoordinator Tiago — sehen alles mit Name des Eintragenden,
+  können alles ändern/löschen, legen Trainer an (Name, Code, Mannschaften), sperren Codes; Spiele eines gesperrten Trainers
+  bleiben und können übernommen werden.
+- **Felder:** Art (Freundschaftsspiel · Turnier · Hallenturnier · Sonstiges), Mannschaft, Datum, Uhrzeit (oder offen),
+  Gegner/Veranstalter, Ort (zu Hause Wormeldange oder Freitext), Bemerkung.
+- **Weg:** Worker speichert (D1) und stößt den Abruf an; `tools/fussball.mjs` holt die Spiele und baut sie wie BAM ins
+  Format von `aufbereiten` → Reiter, Unsere Woche, Kalender, Mitteilungen, Koeppi ohne Sonderweg. ~5–10 min bis sichtbar.
+- Trainernamen nie in öffentlichen Daten. Datenschutz-Hinweis ergänzen. Trägt die FLF dasselbe Spiel später ein: Hinweis
+  im COACH-Reiter („steht jetzt auch bei der FLF, deins löschen?“).
+- Offen: Ergebnisse bei Seniors-Spielen? (Kinder: keine, Vereinswunsch.)
