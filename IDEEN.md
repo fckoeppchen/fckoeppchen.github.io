@@ -197,3 +197,20 @@ Die Wochenvorschau selbst ist gebaut („Unsere Woche“, 20.10.2026); diese Zus
    Nachbarn 1 auseinander). Hat ein Team ein Spiel mehr (z. B. Pokal), heben sich die 1 auf → gleicher Spruch. Lösung:
    Index aus der Woche (Kalenderwoche/Wochenende) + Platz in `fest`; bei 8 Sprüchen und 7 Teams nie zwei gleiche am selben
    Wochenende, jede Woche ein anderer.
+
+## Begrüßung beim ersten Öffnen — nach dem Umzug (vom Nutzer, 26.10.2026, **noch nicht bauen**)
+
+Kasten über der App beim ersten Öffnen der neuen Adresse (jedes Handy ist dort neu, also sehen ihn auch bisherige
+Nutzer; eigene Geräte/Tester einmal von Hand zeigen). „Los geht's“ schließt ihn für immer. Keine Push-Mitteilung
+(ginge nur an Handys mit Mitteilungen). **Koeppi mit Fahne** (`k-fahne.png`; ein winkender Koeppi existiert nicht —
+falls gewünscht, Bild vom Verein). Nur Deutsch (vom Nutzer: keine weiteren Sprachen). Text vom Nutzer abgenommen:
+
+> **Willkommen beim FC Koeppchen! 👋**
+> Diese App ist für Eltern und Kinder gemacht. Hier seht ihr immer, wann und wo eure Mannschaft spielt, und ihr könnt
+> auch die Spiele eurer Freunde verfolgen.
+> Die Seniors sind auch mit dabei. So sehen die Kinder, wie „die Großen“ spielen, und alle im Verein bleiben auf dem
+> Laufenden. Denn wir sind alle Koeppchen.
+> **So geht's:** Oben eine Mannschaft antippen, dann seht ihr ihre Spiele, die Tabelle und die Ergebnisse. ·
+> **Unsere Woche** zeigt alle Spiele des Vereins in dieser Woche. · 📅 Mit dem Kalender-Abo landen die Spiele direkt in
+> eurem Handy-Kalender, auch wenn sich ein Termin ändert.
+> Viel Spaß und bis bald am Platz! ⚽ **#mirvunderkoeppchen**  [ Los geht's ]
