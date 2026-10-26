@@ -30,11 +30,11 @@
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Barlow,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-  header{position:sticky;top:0;z-index:20;background:var(--head);color:#fff}
+  header{position:sticky;top:0;z-index:20;background:var(--head);color:#fff;transform:translateZ(0)}
   /* Reiter-Leiste eigenes sticky-Element unter dem Kopf: beim Runterscrollen schiebt sie sich hinter den Kopf
      (nur transform, kein Sprung im Inhalt — iOS kennt kein Scroll-Anchoring), Hochscrollen holt sie zurück
      (vom Nutzer, 26.10.2026). Der grüne Strich bleibt stehen. */
-  #leiste{position:sticky;top:var(--kopfH,62px);z-index:19;background:var(--head);border-bottom:3px solid var(--accent);transition:transform .22s ease}
+  #leiste{position:sticky;top:var(--kopfH,62px);z-index:19;background:var(--head);border-bottom:3px solid var(--accent);transition:transform .35s cubic-bezier(.25,.8,.25,1);will-change:transform}
   #leiste .wrap{padding-top:0}
   #leiste.weg{transform:translateY(calc(3px - 100%));pointer-events:none}
   .wrap{max-width:720px;margin:0 auto;padding:10px 14px}
@@ -629,7 +629,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "26.10.2026 neu a";
+const FASSUNG = "26.10.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1549,9 +1549,10 @@ document.getElementById("logo").addEventListener("click", async () => {
 zahnradZeigen();
 if (!mtest()) swAufraeumen();   // Rückweg: ohne Merker kein Service Worker, kein Abo
 
-// Reiter-Leiste beim Runterscrollen weg, beim Hochscrollen wieder da (vom Nutzer, 26.10.2026). Erst nach
-// 24 px in eine Richtung, damit kleine Wackler nichts tun; oben immer sichtbar; Nachfedern des iPhones
-// (über den Anfang oder das Ende hinaus) zählt nicht. Tippen auf den Kopf holt sie auch zurück.
+// Reiter-Leiste beim Runterscrollen weg, beim Hochscrollen wieder da (vom Nutzer, 26.10.2026). Weg nach 30 px
+// runter (schon ab 60 px von oben), zurück erst nach 90 px hoch (am iPhone kam sie sonst bei jedem kleinen
+// Zurückscrollen); oben immer sichtbar. Die letzten 80 px vor dem Ende zählen nicht — dort federt das iPhone
+// nach und ließ sie flackern. Tippen auf den Kopf holt sie auch zurück.
 const LEISTE = document.getElementById("leiste");
 let L_Y = 0, L_SUMME = 0;
 function kopfHoehe() { document.documentElement.style.setProperty("--kopfH", document.querySelector("header").offsetHeight + "px"); }
@@ -1559,11 +1560,11 @@ function leisteZeigen() { LEISTE.classList.remove("weg"); L_SUMME = 0; }
 addEventListener("scroll", () => {
   const y = scrollY, max = document.documentElement.scrollHeight - innerHeight, d = y - L_Y;
   L_Y = y;
-  if (y < LEISTE.offsetHeight + 40) return leisteZeigen();
-  if (y > max - 1) return;
+  if (y < 60) return leisteZeigen();
+  if (y > max - 80) { L_SUMME = 0; return; }
   L_SUMME = (Math.sign(d) === Math.sign(L_SUMME) ? L_SUMME : 0) + d;
-  if (L_SUMME > 24) LEISTE.classList.add("weg");
-  else if (L_SUMME < -24) leisteZeigen();
+  if (L_SUMME > 30) LEISTE.classList.add("weg");
+  else if (L_SUMME < -90) leisteZeigen();
 }, { passive: true });
 addEventListener("resize", kopfHoehe);
 document.querySelector("header").addEventListener("click", e => { if (!e.target.closest("#zahnrad")) leisteZeigen(); });

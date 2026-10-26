@@ -204,9 +204,12 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   `fussball-live.yml` auch `ref: main`. `bgl.namen` geht dabei nicht verloren (jeder Lauf liest den neuesten Stand).
 - **Reiter beim Runterscrollen weg** (vom Nutzer, 26.10.2026, Fassung 26.10. neu a; 16 Knöpfe nahmen ~¼ des Bildschirms): Reiter
   in eigener sticky-Leiste `#leiste` unter dem Kopf (`--kopfH` = Höhe des Kopfs, `kopfHoehe`). Nach 24 px Runterscrollen schiebt sie
-  sich per `transform` hinter den Kopf (Klasse `weg`, grüner Strich bleibt), 24 px Hochscrollen, ganz oben oder Tippen auf den Kopf
-  holen sie zurück. Nur transform, kein Höhenwechsel — sonst springt der Inhalt (iOS hat kein Scroll-Anchoring). Nachfedern über
-  Anfang/Ende zählt nicht. Im Browser geprüft (390 px); **am iPhone noch auszuprobieren** (Gefühl, Flackern beim Federn).
+  sich per `transform` hinter den Kopf (Klasse `weg`, grüner Strich bleibt), Hochscrollen, ganz oben oder Tippen auf den Kopf
+  holen sie zurück. Nur transform, kein Höhenwechsel — sonst springt der Inhalt (iOS hat kein Scroll-Anchoring).
+  **Neu b nach dem iPhone-Test des Nutzers:** weg nach 30 px runter schon ab 60 px von oben (vorher erst ab ~230 px — „dauert am
+  Anfang zu lang“), zurück erst nach 90 px hoch (vorher 24 — „zu schnell zurück“), letzte 80 px vor dem Ende zählen nicht (unten
+  flackerte es beim Nachfedern, die Überschrift verschwand kurz; dazu `translateZ(0)` am Kopf, eigene Ebene über der Leiste),
+  Bewegung 0,35 s weich statt 0,22 s („flüssiger“). Oben federn war schon in Ordnung.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
