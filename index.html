@@ -629,7 +629,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "26.10.2026 neu e";
+const FASSUNG = "26.10.2026 neu f";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -820,7 +820,10 @@ function render() {
     return;
   }
   const v = sicht(D, ST.team, now);
-  const ids = v.ids, alter = v.team.alter || "";
+  // Mannschaftsnummer aus dem FLF-Namen („… I“/„… II“) dazu, damit man auch ohne Reiter weiß, welches Team
+  // es ist: „U13 Minimes 1“, „Seniors Réserves 2“ (vom Nutzer, 26.10.2026). Ohne Nummer bleibt es wie es war.
+  const nr = { I: 1, II: 2, III: 3, IV: 4 }[(/ (I{1,3}|IV)$/.exec(v.team.n || "") || [])[1]];
+  const ids = v.ids, alter = (v.team.alter || "") + (v.team.alter && nr ? " " + nr : "");
   document.getElementById("sub").textContent = (alter ? alter + " · " : "") + D.saison.n.replace("Saison ", "");
   const art = sp => sp.typ === "CUP" ? "Pokal" : sp.typ === "FM" ? "Freundschaftsspiel" : "";
   let h = "";
