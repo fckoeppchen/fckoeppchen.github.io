@@ -200,8 +200,8 @@ Die Wochenvorschau selbst ist gebaut („Unsere Woche“, 20.10.2026); diese Zus
 
 ## Begrüßung beim ersten Öffnen — nach dem Umzug (vom Nutzer, 26.10.2026, **noch nicht bauen**)
 
-Kasten über der App beim ersten Öffnen der neuen Adresse (jedes Handy ist dort neu, also sehen ihn auch bisherige
-Nutzer; eigene Geräte/Tester einmal von Hand zeigen). „Los geht's“ schließt ihn für immer. Keine Push-Mitteilung
+Kasten über der App, bis „Los geht's“ getippt ist (eigener Merker, neu — darum sehen ihn alle einmal, auch
+bisherige Nutzer, der Nutzer und seine 3 Tester, ohne Handarbeit). „Los geht's“ schließt ihn für immer. Keine Push-Mitteilung
 (ginge nur an Handys mit Mitteilungen). **Koeppi mit Fahne** (`k-fahne.png`; ein winkender Koeppi existiert nicht —
 falls gewünscht, Bild vom Verein). Nur Deutsch (vom Nutzer: keine weiteren Sprachen). Text vom Nutzer abgenommen:
 
