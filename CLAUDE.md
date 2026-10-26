@@ -212,6 +212,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Bewegung 0,35 s weich statt 0,22 s („flüssiger“). Oben federn war schon in Ordnung.
   **Neu c** (zweiter iPhone-Test): Anfang gut; zurück erst nach 150 px; Bewegung 0,7 s weich ein und aus („springt zu viel“);
   unten flackerte es weiter → **Nachfedern ganz aus** (`overscroll-behavior-y:none` an html/body, iOS ab 16).
+  **Neu d** (vom Nutzer: Flackern war nur unten, oben zum Neuladen lassen; „ein klein wenig langsamer“): `overscroll-behavior` wieder
+  raus, stattdessen fängt ein `touchmove`-Lauscher (passive: false) am Seitenende das Weiterziehen nach oben ab — CSS kann nicht nur
+  eine Richtung; ein Wischen mit Schwung kann unten trotzdem kurz federn. Bewegung 0,85 s.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
