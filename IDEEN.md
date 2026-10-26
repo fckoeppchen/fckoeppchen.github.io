@@ -203,7 +203,8 @@ Die Wochenvorschau selbst ist gebaut („Unsere Woche“, 20.10.2026); diese Zus
 Kasten über der App, bis „Los geht's“ getippt ist (eigener Merker, neu — darum sehen ihn alle einmal, auch
 bisherige Nutzer, der Nutzer und seine 3 Tester, ohne Handarbeit). „Los geht's“ schließt ihn für immer. Keine Push-Mitteilung
 (ginge nur an Handys mit Mitteilungen). **Koeppi mit Fahne** (`k-fahne.png`; ein winkender Koeppi existiert nicht —
-falls gewünscht, Bild vom Verein). Nur Deutsch (vom Nutzer: keine weiteren Sprachen). Text vom Nutzer abgenommen:
+falls gewünscht, Bild vom Verein). **Drei Sprachen DE · FR · EN** (vom Nutzer, 26.10.): kleine Knöpfe oben im Kasten, vorausgewählt nach Sprache des Handys
+(`navigator.language`, sonst Deutsch). „Unsere Woche“ bleibt in FR/EN deutsch (Knopfname in der App). Texte vom Nutzer abgenommen:
 
 > **Willkommen beim FC Koeppchen! 👋**
 > Diese App ist für Eltern und Kinder gemacht. Hier seht ihr immer, wann und wo eure Mannschaft spielt, und ihr könnt
@@ -214,3 +215,23 @@ falls gewünscht, Bild vom Verein). Nur Deutsch (vom Nutzer: keine weiteren Spra
 > **Unsere Woche** zeigt alle Spiele des Vereins in dieser Woche. · 📅 Mit dem Kalender-Abo landen die Spiele direkt in
 > eurem Handy-Kalender, auch wenn sich ein Termin ändert.
 > Viel Spaß und bis bald am Platz! ⚽ **#mirvunderkoeppchen**  [ Los geht's ]
+
+> 🇫🇷 **Bienvenue au FC Koeppchen ! 👋**
+> Cette application a été créée pour les parents et les enfants. Vous voyez toujours quand et où joue votre équipe, et
+> vous pouvez aussi suivre les matchs de vos amis.
+> Les Seniors sont aussi de la partie. Ainsi, les enfants voient comment jouent « les grands », et tout le club reste
+> informé. Car nous sommes tous Koeppchen.
+> **Comment ça marche :** Touchez une équipe en haut pour voir ses matchs, le classement et les résultats. ·
+> **Unsere Woche** montre tous les matchs du club de la semaine. · 📅 Avec l'abonnement au calendrier, les matchs
+> arrivent directement dans le calendrier de votre téléphone, même si un horaire change.
+> Amusez-vous bien et à bientôt au terrain ! ⚽ **#mirvunderkoeppchen**  [ C'est parti ! ]
+
+> 🇬🇧 **Welcome to FC Koeppchen! 👋**
+> This app was made for parents and children. You can always see when and where your team plays, and you can also
+> follow your friends' matches.
+> The Seniors are part of it too. This way, the children see how "the grown-ups" play, and everyone in the club stays
+> up to date. Because we are all Koeppchen.
+> **How it works:** Tap a team at the top to see its matches, the table and the results. · **Unsere Woche** shows all
+> of the club's matches this week. · 📅 With the calendar subscription, the matches go straight into your phone's
+> calendar, even if a time changes.
+> Have fun and see you at the pitch! ⚽ **#mirvunderkoeppchen**  [ Let's go! ]
