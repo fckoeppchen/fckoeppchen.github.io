@@ -255,7 +255,7 @@ Für Freundschaftsspiele, Turniere u. Ä., die nicht im Extranet stehen. Ersetzt
   im COACH-Reiter („steht jetzt auch bei der FLF, deins löschen?“).
 - Offen: Ergebnisse bei Seniors-Spielen? (Kinder: keine, Vereinswunsch.)
 
-## Reiter beim Runterscrollen ausblenden (vom Nutzer, 26.10.2026, **vorgemerkt, noch nicht bauen**)
+## Reiter beim Runterscrollen ausblenden (vom Nutzer, 26.10.2026) — **gebaut am selben Tag, Fassung 26.10. neu a**
 
 Anlass: 16 Knöpfe (Woche + 15 Reiter) im festen Kopf (`header{position:sticky}`) nehmen am Handy ~¼ des Bildschirms, auch
 beim Scrollen. Gewählt (Variante 1 von 4): beim **Runterscrollen** schiebt sich `#seg` weg, oben bleibt eine schmale Leiste

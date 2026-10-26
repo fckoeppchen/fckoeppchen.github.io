@@ -202,6 +202,11 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   fussball-vereine: ein wartender Lauf arbeitete mit altem Stand → Konflikt in data/fussball.json). Bei uns noch nie rot,
   aber dieselbe Lage (Worker-Anstoß und verspäteter GitHub-Zeitplan gleichzeitig, z. B. 23:30 → sonst erst 7:00 wieder).
   `fussball-live.yml` auch `ref: main`. `bgl.namen` geht dabei nicht verloren (jeder Lauf liest den neuesten Stand).
+- **Reiter beim Runterscrollen weg** (vom Nutzer, 26.10.2026, Fassung 26.10. neu a; 16 Knöpfe nahmen ~¼ des Bildschirms): Reiter
+  in eigener sticky-Leiste `#leiste` unter dem Kopf (`--kopfH` = Höhe des Kopfs, `kopfHoehe`). Nach 24 px Runterscrollen schiebt sie
+  sich per `transform` hinter den Kopf (Klasse `weg`, grüner Strich bleibt), 24 px Hochscrollen, ganz oben oder Tippen auf den Kopf
+  holen sie zurück. Nur transform, kein Höhenwechsel — sonst springt der Inhalt (iOS hat kein Scroll-Anchoring). Nachfedern über
+  Anfang/Ende zählt nicht. Im Browser geprüft (390 px); **am iPhone noch auszuprobieren** (Gefühl, Flackern beim Federn).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
