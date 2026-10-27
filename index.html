@@ -658,7 +658,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "27.10.2026 neu h";
+const FASSUNG = "27.10.2026 neu i";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1758,7 +1758,7 @@ async function coachHtml() {
   }
   const l = COACH_LISTE.spiele || [], h = heuteLux();
   const kommend = l.filter(s => s.datum >= h), vorbei = l.filter(s => s.datum < h).reverse();
-  let x = `<section class="card"><div class="chead"><h2>${c.rolle === "chef" ? "ADMINISTRATOR" : "Coach"} – ${esc(c.name)}</h2></div><div class="cbody">`;
+  let x = `<section class="card"><div class="chead"><h2>${c.rolle === "chef" ? "ADMINISTRATOR" : c.rolle === "admin" ? "Verwalter" : "Coach"} – ${esc(c.name)}</h2></div><div class="cbody">`;
   if (COACH_CODE) x += `<div class="note up"><b>Code für ${esc(COACH_CODE.name)}: <span class="ccode">${esc(COACH_CODE.code)}</span></b><br>
     Gilt einmal, für ein Gerät, und wird nicht noch einmal angezeigt. So geht's: am iPhone die App vom Home-Bildschirm öffnen (am Computer
     einfach fckoeppchen.github.io) → 5× aufs Logo oben → Code eingeben.
