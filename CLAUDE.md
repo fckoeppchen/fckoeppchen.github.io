@@ -221,6 +221,30 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Neu f** (vom Nutzer): Zeile unter „FC Koeppchen“ mit Mannschaftsnummer aus dem FLF-Namen („U13 Minimes 1 · 2026-2027“,
   „Seniors Réserves 2“), damit man es auch bei weggeschobenen Reitern sieht; ohne I/II (SCO, Seniors 1) unverändert.
   **27.10. neu a** (vom Nutzer): grüner Strich unter den Reitern 5 px statt 3 px (fällt beim Einfahren besser auf); `weg` schiebt um 100 % − 5 px.
+- **Coach, Stufe 1** (vom Nutzer, 27.10.2026, Fassung 27.10. neu b; Plan und Entscheidungen in `IDEEN.md` „COACH-Reiter“): Trainer tragen
+  Freundschaftsspiele/Turniere ein. **📋 neben dem Zahnrad** (`#coachknopf`, nur mit Merker `fussball_v1_coach` = {schluessel, name, rolle,
+  teams}), Bereich wie das Zahnrad (`COACH_OFFEN`, `#coach`, bei Takten nicht neu gebaut — iPhone-Tippen). **Eingang 5× Logo, ein Feld für
+  alle Codes** (`codeArt`): eigener Code → Mitteilungen (pro) **und** Coach-Verwalter, Tester-Code → nur Mitteilungen, sonst fragt die App den
+  Worker (`?coach=einloesen`) = Trainer-Code, **nur in der installierten App** (`istApp`, sonst wäre der Einmal-Code in Safari verbraucht).
+  **Leer lassen + OK** schaltet Mitteilungen-Test und Coach auf dem Gerät aus (vorher: 5× ohne Code = aus). **Worker** (`coachAnfrage`, D1-Tabellen
+  `coach_trainer`, `coach_geraet`, `coach_spiel`, `coach_stand`, legt er selbst an): Codes „ABCD-2345“ **gelten einmal**, gespeichert nur als
+  SHA-256; Einlösen gibt dem Handy einen geheimen Schlüssel (auch nur als Hash gespeichert) und meldet ein früheres Handy desselben Trainers ab.
+  Verwalter = Gerät mit `trainer_id` 0, angemeldet mit dem Code zu `ADMIN_HASH` (= `CODE_HASH`). Trainer: nur eigene Spiele, nur eigene
+  Mannschaften; Verwalter alles, sieht Namen, legt Trainer an („✓ Code genutzt am …“), „Neuer Code“ (alter Code + Handy ungültig). Beim Start
+  fragt die App `?coach=ich` — 401 (gesperrt/neuer Code) → 📋 weg. 10 falsche Codes je 10 min und Adresse → Pause. Speichern/Löschen stößt
+  den FLF-Abruf **sofort** an (höchstens 1×/min, sonst `coach_stand.nachholen` im nächsten Takt). **Abruf:** `tools/fussball.mjs` holt
+  `?coach=spiele` (öffentlich, ohne Namen, ab 60 Tagen zurück; Fehler → `alt.coach`), `coachDazu` baut je Mannschaft eine Klasse
+  `coach-<id>` (typ FM, ohne Ergebnisse, n „Vom Trainer eingetragen“), Spiel-ID `8e9 + id`, Gegner „Turnier: FC Mondercange“ bei
+  Nicht-Freundschaftsspielen, `sp.coach = {art, gegner, ende?, bem?}`, `sp.abgesagt`. Uhrzeit offen = 00:00 wie bei der FLF. `bamAus`
+  lässt Coach-Klassen weg (sonst doppelt). **App:** Schild = Art (`artText`), Zusatz „bis ca. 15:00 · Bemerkung“ (`coachZusatz`), abgesagt
+  steht mit „abgesagt“ da, nicht im Heute-/Morgen-Kasten, nicht bei „Super gemacht“; kein Ticker für Coach-Spiele. **Kalender:** Ende vom
+  Trainer, abgesagt = „ABGESAGT:“ + `STATUS:CANCELLED`. **Mitteilungen:** „Morgen/Heute Spiel“ wie jedes Spiel (Turnier: „10:00 · Turnier: …“),
+  abgesagte nicht, nicht in „Neue Woche“-Zahl, **kein „Neues Spiel“** (kommt mit Stufe 2, eigener Haken). Tests: `node test/coach.mjs`
+  (Worker mit echter SQLite, `node:sqlite`; **nicht in der Action**, weil experimentell) und Abschnitt Coach in `test/fussball.mjs`; Browser-Test
+  mit dem echten Worker-Code hinter `page.route` (Verwalter → Trainer anlegen → Browser lehnt Code ab → App löst ein → Formular, Tippen ohne
+  Fokusverlust, Speichern, Kopie, Absagen → Reiter zeigt Turnier → Neuer Code wirft das alte Handy raus). Gegenproben gemacht. **Worker neu einfügen nötig.**
+  **Stufe 2 offen:** Verwalter für Präsident/Tiago (Spalte `rolle` steht schon), Sperren-Knopf (Spalte `gesperrt` wird schon geprüft), Verlauf,
+  Mitteilungen „neu, geändert, abgesagt“ mit eigenem Haken (10 min nach der letzten Änderung).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

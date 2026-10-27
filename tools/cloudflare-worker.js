@@ -17,6 +17,8 @@
 // drückt nur bei GitHub auf „Abruf starten“ (wie ein Handstart). GitHubs eigener Zeitplan bleibt als
 // Reserve. Einrichten: Settings → Variables and Secrets → Secret GITHUB_TOKEN (Fine-grained Token,
 // nur dieses Repo, Actions: Read and write); Settings → Triggers → Cron Triggers → „* * * * *“ (jede Minute; bis 21.10.2026 „*/15 * * * *“).
+//
+// Coach (seit 27.10.2026): ?coach=… — Trainer tragen eigene Spiele ein, siehe Abschnitt „Coach“ unten. Braucht D1 (Binding DB).
 
 const API = "https://api.fupa.net/v1/matches/";
 // Eine FuPa-Antwort gilt 60 s, für Handys und Mitteilungen gemeinsam (vom Nutzer, 24.10.2026; bis dahin 20 s
@@ -590,6 +592,197 @@ export async function mitteilungenSenden(db, now = Date.now()) {
   return { gesendet };
 }
 
+// ---- Coach, Stufe 1 (vom Nutzer, 27.10.2026; Plan in IDEEN.md „COACH-Reiter“) ----
+// Trainer tragen Freundschaftsspiele und Turniere ein, die nicht im Extranet stehen. Der Verwalter legt je Trainer
+// einen Code an, der nur EINMAL gilt; beim Einlösen bekommt das Handy einen eigenen geheimen Schlüssel und bleibt damit
+// angemeldet. Gespeichert werden von Codes und Schlüsseln nur SHA-256-Werte. Hauptverwalter ist der Code, dessen
+// SHA-256 ADMIN_HASH ist (derselbe wie CODE_HASH in index.html; der Code selbst steht nirgends).
+// Die Spiele holt der FLF-Abruf öffentlich über ?coach=spiele (ohne Trainernamen) und baut sie in die Daten ein —
+// gespeichert wird hier, angestoßen wird der Abruf sofort (höchstens einmal je Minute, sonst im nächsten Takt).
+// Aufrufe: POST ?coach=einloesen|ich|liste|speichern|loeschen|trainer_neu|trainer_code|abmelden (Text mit JSON).
+const ADMIN_HASH = "452407a9a9f0b6c22b1ea097c91cb140e13a3e35edac52e98785732c19379e9c";
+export const COACH_ARTEN = ["Freundschaftsspiel", "Turnier", "Hallenturnier", "Sonstiges"];
+const COACH_TABELLEN = [
+  "CREATE TABLE IF NOT EXISTS coach_trainer (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, teams TEXT NOT NULL, rolle TEXT NOT NULL DEFAULT 'trainer', code_hash TEXT, eingeloest TEXT, gesperrt INTEGER NOT NULL DEFAULT 0, seit TEXT NOT NULL)",
+  "CREATE TABLE IF NOT EXISTS coach_geraet (schluessel_hash TEXT PRIMARY KEY, trainer_id INTEGER NOT NULL, seit TEXT NOT NULL)",
+  "CREATE TABLE IF NOT EXISTS coach_spiel (id INTEGER PRIMARY KEY AUTOINCREMENT, trainer_id INTEGER NOT NULL, von TEXT NOT NULL, reiter TEXT NOT NULL, art TEXT NOT NULL, datum TEXT NOT NULL, zeit TEXT, ende TEXT, gegner TEXT NOT NULL, heim INTEGER NOT NULL, ort TEXT, bem TEXT, abgesagt INTEGER NOT NULL DEFAULT 0, geaendert TEXT NOT NULL)",
+  "CREATE TABLE IF NOT EXISTS coach_stand (k TEXT PRIMARY KEY, v TEXT)",
+];
+let COACH_BEREIT = false;
+async function coachTabellen(db) {
+  if (COACH_BEREIT) return;
+  for (const t of COACH_TABELLEN) await db.prepare(t).run();
+  COACH_BEREIT = true;
+}
+export const coachTabellenNeu = () => { COACH_BEREIT = false; };   // für die Tests (neue Datenbank)
+const sha = async t => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t)))].map(b => b.toString(16).padStart(2, "0")).join("");
+// Codes ohne verwechselbare Zeichen (0/O, 1/I/L), „ABCD-2345“. Beim Eingeben zählen Groß/klein, Leerzeichen und Strich nicht.
+const CODE_ZEICHEN = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+export function neuerCode() {
+  const z = crypto.getRandomValues(new Uint8Array(8));
+  const s = [...z].map(b => CODE_ZEICHEN[b % CODE_ZEICHEN.length]).join("");
+  return s.slice(0, 4) + "-" + s.slice(4);
+}
+export const codeNorm = c => String(c || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+// Falsche Codes: höchstens 10 je 10 min und Adresse (gegen Durchprobieren).
+const FEHLVERSUCHE = new Map();
+function zuVieleVersuche(ip, now) {
+  const l = (FEHLVERSUCHE.get(ip) || []).filter(t => now - t < 10 * 60e3);
+  FEHLVERSUCHE.set(ip, l);
+  return l.length >= 10;
+}
+const text = (s, max) => String(s ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
+const tagLuxNow = ms => new Date(ms).toLocaleDateString("sv-SE", { timeZone: "Europe/Luxembourg" });
+// Ein Spiel aus der App prüfen. Gibt das bereinigte Spiel oder einen Fehlertext.
+export function coachSpielPruefen(s, now = Date.now()) {
+  if (!s || typeof s !== "object") return "spiel";
+  const x = {
+    reiter: text(s.reiter, 20), art: COACH_ARTEN.includes(s.art) ? s.art : "", datum: String(s.datum || ""),
+    zeit: s.zeit ? String(s.zeit) : null, ende: s.ende ? String(s.ende) : null, gegner: text(s.gegner, 60),
+    heim: s.heim ? 1 : 0, ort: text(s.ort, 80) || null, bem: text(s.bem, 200) || null, abgesagt: s.abgesagt ? 1 : 0,
+  };
+  if (!REITER_OK.test(x.reiter)) return "Mannschaft fehlt";
+  if (!x.art) return "Art fehlt";
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(x.datum) || isNaN(Date.parse(x.datum + "T12:00:00Z"))) return "Datum fehlt";
+  const tage = (Date.parse(x.datum + "T12:00:00Z") - Date.parse(tagLuxNow(now) + "T12:00:00Z")) / 864e5;
+  if (tage < -60 || tage > 400) return "Datum zu weit weg";
+  for (const f of ["zeit", "ende"]) if (x[f] && !/^([01]\d|2[0-3]):[0-5]\d$/.test(x[f])) return "Uhrzeit ungültig";
+  if (x.zeit === "00:00") x.zeit = null;   // 00:00 heißt in der App „Uhrzeit offen“
+  if (!x.gegner) return x.art === "Freundschaftsspiel" ? "Gegner fehlt" : "Veranstalter fehlt";
+  return x;
+}
+// Wer ist das? Schlüssel → { id, name, rolle, teams } oder null (unbekannt oder gesperrt).
+async function coachWer(db, schluessel) {
+  if (typeof schluessel !== "string" || schluessel.length < 20 || schluessel.length > 100) return null;
+  const g = await db.prepare("SELECT trainer_id FROM coach_geraet WHERE schluessel_hash = ?1").bind(await sha(schluessel)).first();
+  if (!g) return null;
+  if (g.trainer_id === 0) return { id: 0, name: "Laurent", rolle: "admin", teams: [] };
+  const t = await db.prepare("SELECT * FROM coach_trainer WHERE id = ?1").bind(g.trainer_id).first();
+  if (!t || t.gesperrt) return null;
+  return { id: t.id, name: t.name, rolle: t.rolle, teams: JSON.parse(t.teams) };
+}
+const coachIch = w => ({ name: w.name, rolle: w.rolle, teams: w.teams });
+async function geraetNeu(db, trainerId, now) {
+  const s = b64u(crypto.getRandomValues(new Uint8Array(32)));
+  await db.prepare("INSERT INTO coach_geraet (schluessel_hash, trainer_id, seit) VALUES (?1, ?2, ?3)").bind(await sha(s), trainerId, new Date(now).toISOString()).run();
+  return s;
+}
+// Abruf anstoßen: sofort, höchstens einmal je Minute; sonst merkt sich der Worker es für den nächsten Takt (scheduled).
+async function coachAnstossen(db, env, now) {
+  const z = await db.prepare("SELECT v FROM coach_stand WHERE k = 'anstoss'").first();
+  if (env.GITHUB_TOKEN && now - (Number(z?.v) || 0) >= 60e3) {
+    await db.prepare("INSERT OR REPLACE INTO coach_stand (k, v) VALUES ('anstoss', ?1)").bind(String(now)).run();
+    await db.prepare("DELETE FROM coach_stand WHERE k = 'nachholen'").run();
+    await anstossen(env);
+  } else await db.prepare("INSERT OR REPLACE INTO coach_stand (k, v) VALUES ('nachholen', '1')").run();
+}
+export async function coachNachholen(db, env, now) {
+  await coachTabellen(db);
+  if (await db.prepare("SELECT v FROM coach_stand WHERE k = 'nachholen'").first()) await coachAnstossen(db, env, now);
+}
+const spielAus = (r, mitVon) => ({ id: r.id, reiter: r.reiter, art: r.art, datum: r.datum, zeit: r.zeit, ende: r.ende, gegner: r.gegner,
+  heim: !!r.heim, ort: r.ort, bem: r.bem, abgesagt: !!r.abgesagt, geaendert: r.geaendert, ...(mitVon ? { von: r.von } : {}) });
+// Öffentlich (für den FLF-Abruf): alle Spiele ab 60 Tagen zurück, ohne Namen.
+export async function coachOeffentlich(db, now = Date.now()) {
+  await coachTabellen(db);
+  const ab = tagLuxNow(now - 60 * 864e5);
+  const { results } = await db.prepare("SELECT * FROM coach_spiel WHERE datum >= ?1 ORDER BY datum, zeit, id").bind(ab).all();
+  return results.map(r => { const s = spielAus(r, false); delete s.geaendert; return s; });
+}
+export async function coachAnfrage(req, db, was, env = {}, now = Date.now()) {
+  if (req.method !== "POST") return antwort('{"fehler":"post"}', 405);
+  let x; try { x = JSON.parse(await req.text()); } catch (e) { return antwort('{"fehler":"json"}', 400); }
+  await coachTabellen(db);
+  if (was === "einloesen") {
+    const ip = req.headers.get("cf-connecting-ip") || "?";
+    if (zuVieleVersuche(ip, now)) return antwort('{"fehler":"zu viele Versuche, bitte später nochmal"}', 429);
+    const roh = String(x.code || "").trim();
+    if (roh && await sha(roh.toUpperCase()) === ADMIN_HASH)
+      return antwort(JSON.stringify({ schluessel: await geraetNeu(db, 0, now), name: "Laurent", rolle: "admin", teams: [] }));
+    const h = codeNorm(roh).length >= 8 ? await sha(codeNorm(roh)) : "";
+    const t = h && await db.prepare("SELECT * FROM coach_trainer WHERE code_hash = ?1").bind(h).first();
+    if (!t || t.gesperrt || t.eingeloest) {
+      FEHLVERSUCHE.get(ip).push(now);
+      return antwort(JSON.stringify({ fehler: t && t.eingeloest ? "Dieser Code wurde schon benutzt." : "Diesen Code gibt es nicht." }), 404);
+    }
+    // Einmal-Code: verbraucht, und ein früheres Handy desselben Trainers ist damit abgemeldet.
+    await db.prepare("UPDATE coach_trainer SET eingeloest = ?2 WHERE id = ?1").bind(t.id, new Date(now).toISOString()).run();
+    await db.prepare("DELETE FROM coach_geraet WHERE trainer_id = ?1").bind(t.id).run();
+    return antwort(JSON.stringify({ schluessel: await geraetNeu(db, t.id, now), name: t.name, rolle: t.rolle, teams: JSON.parse(t.teams) }));
+  }
+  const w = await coachWer(db, x.schluessel);
+  if (!w) return antwort('{"fehler":"abgemeldet"}', 401);
+  const admin = w.rolle === "admin";
+  if (was === "ich") return antwort(JSON.stringify(coachIch(w)));
+  if (was === "abmelden") {
+    await db.prepare("DELETE FROM coach_geraet WHERE schluessel_hash = ?1").bind(await sha(x.schluessel)).run();
+    return antwort('{"ok":true}');
+  }
+  if (was === "liste") {
+    const ab = tagLuxNow(now - 60 * 864e5);
+    const { results } = admin
+      ? await db.prepare("SELECT * FROM coach_spiel WHERE datum >= ?1 ORDER BY datum, zeit, id").bind(ab).all()
+      : await db.prepare("SELECT * FROM coach_spiel WHERE datum >= ?1 AND trainer_id = ?2 ORDER BY datum, zeit, id").bind(ab, w.id).all();
+    const aus = { ...coachIch(w), spiele: results.map(r => spielAus(r, admin)) };
+    if (admin) aus.trainer = (await db.prepare("SELECT id, name, teams, rolle, eingeloest, gesperrt, seit FROM coach_trainer ORDER BY name").all())
+      .results.map(t => ({ ...t, teams: JSON.parse(t.teams), gesperrt: !!t.gesperrt }));
+    return antwort(JSON.stringify(aus));
+  }
+  // Eigene Spiele, eigene Mannschaften; der Verwalter darf alles.
+  const darf = async id => {
+    const r = await db.prepare("SELECT * FROM coach_spiel WHERE id = ?1").bind(Number(id) || 0).first();
+    return r && (admin || r.trainer_id === w.id) ? r : null;
+  };
+  if (was === "speichern") {
+    const s = coachSpielPruefen(x.spiel, now);
+    if (typeof s === "string") return antwort(JSON.stringify({ fehler: s }), 400);
+    if (!admin && !w.teams.includes(s.reiter)) return antwort('{"fehler":"nicht deine Mannschaft"}', 403);
+    const zeit = new Date(now).toISOString();
+    let id;
+    if (x.spiel.id) {
+      const alt = await darf(x.spiel.id);
+      if (!alt) return antwort('{"fehler":"nicht dein Spiel"}', 403);
+      await db.prepare("UPDATE coach_spiel SET reiter=?2, art=?3, datum=?4, zeit=?5, ende=?6, gegner=?7, heim=?8, ort=?9, bem=?10, abgesagt=?11, geaendert=?12 WHERE id = ?1")
+        .bind(alt.id, s.reiter, s.art, s.datum, s.zeit, s.ende, s.gegner, s.heim, s.ort, s.bem, s.abgesagt, zeit).run();
+      id = alt.id;
+    } else {
+      const n = await db.prepare("SELECT COUNT(*) AS n FROM coach_spiel WHERE trainer_id = ?1 AND datum >= ?2").bind(w.id, tagLuxNow(now)).first();
+      if (!admin && (n?.n || 0) >= 50) return antwort('{"fehler":"zu viele Spiele"}', 429);
+      const r = await db.prepare("INSERT INTO coach_spiel (trainer_id, von, reiter, art, datum, zeit, ende, gegner, heim, ort, bem, abgesagt, geaendert) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13) RETURNING id")
+        .bind(w.id, w.name, s.reiter, s.art, s.datum, s.zeit, s.ende, s.gegner, s.heim, s.ort, s.bem, s.abgesagt, zeit).first();
+      id = r.id;
+    }
+    await coachAnstossen(db, env, now);
+    return antwort(JSON.stringify({ ok: true, id }));
+  }
+  if (was === "loeschen") {
+    const alt = await darf(x.id);
+    if (!alt) return antwort('{"fehler":"nicht dein Spiel"}', 403);
+    await db.prepare("DELETE FROM coach_spiel WHERE id = ?1").bind(alt.id).run();
+    await coachAnstossen(db, env, now);
+    return antwort('{"ok":true}');
+  }
+  if (!admin) return antwort('{"fehler":"nur Verwalter"}', 403);
+  if (was === "trainer_neu") {
+    const name = text(x.name, 40), teams = (Array.isArray(x.teams) ? x.teams : []).map(t => text(t, 20)).filter(t => REITER_OK.test(t)).slice(0, 10);
+    if (!name || !teams.length) return antwort('{"fehler":"Name und Mannschaft fehlen"}', 400);
+    const code = neuerCode();
+    const r = await db.prepare("INSERT INTO coach_trainer (name, teams, code_hash, seit) VALUES (?1, ?2, ?3, ?4) RETURNING id")
+      .bind(name, JSON.stringify(teams), await sha(codeNorm(code)), new Date(now).toISOString()).first();
+    return antwort(JSON.stringify({ ok: true, id: r.id, name, code }));
+  }
+  if (was === "trainer_code") {
+    // Neuer Code (Handy verloren, Code vergessen): alter Code und angemeldete Handys gelten nicht mehr.
+    const t = await db.prepare("SELECT id, name FROM coach_trainer WHERE id = ?1").bind(Number(x.id) || 0).first();
+    if (!t) return antwort('{"fehler":"Trainer unbekannt"}', 404);
+    const code = neuerCode();
+    await db.prepare("UPDATE coach_trainer SET code_hash = ?2, eingeloest = NULL WHERE id = ?1").bind(t.id, await sha(codeNorm(code))).run();
+    await db.prepare("DELETE FROM coach_geraet WHERE trainer_id = ?1").bind(t.id).run();
+    return antwort(JSON.stringify({ ok: true, id: t.id, name: t.name, code }));
+  }
+  return antwort('{"fehler":"coach"}', 400);
+}
+
 export default {
   async scheduled(event, env, ctx) {
     // Takt jede Minute (Cron „* * * * *“, seit 21.10.2026 für die Mitteilungen). Auf die volle Minute
@@ -597,6 +790,8 @@ export default {
     // trotzdem nur zu den Viertelstunden an, die es nennt.
     const t = Math.round(event.scheduledTime / 60e3) * 60e3;
     if (env.DB) ctx.waitUntil(mitteilungenSenden(env.DB, t).catch(e => console.log("Mitteilungen:", e.message)));
+    // Coach: ein Anstoß, der wegen „höchstens einmal je Minute“ warten musste.
+    if (env.DB) ctx.waitUntil(coachNachholen(env.DB, env, t).catch(e => console.log("Coach:", e.message)));
     if (!env.GITHUB_TOKEN || !abrufFaellig(t)) return;
     ctx.waitUntil(anstossen(env));
   },
@@ -607,6 +802,13 @@ export default {
     if (q.has("push")) {
       if (!env.DB) return antwort('{"fehler":"kein D1"}', 503);
       try { return await pushAnfrage(req, env.DB, q.get("push"), env); } catch (e) { console.log("Push:", e.message); return antwort('{"fehler":"intern"}', 500); }
+    }
+    if (q.has("coach")) {
+      if (!env.DB) return antwort('{"fehler":"kein D1"}', 503);
+      try {
+        if (q.get("coach") === "spiele") return antwort(JSON.stringify({ spiele: await coachOeffentlich(env.DB) }));
+        return await coachAnfrage(req, env.DB, q.get("coach"), env);
+      } catch (e) { console.log("Coach:", e.message); return antwort('{"fehler":"intern"}', 500); }
     }
     if (q.get("ich") === "1" && (q.has("zaehle") || q.has("angesehen"))) {
       if (env.DB) try { await ichZaehlen(env.DB, tagLux(Date.now()), q.has("zaehle") ? "oeffnung" : "umschalten"); } catch (e) { console.log("Zähler:", e.message); }

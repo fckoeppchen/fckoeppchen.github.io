@@ -12,14 +12,14 @@ import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpi
 import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux, spieltagStand } from "../tools/mitteilungen.mjs";
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
-import { bamAus, bamDazu } from "../tools/fussball.mjs";
+import { bamAus, bamDazu, coachDazu, COACH_ID } from "../tools/fussball.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
 const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
 const i = src.indexOf("==== Logik"), j = src.indexOf("==== Oberfläche");
 if (i < 0 || j < 0) throw new Error("Abschnittsmarken Logik/Oberfläche nicht gefunden");
 const M = new Function(src.slice(src.lastIndexOf("//", i), src.lastIndexOf("//", j)) + `
-  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei };`)();
+  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei, artText, coachZusatz };`)();
 
 let fehler = 0, n = 0;
 function ok(bed, text) { n++; if (!bed) { fehler++; console.log("✗ " + text); } }
@@ -1091,6 +1091,52 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(mEreignisse(altB, altB, null, freitag).ereignisse.find(e => e.id === "heute:9202610241")?.text.startsWith("10:30 (sauf changement)"), "BAM: ohne Wochenprogramm „sauf changement“");
   bamDazu(D0, null);
   ok(D0.teams.length === 5, "BAM: ohne BAM-Daten bleibt alles, wie es ist");
+}
+// Coach, Stufe 1 (vom Nutzer, 27.10.2026): Trainer-Spiele vom Worker → Klassen wie BAM.
+{
+  const mk = () => ({ saison: { id: "2026-2027", n: "Saison 2026-2027" }, klassen: { 1: { id: 1, n: "U13 Minimes Cl. III", typ: "CC", ergebnisse: true, tabelle: null, spiele: [
+      { id: 50, d: "2026-11-21T10:00:00+01:00", tag: 1, h: { id: 45396, n: "FC Koeppchen Wormeldange I" }, a: { id: 9, n: "Remich" }, hs: null, as: null, gespielt: false }] } },
+    teams: [{ id: 45396, ids: [45396], n: "FC Koeppchen Wormeldange I", kat: "U13", reiter: "MIN 1", kurz: "MIN", klassen: [1], datei: "u13-1.ics", gruppe: { name: "Minimes U13", datei: "minimes-u13.ics" } },
+            { id: 44831, ids: [44831], n: "FC Koeppchen Wormeldange", kat: "Seniors", reiter: "Seniors 1", klassen: [], datei: "seniors-1.ics" }] });
+  const liste = [
+    { id: 1, reiter: "MIN 1", art: "Turnier", datum: "2026-11-07", zeit: "10:00", ende: "15:00", gegner: "FC Mondercange", heim: false, ort: "Mondercange", bem: "Trikots weiß", abgesagt: false },
+    { id: 2, reiter: "MIN 1", art: "Freundschaftsspiel", datum: "2026-11-07", zeit: "14:00", ende: null, gegner: "Remich", heim: true, ort: null, bem: null, abgesagt: true },
+    { id: 3, reiter: "MIN 1", art: "Freundschaftsspiel", datum: "2026-11-14", zeit: null, ende: null, gegner: "Grevenmacher", heim: true, ort: null, bem: null, abgesagt: false },
+    { id: 4, reiter: "Seniors 1", art: "Freundschaftsspiel", datum: "2026-11-08", zeit: "15:00", ende: null, gegner: "Mondorf", heim: true, ort: null, bem: null, abgesagt: false },
+    { id: 5, reiter: "Gibt es nicht", art: "Turnier", datum: "2026-11-08", zeit: "15:00", gegner: "X", heim: true } ];
+  const D = mk(); coachDazu(D, liste);
+  const k = D.klassen["coach-45396"];
+  ok(k && k.typ === "FM" && !k.ergebnisse && k.spiele.length === 3 && D.teams[0].klassen.includes("coach-45396"), "Coach: eigene Klasse je Mannschaft, ohne Ergebnisse");
+  ok(!Object.values(D.klassen).some(x => x.spiele.some(sp => sp.id === COACH_ID + 5)), "Coach: unbekannte Mannschaft wird übergangen");
+  const t1 = k.spiele.find(sp => sp.id === COACH_ID + 1), t3 = k.spiele.find(sp => sp.id === COACH_ID + 3);
+  ok(t1.d === "2026-11-07T10:00:00+01:00" && t1.a.id === 45396 && t1.h.n === "Turnier: FC Mondercange" && t1.coach.ende === "15:00", "Coach: Turnier auswärts, Uhrzeit Winterzeit, Ende");
+  ok(t3.d === "2026-11-14T00:00:00+01:00" && t3.h.id === 45396 && t3.a.n === "Grevenmacher" && t3.ort === "Wormeldange", "Coach: Uhrzeit offen = 00:00, zu Hause ohne Platz = Wormeldange");
+  // Rückfall BAM darf Coach-Klassen nicht mitnehmen (sonst doppelt)
+  const DB2 = { teams: [{ kat: "U7", id: 9000701, reiter: "BAM 1", klassen: ["bam-6", "coach-9000701"] }], klassen: { "bam-6": { spiele: [] }, "coach-9000701": { spiele: [1] } } };
+  ok(bamAus(DB2).teams[0].klassen.join() === "bam-6" && !bamAus(DB2).klassen["coach-9000701"], "Coach: BAM-Rückfall ohne Coach-Klassen");
+  // App: Reiter zeigt sie, Abgesagtes nicht im Morgen-Kasten
+  const fr = Date.parse("2026-11-06T18:00:00+01:00"), v = M.sicht(D, 45396, fr);
+  ok(v.kommend.filter(sp => sp.coach).length === 3 && M.aufteilen(D).tabs.length === 1, "Coach: in Nächste Spiele, kein eigener Reiter");
+  ok(M.spieltagMorgen(v, fr)?.sp.id === COACH_ID + 1, "Coach: Morgen-Kasten fürs Turnier");
+  const sa = Date.parse("2026-11-07T13:00:00+01:00"), v2 = M.sicht(D, 45396, sa);
+  ok(!M.spieltagHeute(v2, sa) || M.spieltagHeute(v2, sa).sp.id !== COACH_ID + 2, "Coach: abgesagtes Spiel nicht im Heute-Kasten");
+  ok(M.artText(t1) === "Turnier" && M.artText({ typ: "FM" }) === "Freundschaftsspiel" && M.coachZusatz(t1) === "bis ca. 15:00 · Trikots weiß", "Coach: Schild und Zusatz");
+  const sen = M.sicht(D, 44831, Date.parse("2026-11-08T15:30:00+01:00"));
+  ok(M.liveSpiel(sen, Date.parse("2026-11-08T15:30:00+01:00")) === null && !M.imLiveFenster(sen, Date.parse("2026-11-08T15:30:00+01:00")), "Coach: kein Ticker für Seniors-Trainerspiele");
+  // Kalender
+  const kal = ics(D, D.teams[0]).replace(/\r\n /g, "");
+  ok(kal.includes("SUMMARY:⚽ Turnier: FC Mondercange – Koeppchen MIN 1") && kal.includes("DTEND:20261107T140000Z") && kal.includes("bis ca. 15:00\\nTrikots weiß"), "Coach: Kalender mit Ende und Bemerkung");
+  ok(kal.includes("SUMMARY:ABGESAGT: ⚽ Koeppchen MIN 1 – Remich (Freundschaftsspiel)") && kal.includes("STATUS:CANCELLED"), "Coach: abgesagt im Kalender");
+  ok(kal.includes("Grevenmacher (Freundschaftsspiel) · Uhrzeit offen"), "Coach: Uhrzeit offen im Kalender");
+  // Mitteilungen: Morgen Spiel ja (Turnier-Text), abgesagt nein, kein „Neues Spiel“ (kommt mit Stufe 2)
+  const alt = mk(), neu = mk(); coachDazu(neu, liste);
+  const me = mEreignisse(alt, neu, null, fr).ereignisse;
+  const m1 = me.find(e => e.id === "heute:" + (COACH_ID + 1));
+  ok(m1?.titel === "MIN 1 · Morgen Spiel" && m1.text === "10:00 · Turnier: FC Mondercange · 📍 Mondercange", "Coach: Morgen-Mitteilung fürs Turnier");
+  ok(!me.some(e => e.id === "heute:" + (COACH_ID + 2)), "Coach: abgesagt → keine Morgen-Mitteilung");
+  ok(!me.some(e => e.art === "neu"), "Coach: kein „Neues Spiel“ in Stufe 1");
+  const so = Date.parse("2026-11-08T09:00:00+01:00");
+  ok(!mEreignisse(alt, neu, null, so).live.some(x => x.id === COACH_ID + 4), "Coach: Seniors-Trainerspiel nicht in der Live-Liste");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);

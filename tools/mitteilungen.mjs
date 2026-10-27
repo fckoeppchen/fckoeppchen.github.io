@@ -91,9 +91,13 @@ export function ereignisse(alt, neu, vorher, now) {
     // Heute Spiel (vom Nutzer, 21.10.2026): Kinder am Vorabend um 19 Uhr („Morgen Spiel“), Seniors am
     // Spieltag um 10 Uhr (Anstoß vor 11 Uhr: 7:30). Kam das Spiel erst am Spieltag in die Daten, gilt
     // für Kinder „Heute Spiel“ ab 7:30 bzw. sofort — gleiche id, also nie beides.
-    if (!hatErgebnis(sp) && !sp.forfait) {
+    // Abgesagte Trainer-Spiele (Coach) melden nichts mehr; die Absage selbst kommt mit Stufe 2.
+    if (!hatErgebnis(sp) && !sp.forfait && !sp.abgesagt) {
       // BAM: kein Gegner, sondern ein Mini-Spieltag mit mehreren Mannschaften (Uhrzeit sicher erst mit dem Wochenprogramm).
+      // Coach-Turniere: „10:00 · Turnier: FC Mondercange“ statt „gegen“.
+      const turnier = sp.coach && sp.coach.art !== "Freundschaftsspiel";
       const was = sp.bam ? `${uhr(sp.d)}${sp.bam.zeitSicher ? "" : " (sauf changement)"} · Mini-Spieltag${wo}`
+        : turnier ? `${offen ? "Uhrzeit noch offen" : uhr(sp.d)} · ${sp.coach.art}: ${sp.coach.gegner}${wo}`
         : (offen ? `Uhrzeit noch offen · gegen ${gegner}` : `${uhr(sp.d)} gegen ${gegner}`) + wo;
       const ende = t => offen ? umLux(t, 22) : d;
       if (kat !== "Seniors" && (tag === morgen || tag === heute)) {
@@ -114,7 +118,7 @@ export function ereignisse(alt, neu, vorher, now) {
     if (sp.bam?.zeitSicher && a?.bam && !a.bam.zeitSicher && d > now)
       dazu({ ...basis, id: `zeit:${sp.id}:${sp.d}`, art: "uhrzeit", titel: `${name} · Uhrzeit`,
              text: `Uhrzeit steht fest: ${datum(sp.d)} um ${uhr(sp.d)} · Mini-Spieltag${wo}`, ab: now, bis: d });
-    if (kat === "Seniors") {
+    if (kat === "Seniors" && !sp.coach) {   // Coach-Spiele: kein Ergebnis, kein Ticker
       // Endstand von der FLF (wenn niemand getickert hat; vom Ticker kommt er über den Worker, gleiche id).
       if (a && !hatErgebnis(a) && hatErgebnis(sp) && d > now - 48 * H)
         dazu({ ...basis, id: "ende:" + sp.id, art: "ende", titel: `${name} · Endstand`,
@@ -167,7 +171,8 @@ export function ereignisse(alt, neu, vorher, now) {
     for (const t of teams.filter(t => ["U13", "U15"].includes(t.kat))) {
       const altT = (alt.teams || []).find(o => o.id === t.id), altKl = new Set(altT?.klassen || []);
       if (!altT) continue;
-      const neue = eigeneSpiele(neu, t).filter(sp => !altSp.has(sp.id) && Date.parse(sp.d) > now && !sp.forfait);
+      // Coach-Spiele nicht: die bekommen mit Stufe 2 einen eigenen Haken („Trainer: neu, geändert, abgesagt“).
+      const neue = eigeneSpiele(neu, t).filter(sp => !altSp.has(sp.id) && Date.parse(sp.d) > now && !sp.forfait && !sp.coach);
       const phasen = new Map(), einzeln = [];
       for (const sp of neue) {
         const k = t.klassen.map(id => neu.klassen[id]).find(k => k && k.spiele.some(x => x.id === sp.id));
@@ -219,7 +224,7 @@ export function ereignisse(alt, neu, vorher, now) {
   // Unsere Woche: montags 10:00 (vom Nutzer, 21.10.2026) „Diese Woche n Spiele, davon m zu Hause“ (ab So 22 Uhr vorbereitet).
   const mo = (() => { const t = tagLux(now + 2 * H); const w = (new Date(t + "T12:00:00Z").getUTCDay() + 6) % 7; return tagLux(Date.parse(t + "T12:00:00Z") - w * 24 * H); })();
   const so = tagLux(Date.parse(mo + "T12:00:00Z") + 6 * 24 * H);
-  const woche = [...jeSpiel.values()].filter(({ sp }) => { const t = tagLux(Date.parse(sp.d)); return t >= mo && t <= so; });
+  const woche = [...jeSpiel.values()].filter(({ sp }) => { const t = tagLux(Date.parse(sp.d)); return !sp.abgesagt && t >= mo && t <= so; });
   if (woche.length) {
     const heim = woche.filter(({ sp }) => unsere.has(sp.h.id)).length;
     dazu({ reiter: ["Woche"], id: "woche:" + mo, art: "woche", titel: "Unsere Woche",

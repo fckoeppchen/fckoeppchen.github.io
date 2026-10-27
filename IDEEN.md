@@ -236,7 +236,7 @@ falls gewünscht, Bild vom Verein). **Drei Sprachen DE · FR · EN** (vom Nutzer
 > calendar, even if a time changes.
 > Have fun and see you at the pitch! ⚽ **#mirvunderkoeppchen**  [ Let's go! ]
 
-## COACH-Reiter: Trainer tragen eigene Spiele ein (vom Nutzer, 26.10.2026, **noch nicht bauen**)
+## COACH-Reiter: Trainer tragen eigene Spiele ein (vom Nutzer, 26.10.2026) — **Stufe 1 gebaut am 27.10.2026** (Fassung neu b, Stand in CLAUDE.md)
 
 Für Freundschaftsspiele, Turniere u. Ä., die nicht im Extranet stehen. Ersetzt die alte Idee `data/turniere.json`.
 - **Eingang:** 5× aufs Vereinslogo → Name + **eigener Code** (Name allein reicht nicht, App ist öffentlich — Claudes Einwand,

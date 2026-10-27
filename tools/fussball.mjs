@@ -6,6 +6,7 @@
 // erscheint die neue Klasse mit ihrem ersten Spiel von selbst.
 
 import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, unlinkSync } from "node:fs";
+import { isoLux } from "./bambini.mjs";
 
 export const API = "https://extranet.flf.lu/api/graphql";
 export const CLUB = 1003703;          // Wormeldange FC Koeppchen
@@ -169,18 +170,21 @@ function icsAus(D, liste, titel) {
              "REFRESH-INTERVAL;VALUE=DURATION:PT3H", "X-PUBLISHED-TTL:PT3H"];
   const spiele = [...new Map(liste.flatMap(t => eigeneSpiele(D, t)).map(sp => [sp.id, sp])).values()].sort((a, b) => a.d.localeCompare(b.d));
   for (const sp of spiele) {
-    const art = sp.typ === "CUP" ? " (Pokal)" : sp.typ === "FM" ? " (Freundschaftsspiel)" : "";
+    const art = sp.typ === "CUP" ? " (Pokal)" : sp.typ === "FM" && (!sp.coach || sp.coach.art === "Freundschaftsspiel") ? " (Freundschaftsspiel)" : "";
     const erg = sp.erg && sp.gespielt && sp.hs != null ? ` ${sp.hs}:${sp.as}` : "";
     z.push("BEGIN:VEVENT", `UID:flf-${sp.id}@fc-koeppchen`, "DTSTAMP:20260701T000000Z");
     // 00:00 heißt bei der FLF „Uhrzeit noch offen“ (auch 00:00:01). Bewusst kein Ganztagstermin, sondern 00:00
     // (vom Nutzer, 25.10.2026: „dann wissen die Leute, dass es noch gesetzt werden muss“), dazu im Titel „Uhrzeit offen“.
     const offen = ortsZeit(sp.d).slice(11, 16) === "00:00";
-    z.push(`DTSTART:${utc(sp.d)}`, `DTEND:${utc(new Date(Date.parse(sp.d) + dauerMin * 60e3).toISOString())}`);
+    // Coach: Ende, wenn der Trainer eins angegeben hat (Turniere), sonst die übliche Dauer.
+    const ende = sp.coach?.ende && !offen ? Date.parse(isoLux(ortsZeit(sp.d).slice(0, 10), sp.coach.ende)) : 0;
+    z.push(`DTSTART:${utc(sp.d)}`, `DTEND:${utc(new Date(ende > Date.parse(sp.d) ? ende : Date.parse(sp.d) + dauerMin * 60e3).toISOString())}`);
+    if (sp.abgesagt) z.push("STATUS:CANCELLED");
     // BAM: ein Mini-Spieltag mit mehreren Gegnern — Mannschaft und Ort im Titel, die Gegner in der Beschreibung.
     const bamWir = sp.bam && [sp.h, sp.a].find(x => x.id);
-    z.push(`SUMMARY:${icsText((bamWir ? `⚽ ${name(bamWir)} · Mini-Spieltag${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : `⚽ ${name(sp.h)} – ${name(sp.a)}${erg}${art}`) + (offen ? " · Uhrzeit offen" : ""))}`);
+    z.push(`SUMMARY:${icsText((sp.abgesagt ? "ABGESAGT: " : "") + (bamWir ? `⚽ ${name(bamWir)} · Mini-Spieltag${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : `⚽ ${name(sp.h)} – ${name(sp.a)}${erg}${art}`) + (offen ? " · Uhrzeit offen" : ""))}`);
     if (sp.ort) z.push(`LOCATION:${icsText(sp.ort)}`);
-    z.push(`DESCRIPTION:${icsText(sp.klasse + (sp.tag ? `, Spieltag ${sp.tag}` : "") + (sp.bam ? `\nMit ${sp.bam.mit.join(", ")}${sp.bam.zeitSicher ? "" : "\nUhrzeit laut FLF meist 10:30 (sauf changement)"}` : ""))}`, "END:VEVENT");
+    z.push(`DESCRIPTION:${icsText(sp.klasse + (sp.tag ? `, Spieltag ${sp.tag}` : "") + (sp.coach ? (sp.coach.ende ? `\nbis ca. ${sp.coach.ende}` : "") + (sp.coach.bem ? "\n" + sp.coach.bem : "") : "") + (sp.bam ? `\nMit ${sp.bam.mit.join(", ")}${sp.bam.zeitSicher ? "" : "\nUhrzeit laut FLF meist 10:30 (sauf changement)"}` : ""))}`, "END:VEVENT");
   }
   z.push("END:VCALENDAR");
   return z.map(falten).join("\r\n") + "\r\n";
@@ -428,7 +432,8 @@ export function aufbereiten({ saison, vereinsSpiele, klassen }) {
 // BAM-Teil eines alten Stands (Rückfall, wenn die PDFs nicht lesbar sind).
 export function bamAus(D) {
   if (!D?.teams) return null;
-  const teams = D.teams.filter(t => t.kat === "U7");
+  // Ohne Coach-Klassen: die kommen bei jedem Lauf neu dazu (coachDazu), sonst stünden sie doppelt da.
+  const teams = D.teams.filter(t => t.kat === "U7").map(t => ({ ...t, klassen: t.klassen.filter(id => !String(id).startsWith("coach-")) }));
   return teams.length ? { teams, klassen: Object.fromEntries(teams.flatMap(t => t.klassen).map(id => [id, D.klassen[id]]).filter(([, k]) => k)) } : null;
 }
 // BAM-Mannschaften hinter die U9 (vor die Réserves) und ihre Klassen dazu.
@@ -437,6 +442,27 @@ export function bamDazu(D, bam) {
   const i = D.teams.findLastIndex(t => ["U15", "U13", "U11", "U9"].includes(t.kat));
   D.teams.splice(i + 1, 0, ...bam.teams);
   Object.assign(D.klassen, bam.klassen);
+}
+
+// ---- Coach (vom Nutzer, 27.10.2026): Spiele, die Trainer in der App eintragen ----
+// Der Worker speichert sie (tools/cloudflare-worker.js, Coach) und gibt sie ohne Trainernamen unter ?coach=spiele heraus.
+// Hier werden sie wie BAM ins Format von aufbereiten() gebaut: je Mannschaft eine Klasse „coach-<id>“ (typ FM, ohne
+// Ergebnisse) — dann laufen Reiter, Woche, Kalender, Koeppi und „Morgen Spiel“ ohne Sonderweg.
+export const COACH_URL = "https://fckoeppchen.rjtp6r9s9h.workers.dev/?coach=spiele";
+export const COACH_ID = 8e9;   // FLF-Spiele haben 5–6 Stellen, BAM 9…
+export function coachDazu(D, liste) {
+  for (const s of liste || []) {
+    const t = D.teams.find(t => t.reiter === s.reiter);
+    if (!t) continue;
+    const kid = "coach-" + t.id;
+    D.klassen[kid] ??= { id: kid, n: "Vom Trainer eingetragen", typ: "FM", ergebnisse: false, tabelle: null, spiele: [], start: s.datum };
+    if (!t.klassen.includes(kid)) t.klassen.push(kid);
+    const wir = { id: t.id, n: t.n }, andere = { id: 0, n: s.art === "Freundschaftsspiel" ? s.gegner : `${s.art}: ${s.gegner}` };
+    D.klassen[kid].spiele.push({ id: COACH_ID + s.id, d: isoLux(s.datum, s.zeit || "00:00"), tag: null, h: s.heim ? wir : andere, a: s.heim ? andere : wir,
+      hs: null, as: null, gespielt: false, forfait: false, ort: s.ort || (s.heim ? "Wormeldange" : undefined),
+      coach: { art: s.art, gegner: s.gegner, ...(s.ende ? { ende: s.ende } : {}), ...(s.bem ? { bem: s.bem } : {}) }, ...(s.abgesagt ? { abgesagt: true } : {}) });
+  }
+  for (const k of Object.values(D.klassen)) if (String(k.id).startsWith("coach-")) k.spiele.sort((a, b) => a.d.localeCompare(b.d));
 }
 
 async function main() {
@@ -480,6 +506,10 @@ async function main() {
   try { bam = await (await import("./bambini.mjs")).bamHolen(); console.log("BAM:", bam.quellen.join(", ")); }
   catch (e) { console.error("BAM:", e.message); bam = bamAus(alt); }
   bamDazu(neu, bam);
+  // Coach-Spiele vom Worker. Fehler → die vom letzten Mal (stehen ohne Namen in der Datei, `coach`).
+  try { const r = await fetch(COACH_URL); if (!r.ok) throw new Error("HTTP " + r.status); neu.coach = (await r.json()).spiele; }
+  catch (e) { console.error("Coach:", e.message); neu.coach = alt.coach || []; }
+  coachDazu(neu, neu.coach);
   // Mitteilungen: Ereignisse aus dem Vergleich alt/neu (tools/mitteilungen.mjs). Vor der
   // „unverändert“-Prüfung, weil „Heute Spiel“ auch ohne neue FLF-Daten fällig wird. Darf den
   // Abruf nicht kippen.

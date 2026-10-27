@@ -168,6 +168,17 @@
   .mitt .haken{display:block;font-size:14px;padding:5px 0}
   .mitt .haken input{width:18px;height:18px;vertical-align:-3px;margin-right:6px;accent-color:var(--accent)}
   .mitt .mteam{border-top:1px solid var(--line);padding:4px 0}
+  /* Coach (27.10.2026). Eingabefelder 16 px, sonst zoomt das iPhone beim Antippen. */
+  .cspiel{border-top:1px solid var(--line);padding:9px 0;font-size:14px;line-height:1.45}
+  .cspiel .pill{margin-left:0}
+  .cweg>div:not(.cknoepfe){opacity:.55}
+  .crot{color:#c62828}
+  .cknoepfe{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .cform label{display:block;font-size:13px;font-weight:700;margin:8px 0 0}
+  .cform input[type=text],.cform input[type=date],.cform input[type=time],.cform select{display:block;width:100%;box-sizing:border-box;margin-top:3px;font:inherit;font-size:16px;font-weight:400;padding:8px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text);min-height:40px}
+  .cform .haken{font-weight:400}
+  .czwei{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .ccode{font-family:ui-monospace,Menlo,monospace;font-size:20px;letter-spacing:1px}
   .mitt .haken.team{font-weight:700;font-size:15px}
   .mitt .marten{padding:0 0 6px 28px}
   .mitt .marten .haken{font-size:13.5px;padding:3px 0}
@@ -178,6 +189,7 @@
   <div class="top">
     <img alt="" id="logo">
     <div style="flex:1"><h1>FC Koeppchen</h1><div class="sub" id="sub">U13 Minimes</div></div>
+    <button id="coachknopf" class="zahnrad" hidden aria-label="Coach">📋</button>
     <button id="zahnrad" class="zahnrad" hidden aria-label="Mitteilungen">⚙️</button>
   </div>
 </div></header>
@@ -374,7 +386,7 @@ function spieltagHeute(v, now) {
   if (!v) return null;
   const sp = [...v.kommend, ...v.gespielt]
     .filter(s => tagLux(Date.parse(s.d)) === tagLux(now))
-    .filter(s => !(s.gespielt && s.hs != null) && !istVorbei(s, now))
+    .filter(s => !(s.gespielt && s.hs != null) && !istVorbei(s, now) && !s.abgesagt)
     .sort((a, b) => a.d.localeCompare(b.d))[0];
   // Uhrzeit offen: nie „Spiel läuft“, sonst stünde das ab Mitternacht da.
   return sp ? { sp, begonnen: !zeitOffen(sp) && now >= Date.parse(sp.d) } : null;
@@ -394,7 +406,7 @@ const istVorbei = (sp, now) => zeitOffen(sp) ? tagLux(now) > tagLux(Date.parse(s
 function spieltagMorgen(v, now) {
   if (!v) return null;
   const morgen = tagNach(tagLux(now));
-  const sp = v.kommend.filter(s => tagLux(Date.parse(s.d)) === morgen).sort((a, b) => a.d.localeCompare(b.d))[0];
+  const sp = v.kommend.filter(s => tagLux(Date.parse(s.d)) === morgen && !s.abgesagt).sort((a, b) => a.d.localeCompare(b.d))[0];
   return sp ? { sp } : null;
 }
 // Streifen über den Ergebnissen nach jedem Spiel, egal wie es ausging (vom Verein, 22.10.2026: keine
@@ -402,7 +414,7 @@ function spieltagMorgen(v, now) {
 // sobald das nächste Spiel ansteht (Vortag/Spieltag zeigen ihre eigenen Kästen).
 function nachDemSpiel(v, now) {
   if (!istKinder(v) || spieltagHeute(v, now) || spieltagMorgen(v, now)) return null;
-  const sp = v.gespielt.find(s => Date.parse(s.d) <= now);
+  const sp = v.gespielt.find(s => Date.parse(s.d) <= now && !s.abgesagt);
   if (!sp || now - Date.parse(sp.d) > 7 * 864e5) return null;
   // Reihum (vom Nutzer): jede Woche der nächste Spruch, und jeder Reiter fängt woanders an.
   // Fest je Spiel, damit er nicht bei jedem Neuaufbau wechselt.
@@ -462,6 +474,7 @@ function hatLive(v) {
 function liveSpiel(v, now, fupa = {}, spaet = null) {
   if (!hatLive(v)) return null;
   const sp = [...v.kommend, ...v.gespielt].find(sp => {
+    if (sp.coach) return false;   // Trainer-Spiele: kein Ticker
     const a = Date.parse(sp.d);
     if (now >= a - LIVE_FENSTER.vor && now <= a + LIVE_FENSTER.nach) return true;
     return !!spaet && sp.hs == null && now > a + LIVE_FENSTER.nach && now <= a + ENDE_FRIST && spaet(sp);
@@ -487,6 +500,7 @@ function liveBasis(L, sp) {
 
 function imLiveFenster(v, now) {
   return [...v.kommend, ...v.gespielt].some(sp => {
+    if (sp.coach) return false;
     const a = Date.parse(sp.d);
     return now >= a - LIVE_FENSTER.vor && now <= a + LIVE_FENSTER.nach;
   });
@@ -614,6 +628,10 @@ function wocheSpiele(D, tage, now) {
     && !zeitOffen(a) && !zeitOffen(b) && Math.abs(Date.parse(a.d) - Date.parse(b.d)) < 90 * 60e3 && a.ort !== b.ort).map(b => b.reiter);
   return alle;
 }
+// Art eines Spiels fürs Schild: Pokal, Freundschaftsspiel, oder was der Trainer gewählt hat (Coach: Turnier …).
+const artText = sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : sp.typ === "FM" ? "Freundschaftsspiel" : "";
+// Zusatz eines Trainer-Spiels: „bis ca. 15:00 · Trikots weiß“.
+const coachZusatz = sp => sp.coach ? [sp.coach.ende ? "bis ca. " + sp.coach.ende : "", sp.coach.bem || ""].filter(Boolean).join(" · ") : "";
 const zeitOffen = sp => new Date(sp.d).toLocaleTimeString("de-DE", { timeZone: "Europe/Luxembourg", hour: "2-digit", minute: "2-digit" }) === "00:00";
 function wocheBilanz(alle) {
   const b = { s: 0, u: 0, n: 0 };
@@ -629,7 +647,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "27.10.2026 neu a";
+const FASSUNG = "27.10.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -735,7 +753,7 @@ function spielZeile(sp, ids, meta) {
   const wirH = ids && ids.has(sp.h.id), wirA = ids && ids.has(sp.a.id);
   return `<div class="m">
     <div class="t h${wirH ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
-    <div class="sc ${sc ? (a || "") : "offen"}">${sc || (ohne && (sp.gespielt || istVorbei(sp, Date.now())) ? "gespielt" : sp.gespielt ? "–" : Date.parse(sp.d) < Date.now() ? "–" : "offen")}</div>
+    <div class="sc ${sc ? (a || "") : "offen"}">${sp.abgesagt ? "abgesagt" : sc || (ohne && (sp.gespielt || istVorbei(sp, Date.now())) ? "gespielt" : sp.gespielt ? "–" : Date.parse(sp.d) < Date.now() ? "–" : "offen")}</div>
     <div class="t${wirA ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div>
     ${meta ? `<div class="meta">${meta}</div>` : ""}
   </div>`;
@@ -794,6 +812,13 @@ function render() {
   // Zahnrad = eigener Reiter (vom Nutzer, 21.10.2026). Wird nicht bei jedem Takt neu gebaut, damit
   // Haken und Knöpfe stehen bleiben; der gewählte Mannschafts-Reiter bleibt gemerkt.
   document.getElementById("zahnrad").classList.toggle("on", MITT_OFFEN);
+  document.getElementById("coachknopf").classList.toggle("on", COACH_OFFEN);
+  if (COACH_OFFEN && coachDa()) {
+    document.querySelectorAll("#seg button.on").forEach(b => b.classList.remove("on"));
+    document.getElementById("sub").textContent = "Coach";
+    if (!document.getElementById("coach")) { main.innerHTML = `<div id="coach" class="mitt"></div>` + fuss(); coachHtml(); }
+    return;
+  }
   if (MITT_OFFEN) {
     document.querySelectorAll("#seg button.on").forEach(b => b.classList.remove("on"));
     document.getElementById("sub").textContent = "Mitteilungen";
@@ -825,7 +850,7 @@ function render() {
   const nr = { I: 1, II: 2, III: 3, IV: 4 }[(/ (I{1,3}|IV)$/.exec(v.team.n || "") || [])[1]];
   const ids = v.ids, alter = (v.team.alter || "") + (v.team.alter && nr ? " " + nr : "");
   document.getElementById("sub").textContent = (alter ? alter + " · " : "") + D.saison.n.replace("Saison ", "");
-  const art = sp => sp.typ === "CUP" ? "Pokal" : sp.typ === "FM" ? "Freundschaftsspiel" : "";
+  const art = sp => (sp.abgesagt ? "ABGESAGT · " : "") + artText(sp);
   let h = "";
 
   LIVE_SP = liveSpiel(v, now, D.fupa || {}, spaet);
@@ -834,12 +859,12 @@ function render() {
   // Spieltag-Kasten, solange (noch) kein LIVE-Kasten da ist.
   const heute = !lv && spieltagHeute(v, now);
   const kinder = istKinder(v);
-  if (heute) h += heuteHtml(heute, v.ids, { live: v.team.reiter === LIVE_REITER || !!(D.fupa || {})[heute.sp.id], pill: sp => sp.typ === "CUP" ? "Pokal" : "",
+  if (heute) h += heuteHtml(heute, v.ids, { live: !heute.sp.coach && (v.team.reiter === LIVE_REITER || !!(D.fupa || {})[heute.sp.id]), pill: sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "",
     ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder, motto: true,
     fupaUrl: (D.fupa || {})[heute.sp.id] ? "https://www.fupa.net/match/" + D.fupa[heute.sp.id]
       : L && L.flfId === heute.sp.id && L.url ? L.url : "https://www.fupa.net/club/fc-koeppchen" });
   const morgen = kinder && !heute && !lv && spieltagMorgen(v, now);
-  if (morgen) h += morgenHtml(morgen, v.ids, sp => sp.typ === "CUP" ? "Pokal" : "");
+  if (morgen) h += morgenHtml(morgen, v.ids, sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "");
   if (lv) h += liveHtml(lv, n => anzeige(n).startsWith("Koeppchen"), "offiziell zählt die FLF");
 
   if (v.status && v.status.was) {
@@ -857,8 +882,8 @@ function render() {
     const pokal = art(sp) ? `<span class="pill">${art(sp)}</span>` : "";
     if (i === 0) {
       h += `<div class="next"><div class="when">${esc(wann(sp))} <span class="muted" style="font-family:Barlow;font-size:14px;letter-spacing:0">${bisDahin(sp.d, now)}</span></div>
-        ${spielZeile(sp, ids, `${sp.ort ? "📍 " + esc(sp.ort) : ""}${pokal}<br>${esc(sp.klasse)}`)}</div>`;
-    } else h += spielZeile(sp, ids, `${esc(wann(sp))}${sp.ort ? " · 📍 " + esc(sp.ort) : ""}${pokal}`);
+        ${spielZeile(sp, ids, `${sp.ort ? "📍 " + esc(sp.ort) : ""}${pokal}<br>${esc(coachZusatz(sp) || sp.klasse)}`)}</div>`;
+    } else h += spielZeile(sp, ids, `${esc(wann(sp))}${sp.ort ? " · 📍 " + esc(sp.ort) : ""}${pokal}${sp.coach && coachZusatz(sp) ? "<br>" + esc(coachZusatz(sp)) : ""}`);
   });
   if (v.kommend.length > ZEIG)
     h += `<div class="muted" style="text-align:center;font-size:12.5px;margin-top:8px">+ ${v.kommend.length - ZEIG} weitere unter „Alle Spiele der Klasse“</div>`;
@@ -995,7 +1020,7 @@ function heuteHtml(heute, ids, { live, pill, ohneLive, koeppi, motto, fupaUrl })
     <div class="wann">${oben}</div>
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
-    ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}
+    ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
     ${unten ? `<div class="zusatz">${fupaLink(esc(unten), live && fupaUrl)}</div>` : ""}${kz}${motto && !koeppi ? MOTTO : ""}
     </div></section>`;
 }
@@ -1013,7 +1038,7 @@ function morgenHtml(m, ids, pill) {
     <div class="wann">${esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen")}</div>
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
-    ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}
+    ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
     ${koeppiZeile("trinkflasche", "Trinkflasche nicht vergessen! 😉", "", true)}
     </div></section>`;
 }
@@ -1132,7 +1157,7 @@ function wocheHtml(tage, alle, now) {
           : s.gespielt ? "" : esc(zeitOffen(s) ? "Uhrzeit offen" : wann(s).split(" · ")[1]),
         // Stadion, solange die FLF kein Ergebnis hat — auch während das Spiel läuft (vom Nutzer).
         !s0.gespielt && s.ort ? "📍 " + esc(s.ort) : "",
-        s.typ === "CUP" ? "Pokal" : s.typ === "FM" ? "Test" : "",
+        s.abgesagt ? "<b>abgesagt</b>" : "", s.coach ? esc(s.coach.art) : s.typ === "CUP" ? "Pokal" : s.typ === "FM" ? "Test" : "",
         s.forfait ? "Forfait" : "",
         s.zugleich.length ? `<span class="wzugleich">gleichzeitig mit ${esc(s.zugleich.join(", "))}</span>` : ""];
       h += `<div class="wzeile${lv?.laeuft ? " wlive" : ""}" data-gehe="${s.tab}">${spielZeile(s, ids, teile.filter(Boolean).join(" · "))}</div>`;
@@ -1227,11 +1252,11 @@ async function aktualisieren() {
 
 document.addEventListener("click", e => {
   const z = e.target.closest("[data-gehe]");
-  if (z) { MITT_OFFEN = false; DS_OFFEN = false; ST.team = +z.dataset.gehe; persist(); render(); window.scrollTo(0, 0); angesehen(); return; }
+  if (z) { MITT_OFFEN = false; COACH_OFFEN = false; DS_OFFEN = false; ST.team = +z.dataset.gehe; persist(); render(); window.scrollTo(0, 0); angesehen(); return; }
   const b = e.target.closest("button");
   if (!b) return;
   if (b.dataset.t) {
-    MITT_OFFEN = false; DS_OFFEN = false; ST.team = /^\d+$/.test(b.dataset.t) ? +b.dataset.t : b.dataset.t; persist(); render(); window.scrollTo(0, 0); angesehen();
+    MITT_OFFEN = false; COACH_OFFEN = false; DS_OFFEN = false; ST.team = /^\d+$/.test(b.dataset.t) ? +b.dataset.t : b.dataset.t; persist(); render(); window.scrollTo(0, 0); angesehen();
     // Live-Reiter gewählt: Worker sofort fragen, nicht erst beim nächsten 20-s-Takt.
     if (LIVE_SP) holenWorker().then(w => { if (w) { W = w; render(); } });
   }
@@ -1299,6 +1324,14 @@ let VON_TIPPS = [];
 const CODE_HASH = "452407a9a9f0b6c22b1ea097c91cb140e13a3e35edac52e98785732c19379e9c";
 // Zweiter Code nur für die Mitteilungen (Logo), für ein, zwei Tester (vom Nutzer, 23.10.2026). Die Statistik bleibt beim ersten.
 const TEST_HASH = "694820c22698076593b4a3bd3454ded0eca0e670e4f01ee9dc0d792c167a230c";
+// Eigener Code → "pro", Tester-Code → "test", sonst null (dann fragt der Logo-Eingang den Worker: Trainer-Code).
+async function codeArt(c) {
+  try {
+    const h = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(c.trim().toUpperCase())));
+    const x = [...h].map(b => b.toString(16).padStart(2, "0")).join("");
+    return x === CODE_HASH ? "pro" : x === TEST_HASH ? "test" : null;
+  } catch (e) { return null; }
+}
 async function codeStimmt(frage, auchTest = false) {
   const c = prompt(frage);
   if (!c) return false;
@@ -1527,7 +1560,7 @@ async function mittTest() {
   mittHtml();
 }
 document.addEventListener("click", e => {
-  if (e.target.closest("#zahnrad")) { MITT_OFFEN = !MITT_OFFEN; MITT_STAND = ""; render(); window.scrollTo(0, 0); return; }
+  if (e.target.closest("#zahnrad")) { MITT_OFFEN = !MITT_OFFEN; COACH_OFFEN = false; MITT_STAND = ""; render(); window.scrollTo(0, 0); return; }
   const b = e.target.closest("#mAn, #mTest, #mAus");
   if (!b) return;
   if (b.id === "mAn") mittAn();
@@ -1541,17 +1574,202 @@ document.getElementById("logo").addEventListener("click", async () => {
   LOGO_TIPPS = [...LOGO_TIPPS.filter(x => t - x < 4000), t];
   if (LOGO_TIPPS.length < 5) return;
   LOGO_TIPPS = [];
-  const an = !mtest();
-  const code = an ? await codeStimmt("Mitteilungen zum Ausprobieren einschalten (nur auf diesem Gerät)? Code eingeben:", true) : null;
-  if (an ? !code : !confirm("Mitteilungen-Test ausschalten und auf diesem Gerät abmelden?")) return;
-  try { if (an) localStorage.setItem(KEY + "_mtest", code); else localStorage.removeItem(KEY + "_mtest"); } catch (e) {}
-  MITT_OFFEN = an; MITT_STAND = "";
-  zahnradZeigen();
-  if (!an) swAufraeumen();
+  // Ein Eingang, der Code entscheidet (IDEEN.md, Coach): eigener Code → Mitteilungen + Coach-Verwalter, Tester-Code →
+  // Mitteilungen, Trainer-Code → Coach. Leer lassen und OK schaltet beides auf diesem Gerät aus.
+  const schon = mtest() || !!coachDa();
+  const roh = prompt(schon ? "Code eingeben – oder leer lassen und OK, um Mitteilungen-Test und Coach auf diesem Gerät auszuschalten:" : "Code eingeben:");
+  if (roh === null) return;
+  if (!roh.trim()) {
+    if (!schon || !confirm("Mitteilungen-Test und Coach auf diesem Gerät ausschalten?")) return;
+    try { localStorage.removeItem(KEY + "_mtest"); } catch (e) {}
+    if (coachDa()) { coachPost("abmelden").catch(() => {}); coachVergessen(); }
+    MITT_OFFEN = false; zahnradZeigen(); swAufraeumen(); render(); return;
+  }
+  const lokal = await codeArt(roh);
+  if (lokal) { try { localStorage.setItem(KEY + "_mtest", lokal); } catch (e) {} MITT_OFFEN = true; COACH_OFFEN = false; MITT_STAND = ""; zahnradZeigen(); }
+  // Trainer-Codes gelten einmal: nur in der installierten App, sonst wäre er in Safari verbraucht (eigener Speicher).
+  if (!lokal && !istApp()) { alert("Bitte den Code in der App vom Home-Bildschirm eingeben, nicht im Browser – er gilt nur einmal."); return; }
+  if (lokal !== "test" && !(lokal === "pro" && coachAdmin())) {
+    const a = await fetch(WORKER_URL + "?coach=einloesen", { method: "POST", body: JSON.stringify({ code: roh }) })
+      .then(async r => ({ ok: r.ok, ...(await r.json().catch(() => ({}))) })).catch(() => ({ fehler: "Keine Verbindung – bitte später nochmal." }));
+    if (a.ok && a.schluessel) {
+      try { localStorage.setItem(COACH_KEY, JSON.stringify({ schluessel: a.schluessel, name: a.name, rolle: a.rolle, teams: a.teams })); } catch (e) {}
+      coachKnopfZeigen();
+      if (!lokal) { COACH_OFFEN = true; MITT_OFFEN = false; COACH_LISTE = null; COACH_STAND = `Willkommen, ${a.name}! Hier trägst du Spiele ein. Das 📋 oben bringt dich jederzeit hierher.`; }
+    } else if (!lokal) { alert(a.fehler || "Falscher Code."); return; }
+  }
   render(); window.scrollTo(0, 0);
 });
 zahnradZeigen();
 if (!mtest()) swAufraeumen();   // Rückweg: ohne Merker kein Service Worker, kein Abo
+
+// ---- Coach, Stufe 1 (vom Nutzer, 27.10.2026; Plan in IDEEN.md „COACH-Reiter“) ----
+// Trainer tragen Freundschaftsspiele und Turniere ein. Eingang: 5× aufs Logo, persönlicher Code (gilt einmal, prüft der
+// Worker). Danach merkt sich das Handy seinen geheimen Schlüssel (fussball_v1_coach) und zeigt 📋 neben dem Zahnrad.
+// Der Coach-Bereich ist ein eigener Reiter wie das Zahnrad (COACH_OFFEN, #coach in main, bei Takten nicht neu gebaut).
+// Gespeichert wird beim Worker; alle sehen das Spiel nach dem nächsten Abruf (stößt der Worker sofort an, ~10 min).
+const COACH_KEY = KEY + "_coach";
+const COACH_ARTEN = ["Freundschaftsspiel", "Turnier", "Hallenturnier", "Sonstiges"];
+const coachDa = () => { try { return JSON.parse(localStorage.getItem(COACH_KEY) || "null"); } catch (e) { return null; } };
+let COACH_OFFEN = false, COACH_LISTE = null, COACH_FORM = null, COACH_STAND = "", COACH_CODE = null, COACH_TRAINER_FORM = false;
+const coachPost = (was, daten = {}) => fetch(WORKER_URL + "?coach=" + was, { method: "POST", body: JSON.stringify({ schluessel: coachDa()?.schluessel, ...daten }) })
+  .then(async r => ({ ok: r.ok, status: r.status, ...(await r.json().catch(() => ({}))) }));
+function coachKnopfZeigen() { document.getElementById("coachknopf").hidden = !coachDa(); }
+function coachVergessen() {
+  try { localStorage.removeItem(COACH_KEY); } catch (e) {}
+  COACH_OFFEN = false; COACH_LISTE = null; COACH_FORM = null; COACH_CODE = null;
+  coachKnopfZeigen();
+}
+// Beim Start: gilt der Schlüssel noch? Gesperrt oder neuer Code → Knopf weg (Ausladen, IDEEN.md). Ohne Netz bleibt er.
+async function coachPruefen() {
+  const c = coachDa();
+  if (!c || !WORKER_URL) return;
+  const a = await coachPost("ich").catch(() => null);
+  if (a?.status === 401) { coachVergessen(); render(); }
+  else if (a?.ok) try { localStorage.setItem(COACH_KEY, JSON.stringify({ ...c, name: a.name, rolle: a.rolle, teams: a.teams })); } catch (e) {}
+}
+const coachAdmin = () => coachDa()?.rolle === "admin";
+// Welche Mannschaften darf ich? Verwalter alle Reiter-Mannschaften, Trainer seine.
+const alleMannschaften = () => (D?.teams || []).filter(t => t.reiter).map(t => t.reiter);
+const coachTeams = () => coachAdmin() ? alleMannschaften() : (coachDa()?.teams || []);
+const heuteLux = () => tagLux(Date.now());
+const datumText = s => new Date(s.datum + "T12:00:00Z").toLocaleDateString("de-DE", { timeZone: "UTC", weekday: "short", day: "numeric", month: "numeric" });
+function coachZeile(s) {
+  const wo = s.heim ? "🏠 " + (s.ort || "Wormeldange") : "✈️ " + (s.ort || "auswärts");
+  const kn = (c, t) => `<button class="kopie" data-c="${c}" data-id="${s.id}">${t}</button>`;
+  return `<div class="cspiel${s.abgesagt ? " cweg" : ""}">
+    <div><b>${esc(datumText(s))} · ${esc(s.zeit || "Uhrzeit offen")}${s.ende ? " – " + esc(s.ende) : ""}</b> · <span class="pill wteam">${esc(s.reiter)}</span> ${esc(s.art)}${s.abgesagt ? ' · <b class="crot">ABGESAGT</b>' : ""}</div>
+    <div>${esc(s.gegner)} · ${esc(wo)}${s.bem ? `<br><span class="muted">${esc(s.bem)}</span>` : ""}${s.von ? `<br><span class="muted">eingetragen von ${esc(s.von)}</span>` : ""}</div>
+    <div class="cknoepfe">${kn("aendern", "Ändern")}${kn("kopie", "Wie dieses nochmal")}${kn("absagen", s.abgesagt ? "Wieder ansetzen" : "Absagen")}${kn("loeschen", "Löschen")}</div></div>`;
+}
+function coachFormHtml(f) {
+  const teams = coachTeams(), opt = (l, w) => l.map(x => `<option${x === w ? " selected" : ""}>${esc(x)}</option>`).join("");
+  return `<div class="cform" id="cForm">
+    <h3 class="mh">${f.id ? "Spiel ändern" : "Neues Spiel"}</h3>
+    <label>Mannschaft<select id="cfReiter">${opt(teams, f.reiter || teams[0])}</select></label>
+    <label>Art<select id="cfArt">${opt(COACH_ARTEN, f.art || COACH_ARTEN[0])}</select></label>
+    <label>Datum<input type="date" id="cfDatum" value="${esc(f.datum || "")}" min="${heuteLux()}"></label>
+    <div class="czwei"><label>Uhrzeit<input type="time" id="cfZeit" value="${esc(f.zeit || "")}"${f.id && !f.zeit ? " disabled" : ""}></label>
+      <label>Ende (freiwillig)<input type="time" id="cfEnde" value="${esc(f.ende || "")}"></label></div>
+    <label class="haken"><input type="checkbox" id="cfOffen"${f.id && !f.zeit ? " checked" : ""}> Uhrzeit noch offen</label>
+    <label>Gegner / Veranstalter<input type="text" id="cfGegner" maxlength="60" value="${esc(f.gegner || "")}" placeholder="z. B. FC Mondercange"></label>
+    <label>Wo?<select id="cfHeim"><option value="1"${f.heim !== false ? " selected" : ""}>Zu Hause (Wormeldange)</option><option value="0"${f.heim === false ? " selected" : ""}>Auswärts</option></select></label>
+    <label>Platz / Ort<input type="text" id="cfOrt" maxlength="80" value="${esc(f.ort || "")}" placeholder="bei zu Hause freiwillig"></label>
+    <label>Bemerkung (freiwillig)<input type="text" id="cfBem" maxlength="200" value="${esc(f.bem || "")}" placeholder="z. B. Trikots weiß"></label>
+    <button class="knopf" data-c="speichern">Speichern</button><button class="knopf zweit" data-c="abbrechen">Abbrechen</button>
+    <div class="stand" id="cFormStand"></div></div>`;
+}
+function trainerHtml(l) {
+  const zeile = t => `<div class="cspiel"><div><b>${esc(t.name)}</b> · ${t.teams.map(x => `<span class="pill wteam">${esc(x)}</span>`).join(" ")}</div>
+    <div class="muted">${t.gesperrt ? "gesperrt" : t.eingeloest ? "✓ Code genutzt am " + esc(new Date(t.eingeloest).toLocaleString("de-DE", { timeZone: TZ, day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit" })) : "⏳ Code noch nicht eingelöst"}</div>
+    <div class="cknoepfe"><button class="kopie" data-c="neucode" data-id="${t.id}">Neuer Code</button></div></div>`;
+  const form = COACH_TRAINER_FORM ? `<div class="cform"><label>Name<input type="text" id="ctName" maxlength="40" placeholder="z. B. Tom"></label>
+    <div class="klein">Mannschaften:</div>${alleMannschaften().map(r => `<label class="haken"><input type="checkbox" class="ctTeam" value="${esc(r)}"> ${esc(r)}</label>`).join("")}
+    <button class="knopf" data-c="trainer_anlegen">Anlegen und Code zeigen</button><button class="knopf zweit" data-c="trainer_abbrechen">Abbrechen</button></div>`
+    : `<button class="knopf zweit" data-c="trainer_neu">+ Neuer Trainer</button>`;
+  return `<section class="card"><div class="chead"><h2>Trainer</h2></div><div class="cbody">
+    ${l.length ? l.map(zeile).join("") : `<p class="klein">Noch keine Trainer angelegt.</p>`}${form}</div></section>`;
+}
+async function coachHtml() {
+  const box = document.getElementById("coach");
+  if (!box || !COACH_OFFEN) return;
+  const c = coachDa();
+  if (!c) return;
+  if (!COACH_LISTE) {
+    box.innerHTML = `<section class="card"><div class="cbody"><p>Lade …</p></div></section>`;
+    const a = await coachPost("liste").catch(() => null);
+    if (a?.status === 401) { coachVergessen(); alert("Dein Coach-Zugang gilt nicht mehr. Frag nach einem neuen Code."); render(); return; }
+    if (!a?.ok) { box.innerHTML = `<section class="card"><div class="cbody"><p>Keine Verbindung zum Server. Später nochmal versuchen.</p></div></section>`; return; }
+    COACH_LISTE = a;
+  }
+  const l = COACH_LISTE.spiele || [], h = heuteLux();
+  const kommend = l.filter(s => s.datum >= h), vorbei = l.filter(s => s.datum < h).reverse();
+  let x = `<section class="card"><div class="chead"><h2>Coach · ${esc(c.name)}</h2></div><div class="cbody">`;
+  if (COACH_CODE) x += `<div class="note up"><b>Code für ${esc(COACH_CODE.name)}: <span class="ccode">${esc(COACH_CODE.code)}</span></b><br>
+    Gilt nur einmal und wird nicht noch einmal angezeigt. So geht's: App vom Home-Bildschirm öffnen → 5× aufs Logo oben → Code eingeben.
+    <br><button class="kopie" data-c="codekopie">Code kopieren</button> <button class="kopie" data-c="codeweg">Erledigt</button></div>`;
+  x += COACH_FORM ? coachFormHtml(COACH_FORM) : `<button class="knopf" data-c="neu">+ Neues Spiel eintragen</button>`;
+  x += `<p class="klein" style="margin-top:10px">Eingetragene Spiele sehen alle nach ca. 10 Minuten in der App, in „Unsere Woche“ und im Kalender-Abo.
+    Abgesagte Spiele bleiben mit „abgesagt“ stehen, damit die Eltern es merken. Löschen nur bei Tippfehlern.</p>
+    <div class="stand" id="cStand">${esc(COACH_STAND)}</div></div></section>`;
+  x += `<section class="card"><div class="chead"><h2>${coachAdmin() ? "Alle eingetragenen Spiele" : "Meine Spiele"}</h2></div><div class="cbody">
+    ${kommend.length ? kommend.map(coachZeile).join("") : `<p class="klein">Keine kommenden Spiele eingetragen.</p>`}
+    ${vorbei.length ? `<details><summary class="klein">Vorbei (${vorbei.length})</summary>${vorbei.map(coachZeile).join("")}</details>` : ""}</div></section>`;
+  if (coachAdmin()) x += trainerHtml(COACH_LISTE.trainer || []);
+  x += `<button class="knopf zweit" data-c="abmelden" style="margin-bottom:12px">Coach auf diesem Gerät abmelden</button>`;
+  box.innerHTML = x;
+}
+const cWert = id => document.getElementById(id)?.value || "";
+function coachFormLesen() {
+  const offen = document.getElementById("cfOffen").checked;
+  return { id: COACH_FORM?.id || undefined, reiter: cWert("cfReiter"), art: cWert("cfArt"), datum: cWert("cfDatum"),
+    zeit: offen ? null : cWert("cfZeit") || null, ende: cWert("cfEnde") || null, gegner: cWert("cfGegner").trim(),
+    heim: cWert("cfHeim") === "1", ort: cWert("cfOrt").trim() || null, bem: cWert("cfBem").trim() || null, abgesagt: !!COACH_FORM?.abgesagt };
+}
+async function coachSpeichern(s, stand) {
+  const a = await coachPost("speichern", { spiel: s }).catch(() => ({ fehler: "Keine Verbindung" }));
+  if (a.status === 401) { coachVergessen(); alert("Dein Coach-Zugang gilt nicht mehr."); render(); return false; }
+  if (!a.ok) { stand(a.fehler || "Speichern ging nicht (" + (a.status || "?") + ")"); return false; }
+  return true;
+}
+document.addEventListener("change", e => {
+  if (e.target.id === "cfOffen") { const z = document.getElementById("cfZeit"); z.disabled = e.target.checked; if (e.target.checked) z.value = ""; }
+});
+document.addEventListener("click", async e => {
+  if (e.target.closest("#coachknopf")) { COACH_OFFEN = !COACH_OFFEN; MITT_OFFEN = false; COACH_STAND = ""; COACH_LISTE = null; render(); window.scrollTo(0, 0); return; }
+  const b = e.target.closest("#coach [data-c]");
+  if (!b) return;
+  const c = b.dataset.c, id = +b.dataset.id, s = (COACH_LISTE?.spiele || []).find(x => x.id === id);
+  const neu = () => { COACH_LISTE = null; coachHtml(); };
+  if (c === "neu") { COACH_FORM = { heim: true }; COACH_STAND = ""; coachHtml(); }
+  else if (c === "abbrechen") { COACH_FORM = null; coachHtml(); }
+  else if (c === "aendern" && s) { COACH_FORM = { ...s }; coachHtml(); window.scrollTo(0, 0); }
+  else if (c === "kopie" && s) { COACH_FORM = { ...s, id: undefined, datum: "", abgesagt: false }; coachHtml(); window.scrollTo(0, 0); }
+  else if (c === "speichern") {
+    const f = coachFormLesen(), st = t => { document.getElementById("cFormStand").textContent = t; };
+    if (!f.datum) return st("Bitte ein Datum wählen.");
+    if (!f.zeit && !document.getElementById("cfOffen").checked) return st("Bitte eine Uhrzeit eingeben oder „Uhrzeit noch offen“ anhaken.");
+    if (!f.gegner) return st(f.art === "Freundschaftsspiel" ? "Bitte den Gegner eintragen." : "Bitte den Veranstalter eintragen.");
+    b.disabled = true; st("Speichere …");
+    if (await coachSpeichern(f, st)) { COACH_FORM = null; COACH_STAND = "Gespeichert ✓ In ca. 10 Minuten sehen es alle."; neu(); }
+    else b.disabled = false;
+  }
+  else if (c === "absagen" && s) {
+    if (!s.abgesagt && !confirm(`${s.reiter} am ${datumText(s)} wirklich absagen? Es bleibt mit „abgesagt“ stehen.`)) return;
+    if (await coachSpeichern({ ...s, abgesagt: !s.abgesagt }, t => { COACH_STAND = t; })) COACH_STAND = s.abgesagt ? "Wieder angesetzt ✓" : "Abgesagt ✓ In ca. 10 Minuten sehen es alle.";
+    neu();
+  }
+  else if (c === "loeschen" && s) {
+    if (!confirm("Wirklich löschen? Nur bei Tippfehlern – sonst lieber „Absagen“, damit die Eltern es merken.")) return;
+    const a = await coachPost("loeschen", { id }).catch(() => ({}));
+    COACH_STAND = a.ok ? "Gelöscht." : "Löschen ging nicht."; neu();
+  }
+  else if (c === "trainer_neu") { COACH_TRAINER_FORM = true; coachHtml(); }
+  else if (c === "trainer_abbrechen") { COACH_TRAINER_FORM = false; coachHtml(); }
+  else if (c === "trainer_anlegen") {
+    const name = cWert("ctName").trim(), teams = [...document.querySelectorAll(".ctTeam:checked")].map(x => x.value);
+    if (!name || !teams.length) return alert("Bitte Name und mindestens eine Mannschaft.");
+    const a = await coachPost("trainer_neu", { name, teams }).catch(() => ({}));
+    if (!a.ok) return alert(a.fehler || "Anlegen ging nicht.");
+    COACH_CODE = { name: a.name, code: a.code }; COACH_TRAINER_FORM = false; neu(); window.scrollTo(0, 0);
+  }
+  else if (c === "neucode") {
+    const t = (COACH_LISTE?.trainer || []).find(x => x.id === id);
+    if (!t || !confirm(`Neuen Code für ${t.name} machen? Der alte Code und sein angemeldetes Handy gelten dann nicht mehr.`)) return;
+    const a = await coachPost("trainer_code", { id }).catch(() => ({}));
+    if (!a.ok) return alert(a.fehler || "Ging nicht.");
+    COACH_CODE = { name: a.name, code: a.code }; neu(); window.scrollTo(0, 0);
+  }
+  else if (c === "codekopie" && COACH_CODE) { try { await navigator.clipboard.writeText(COACH_CODE.code); b.textContent = "Kopiert ✓"; } catch (e) { prompt("Code:", COACH_CODE.code); } }
+  else if (c === "codeweg") { COACH_CODE = null; coachHtml(); }
+  else if (c === "abmelden") {
+    if (!confirm("Coach auf diesem Gerät abmelden? Zum Wiederkommen brauchst du wieder einen Code.")) return;
+    await coachPost("abmelden").catch(() => {});
+    coachVergessen(); render();
+  }
+});
+coachKnopfZeigen();
+coachPruefen();
 
 // Reiter-Leiste beim Runterscrollen weg, beim Hochscrollen wieder da (vom Nutzer, 26.10.2026). Weg nach 30 px
 // runter (schon ab 60 px von oben), zurück erst nach 150 px hoch (am iPhone kam sie sonst bei jedem kleinen
@@ -1571,7 +1789,7 @@ addEventListener("scroll", () => {
   else if (L_SUMME < -150) leisteZeigen();
 }, { passive: true });
 addEventListener("resize", kopfHoehe);
-document.querySelector("header").addEventListener("click", e => { if (!e.target.closest("#zahnrad")) leisteZeigen(); });
+document.querySelector("header").addEventListener("click", e => { if (!e.target.closest("#zahnrad, #coachknopf")) leisteZeigen(); });
 kopfHoehe();
 
 document.getElementById("logo").src = LOGO;
