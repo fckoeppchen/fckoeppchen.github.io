@@ -148,6 +148,9 @@ export function abrufFaellig(ms) {
   // Jeden Morgen 7:00: was die FLF erst nach Mitternacht einträgt (19.10.: Seniors 2 nach 23:31), ist
   // dann da, wenn man aufsteht (vom Nutzer).
   if (h === 7 && m === 0) return true;
+  // Jeden Mittag 12:00 (vom Nutzer, 27.10.2026): was die FLF vormittags einträgt (z. B. neue Pokalspiele), ist dann
+  // nicht erst abends da. Am Wochenende liegt 12:00 ohnehin im Viertelstunden-Fenster.
+  if (h === 12 && m === 0) return true;
   if (teile.weekday === "Sat" || teile.weekday === "Sun") return h >= 8 && (h < 22 || (h === 22 && m === 0));
   // Mo–Fr 22:15 Luxemburger Zeit (bis 20.10.2026: 20:15 UTC, das wäre im Winter 21:15 gewesen).
   return h === 22 && m === 15;

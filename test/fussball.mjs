@@ -529,7 +529,8 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(f("2026-10-21T23:30:00+02:00") && f("2026-10-31T23:30:00+01:00") && !f("2026-10-21T23:15:00+02:00"), "jeden Abend 23:30 (Sommer und Winter)");
   let minuten = 0; for (let t = Date.parse("2026-10-24T00:00:00+02:00"); t < Date.parse("2026-10-31T00:00:00+01:00"); t += 60e3) minuten += abrufFaellig(t);
   ok(minuten === tage, "Takt jede Minute: FLF-Abruf trotzdem nur zu denselben Zeiten");
-  ok(tage === 2 * 57 + 5 + 7 + 7, "eine Woche: 57 Anstöße je Wochenendtag + 5 Abende + 7× 23:30 + 7× 7:00, waren " + tage);
+  ok(tage === 2 * 57 + 5 + 7 + 7 + 5, "eine Woche: 57 Anstöße je Wochenendtag + 5 Abende + 7× 23:30 + 7× 7:00 + 5× 12:00 unter der Woche, waren " + tage);
+  ok(f("2026-10-27T12:00:00+01:00") && f("2026-07-07T12:00:00+02:00") && !f("2026-10-27T12:15:00+01:00"), "Mo–Fr auch 12:00 (Sommer und Winter)");
   ok(f("2026-10-20T07:00:00+02:00") && !f("2026-10-20T07:15:00+02:00") && f("2026-10-27T07:00:00+01:00"), "7:00 Luxemburger Zeit, auch nach der Zeitumstellung");
   // scheduled(): ohne Token nichts, mit Token genau ein POST an GitHub.
   const aufrufe = [], echt = globalThis.fetch;

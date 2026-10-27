@@ -652,7 +652,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "27.10.2026 neu e";
+const FASSUNG = "27.10.2026 neu f";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -980,7 +980,7 @@ function fuss() {
   const quelle = ST.team === "nati" ? `<a href="https://www.fupa.net/team/luxemburg-m1" target="_blank" rel="noopener">FuPa</a>`
     : `<a href="https://extranet.flf.lu/match" target="_blank" rel="noopener">extranet.flf.lu</a>`;
   return `<footer>Daten von ${quelle}, zuletzt geändert ${esc(stand)}<br>
-    Aktualisiert jeden Tag um 7:00 und 23:30 Uhr, Mo–Fr zusätzlich um 22:15 Uhr, Sa/So von 8 bis 22 Uhr alle 15 Minuten.
+    Aktualisiert jeden Tag um 7:00, 12:00 und 23:30 Uhr, Mo–Fr zusätzlich um 22:15 Uhr, Sa/So von 8 bis 22 Uhr alle 15 Minuten.
     <br><button class="teilen" id="teilen">↗︎ App teilen</button>
     <div class="von" id="von">Gemacht von Laurent R. für den FC Koeppchen <img alt="" src="${LOGO}"></div>${eigenesGeraet() ? `<div style="font-size:11px">Dieses Gerät zählt nicht in der Statistik mit.</div>` : ""}
     <details class="kalhilfe datenschutz" id="datenschutz"${DS_OFFEN ? " open" : ""}><summary>Datenschutz</summary>
