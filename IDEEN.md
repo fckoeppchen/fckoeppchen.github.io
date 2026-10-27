@@ -260,6 +260,10 @@ Für Freundschaftsspiele, Turniere u. Ä., die nicht im Extranet stehen. Ersetzt
   verbotener Knopf. Sichtbar nur auf freigeschalteten Handys.
 - **Einladungslink als Hauptweg:** Verwalter legt Trainer an → App macht einen persönlichen Link mit Code, per WhatsApp
   verschickt, ein Tipp und er ist drin. 5× Logo bleibt als zweiter Weg (Handywechsel). Weitergeleiteter Link → Code sperren.
+- **Ausladen:** Verwalter tippt „Sperren“ → der Worker kennt den Code nicht mehr. Die App fragt beim Öffnen des Coach-Bereichs
+  und bei jedem App-Start den Worker, ob der Code noch gilt; Antwort „gesperrt“ → Coach-Symbol weg, Code vom Handy gelöscht.
+  Ohne Netz bleibt das Symbol evtl. kurz stehen, aber Speichern lehnt der Worker immer ab. Wieder einladen = neuer Link
+  (neuer Code, der alte bleibt tot). Seine Spiele bleiben stehen und können übernommen werden.
 - **Felder:** wie oben, dazu freiwillig **Ende** („bis ca. 15 Uhr“, für Turniere). **Kein Treffpunkt** (macht der Trainer in
   der WhatsApp-Gruppe). Keine Namen von Kindern, keine Telefonnummern (alles öffentlich).
 - **„Wie letztes Mal“** (letztes Spiel kopieren, nur Datum neu) und **„Absagen“** (Spiel bleibt mit „abgesagt“ stehen,
