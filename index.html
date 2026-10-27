@@ -34,9 +34,9 @@
   /* Reiter-Leiste eigenes sticky-Element unter dem Kopf: beim Runterscrollen schiebt sie sich hinter den Kopf
      (nur transform, kein Sprung im Inhalt — iOS kennt kein Scroll-Anchoring), Hochscrollen holt sie zurück
      (vom Nutzer, 26.10.2026). Der grüne Strich bleibt stehen. */
-  #leiste{position:sticky;top:var(--kopfH,62px);z-index:19;background:var(--head);border-bottom:3px solid var(--accent);transition:transform .85s cubic-bezier(.45,0,.25,1);will-change:transform}
+  #leiste{position:sticky;top:var(--kopfH,62px);z-index:19;background:var(--head);border-bottom:5px solid var(--accent);transition:transform .85s cubic-bezier(.45,0,.25,1);will-change:transform}
   #leiste .wrap{padding-top:0}
-  #leiste.weg{transform:translateY(calc(3px - 100%));pointer-events:none}
+  #leiste.weg{transform:translateY(calc(5px - 100%));pointer-events:none}
   .wrap{max-width:720px;margin:0 auto;padding:10px 14px}
   .top{display:flex;align-items:center;gap:10px}
   .top img{width:42px;height:42px;border-radius:50%;background:#fff;flex:none}
@@ -629,7 +629,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "26.10.2026 neu f";
+const FASSUNG = "27.10.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action

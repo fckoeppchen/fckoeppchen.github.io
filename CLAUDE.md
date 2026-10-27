@@ -220,6 +220,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Lauscher raus; Neuladen im Browser über dessen Knopf. Bewegung bleibt 0,85 s.
   **Neu f** (vom Nutzer): Zeile unter „FC Koeppchen“ mit Mannschaftsnummer aus dem FLF-Namen („U13 Minimes 1 · 2026-2027“,
   „Seniors Réserves 2“), damit man es auch bei weggeschobenen Reitern sieht; ohne I/II (SCO, Seniors 1) unverändert.
+  **27.10. neu a** (vom Nutzer): grüner Strich unter den Reitern 5 px statt 3 px (fällt beim Einfahren besser auf); `weg` schiebt um 100 % − 5 px.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
