@@ -10,6 +10,43 @@
    "text": "Victoria Rosport 2:2 Koeppchen I",
    "ab": 1793049401682,
    "bis": 1793114201682
+  },
+  {
+   "reiter": [
+    "MIN 1",
+    "Minimes U13"
+   ],
+   "id": "heute:8000000001",
+   "art": "heute",
+   "titel": "MIN 1 · Heute Spiel",
+   "text": "19:00 gegen FC Grewnmacherr · 📍 Wormeldange",
+   "ab": 1793082600000,
+   "bis": 1793124000000
+  },
+  {
+   "reiter": [
+    "SCO",
+    "Scolaires U15"
+   ],
+   "id": "neu:13806",
+   "art": "neu",
+   "titel": "SCO · Neues Spiel",
+   "text": "Sa., 7.11. gegen ENT Bastendorf/Vianden · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1793103777902,
+   "bis": 1793276577902
+  },
+  {
+   "reiter": [
+    "MIN 1",
+    "MIN 2",
+    "Minimes U13"
+   ],
+   "id": "neu:13875",
+   "art": "neu",
+   "titel": "MIN · Neues Spiel",
+   "text": "Sa., 7.11. gegen Jeunesse Junglinster · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1793103777902,
+   "bis": 1793276577902
   }
  ],
  "live": []

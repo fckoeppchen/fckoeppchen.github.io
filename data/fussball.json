@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-27T01:37:54.507Z",
+ "stand": "2026-10-27T12:22:42.789Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -43,7 +43,8 @@
    "klassen": [
     19563,
     19115,
-    19599
+    19599,
+    19601
    ],
    "reiter": "SCO",
    "datei": "u15.ics",
@@ -64,7 +65,8 @@
    "alter": "U13 Minimes",
    "kurz": "MIN",
    "klassen": [
-    19615
+    19615,
+    19617
    ]
   },
   {
@@ -78,7 +80,8 @@
    "alter": "U13 Minimes",
    "kurz": "MIN",
    "klassen": [
-    19189
+    19189,
+    "coach-45396"
    ],
    "reiter": "MIN 1",
    "datei": "u13-1.ics",
@@ -11171,7 +11174,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
     },
@@ -13289,7 +13292,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Jos Durbach (Bous, synth.)"
     },
@@ -17199,6 +17202,304 @@
    ],
    "start": "2026-10-24T16:00:00+02:00"
   },
+  "19601": {
+   "id": 19601,
+   "n": "Coupe U15 Scolaires - 1/16 de Finale",
+   "typ": "CUP",
+   "ergebnisse": true,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 13805,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46405,
+      "n": "AS Red Black Luxembourg"
+     },
+     "a": {
+      "id": 45885,
+      "n": "ENT FF Norden/Wincrange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Gaston Diderich (Luxembourg, synth.)"
+    },
+    {
+     "id": 13791,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45998,
+      "n": "Atert Bissen"
+     },
+     "a": {
+      "id": 46260,
+      "n": "FC Luxembourg City"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Klengbousbierg 2 (Bissen, synth.)"
+    },
+    {
+     "id": 13795,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45425,
+      "n": "CS Fola Esch-Alzette"
+     },
+     "a": {
+      "id": 45515,
+      "n": "Red Star Merl-Belair"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain synth. Lallange (Esch, synth.)"
+    },
+    {
+     "id": 13804,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46385,
+      "n": "ENT Christnach/USBC"
+     },
+     "a": {
+      "id": 45689,
+      "n": "Una Strassen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Am Lahr (Christnach)"
+    },
+    {
+     "id": 13797,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46361,
+      "n": "ENT Grevels/Heiderscheid/Feulen"
+     },
+     "a": {
+      "id": 44762,
+      "n": "CS Sanem"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Um Quatre-Vents (Eschdorf, synth.)"
+    },
+    {
+     "id": 13800,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45770,
+      "n": "ENT Izeg/Sandweiler"
+     },
+     "a": {
+      "id": 45747,
+      "n": "Tricolore Gasperich"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Itzig, synth.)"
+    },
+    {
+     "id": 13803,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46569,
+      "n": "Etzella Ettelbruck"
+     },
+     "a": {
+      "id": 46234,
+      "n": "Avenir Beggen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Ettelbrück)"
+    },
+    {
+     "id": 13806,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45400,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "a": {
+      "id": 46156,
+      "n": "ENT Bastendorf/Vianden"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)"
+    },
+    {
+     "id": 13796,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46218,
+      "n": "FC Lorentzweiler"
+     },
+     "a": {
+      "id": 46356,
+      "n": "ENT Biwer/Berbourg/UMW"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Lorentzweiler, synth.)"
+    },
+    {
+     "id": 13792,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46545,
+      "n": "FC The Belval Belvaux"
+     },
+     "a": {
+      "id": 45594,
+      "n": "Marisca Mersch"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade FC The Belval (Belvaux, synth.)"
+    },
+    {
+     "id": 13793,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45916,
+      "n": "FC Wiltz 71"
+     },
+     "a": {
+      "id": 45952,
+      "n": "ENT Ënnersauer-Mëllerdall"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 3 (Weidingen, synth.)"
+    },
+    {
+     "id": 13794,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45276,
+      "n": "Racing FC Union Luxembourg"
+     },
+     "a": {
+      "id": 45579,
+      "n": "AS Hosingen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Hollerich (synth.)"
+    },
+    {
+     "id": 13801,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45353,
+      "n": "Sporting Bertrange"
+     },
+     "a": {
+      "id": 44943,
+      "n": "FC Mondercange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Plaine des Jeux André Wolff (Bertrange, synth.)"
+    },
+    {
+     "id": 13802,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45244,
+      "n": "U.N. Käerjeng 97"
+     },
+     "a": {
+      "id": 45462,
+      "n": "FC Mamer 32"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Jos Bloes (Bascharage, synth.)"
+    },
+    {
+     "id": 13799,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45898,
+      "n": "US Hostert"
+     },
+     "a": {
+      "id": 45499,
+      "n": "ENT Mondorf/Schengen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Carrière (Senningerberg, synth.)"
+    },
+    {
+     "id": 13798,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46004,
+      "n": "Yellow Boys Weiler-la-Tour"
+     },
+     "a": {
+      "id": 46207,
+      "n": "US Moutfort-Medingen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Am Dieltchen (Weiler, synth.)"
+    }
+   ],
+   "start": "2026-11-07T00:00:01+01:00"
+  },
   "19615": {
    "id": 19615,
    "n": "Coupe U13 Minimes - 1/32 de Finale",
@@ -17791,6 +18092,304 @@
    ],
    "start": "2026-10-24T14:00:00+02:00"
   },
+  "19617": {
+   "id": 19617,
+   "n": "Coupe U13 Minimes - 1/16 de Finale",
+   "typ": "CUP",
+   "ergebnisse": true,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 13865,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45666,
+      "n": "Blo-Wäiss Medernach"
+     },
+     "a": {
+      "id": 45558,
+      "n": "FC 72 Erpeldange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Stegen, synth.)"
+    },
+    {
+     "id": 13877,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45496,
+      "n": "ENT Mondorf/Schengen"
+     },
+     "a": {
+      "id": 45776,
+      "n": "FC Blo-Wäiss Izeg"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Mondorf, synth.)"
+    },
+    {
+     "id": 13875,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45398,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "a": {
+      "id": 44740,
+      "n": "Jeunesse Junglinster"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)"
+    },
+    {
+     "id": 13867,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46214,
+      "n": "FC Lorentzweiler"
+     },
+     "a": {
+      "id": 46547,
+      "n": "FC The Belval Belvaux"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Lorentzweiler, synth.)"
+    },
+    {
+     "id": 13879,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45458,
+      "n": "FC Mamer 32"
+     },
+     "a": {
+      "id": 45248,
+      "n": "U.N. Käerjeng 97"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Fr. Trausch (synth.)"
+    },
+    {
+     "id": 13874,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 44939,
+      "n": "FC Mondercange"
+     },
+     "a": {
+      "id": 45692,
+      "n": "Una Strassen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Mondercange, synth.)"
+    },
+    {
+     "id": 13872,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 44862,
+      "n": "FC Schifflange 95"
+     },
+     "a": {
+      "id": 45985,
+      "n": "Atert Bissen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Rue du Parc (Schifflange, synth.)"
+    },
+    {
+     "id": 13871,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45913,
+      "n": "FC Wiltz 71"
+     },
+     "a": {
+      "id": 46443,
+      "n": "F91 Dudelange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 3 (Weidingen, synth.)"
+    },
+    {
+     "id": 13870,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45603,
+      "n": "Marisca Mersch"
+     },
+     "a": {
+      "id": 45422,
+      "n": "CS Fola Esch-Alzette"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Mersch, synth.)"
+    },
+    {
+     "id": 13876,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45272,
+      "n": "Racing FC Union Luxembourg"
+     },
+     "a": {
+      "id": 46531,
+      "n": "Jeunesse Useldange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Hollerich (synth.)"
+    },
+    {
+     "id": 13878,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46333,
+      "n": "SC Bettembourg"
+     },
+     "a": {
+      "id": 46065,
+      "n": "FC Rodange 91"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Municipal (Bettembourg, synth.)"
+    },
+    {
+     "id": 13868,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45350,
+      "n": "Sporting Bertrange"
+     },
+     "a": {
+      "id": 46573,
+      "n": "Etzella Ettelbruck"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Plaine des Jeux André Wolff (Bertrange, synth.)"
+    },
+    {
+     "id": 13869,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45745,
+      "n": "Tricolore Gasperich"
+     },
+     "a": {
+      "id": 46404,
+      "n": "AS Red Black Luxembourg"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Emile Bintner (Luxembourg, synth.)"
+    },
+    {
+     "id": 13866,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45895,
+      "n": "US Hostert"
+     },
+     "a": {
+      "id": 45373,
+      "n": "Résidence Walferdange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Carrière (Senningerberg, synth.)"
+    },
+    {
+     "id": 13880,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45723,
+      "n": "US Rumelange"
+     },
+     "a": {
+      "id": 46300,
+      "n": "FC Kehlen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Rumelange, synth.)"
+    },
+    {
+     "id": 13873,
+     "d": "2026-11-07T00:00:01+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46478,
+      "n": "Young Boys Diekirch"
+     },
+     "a": {
+      "id": 45646,
+      "n": "FC Differdange 03"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Parc des Sports (Diekirch, synth.)"
+    }
+   ],
+   "start": "2026-11-07T00:00:01+01:00"
+  },
   "bam-6": {
    "id": "bam-6",
    "n": "Bambinis série 6",
@@ -18216,6 +18815,38 @@
     }
    ],
    "start": "2026-09-26"
+  },
+  "coach-45396": {
+   "id": "coach-45396",
+   "n": "Vom Trainer eingetragen",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 8000000001,
+     "d": "2026-10-27T19:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 45396,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "a": {
+      "id": 0,
+      "n": "FC Grewnmacherr"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Wormeldange",
+     "coach": {
+      "art": "Freundschaftsspiel",
+      "gegner": "FC Grewnmacherr"
+     }
+    }
+   ],
+   "start": "2026-10-27"
   }
  },
  "bgl": {
@@ -23178,5 +23809,20 @@
  "fupa": {
   "1011066": "fc-victoria-rosport-mr1-fc-koeppchen-mr1-261026",
   "1015075": "us-moutfort-medingen-mr1-fc-koeppchen-mr2-261030"
- }
+ },
+ "coach": [
+  {
+   "id": 1,
+   "reiter": "MIN 1",
+   "art": "Freundschaftsspiel",
+   "datum": "2026-10-27",
+   "zeit": "19:00",
+   "ende": null,
+   "gegner": "FC Grewnmacherr",
+   "heim": true,
+   "ort": null,
+   "bem": null,
+   "abgesagt": false
+  }
+ ]
 }
