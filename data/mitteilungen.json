@@ -75,6 +75,29 @@
   },
   {
    "reiter": [
+    "MIN 1",
+    "Minimes U13"
+   ],
+   "art": "trainer",
+   "spiel": 3,
+   "basis": {
+    "reiter": "MIN 1",
+    "art": "Freundschaftsspiel",
+    "datum": "2026-11-06",
+    "zeit": "20:00",
+    "gegner": "BVB",
+    "heim": true,
+    "ort": "Am Ga (Wormeldange, synth.)",
+    "abgesagt": false
+   },
+   "ab": 1793123661569,
+   "bis": 1793296461569,
+   "id": "trainer:3:weg",
+   "titel": "MIN 1 · Abgesagt",
+   "text": "Fr., 6.11. um 20:00 · gegen BVB · 📍 Am Ga (Wormeldange, synth.) fällt aus"
+  },
+  {
+   "reiter": [
     "MIN 2",
     "Minimes U13"
    ],
