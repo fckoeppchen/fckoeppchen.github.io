@@ -182,7 +182,9 @@ function icsAus(D, liste, titel) {
     if (sp.abgesagt) z.push("STATUS:CANCELLED");
     // BAM: ein Mini-Spieltag mit mehreren Gegnern — Mannschaft und Ort im Titel, die Gegner in der Beschreibung.
     const bamWir = sp.bam && [sp.h, sp.a].find(x => x.id);
-    z.push(`SUMMARY:${icsText((sp.abgesagt ? "ABGESAGT: " : "") + (bamWir ? `⚽ ${name(bamWir)} · Mini-Spieltag${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : `⚽ ${name(sp.h)} – ${name(sp.a)}${erg}${art}`) + (offen ? " · Uhrzeit offen" : ""))}`);
+    // Trainer-Spiel für mehrere Mannschaften: „Koeppchen MIN 1+2“ statt nur der ersten.
+    const nm = x => sp.coach?.mannschaften && x.id && unsere.has(x.id) ? "Koeppchen " + sp.coach.mannschaften : name(x);
+    z.push(`SUMMARY:${icsText((sp.abgesagt ? "ABGESAGT: " : "") + (bamWir ? `⚽ ${name(bamWir)} · Mini-Spieltag${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : `⚽ ${nm(sp.h)} – ${nm(sp.a)}${erg}${art}`) + (offen ? " · Uhrzeit offen" : ""))}`);
     if (sp.ort) z.push(`LOCATION:${icsText(sp.ort)}`);
     z.push(`DESCRIPTION:${icsText(sp.klasse + (sp.tag ? `, Spieltag ${sp.tag}` : "") + (sp.coach ? (sp.coach.ende ? `\nbis ca. ${sp.coach.ende}` : "") + (sp.coach.bem ? "\n" + sp.coach.bem : "") : "") + (sp.bam ? `\nMit ${sp.bam.mit.join(", ")}${sp.bam.zeitSicher ? "" : "\nUhrzeit laut FLF meist 10:30 (sauf changement)"}` : ""))}`, "END:VEVENT");
   }
@@ -450,17 +452,27 @@ export function bamDazu(D, bam) {
 // Ergebnisse) — dann laufen Reiter, Woche, Kalender, Koeppi und „Morgen Spiel“ ohne Sonderweg.
 export const COACH_URL = "https://fckoeppchen.rjtp6r9s9h.workers.dev/?coach=spiele";
 export const COACH_ID = 8e9;   // FLF-Spiele haben 5–6 Stellen, BAM 9…
+// Ein Spiel für mehrere Mannschaften (vom Nutzer, 27.10.2026): „MIN 1+MIN 2“. Name dafür „MIN 1+2“ (gleiche Altersklasse) bzw. „MIN 1 + SCO“.
+export const coachTeile = reiter => String(reiter || "").split("+").filter(Boolean);
+export function coachName(reiter) {
+  const l = coachTeile(reiter), m = l.map(r => r.match(/^(.*?) (\d+)$/));
+  return l.length > 1 && m.every(x => x && x[1] === m[0][1]) ? `${m[0][1]} ${m.map(x => x[2]).join("+")}` : l.join(" + ");
+}
 export function coachDazu(D, liste) {
   for (const s of liste || []) {
-    const t = D.teams.find(t => t.reiter === s.reiter);
-    if (!t) continue;
-    const kid = "coach-" + t.id;
-    D.klassen[kid] ??= { id: kid, n: "Vom Trainer eingetragen", typ: "FM", ergebnisse: false, tabelle: null, spiele: [], start: s.datum };
-    if (!t.klassen.includes(kid)) t.klassen.push(kid);
-    const wir = { id: t.id, n: t.n }, andere = { id: 0, n: s.art === "Freundschaftsspiel" ? s.gegner : `${s.art}: ${s.gegner}` };
-    D.klassen[kid].spiele.push({ id: COACH_ID + s.id, d: isoLux(s.datum, s.zeit || "00:00"), tag: null, h: s.heim ? wir : andere, a: s.heim ? andere : wir,
-      hs: null, as: null, gespielt: false, forfait: false, ort: s.ort || (s.heim ? "Am Ga (Wormeldange, synth.)" : undefined),
-      coach: { art: s.art, gegner: s.gegner, ...(s.ende ? { ende: s.ende } : {}), ...(s.bem ? { bem: s.bem } : {}) }, ...(s.abgesagt ? { abgesagt: true } : {}) });
+    // Je Mannschaft eine Kopie mit derselben id: jeder Reiter zeigt sie, Woche/Kalender/Mitteilungen nehmen sie einmal.
+    const ts = coachTeile(s.reiter).map(r => D.teams.find(t => t.reiter === r)).filter(Boolean);
+    const mehrere = ts.length > 1 ? coachName(s.reiter) : null;
+    for (const t of ts) {
+      const kid = "coach-" + t.id;
+      D.klassen[kid] ??= { id: kid, n: "Vom Trainer eingetragen", typ: "FM", ergebnisse: false, tabelle: null, spiele: [], start: s.datum };
+      if (!t.klassen.includes(kid)) t.klassen.push(kid);
+      const wir = { id: t.id, n: mehrere ? `${VEREIN} ${mehrere}` : t.n }, andere = { id: 0, n: s.art === "Freundschaftsspiel" ? s.gegner : `${s.art}: ${s.gegner}` };
+      D.klassen[kid].spiele.push({ id: COACH_ID + s.id, d: isoLux(s.datum, s.zeit || "00:00"), tag: null, h: s.heim ? wir : andere, a: s.heim ? andere : wir,
+        hs: null, as: null, gespielt: false, forfait: false, ort: s.ort || (s.heim ? "Am Ga (Wormeldange, synth.)" : undefined),
+        coach: { art: s.art, gegner: s.gegner, ...(s.ende ? { ende: s.ende } : {}), ...(s.bem ? { bem: s.bem } : {}), ...(mehrere ? { mannschaften: mehrere } : {}) },
+        ...(s.abgesagt ? { abgesagt: true } : {}) });
+    }
   }
   for (const k of Object.values(D.klassen)) if (String(k.id).startsWith("coach-")) k.spiele.sort((a, b) => a.d.localeCompare(b.d));
 }

@@ -651,11 +651,14 @@ const tagLuxNow = ms => new Date(ms).toLocaleDateString("sv-SE", { timeZone: "Eu
 export function coachSpielPruefen(s, now = Date.now()) {
   if (!s || typeof s !== "object") return "spiel";
   const x = {
-    reiter: text(s.reiter, 20), art: COACH_ARTEN.includes(s.art) ? s.art : "", datum: String(s.datum || ""),
+    reiter: text(s.reiter, 50), art: COACH_ARTEN.includes(s.art) ? s.art : "", datum: String(s.datum || ""),
     zeit: s.zeit ? String(s.zeit) : null, ende: s.ende ? String(s.ende) : null, gegner: text(s.gegner, 60),
     heim: s.heim ? 1 : 0, ort: text(s.ort, 80) || null, bem: text(s.bem, 200) || null, abgesagt: s.abgesagt ? 1 : 0,
   };
-  if (!REITER_OK.test(x.reiter)) return "Mannschaft fehlt";
+  // Mehrere Mannschaften mit „+“ (vom Nutzer, 27.10.2026: „MIN 1+MIN 2“ = ein Spiel für beide).
+  const teile = x.reiter.split("+").map(t => t.trim());
+  if (!teile.length || teile.length > 4 || !teile.every(t => REITER_OK.test(t)) || new Set(teile).size !== teile.length) return "Mannschaft fehlt";
+  x.reiter = teile.join("+");
   if (!x.art) return "Art fehlt";
   if (!/^\d{4}-\d{2}-\d{2}$/.test(x.datum) || isNaN(Date.parse(x.datum + "T12:00:00Z"))) return "Datum fehlt";
   const tage = (Date.parse(x.datum + "T12:00:00Z") - Date.parse(tagLuxNow(now) + "T12:00:00Z")) / 864e5;
@@ -711,6 +714,7 @@ export async function coachOeffentlich(db, now = Date.now()) {
   const { results } = await db.prepare("SELECT * FROM coach_spiel WHERE datum >= ?1 ORDER BY datum, zeit, id").bind(ab).all();
   return results.map(r => spielAus(r, false));
 }
+export const coachTeile = reiter => String(reiter || "").split("+").filter(Boolean);
 const istVerwalter = w => w.rolle === "chef" || w.rolle === "admin";
 // Wer darf diese Person verwalten? Chef alle, Verwalter nur Trainer, sich selbst nie (Chef ist keine Person in der Tabelle).
 const darfPerson = (w, t) => !!t && (w.rolle === "chef" || (w.rolle === "admin" && t.rolle === "trainer"));
@@ -747,10 +751,9 @@ export async function coachAnfrage(req, db, was, env = {}, now = Date.now()) {
   }
   if (was === "liste") {
     const ab = tagLuxNow(now - 60 * 864e5);
-    const { results } = verw
-      ? await db.prepare("SELECT * FROM coach_spiel WHERE datum >= ?1 ORDER BY datum, zeit, id").bind(ab).all()
-      : await db.prepare("SELECT * FROM coach_spiel WHERE datum >= ?1 AND trainer_id = ?2 ORDER BY datum, zeit, id").bind(ab, w.id).all();
-    const aus = { ...coachIch(w), spiele: results.map(r => spielAus(r, verw)) };
+    // Trainer sehen alle Spiele ihrer Mannschaften, egal wer sie eingetragen hat (vom Nutzer, 27.10.2026: sonst doppelt).
+    const { results } = await db.prepare("SELECT * FROM coach_spiel WHERE datum >= ?1 ORDER BY datum, zeit, id").bind(ab).all();
+    const aus = { ...coachIch(w), spiele: results.filter(r => verw || coachTeile(r.reiter).some(t => w.teams.includes(t))).map(r => spielAus(r, true)) };
     if (verw) {
       const codes = (await db.prepare("SELECT id, trainer_id, eingeloest, seit FROM coach_code ORDER BY id").all()).results;
       const geraete = (await db.prepare("SELECT trainer_id, COUNT(*) AS n FROM coach_geraet GROUP BY trainer_id").all()).results;
@@ -762,18 +765,21 @@ export async function coachAnfrage(req, db, was, env = {}, now = Date.now()) {
     }
     return antwort(JSON.stringify(aus));
   }
-  // Eigene Spiele, eigene Mannschaften; Chef und Verwalter dürfen alles.
+  // Trainer: alle Spiele seiner Mannschaften (auch von anderen eingetragene, vom Nutzer); Chef und Verwalter alles.
   const darf = async id => {
     const r = await db.prepare("SELECT * FROM coach_spiel WHERE id = ?1").bind(Number(id) || 0).first();
-    return r && (verw || r.trainer_id === w.id) ? r : null;
+    return r && (verw || coachTeile(r.reiter).some(t => w.teams.includes(t))) ? r : null;
   };
   if (was === "speichern") {
     const s = coachSpielPruefen(x.spiel, now);
     if (typeof s === "string") return antwort(JSON.stringify({ fehler: s }), 400);
-    if (!verw && !w.teams.includes(s.reiter)) return antwort('{"fehler":"nicht deine Mannschaft"}', 403);
     let id;
+    // Neue Mannschaften nur eigene; was schon dabei war (z. B. MIN 2 bei einem Spiel MIN 1+2 vom Koordinator), darf bleiben.
+    const alt0 = x.spiel.id ? await darf(x.spiel.id) : null;
+    const erlaubt = new Set([...w.teams, ...coachTeile(alt0?.reiter)]);
+    if (!verw && !coachTeile(s.reiter).every(t => erlaubt.has(t))) return antwort('{"fehler":"nicht deine Mannschaft"}', 403);
     if (x.spiel.id) {
-      const alt = await darf(x.spiel.id);
+      const alt = alt0;
       if (!alt) return antwort('{"fehler":"nicht dein Spiel"}', 403);
       await db.prepare("UPDATE coach_spiel SET reiter=?2, art=?3, datum=?4, zeit=?5, ende=?6, gegner=?7, heim=?8, ort=?9, bem=?10, abgesagt=?11, geaendert=?12 WHERE id = ?1")
         .bind(alt.id, s.reiter, s.art, s.datum, s.zeit, s.ende, s.gegner, s.heim, s.ort, s.bem, s.abgesagt, zeitIso).run();

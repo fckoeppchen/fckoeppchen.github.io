@@ -622,7 +622,7 @@ function wocheSpiele(D, tage, now) {
     for (const sp of [...v.kommend, ...v.gespielt]) {
       if (seen.has(sp.id) || !tage.includes(tagLux(Date.parse(sp.d)))) continue;
       const wt = zuTeam.get(sp.wir);
-      seen.set(sp.id, { ...sp, reiter: wt?.reiter || wt?.kurz || wt?.kat || t.reiter, tab: wt?.reiter ? wt.id : t.id, heim: sp.h.id === sp.wir });
+      seen.set(sp.id, { ...sp, reiter: sp.coach?.mannschaften || wt?.reiter || wt?.kurz || wt?.kat || t.reiter, tab: wt?.reiter ? wt.id : t.id, heim: sp.h.id === sp.wir });
     }
   }
   const alle = [...seen.values()].sort((a, b) => a.d.localeCompare(b.d) || a.reiter.localeCompare(b.reiter));
@@ -633,6 +633,12 @@ function wocheSpiele(D, tage, now) {
 }
 // Art eines Spiels fürs Schild: Pokal, Freundschaftsspiel, oder was der Trainer gewählt hat (Coach: Turnier …).
 const artText = sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : sp.typ === "FM" ? "Freundschaftsspiel" : "";
+// Trainer-Spiel für mehrere Mannschaften: „MIN 1+MIN 2“ → „MIN 1+2“ (wie coachName in tools/fussball.mjs).
+const coachTeile = r => String(r || "").split("+").filter(Boolean);
+function coachName(r) {
+  const l = coachTeile(r), m = l.map(x => x.match(/^(.*?) (\d+)$/));
+  return l.length > 1 && m.every(x => x && x[1] === m[0][1]) ? `${m[0][1]} ${m.map(x => x[2]).join("+")}` : l.join(" + ");
+}
 // Zusatz eines Trainer-Spiels: „bis ca. 15:00 · Trikots weiß“.
 const coachZusatz = sp => sp.coach ? [sp.coach.ende ? "bis ca. " + sp.coach.ende : "", sp.coach.bem || ""].filter(Boolean).join(" · ") : "";
 // Kleines grünes „COACH“ an jedem Trainer-Spiel (vom Nutzer, 27.10.2026): man sieht sofort, dass es kein FLF-Spiel ist.
@@ -652,7 +658,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "27.10.2026 neu f";
+const FASSUNG = "27.10.2026 neu g";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1646,7 +1652,7 @@ function coachZeile(s) {
   const wo = s.heim ? "🏠 " + (s.ort || HEIMPLATZ) : "✈️ " + (s.ort || "auswärts");
   const kn = (c, t) => `<button class="kopie" data-c="${c}" data-id="${s.id}">${t}</button>`;
   return `<div class="cspiel${s.abgesagt ? " cweg" : ""}">
-    <div><b>${esc(datumText(s))} · ${esc(s.zeit || "Uhrzeit offen")}${s.ende ? " – " + esc(s.ende) : ""}</b> · <span class="pill wteam">${esc(s.reiter)}</span> ${esc(s.art)}${s.abgesagt ? ' · <b class="crot">ABGESAGT</b>' : ""}</div>
+    <div><b>${esc(datumText(s))} · ${esc(s.zeit || "Uhrzeit offen")}${s.ende ? " – " + esc(s.ende) : ""}</b> · <span class="pill wteam">${esc(coachName(s.reiter))}</span> ${esc(s.art)}${s.abgesagt ? ' · <b class="crot">ABGESAGT</b>' : ""}</div>
     <div>${esc(s.gegner)} · ${esc(wo)}${s.bem ? `<br><span class="muted">${esc(s.bem)}</span>` : ""}${s.von ? `<br><span class="muted">eingetragen von ${esc(s.von)}</span>` : ""}</div>
     <div class="cknoepfe">${kn("aendern", "Ändern")}${kn("kopie", "Wie dieses nochmal")}${kn("absagen", s.abgesagt ? "Wieder ansetzen" : "Absagen")}${kn("loeschen", "Löschen")}</div></div>`;
 }
@@ -1663,11 +1669,35 @@ function zeitWahl(id, wert, aus) {
 // Das Datumsfeld zeigt das Format der Handysprache (englisch: mm/dd/yyyy) — darunter steht es darum auf Deutsch.
 const datumLang = d => /^\d{4}-\d{2}-\d{2}$/.test(d) ? "→ " + new Date(d + "T12:00:00Z").toLocaleDateString("de-DE", { timeZone: "UTC", weekday: "long", day: "numeric", month: "long", year: "numeric" }) : "";
 const zeitLesen = id => { const h = cWert(id + "H"); return h ? h + ":" + cWert(id + "M") : null; };
+// Auswahl: jede Mannschaft einzeln, dazu je Altersklasse mit mehreren Mannschaften „MIN 1 + 2“ (ein Spiel für beide; vom Nutzer,
+// 27.10.2026: „wir nehmen einfach mehr Auswechselspieler mit“). Steht schon eine Auswahl im Spiel, die es so nicht gibt, bleibt sie wählbar.
+function mannschaftOptionen(teams, wahl) {
+  const gruppen = new Map();
+  for (const t of teams) { const m = t.match(/^(.*?) (\d+)$/); if (m) (gruppen.get(m[1]) || gruppen.set(m[1], []).get(m[1])).push(t); }
+  const werte = [...teams, ...[...gruppen.values()].filter(l => l.length > 1).map(l => l.join("+"))];
+  if (wahl && !werte.includes(wahl)) werte.push(wahl);
+  const w = wahl || werte[0];
+  return werte.map(x => `<option value="${esc(x)}"${x === w ? " selected" : ""}>${esc(x.includes("+") ? coachName(x).replace(/(\d)\+/g, "$1 + ") + (coachTeile(x).length > 2 ? " (alle)" : " (beide)") : x)}</option>`).join("");
+}
+// Steht für eine dieser Mannschaften am selben Tag schon ein Spiel (Trainer oder FLF)? Für die Nachfrage beim Speichern.
+function gleicherTag(f) {
+  const rs = coachTeile(f.reiter), aus = [];
+  for (const s of COACH_LISTE?.spiele || [])
+    if (s.id !== f.id && !s.abgesagt && s.datum === f.datum && coachTeile(s.reiter).some(r => rs.includes(r)))
+      aus.push(`${coachName(s.reiter)}: ${s.zeit || "Uhrzeit offen"} ${s.art === "Freundschaftsspiel" ? "gegen " + s.gegner : s.art + ": " + s.gegner}${s.von ? " (eingetragen von " + s.von + ")" : ""}`);
+  for (const t of (D?.teams || []).filter(t => rs.includes(t.reiter))) {
+    const v = sicht(D, t.id, Date.now());
+    for (const sp of [...v.kommend, ...v.gespielt])
+      if (!sp.coach && tagLux(Date.parse(sp.d)) === f.datum)
+        aus.push(`${t.reiter}: ${zeitOffen(sp) ? "Uhrzeit offen" : wann(sp).split(" · ")[1]} ${anzeige(sp.h.n)} – ${anzeige(sp.a.n)} (FLF)`);
+  }
+  return [...new Set(aus)];
+}
 function coachFormHtml(f) {
   const teams = coachTeams(), opt = (l, w) => l.map(x => `<option${x === w ? " selected" : ""}>${esc(x)}</option>`).join("");
   return `<div class="cform" id="cForm">
     <h3 class="mh">${f.id ? "Spiel ändern" : "Neues Spiel"}</h3>
-    <label>Mannschaft<select id="cfReiter">${opt(teams, f.reiter || teams[0])}</select></label>
+    <label>Mannschaft<select id="cfReiter">${mannschaftOptionen(teams, f.reiter)}</select></label>
     <label>Art<select id="cfArt">${opt(COACH_ARTEN, f.art || COACH_ARTEN[0])}</select></label>
     <label>Datum<input type="date" id="cfDatum" value="${esc(f.datum || "")}" min="${heuteLux()}"></label>
     <div class="klein" id="cfDatumText">${f.datum ? esc(datumLang(f.datum)) : ""}</div>
@@ -1779,12 +1809,20 @@ document.addEventListener("click", async e => {
     if (!f.datum) return st("Bitte ein Datum wählen.");
     if (!f.zeit && !document.getElementById("cfOffen").checked) return st("Bitte eine Uhrzeit eingeben oder „Uhrzeit noch offen“ anhaken.");
     if (!f.gegner) return st(f.art === "Freundschaftsspiel" ? "Bitte den Gegner eintragen." : "Bitte den Veranstalter eintragen.");
+    // Doppelt? Nachfragen statt verbieten (an einem Turniertag kann es wirklich zwei Einträge geben). Vorher die Liste frisch
+    // holen — hat inzwischen jemand anderes dasselbe Spiel eingetragen, soll es die Nachfrage kennen.
+    b.disabled = true; st("Prüfe …");
+    const frisch = await coachPost("liste").catch(() => null);
+    if (frisch?.ok && COACH_LISTE) COACH_LISTE.spiele = frisch.spiele;
+    b.disabled = false; st("");
+    const gleich = (!COACH_FORM?.id || COACH_FORM.datum !== f.datum || COACH_FORM.reiter !== f.reiter) ? gleicherTag(f) : [];
+    if (gleich.length && !confirm(`Am ${datumLang(f.datum).slice(2)} steht schon:\n\n${gleich.join("\n")}\n\nTrotzdem speichern?`)) return st("Nicht gespeichert.");
     b.disabled = true; st("Speichere …");
     if (await coachSpeichern(f, st)) { COACH_FORM = null; COACH_STAND = "Gespeichert ✓ In ca. 10 Minuten sehen es alle."; neu(); }
     else b.disabled = false;
   }
   else if (c === "absagen" && s) {
-    if (!s.abgesagt && !confirm(`${s.reiter} am ${datumText(s)} wirklich absagen? Es bleibt mit „abgesagt“ stehen.`)) return;
+    if (!s.abgesagt && !confirm(`${coachName(s.reiter)} am ${datumText(s)} wirklich absagen? Es bleibt mit „abgesagt“ stehen.`)) return;
     if (await coachSpeichern({ ...s, abgesagt: !s.abgesagt }, t => { COACH_STAND = t; })) COACH_STAND = s.abgesagt ? "Wieder angesetzt ✓" : "Abgesagt ✓ In ca. 10 Minuten sehen es alle.";
     neu();
   }

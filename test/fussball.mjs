@@ -19,7 +19,7 @@ const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
 const i = src.indexOf("==== Logik"), j = src.indexOf("==== Oberfläche");
 if (i < 0 || j < 0) throw new Error("Abschnittsmarken Logik/Oberfläche nicht gefunden");
 const M = new Function(src.slice(src.lastIndexOf("//", i), src.lastIndexOf("//", j)) + `
-  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei, artText, coachZusatz };`)();
+  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei, artText, coachZusatz, coachName, wocheSpiele };`)();
 
 let fehler = 0, n = 0;
 function ok(bed, text) { n++; if (!bed) { fehler++; console.log("✗ " + text); } }
@@ -1180,6 +1180,22 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const kurz = Date.parse("2026-11-14T09:55:00+01:00");
   const e9 = tr(stand([sp()]), stand([sp({ ort: "Platz 2", geaendert: iso(kurz) })]), null, kurz);
   ok(e9[0]?.ab === kurz && e9[0].bis === Date.parse("2026-11-14T10:00:00+01:00"), "Trainer: kurz vor dem Spiel → sofort");
+  // Ein Spiel für beide Mannschaften (MIN 1+MIN 2, vom Nutzer 27.10.2026)
+  const mk2 = () => { const d = mk(); d.teams.splice(1, 0, { id: 45397, ids: [45397], n: "FC Koeppchen Wormeldange II", kat: "U13", reiter: "MIN 2", kurz: "MIN", klassen: [1], datei: "u13-2.ics", gruppe: { name: "Minimes U13", datei: "minimes-u13.ics" } }); return d; };
+  const beide = sp({ id: 9, reiter: "MIN 1+MIN 2", gegner: "Bous" });
+  const DBB = mk2(); DBB.coach = [beide]; coachDazu(DBB, [beide]);
+  const fr2 = Date.parse("2026-11-10T12:00:00+01:00");
+  ok(M.sicht(DBB, 45396, fr2).kommend.some(x => x.id === COACH_ID + 9) && M.sicht(DBB, 45397, fr2).kommend.some(x => x.id === COACH_ID + 9), "Beide Mannschaften: in MIN 1 und MIN 2");
+  ok(M.coachName("MIN 1+MIN 2") === "MIN 1+2" && M.coachName("MIN 1+SCO") === "MIN 1 + SCO", "Beide: Name MIN 1+2");
+  const wo = M.wocheSpiele(DBB, ["2026-11-14"], fr2).filter(x => x.id === COACH_ID + 9);
+  ok(wo.length === 1 && wo[0].reiter === "MIN 1+2", "Beide: in der Woche einmal als MIN 1+2");
+  const kalG = icsGruppe(DBB, DBB.teams[0].gruppe).replace(/\r\n /g, "");
+  ok((kalG.match(/Bous/g) || []).length === 1 && kalG.includes("Koeppchen MIN 1+2 – Bous"), "Beide: im Gruppen-Kalender einmal, als Koeppchen MIN 1+2");
+  const mb = mEreignisse(mk2(), DBB, null, Date.parse("2026-11-13T12:00:00+01:00")).ereignisse.find(e => e.id === "heute:" + (COACH_ID + 9));
+  ok(mb?.titel === "MIN · Morgen Spiel" && mb.reiter.includes("MIN 1") && mb.reiter.includes("MIN 2"), "Beide: eine Morgen-Mitteilung für beide");
+  const alt2 = mk2(); alt2.coach = [];
+  const nb = tr(alt2, DBB, null, t0 + 60e3);
+  ok(nb[0]?.titel === "MIN 1+2 · Neues Spiel" && nb[0].reiter.includes("MIN 2") && nb[0].reiter.includes("Minimes U13"), "Beide: Neues Spiel als MIN 1+2");
   // Ohne alten Coach-Stand (erster Lauf): nichts
   const ohne = mk(); ok(tr(ohne, stand([sp()]), null, t0 + 60e3).length === 0, "Trainer: erster Lauf ohne alten Stand → nichts");
 }

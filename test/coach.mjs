@@ -94,7 +94,22 @@ ok(s3.ok, "Zweite Trainerin speichert für ihre Mannschaft");
 ok((await post("speichern", { schluessel: anna.schluessel, spiel: { ...gut, reiter: "SCO", id: s1.id } })).status === 403, "Fremdes Spiel ändern: abgelehnt");
 ok((await post("loeschen", { schluessel: anna.schluessel, id: s1.id })).status === 403, "Fremdes Spiel löschen: abgelehnt");
 const lt = await post("liste", { schluessel: tomPC.schluessel });
-ok(lt.spiele.length === 1 && lt.spiele[0].id === s1.id && !lt.spiele[0].von && !lt.personen && !lt.verlauf, "Trainer sieht nur eigene Spiele, keine Personen, keinen Verlauf");
+ok(lt.spiele.length === 1 && lt.spiele[0].id === s1.id && lt.spiele[0].von === "Tom" && !lt.personen && !lt.verlauf, "Trainer sieht nur Spiele seiner Mannschaft (mit Namen), keine Personen, keinen Verlauf");
+// Spiel, das der Verwalter für Toms Mannschaft einträgt: Tom sieht es und darf alles damit (vom Nutzer, 27.10.2026)
+const sv = await post("speichern", { schluessel: praesi.schluessel, spiel: { ...gut, gegner: "Bous" } });
+const lt2 = await post("liste", { schluessel: tomPC.schluessel });
+ok(lt2.spiele.some(s => s.id === sv.id && s.von === "Präsident"), "Trainer sieht das vom Verwalter eingetragene Spiel seiner Mannschaft");
+ok((await post("speichern", { schluessel: tomPC.schluessel, spiel: { ...gut, id: sv.id, zeit: "11:00", gegner: "Bous" } })).ok, "… und darf es ändern");
+ok((await post("loeschen", { schluessel: tomPC.schluessel, id: sv.id })).ok, "… und löschen");
+ok(!(await post("liste", { schluessel: anna.schluessel })).spiele.some(s => s.reiter === "MIN 1"), "Andere Trainerin sieht MIN 1 nicht");
+// Ein Spiel für mehrere Mannschaften („MIN 1+MIN 2“)
+ok(coachSpielPruefen({ ...gut, reiter: "MIN 1 + MIN 2" }).reiter === "MIN 1+MIN 2" && coachSpielPruefen({ ...gut, reiter: "MIN 1+MIN 1" }) === "Mannschaft fehlt", "Prüfung: mehrere Mannschaften mit +");
+const sm = await post("speichern", { schluessel: praesi.schluessel, spiel: { ...gut, reiter: "MIN 1+MIN 2", gegner: "Grevenmacher" } });
+ok(sm.ok && (await post("liste", { schluessel: tomPC.schluessel })).spiele.some(s => s.id === sm.id), "Spiel MIN 1+2: Trainer von MIN 1 sieht es");
+ok((await post("speichern", { schluessel: tomPC.schluessel, spiel: { ...gut, id: sm.id, reiter: "MIN 1+MIN 2", zeit: "12:00", gegner: "Grevenmacher" } })).ok, "… darf es ändern, MIN 2 bleibt dabei");
+ok((await post("speichern", { schluessel: tomPC.schluessel, spiel: { ...gut, id: sm.id, reiter: "MIN 1+SCO", gegner: "Grevenmacher" } })).status === 403, "… darf aber keine fremde Mannschaft dazunehmen");
+ok((await post("speichern", { schluessel: tomPC.schluessel, spiel: { ...gut, reiter: "MIN 1+MIN 2" } })).status === 403, "Neues Spiel MIN 1+2: nur, wenn beide seine sind");
+await post("loeschen", { schluessel: chef, id: sm.id });
 const la = await post("liste", { schluessel: praesi.schluessel });
 ok(la.spiele.length === 2 && la.spiele.every(s => s.von), "Verwalter sieht alle Spiele mit Namen");
 ok((await post("speichern", { schluessel: praesi.schluessel, spiel: { ...gut, reiter: "SCO", id: s3.id, gegner: "Remich 2", zeit: "" } })).ok, "Verwalter ändert fremdes Spiel");

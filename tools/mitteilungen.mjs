@@ -5,7 +5,7 @@
 // feste `id` — der Worker merkt sich, was er geschickt hat, ein Ereignis kommt also nie doppelt,
 // auch wenn es mehrere Läufe lang in der Datei steht. Was nur live zu sehen ist (FuPa tickert,
 // Endstand vom Ticker), prüft der Worker selbst; dafür stehen die Spiele des Tages unter `live`.
-import { eigeneSpiele, VEREIN } from "./fussball.mjs";
+import { eigeneSpiele, VEREIN, coachTeile, coachName } from "./fussball.mjs";
 
 const TZ = "Europe/Luxembourg";
 export const tagLux = ms => new Date(ms).toLocaleDateString("sv-SE", { timeZone: TZ });
@@ -236,32 +236,33 @@ export function ereignisse(alt, neu, vorher, now) {
     for (const id of new Set([...altC.keys(), ...neuC.keys()])) {
       const a = altC.get(id), n = neuC.get(id), x = n || a;
       if (a && n && a.geaendert === n.geaendert) continue;
-      if (x.datum < heute || !teams.some(t => t.reiter === x.reiter)) continue;
+      const rs = coachTeile(x.reiter).filter(r => teams.some(t => t.reiter === r)), nm = coachName(rs.join("+"));
+      if (x.datum < heute || !rs.length) continue;
       const w = [...aus.values()].find(e => e.art === "trainer" && e.spiel === id && e.ab > now);
       const basis = w ? w.basis : kern(a);   // null: die Eltern kennen das Spiel noch nicht
       if (w) aus.delete(w.id);
       const [hh, mm] = (x.zeit || "22:00").split(":").map(Number), start = umLux(x.datum, hh, mm);
       let ab = n ? Date.parse(n.geaendert) + 10 * 60e3 : now + 10 * 60e3;
       if (ab >= start) ab = now;   // kurz vor dem Spiel geändert: gleich
-      const e = { reiter: [x.reiter], art: "trainer", spiel: id, basis, ab, bis: Math.min(start, ab + 48 * H) };
+      const e = { reiter: rs, art: "trainer", spiel: id, basis, ab, bis: Math.min(start, ab + 48 * H) };
       if (!n) {   // gelöscht
-        if (basis && !basis.abgesagt) dazu({ ...e, id: `trainer:${id}:weg`, titel: `${x.reiter} · Abgesagt`, text: `${voll(basis)} fällt aus` });
+        if (basis && !basis.abgesagt) dazu({ ...e, id: `trainer:${id}:weg`, titel: `${nm} · Abgesagt`, text: `${voll(basis)} fällt aus` });
         continue;
       }
       const k = kern(n);
       if (!basis) {
         if (n.abgesagt || n.datum <= morgen) continue;
-        dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${n.reiter} · Neues Spiel`, text: voll(n) });
+        dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${nm} · Neues Spiel`, text: voll(n) });
       } else if (!basis.abgesagt && k.abgesagt) {
-        dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${n.reiter} · Abgesagt`, text: `${voll(n)} fällt aus` });
+        dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${nm} · Abgesagt`, text: `${voll(n)} fällt aus` });
       } else if (!basis.abgesagt && !k.abgesagt) {
         // Wieder angesetzt (vorher abgesagt) meldet sich nicht (vom Nutzer: „die Kinder sind ja da“).
         const vorher = [];
         if (basis.datum !== k.datum || basis.zeit !== k.zeit) vorher.push(wann(basis));
         if (basis.gegner !== k.gegner || basis.art !== k.art) vorher.push(was(basis));
         if (platz(basis) !== platz(k)) vorher.push(platz(basis) ? "📍 " + platz(basis) : "ohne Platz");
-        if (basis.reiter !== k.reiter) vorher.push(basis.reiter);
-        if (vorher.length) dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${n.reiter} · Geändert`, text: `Jetzt ${voll(n)} (vorher ${vorher.join(", ")})` });
+        if (basis.reiter !== k.reiter) vorher.push(coachName(basis.reiter));
+        if (vorher.length) dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${nm} · Geändert`, text: `Jetzt ${voll(n)} (vorher ${vorher.join(", ")})` });
       }
     }
   }

@@ -266,6 +266,14 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Geräte, Entfernen, Verlauf, Umzug Stufe 1), `test/fussball.mjs` 374 (Trainer-Mitteilungen, Gegenprobe), Browser: Chef → Verwalter am Computer
   → Trainer, iPhone-Safari lehnt ab, iPhone-App nimmt an, zweiter Code am Computer, Mannschaften ändern, Verlauf, Geräte abmelden, Entfernen.
   **Worker neu einfügen nötig.**
+  **Fassung 27.10. neu g** (vom Nutzer): (1) **Trainer sehen und bearbeiten alle Trainer-Spiele ihrer Mannschaften**, auch von anderen eingetragene
+  (mit „eingetragen von …“), inkl. Löschen (Worker `darf`/`liste` nach `coachTeile(reiter)` ∩ `teams`). (2) **Ein Spiel für mehrere Mannschaften**:
+  `reiter` = „MIN 1+MIN 2“ (Auswahl `mannschaftOptionen`: jede einzeln + je Altersklasse „MIN 1 + 2 (beide)“); `coachDazu` legt je Mannschaft
+  eine Kopie mit derselben id an (beide Reiter), `sp.coach.mannschaften` = „MIN 1+2“ (`coachName`) → Woche einmal als „MIN 1+2“, Gruppen-Kalender
+  einmal „Koeppchen MIN 1+2 – …“, „Morgen Spiel“ einmal als „MIN“, Trainer-Mitteilungen „MIN 1+2 · …“. Ändern: neue Mannschaften nur eigene, schon
+  dabei gewesene dürfen bleiben. (3) **Nachfrage bei doppeltem Spiel** (`gleicherTag`): gleiche Mannschaft am selben Tag schon ein Trainer- oder
+  FLF-Spiel → „Am … steht schon: … Trotzdem speichern?“ (Liste wird vorher frisch geholt). Tests: coach.mjs 60, fussball.mjs 381, Browser.
+  **Worker neu einfügen nötig.**
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
