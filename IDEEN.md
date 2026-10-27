@@ -258,7 +258,12 @@ Für Freundschaftsspiele, Turniere u. Ä., die nicht im Extranet stehen. Ersetzt
 **Brainstorm 27.10.2026 — so wird gebaut (vom Nutzer entschieden):**
 - **Symbol neben dem Zahnrad** (z. B. 📋), kein Reiter: Reiterleiste ist voll, und ein Reiter wäre für fast alle ein
   verbotener Knopf. Sichtbar nur auf freigeschalteten Handys.
-- **Einladungslink als Hauptweg:** Verwalter legt Trainer an → App macht einen persönlichen Link mit Code, per WhatsApp
+- **Achtung iPhone (27.10. aufgefallen):** ein Link aus WhatsApp öffnet **Safari**, nicht die installierte App — getrennte
+  Speicher, der Code käme nie in der App an. Darum: Link zeigt eine Seite mit kurzem Code (z. B. „KOEP-4821“) + Knopf
+  „Code kopieren“ + Anleitung „App öffnen → 5× aufs Logo → einfügen“; der Name kommt vom Worker, nur der Code wird getippt.
+  Auf Android öffnet der Link evtl. direkt die App, dort klappt es mit einem Tipp. Ob der Code nur einmal gilt: offen
+  (Vorschlag: mehrfach, Verwalter sieht „auf n Handys aktiv“ und sperrt bei Bedarf).
+- **Einladungslink als Hauptweg (ursprünglicher Gedanke):** Verwalter legt Trainer an → App macht einen persönlichen Link mit Code, per WhatsApp
   verschickt, ein Tipp und er ist drin. 5× Logo bleibt als zweiter Weg (Handywechsel). Weitergeleiteter Link → Code sperren.
 - **Ausladen:** Verwalter tippt „Sperren“ → der Worker kennt den Code nicht mehr. Die App fragt beim Öffnen des Coach-Bereichs
   und bei jedem App-Start den Worker, ob der Code noch gilt; Antwort „gesperrt“ → Coach-Symbol weg, Code vom Handy gelöscht.
@@ -273,8 +278,8 @@ Für Freundschaftsspiele, Turniere u. Ä., die nicht im Extranet stehen. Ersetzt
   Trainername nie öffentlich.
 - **Mitteilungen:** „Morgen/Heute Spiel“ kommt über den bestehenden Haken von selbst. **Neu / geändert (Uhrzeit, Ort) /
   abgesagt** sofort, aber erst 10 min nach der letzten Änderung (Vertipper → nur eine Mitteilung), nur 7–23 Uhr.
-  Welcher Haken dafür: Vorschlag ein neuer Haken „Trainer: neu, geändert, abgesagt“ bei jeder Mannschaft, beim Anhaken an
-  (den bestehenden „Neue Phase / neues Spiel“ gibt es nur bei U13/U15) — **noch zu bestätigen**.
+  **Eigener Haken „Trainer: neu, geändert, abgesagt“** bei jeder Mannschaft, beim Anhaken an (vom Nutzer, 27.10.; den
+  bestehenden „Neue Phase / neues Spiel“ gibt es nur bei U13/U15).
 - **Verwalter-Bereich** im selben Fenster: Trainerliste, neuer Trainer (Name + Mannschaften → Link), sperren; alle Einträge
   mit Namen des Eintragenden; Verlauf (wer hat wann was geändert).
 
