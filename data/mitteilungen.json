@@ -2,18 +2,6 @@
  "ereignisse": [
   {
    "reiter": [
-    "MIN 1",
-    "Minimes U13"
-   ],
-   "id": "heute:8000000001",
-   "art": "heute",
-   "titel": "MIN 1 · Heute Spiel",
-   "text": "19:00 gegen FC Grewnmacherr · 📍 Wormeldange",
-   "ab": 1793082600000,
-   "bis": 1793124000000
-  },
-  {
-   "reiter": [
     "SCO",
     "Scolaires U15"
    ],
