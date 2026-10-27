@@ -658,7 +658,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "27.10.2026 neu g";
+const FASSUNG = "27.10.2026 neu h";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1734,7 +1734,7 @@ function personenHtml(l, chefGeraete) {
   const chef = coachDa()?.rolle === "chef";
   const verwalter = l.filter(p => p.rolle === "admin"), trainer = l.filter(p => p.rolle === "trainer");
   return `<section class="card"><div class="chead"><h2>${chef ? "Verwalter und Trainer" : "Trainer"}</h2></div><div class="cbody">
-    ${chef ? `<p class="klein">Du bist auf ${chefGeraete || 0} ${chefGeraete === 1 ? "Gerät" : "Geräten"} als Chef angemeldet.</p>` : ""}
+    ${chef ? `<p class="klein">Du bist auf ${chefGeraete || 0} ${chefGeraete === 1 ? "Gerät" : "Geräten"} als Administrator angemeldet.</p>` : ""}
     ${verwalter.length ? `<div class="klein" style="font-weight:700;margin-top:6px">Verwalter</div>${verwalter.map(zeile).join("")}` : ""}
     <div class="klein" style="font-weight:700;margin-top:10px">Trainer</div>${trainer.length ? trainer.map(zeile).join("") : `<p class="klein">Noch keine Trainer angelegt.</p>`}
     ${COACH_TRAINER_FORM ? personFormHtml(COACH_TRAINER_FORM) : `<button class="knopf zweit" data-c="person_neu">+ ${chef ? "Neue Person" : "Neuer Trainer"}</button>`}</div></section>`;
@@ -1758,7 +1758,7 @@ async function coachHtml() {
   }
   const l = COACH_LISTE.spiele || [], h = heuteLux();
   const kommend = l.filter(s => s.datum >= h), vorbei = l.filter(s => s.datum < h).reverse();
-  let x = `<section class="card"><div class="chead"><h2>Coach · ${esc(c.name)}</h2></div><div class="cbody">`;
+  let x = `<section class="card"><div class="chead"><h2>${c.rolle === "chef" ? "ADMINISTRATOR" : "Coach"} – ${esc(c.name)}</h2></div><div class="cbody">`;
   if (COACH_CODE) x += `<div class="note up"><b>Code für ${esc(COACH_CODE.name)}: <span class="ccode">${esc(COACH_CODE.code)}</span></b><br>
     Gilt einmal, für ein Gerät, und wird nicht noch einmal angezeigt. So geht's: am iPhone die App vom Home-Bildschirm öffnen (am Computer
     einfach fckoeppchen.github.io) → 5× aufs Logo oben → Code eingeben.
