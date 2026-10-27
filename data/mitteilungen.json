@@ -52,6 +52,29 @@
   },
   {
    "reiter": [
+    "MIN 1",
+    "Minimes U13"
+   ],
+   "art": "trainer",
+   "spiel": 3,
+   "basis": {
+    "reiter": "MIN 1",
+    "art": "Freundschaftsspiel",
+    "datum": "2026-10-30",
+    "zeit": "20:00",
+    "gegner": "BVB",
+    "heim": true,
+    "ort": "Am Ga (Wormeldange, synth.)",
+    "abgesagt": false
+   },
+   "ab": 1793122914539,
+   "bis": 1793295714539,
+   "id": "trainer:3:2026-10-27T17:31:54.539Z",
+   "titel": "MIN 1 · Geändert",
+   "text": "Jetzt Fr., 6.11. um 20:00 · gegen BVB · 📍 Am Ga (Wormeldange, synth.) (vorher Fr., 30.10. um 20:00)"
+  },
+  {
+   "reiter": [
     "MIN 2",
     "Minimes U13"
    ],
