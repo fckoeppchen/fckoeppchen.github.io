@@ -178,6 +178,8 @@
   .cform input[type=text],.cform input[type=date],.cform input[type=time],.cform select{display:block;width:100%;box-sizing:border-box;margin-top:3px;font:inherit;font-size:16px;font-weight:400;padding:8px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text);min-height:40px}
   .cform .haken{font-weight:400}
   .czwei{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .czeit{display:flex;align-items:center;gap:4px;margin-top:3px}
+  .cform .czeit select{display:inline-block;width:auto;flex:1;margin-top:0}
   .coachz{display:inline-block;font-family:Barlow,sans-serif;font-size:10px;font-weight:800;letter-spacing:.6px;line-height:1;padding:3px 5px;border-radius:5px;background:var(--accentT);color:#fff;vertical-align:2px;margin-right:5px}
   .ccode{font-family:ui-monospace,Menlo,monospace;font-size:20px;letter-spacing:1px}
   .mitt .haken.team{font-weight:700;font-size:15px}
@@ -650,7 +652,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "27.10.2026 neu c";
+const FASSUNG = "27.10.2026 neu d";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1638,13 +1640,26 @@ const coachTeams = () => coachAdmin() ? alleMannschaften() : (coachDa()?.teams |
 const heuteLux = () => tagLux(Date.now());
 const datumText = s => new Date(s.datum + "T12:00:00Z").toLocaleDateString("de-DE", { timeZone: "UTC", weekday: "short", day: "numeric", month: "numeric" });
 function coachZeile(s) {
-  const wo = s.heim ? "🏠 " + (s.ort || "Wormeldange") : "✈️ " + (s.ort || "auswärts");
+  const wo = s.heim ? "🏠 " + (s.ort || HEIMPLATZ) : "✈️ " + (s.ort || "auswärts");
   const kn = (c, t) => `<button class="kopie" data-c="${c}" data-id="${s.id}">${t}</button>`;
   return `<div class="cspiel${s.abgesagt ? " cweg" : ""}">
     <div><b>${esc(datumText(s))} · ${esc(s.zeit || "Uhrzeit offen")}${s.ende ? " – " + esc(s.ende) : ""}</b> · <span class="pill wteam">${esc(s.reiter)}</span> ${esc(s.art)}${s.abgesagt ? ' · <b class="crot">ABGESAGT</b>' : ""}</div>
     <div>${esc(s.gegner)} · ${esc(wo)}${s.bem ? `<br><span class="muted">${esc(s.bem)}</span>` : ""}${s.von ? `<br><span class="muted">eingetragen von ${esc(s.von)}</span>` : ""}</div>
     <div class="cknoepfe">${kn("aendern", "Ändern")}${kn("kopie", "Wie dieses nochmal")}${kn("absagen", s.abgesagt ? "Wieder ansetzen" : "Absagen")}${kn("loeschen", "Löschen")}</div></div>`;
 }
+// Heimplatz, wie die FLF ihn schreibt (vom Nutzer, 27.10.2026: bei „Zu Hause“ gleich eintragen).
+const HEIMPLATZ = "Am Ga (Wormeldange, synth.)";
+// Uhrzeit als zwei Auswahlfelder 0–23 und Minuten in 5er-Schritten (vom Nutzer: kein AM/PM — das eingebaute Zeitfeld
+// richtet sich nach der Sprache des Handys).
+function zeitWahl(id, wert, aus) {
+  const [h, m] = (wert || "").split(":"), z = n => String(n).padStart(2, "0");
+  const min = [...Array(12)].map((_, i) => z(i * 5)); if (m && !min.includes(m)) min.push(m);
+  return `<span class="czeit"><select id="${id}H"${aus ? " disabled" : ""}><option value="">--</option>${[...Array(24)].map((_, i) => `<option${z(i) === h ? " selected" : ""}>${z(i)}</option>`).join("")}</select>
+    <b>:</b><select id="${id}M"${aus ? " disabled" : ""}>${min.sort().map(x => `<option${x === (m || "00") ? " selected" : ""}>${x}</option>`).join("")}</select></span>`;
+}
+// Das Datumsfeld zeigt das Format der Handysprache (englisch: mm/dd/yyyy) — darunter steht es darum auf Deutsch.
+const datumLang = d => /^\d{4}-\d{2}-\d{2}$/.test(d) ? "→ " + new Date(d + "T12:00:00Z").toLocaleDateString("de-DE", { timeZone: "UTC", weekday: "long", day: "numeric", month: "long", year: "numeric" }) : "";
+const zeitLesen = id => { const h = cWert(id + "H"); return h ? h + ":" + cWert(id + "M") : null; };
 function coachFormHtml(f) {
   const teams = coachTeams(), opt = (l, w) => l.map(x => `<option${x === w ? " selected" : ""}>${esc(x)}</option>`).join("");
   return `<div class="cform" id="cForm">
@@ -1652,12 +1667,13 @@ function coachFormHtml(f) {
     <label>Mannschaft<select id="cfReiter">${opt(teams, f.reiter || teams[0])}</select></label>
     <label>Art<select id="cfArt">${opt(COACH_ARTEN, f.art || COACH_ARTEN[0])}</select></label>
     <label>Datum<input type="date" id="cfDatum" value="${esc(f.datum || "")}" min="${heuteLux()}"></label>
-    <div class="czwei"><label>Uhrzeit<input type="time" id="cfZeit" value="${esc(f.zeit || "")}"${f.id && !f.zeit ? " disabled" : ""}></label>
-      <label>Ende (freiwillig)<input type="time" id="cfEnde" value="${esc(f.ende || "")}"></label></div>
+    <div class="klein" id="cfDatumText">${f.datum ? esc(datumLang(f.datum)) : ""}</div>
+    <div class="czwei"><label>Uhrzeit${zeitWahl("cfZeit", f.zeit, f.id && !f.zeit)}</label>
+      <label>Ende (freiwillig)${zeitWahl("cfEnde", f.ende)}</label></div>
     <label class="haken"><input type="checkbox" id="cfOffen"${f.id && !f.zeit ? " checked" : ""}> Uhrzeit noch offen</label>
     <label>Gegner / Veranstalter<input type="text" id="cfGegner" maxlength="60" value="${esc(f.gegner || "")}" placeholder="z. B. FC Mondercange"></label>
     <label>Wo?<select id="cfHeim"><option value="1"${f.heim !== false ? " selected" : ""}>Zu Hause (Wormeldange)</option><option value="0"${f.heim === false ? " selected" : ""}>Auswärts</option></select></label>
-    <label>Platz / Ort<input type="text" id="cfOrt" maxlength="80" value="${esc(f.ort || "")}" placeholder="bei zu Hause freiwillig"></label>
+    <label>Platz / Ort<input type="text" id="cfOrt" maxlength="80" value="${esc(f.ort || (f.heim !== false ? HEIMPLATZ : ""))}" placeholder="z. B. Stade Municipal, Mondercange"></label>
     <label>Bemerkung (freiwillig)<input type="text" id="cfBem" maxlength="200" value="${esc(f.bem || "")}" placeholder="z. B. Trikots weiß"></label>
     <button class="knopf" data-c="speichern">Speichern</button><button class="knopf zweit" data-c="abbrechen">Abbrechen</button>
     <div class="stand" id="cFormStand"></div></div>`;
@@ -1706,7 +1722,7 @@ const cWert = id => document.getElementById(id)?.value || "";
 function coachFormLesen() {
   const offen = document.getElementById("cfOffen").checked;
   return { id: COACH_FORM?.id || undefined, reiter: cWert("cfReiter"), art: cWert("cfArt"), datum: cWert("cfDatum"),
-    zeit: offen ? null : cWert("cfZeit") || null, ende: cWert("cfEnde") || null, gegner: cWert("cfGegner").trim(),
+    zeit: offen ? null : zeitLesen("cfZeit"), ende: zeitLesen("cfEnde"), gegner: cWert("cfGegner").trim(),
     heim: cWert("cfHeim") === "1", ort: cWert("cfOrt").trim() || null, bem: cWert("cfBem").trim() || null, abgesagt: !!COACH_FORM?.abgesagt };
 }
 async function coachSpeichern(s, stand) {
@@ -1716,7 +1732,10 @@ async function coachSpeichern(s, stand) {
   return true;
 }
 document.addEventListener("change", e => {
-  if (e.target.id === "cfOffen") { const z = document.getElementById("cfZeit"); z.disabled = e.target.checked; if (e.target.checked) z.value = ""; }
+  if (e.target.id === "cfOffen") for (const z of ["cfZeitH", "cfZeitM"]) { const el = document.getElementById(z); el.disabled = e.target.checked; if (e.target.checked && z === "cfZeitH") el.value = ""; }
+  if (e.target.id === "cfDatum") document.getElementById("cfDatumText").textContent = datumLang(e.target.value);
+  // Zu Hause → Heimplatz eintragen, auswärts → Feld leeren, wenn noch der Heimplatz drinsteht.
+  if (e.target.id === "cfHeim") { const o = document.getElementById("cfOrt"); if (e.target.value === "1" && !o.value.trim()) o.value = HEIMPLATZ; else if (e.target.value === "0" && o.value === HEIMPLATZ) o.value = ""; }
 });
 document.addEventListener("click", async e => {
   if (e.target.closest("#coachknopf")) { COACH_OFFEN = !COACH_OFFEN; MITT_OFFEN = false; COACH_STAND = ""; COACH_LISTE = null; render(); window.scrollTo(0, 0); return; }

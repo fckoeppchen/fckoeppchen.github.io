@@ -1110,7 +1110,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(!Object.values(D.klassen).some(x => x.spiele.some(sp => sp.id === COACH_ID + 5)), "Coach: unbekannte Mannschaft wird übergangen");
   const t1 = k.spiele.find(sp => sp.id === COACH_ID + 1), t3 = k.spiele.find(sp => sp.id === COACH_ID + 3);
   ok(t1.d === "2026-11-07T10:00:00+01:00" && t1.a.id === 45396 && t1.h.n === "Turnier: FC Mondercange" && t1.coach.ende === "15:00", "Coach: Turnier auswärts, Uhrzeit Winterzeit, Ende");
-  ok(t3.d === "2026-11-14T00:00:00+01:00" && t3.h.id === 45396 && t3.a.n === "Grevenmacher" && t3.ort === "Wormeldange", "Coach: Uhrzeit offen = 00:00, zu Hause ohne Platz = Wormeldange");
+  ok(t3.d === "2026-11-14T00:00:00+01:00" && t3.h.id === 45396 && t3.a.n === "Grevenmacher" && t3.ort === "Am Ga (Wormeldange, synth.)", "Coach: Uhrzeit offen = 00:00, zu Hause ohne Platz = Am Ga");
   // Rückfall BAM darf Coach-Klassen nicht mitnehmen (sonst doppelt)
   const DB2 = { teams: [{ kat: "U7", id: 9000701, reiter: "BAM 1", klassen: ["bam-6", "coach-9000701"] }], klassen: { "bam-6": { spiele: [] }, "coach-9000701": { spiele: [1] } } };
   ok(bamAus(DB2).teams[0].klassen.join() === "bam-6" && !bamAus(DB2).klassen["coach-9000701"], "Coach: BAM-Rückfall ohne Coach-Klassen");

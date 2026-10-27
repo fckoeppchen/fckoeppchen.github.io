@@ -245,6 +245,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Fokusverlust, Speichern, Kopie, Absagen → Reiter zeigt Turnier → Neuer Code wirft das alte Handy raus). Gegenproben gemacht. **Worker neu einfügen nötig.**
   **Neu c** (vom Nutzer): kleines dunkelgrünes „COACH“ (`coachZeichen`, `.coachz`) vor Datum/Zeile in Nächste Spiele, Ergebnissen, Woche und
   im Kopf von Heute-/Morgen-Kasten — sofort erkennbar, dass es kein FLF-Spiel ist. Bei 390 px angesehen.
+  **Neu d** (vom Nutzer): „Zu Hause“ trägt gleich **Am Ga (Wormeldange, synth.)** ein (`HEIMPLATZ`; auswärts leert es wieder, Abruf nimmt
+  es auch, wenn der Platz fehlt). Uhrzeit und Ende als **zwei Auswahlfelder 00–23 / Minuten in 5er-Schritten** (`zeitWahl`) statt
+  `type=time` — das zeigte je nach Handysprache AM/PM. Datum bleibt das Handy-Datumsfeld, darunter auf Deutsch („→ Samstag, 31. Oktober 2026“).
   **Stufe 2 offen:** Verwalter für Präsident/Tiago (Spalte `rolle` steht schon), Sperren-Knopf (Spalte `gesperrt` wird schon geprüft), Verlauf,
   Mitteilungen „neu, geändert, abgesagt“ mit eigenem Haken (10 min nach der letzten Änderung).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“

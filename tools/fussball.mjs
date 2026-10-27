@@ -459,7 +459,7 @@ export function coachDazu(D, liste) {
     if (!t.klassen.includes(kid)) t.klassen.push(kid);
     const wir = { id: t.id, n: t.n }, andere = { id: 0, n: s.art === "Freundschaftsspiel" ? s.gegner : `${s.art}: ${s.gegner}` };
     D.klassen[kid].spiele.push({ id: COACH_ID + s.id, d: isoLux(s.datum, s.zeit || "00:00"), tag: null, h: s.heim ? wir : andere, a: s.heim ? andere : wir,
-      hs: null, as: null, gespielt: false, forfait: false, ort: s.ort || (s.heim ? "Wormeldange" : undefined),
+      hs: null, as: null, gespielt: false, forfait: false, ort: s.ort || (s.heim ? "Am Ga (Wormeldange, synth.)" : undefined),
       coach: { art: s.art, gegner: s.gegner, ...(s.ende ? { ende: s.ende } : {}), ...(s.bem ? { bem: s.bem } : {}) }, ...(s.abgesagt ? { abgesagt: true } : {}) });
   }
   for (const k of Object.values(D.klassen)) if (String(k.id).startsWith("coach-")) k.spiele.sort((a, b) => a.d.localeCompare(b.d));
