@@ -253,7 +253,26 @@ Für Freundschaftsspiele, Turniere u. Ä., die nicht im Extranet stehen. Ersetzt
   Format von `aufbereiten` → Reiter, Unsere Woche, Kalender, Mitteilungen, Koeppi ohne Sonderweg. ~5–10 min bis sichtbar.
 - Trainernamen nie in öffentlichen Daten. Datenschutz-Hinweis ergänzen. Trägt die FLF dasselbe Spiel später ein: Hinweis
   im COACH-Reiter („steht jetzt auch bei der FLF, deins löschen?“).
-- Offen: Ergebnisse bei Seniors-Spielen? (Kinder: keine, Vereinswunsch.)
+- **Keine Ergebnisse**, auch nicht bei Seniors-Freundschaftsspielen (vom Nutzer, 27.10.).
+
+**Brainstorm 27.10.2026 — so wird gebaut (vom Nutzer entschieden):**
+- **Symbol neben dem Zahnrad** (z. B. 📋), kein Reiter: Reiterleiste ist voll, und ein Reiter wäre für fast alle ein
+  verbotener Knopf. Sichtbar nur auf freigeschalteten Handys.
+- **Einladungslink als Hauptweg:** Verwalter legt Trainer an → App macht einen persönlichen Link mit Code, per WhatsApp
+  verschickt, ein Tipp und er ist drin. 5× Logo bleibt als zweiter Weg (Handywechsel). Weitergeleiteter Link → Code sperren.
+- **Felder:** wie oben, dazu freiwillig **Ende** („bis ca. 15 Uhr“, für Turniere). **Kein Treffpunkt** (macht der Trainer in
+  der WhatsApp-Gruppe). Keine Namen von Kindern, keine Telefonnummern (alles öffentlich).
+- **„Wie letztes Mal“** (letztes Spiel kopieren, nur Datum neu) und **„Absagen“** (Spiel bleibt mit „abgesagt“ stehen,
+  sonst merken Eltern nichts); Löschen nur für Tippfehler.
+- **Keine Ergänzungen bei FLF-Spielen** (vom Nutzer: nein). Keine freien Nachrichten der Trainer an alle (vorerst).
+- **Eltern sehen** das Spiel normal in Reiter, Woche, Kalender, mit Koeppi; klein „Freundschaftsspiel“/„Turnier“ dabei.
+  Trainername nie öffentlich.
+- **Mitteilungen:** „Morgen/Heute Spiel“ kommt über den bestehenden Haken von selbst. **Neu / geändert (Uhrzeit, Ort) /
+  abgesagt** sofort, aber erst 10 min nach der letzten Änderung (Vertipper → nur eine Mitteilung), nur 7–23 Uhr.
+  Welcher Haken dafür: Vorschlag ein neuer Haken „Trainer: neu, geändert, abgesagt“ bei jeder Mannschaft, beim Anhaken an
+  (den bestehenden „Neue Phase / neues Spiel“ gibt es nur bei U13/U15) — **noch zu bestätigen**.
+- **Verwalter-Bereich** im selben Fenster: Trainerliste, neuer Trainer (Name + Mannschaften → Link), sperren; alle Einträge
+  mit Namen des Eintragenden; Verlauf (wer hat wann was geändert).
 
 ## Reiter beim Runterscrollen ausblenden (vom Nutzer, 26.10.2026) — **gebaut am selben Tag, Fassung 26.10. neu a**
 
