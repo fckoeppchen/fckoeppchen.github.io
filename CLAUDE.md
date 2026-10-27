@@ -259,8 +259,8 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Personen angelegt/geändert/entfernt, Codes gemacht/eingelöst/zurückgezogen. **Mitteilungen** (Art `trainer`, Haken „Trainer: neu, geändert,
   abgesagt“ bei jeder Mannschaft gleich nach „Spiel steht an“, beim Anhaken an; bestehende Auswahl muss ihn selbst anhaken): in
   `tools/mitteilungen.mjs` aus `alt.coach`/`neu.coach` (öffentliche Liste hat jetzt `geaendert`) — **Neues Spiel**, **Geändert** („Jetzt … (vorher
-  …)“, nur Datum/Uhrzeit/Gegner/Art/Platz/Mannschaft, nicht Bemerkung/Ende), **Abgesagt**, **Findet statt**, **Gestrichen** (gelöscht nach
-  Ankündigung). `ab` = Änderung + 10 min; ändert er in der Zeit nochmal, ersetzt das neue Ereignis das wartende und behält dessen `basis` (Stand,
+  …)“, nur Datum/Uhrzeit/Gegner/Art/Platz/Mannschaft, nicht Bemerkung/Ende), **Abgesagt** (auch wenn es nach der Ankündigung gelöscht
+  wird). Vom Nutzer gestrichen: „Findet statt“ (wieder angesetzt meldet nichts — „die Kinder sind ja da“), „Gestrichen“ (= Abgesagt). `ab` = Änderung + 10 min; ändert er in der Zeit nochmal, ersetzt das neue Ereignis das wartende und behält dessen `basis` (Stand,
   den die Eltern kennen) — vertippt = eine Mitteilung, zurückgeändert/gleich gelöscht = keine. Neue Spiele für heute/morgen nicht extra (dafür
   „Morgen/Heute Spiel“). Kurz vor Anpfiff geändert → sofort. Erster Lauf ohne `alt.coach` → nichts. Tests: `test/coach.mjs` 51 (Rollen, Codes,
   Geräte, Entfernen, Verlauf, Umzug Stufe 1), `test/fussball.mjs` 374 (Trainer-Mitteilungen, Gegenprobe), Browser: Chef → Verwalter am Computer

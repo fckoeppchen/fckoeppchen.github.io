@@ -1167,9 +1167,9 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   let e5 = tr(stand([sp()]), stand([sp({ abgesagt: true, geaendert: iso(nach) })]), null, nach + 60e3);
   ok(e5[0]?.titel === "MIN 1 · Abgesagt" && e5[0].text.endsWith("fällt aus"), "Trainer: abgesagt");
   let e6 = tr(stand([sp({ abgesagt: true })]), stand([sp({ geaendert: iso(nach) })]), null, nach + 60e3);
-  ok(e6[0]?.titel === "MIN 1 · Findet statt", "Trainer: wieder angesetzt");
+  ok(e6.length === 0, "Trainer: wieder angesetzt → keine Mitteilung");
   let e7 = tr(stand([sp()]), stand([]), null, nach);
-  ok(e7[0]?.titel === "MIN 1 · Gestrichen" && e7[0].ab === nach + 10 * 60e3, "Trainer: gelöscht nach Ankündigung → gestrichen");
+  ok(e7[0]?.titel === "MIN 1 · Abgesagt" && e7[0].text.endsWith("fällt aus") && e7[0].ab === nach + 10 * 60e3, "Trainer: gelöscht nach Ankündigung → Abgesagt");
   ok(tr(stand([sp({ abgesagt: true })]), stand([]), null, nach).length === 0, "Trainer: abgesagtes Spiel gelöscht → nichts mehr");
   // Für morgen neu eingetragen: kein „Neues Spiel“ (dafür kommt Morgen Spiel)
   const fr13 = Date.parse("2026-11-13T12:00:00+01:00");

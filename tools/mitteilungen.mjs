@@ -221,7 +221,7 @@ export function ereignisse(alt, neu, vorher, now) {
              text: `${sp.h.n} ${sp.hs}:${sp.as} ${sp.a.n}`, ab: now, bis: now + 18 * H });
   }
 
-  // Trainer-Spiele (Coach, Stufe 2, vom Nutzer 27.10.2026): neu, geändert, abgesagt, findet doch statt, gestrichen — eigener
+  // Trainer-Spiele (Coach, Stufe 2, vom Nutzer 27.10.2026): Neues Spiel, Geändert, Abgesagt (auch gelöscht = Abgesagt) — eigener
   // Haken „trainer“. Erst 10 min nach der letzten Änderung (vertippt und gleich korrigiert = eine Mitteilung; zurückgeändert =
   // keine). Verglichen wird mit dem Stand, den die Eltern zuletzt hatten: `basis` im noch wartenden Ereignis, sonst der alte Abruf.
   // Neue Spiele für heute/morgen melden sich nicht extra — dafür kommt „Morgen/Heute Spiel“. Nur ab heute, nur bekannte Mannschaften.
@@ -245,17 +245,17 @@ export function ereignisse(alt, neu, vorher, now) {
       if (ab >= start) ab = now;   // kurz vor dem Spiel geändert: gleich
       const e = { reiter: [x.reiter], art: "trainer", spiel: id, basis, ab, bis: Math.min(start, ab + 48 * H) };
       if (!n) {   // gelöscht
-        if (basis && !basis.abgesagt) dazu({ ...e, id: `trainer:${id}:weg`, titel: `${x.reiter} · Gestrichen`, text: `${voll(basis)} fällt weg` });
+        if (basis && !basis.abgesagt) dazu({ ...e, id: `trainer:${id}:weg`, titel: `${x.reiter} · Abgesagt`, text: `${voll(basis)} fällt aus` });
         continue;
       }
       const k = kern(n);
       if (!basis) {
         if (n.abgesagt || n.datum <= morgen) continue;
         dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${n.reiter} · Neues Spiel`, text: voll(n) });
-      } else if (basis.abgesagt !== k.abgesagt) {
-        dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${n.reiter} · ${k.abgesagt ? "Abgesagt" : "Findet statt"}`,
-               text: k.abgesagt ? `${voll(n)} fällt aus` : `${voll(n)} findet doch statt` });
-      } else if (!k.abgesagt) {
+      } else if (!basis.abgesagt && k.abgesagt) {
+        dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${n.reiter} · Abgesagt`, text: `${voll(n)} fällt aus` });
+      } else if (!basis.abgesagt && !k.abgesagt) {
+        // Wieder angesetzt (vorher abgesagt) meldet sich nicht (vom Nutzer: „die Kinder sind ja da“).
         const vorher = [];
         if (basis.datum !== k.datum || basis.zeit !== k.zeit) vorher.push(wann(basis));
         if (basis.gegner !== k.gegner || basis.art !== k.art) vorher.push(was(basis));
