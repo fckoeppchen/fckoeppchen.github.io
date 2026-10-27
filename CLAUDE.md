@@ -270,7 +270,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (mit „eingetragen von …“), inkl. Löschen (Worker `darf`/`liste` nach `coachTeile(reiter)` ∩ `teams`). (2) **Ein Spiel für mehrere Mannschaften**:
   `reiter` = „MIN 1+MIN 2“ (Auswahl `mannschaftOptionen`: jede einzeln + je Altersklasse „MIN 1 + 2 (beide)“); `coachDazu` legt je Mannschaft
   eine Kopie mit derselben id an (beide Reiter), `sp.coach.mannschaften` = „MIN 1+2“ (`coachName`) → Woche einmal als „MIN 1+2“, Gruppen-Kalender
-  einmal „Koeppchen MIN 1+2 – …“, „Morgen Spiel“ einmal als „MIN“, Trainer-Mitteilungen „MIN 1+2 · …“. Ändern: neue Mannschaften nur eigene, schon
+  einmal „Koeppchen MIN 1+2 – …“, „Morgen Spiel“ und Trainer-Mitteilungen einmal als „MIN 1+2 · …“ (überall derselbe Name, vom Nutzer). Ändern: neue Mannschaften nur eigene, schon
   dabei gewesene dürfen bleiben. (3) **Nachfrage bei doppeltem Spiel** (`gleicherTag`): gleiche Mannschaft am selben Tag schon ein Trainer- oder
   FLF-Spiel → „Am … steht schon: … Trotzdem speichern?“ (Liste wird vorher frisch geholt). Tests: coach.mjs 60, fussball.mjs 381, Browser.
   **Worker neu einfügen nötig.**

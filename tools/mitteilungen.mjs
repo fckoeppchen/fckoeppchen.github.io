@@ -83,7 +83,8 @@ export function ereignisse(alt, neu, vorher, now) {
   const live = [];
 
   for (const { sp, reiter, kat, kurz: kz } of jeSpiel.values()) {
-    const name = reiter.length > 1 ? kz : reiter[0];   // Pokal ohne I/II: „MIN“
+    // Pokal ohne I/II: „MIN“. Trainer-Spiel für beide Mannschaften: „MIN 1+2“ wie überall sonst (vom Nutzer, 27.10.2026).
+    const name = sp.coach?.mannschaften || (reiter.length > 1 ? kz : reiter[0]);
     const wirH = unsere.has(sp.h.id), gegner = kurz(wirH ? sp.a.n : sp.h.n), d = Date.parse(sp.d), tag = tagLux(d);
     const wo = sp.ort ? ` · 📍 ${sp.ort}` : "";
     const offen = ohneUhrzeit(sp.d);

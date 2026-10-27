@@ -1192,7 +1192,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const kalG = icsGruppe(DBB, DBB.teams[0].gruppe).replace(/\r\n /g, "");
   ok((kalG.match(/Bous/g) || []).length === 1 && kalG.includes("Koeppchen MIN 1+2 – Bous"), "Beide: im Gruppen-Kalender einmal, als Koeppchen MIN 1+2");
   const mb = mEreignisse(mk2(), DBB, null, Date.parse("2026-11-13T12:00:00+01:00")).ereignisse.find(e => e.id === "heute:" + (COACH_ID + 9));
-  ok(mb?.titel === "MIN · Morgen Spiel" && mb.reiter.includes("MIN 1") && mb.reiter.includes("MIN 2"), "Beide: eine Morgen-Mitteilung für beide");
+  ok(mb?.titel === "MIN 1+2 · Morgen Spiel" && mb.reiter.includes("MIN 1") && mb.reiter.includes("MIN 2"), "Beide: eine Morgen-Mitteilung für beide, als MIN 1+2");
   const alt2 = mk2(); alt2.coach = [];
   const nb = tr(alt2, DBB, null, t0 + 60e3);
   ok(nb[0]?.titel === "MIN 1+2 · Neues Spiel" && nb[0].reiter.includes("MIN 2") && nb[0].reiter.includes("Minimes U13"), "Beide: Neues Spiel als MIN 1+2");
