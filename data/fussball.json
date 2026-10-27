@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-27T12:22:42.789Z",
+ "stand": "2026-10-27T12:25:18.338Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -104,7 +104,8 @@
    "alter": "U13 Minimes",
    "kurz": "MIN",
    "klassen": [
-    19233
+    19233,
+    "coach-45397"
    ],
    "reiter": "MIN 2",
    "datei": "u13-2.ics",
@@ -18847,6 +18848,39 @@
     }
    ],
    "start": "2026-10-27"
+  },
+  "coach-45397": {
+   "id": "coach-45397",
+   "n": "Vom Trainer eingetragen",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 8000000002,
+     "d": "2026-10-28T13:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 45397,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "a": {
+      "id": 0,
+      "n": "Sonstiges: BVB"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Wormeldange",
+     "coach": {
+      "art": "Sonstiges",
+      "gegner": "BVB",
+      "ende": "15:00"
+     }
+    }
+   ],
+   "start": "2026-10-28"
   }
  },
  "bgl": {
@@ -23819,6 +23853,19 @@
    "zeit": "19:00",
    "ende": null,
    "gegner": "FC Grewnmacherr",
+   "heim": true,
+   "ort": null,
+   "bem": null,
+   "abgesagt": false
+  },
+  {
+   "id": 2,
+   "reiter": "MIN 2",
+   "art": "Sonstiges",
+   "datum": "2026-10-28",
+   "zeit": "13:00",
+   "ende": "15:00",
+   "gegner": "BVB",
    "heim": true,
    "ort": null,
    "bem": null,
