@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-27T12:27:25.866Z",
+ "stand": "2026-10-27T17:16:59.712Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -80,7 +80,8 @@
    "alter": "U13 Minimes",
    "kurz": "MIN",
    "klassen": [
-    19189
+    19189,
+    "coach-45396"
    ],
    "reiter": "MIN 1",
    "datei": "u13-1.ics",
@@ -5716,6 +5717,24 @@
      "ort": "Terrain Jos Bloes (Bascharage, synth.)"
     },
     {
+     "id": 1011084,
+     "d": "2026-11-23T20:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 45624,
+      "n": "FC Differdange 03"
+     },
+     "a": {
+      "id": 44588,
+      "n": "F91 Dudelange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Thillenberg 1 (Differdange)"
+    },
+    {
      "id": 1011086,
      "d": "2026-11-23T20:00:00+01:00",
      "tag": 8,
@@ -5804,24 +5823,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Pétange, synth.)"
-    },
-    {
-     "id": 1011084,
-     "d": "2026-11-24T20:00:00+01:00",
-     "tag": 8,
-     "h": {
-      "id": 45624,
-      "n": "FC Differdange 03"
-     },
-     "a": {
-      "id": 44588,
-      "n": "F91 Dudelange"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Thillenberg 1 (Differdange)"
     },
     {
      "id": 1011096,
@@ -5932,6 +5933,24 @@
      "ort": "Terrain 2 (Lorentzweiler, synth.)"
     },
     {
+     "id": 1011105,
+     "d": "2026-12-07T20:00:00+01:00",
+     "tag": 10,
+     "h": {
+      "id": 45624,
+      "n": "FC Differdange 03"
+     },
+     "a": {
+      "id": 44750,
+      "n": "Victoria Rosport"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Thillenberg 1 (Differdange)"
+    },
+    {
      "id": 1011104,
      "d": "2026-12-07T20:00:00+01:00",
      "tag": 10,
@@ -6020,24 +6039,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Pétange, synth.)"
-    },
-    {
-     "id": 1011105,
-     "d": "2026-12-08T20:00:00+01:00",
-     "tag": 10,
-     "h": {
-      "id": 45624,
-      "n": "FC Differdange 03"
-     },
-     "a": {
-      "id": 44750,
-      "n": "Victoria Rosport"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Thillenberg 1 (Differdange)"
     },
     {
      "id": 1011113,
@@ -6184,6 +6185,24 @@
      "ort": "Stade Klengbousbierg 2 (Bissen, synth.)"
     },
     {
+     "id": 1011121,
+     "d": "2027-03-01T20:00:00+01:00",
+     "tag": 12,
+     "h": {
+      "id": 45624,
+      "n": "FC Differdange 03"
+     },
+     "a": {
+      "id": 44553,
+      "n": "Union Titus Pétange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Thillenberg 1 (Differdange)"
+    },
+    {
      "id": 1011126,
      "d": "2027-03-01T20:00:00+01:00",
      "tag": 12,
@@ -6238,24 +6257,6 @@
      "ort": "Terrain 2 (Strassen, synth.)"
     },
     {
-     "id": 1011121,
-     "d": "2027-03-02T20:00:00+01:00",
-     "tag": 12,
-     "h": {
-      "id": 45624,
-      "n": "FC Differdange 03"
-     },
-     "a": {
-      "id": 44553,
-      "n": "Union Titus Pétange I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Thillenberg 1 (Differdange)"
-    },
-    {
      "id": 1011135,
      "d": "2027-03-08T19:30:00+01:00",
      "tag": 13,
@@ -6272,6 +6273,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Ralingen (synth.)"
+    },
+    {
+     "id": 1011134,
+     "d": "2027-03-08T20:00:00+01:00",
+     "tag": 13,
+     "h": {
+      "id": 45624,
+      "n": "FC Differdange 03"
+     },
+     "a": {
+      "id": 44981,
+      "n": "Racing FC Union Luxembourg"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Thillenberg 1 (Differdange)"
     },
     {
      "id": 1011132,
@@ -6344,24 +6363,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Pétange, synth.)"
-    },
-    {
-     "id": 1011134,
-     "d": "2027-03-09T20:00:00+01:00",
-     "tag": 13,
-     "h": {
-      "id": 45624,
-      "n": "FC Differdange 03"
-     },
-     "a": {
-      "id": 44981,
-      "n": "Racing FC Union Luxembourg"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Thillenberg 1 (Differdange)"
     },
     {
      "id": 1011145,
@@ -6490,6 +6491,24 @@
      "ort": "Terrain Ralingen (synth.)"
     },
     {
+     "id": 1011154,
+     "d": "2027-03-22T20:00:00+01:00",
+     "tag": 15,
+     "h": {
+      "id": 45624,
+      "n": "FC Differdange 03"
+     },
+     "a": {
+      "id": 45230,
+      "n": "U.N. Käerjeng 97 I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Thillenberg 1 (Differdange)"
+    },
+    {
      "id": 1011152,
      "d": "2027-03-22T20:00:00+01:00",
      "tag": 15,
@@ -6560,24 +6579,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Pétange, synth.)"
-    },
-    {
-     "id": 1011154,
-     "d": "2027-03-23T20:00:00+01:00",
-     "tag": 15,
-     "h": {
-      "id": 45624,
-      "n": "FC Differdange 03"
-     },
-     "a": {
-      "id": 45230,
-      "n": "U.N. Käerjeng 97 I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Thillenberg 1 (Differdange)"
     },
     {
      "id": 1011161,
@@ -6688,6 +6689,24 @@
      "ort": "Terrain 2 (Strassen, synth.)"
     },
     {
+     "id": 1011173,
+     "d": "2027-04-12T20:00:00+02:00",
+     "tag": 17,
+     "h": {
+      "id": 45624,
+      "n": "FC Differdange 03"
+     },
+     "a": {
+      "id": 44791,
+      "n": "Atert Bissen I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Thillenberg 1 (Differdange)"
+    },
+    {
      "id": 1011175,
      "d": "2027-04-12T20:00:00+02:00",
      "tag": 17,
@@ -6776,24 +6795,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Pétange, synth.)"
-    },
-    {
-     "id": 1011173,
-     "d": "2027-04-13T20:00:00+02:00",
-     "tag": 17,
-     "h": {
-      "id": 45624,
-      "n": "FC Differdange 03"
-     },
-     "a": {
-      "id": 44791,
-      "n": "Atert Bissen I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Thillenberg 1 (Differdange)"
     },
     {
      "id": 1011181,
@@ -6904,6 +6905,24 @@
      "ort": "Terrain Jos Bloes (Bascharage, synth.)"
     },
     {
+     "id": 1011195,
+     "d": "2027-04-26T20:00:00+02:00",
+     "tag": 19,
+     "h": {
+      "id": 45624,
+      "n": "FC Differdange 03"
+     },
+     "a": {
+      "id": 45403,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Thillenberg 1 (Differdange)"
+    },
+    {
      "id": 1011192,
      "d": "2027-04-26T20:00:00+02:00",
      "tag": 19,
@@ -6992,24 +7011,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Pétange, synth.)"
-    },
-    {
-     "id": 1011195,
-     "d": "2027-04-27T20:00:00+02:00",
-     "tag": 19,
-     "h": {
-      "id": 45624,
-      "n": "FC Differdange 03"
-     },
-     "a": {
-      "id": 45403,
-      "n": "FC Koeppchen Wormeldange I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Thillenberg 1 (Differdange)"
     },
     {
      "id": 1011201,
@@ -7138,6 +7139,24 @@
      "ort": "Terrain 2 (Rumelange, synth.)"
     },
     {
+     "id": 1011211,
+     "d": "2027-05-10T20:00:00+02:00",
+     "tag": 21,
+     "h": {
+      "id": 45624,
+      "n": "FC Differdange 03"
+     },
+     "a": {
+      "id": 46224,
+      "n": "FC Lorentzweiler"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Thillenberg 1 (Differdange)"
+    },
+    {
      "id": 1011212,
      "d": "2027-05-10T20:00:00+02:00",
      "tag": 21,
@@ -7208,24 +7227,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Pétange, synth.)"
-    },
-    {
-     "id": 1011211,
-     "d": "2027-05-11T20:00:00+02:00",
-     "tag": 21,
-     "h": {
-      "id": 45624,
-      "n": "FC Differdange 03"
-     },
-     "a": {
-      "id": 46224,
-      "n": "FC Lorentzweiler"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Thillenberg 1 (Differdange)"
     },
     {
      "id": 1011226,
@@ -15216,6 +15217,24 @@
      "ort": "Stade Albert Kongs (Itzig)"
     },
     {
+     "id": 13504,
+     "d": "2026-11-09T20:00:00+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45625,
+      "n": "FC Differdange 03"
+     },
+     "a": {
+      "id": 46497,
+      "n": "Green-Boys 77 Harlange-Tarchamps I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Thillenberg 1 (Differdange)"
+    },
+    {
      "id": 13498,
      "d": "2026-11-09T20:00:00+01:00",
      "tag": 1,
@@ -15304,24 +15323,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Stade E. Mayrisch II (Esch, synth.)"
-    },
-    {
-     "id": 13504,
-     "d": "2026-11-10T20:00:00+01:00",
-     "tag": 1,
-     "h": {
-      "id": 45625,
-      "n": "FC Differdange 03"
-     },
-     "a": {
-      "id": 46497,
-      "n": "Green-Boys 77 Harlange-Tarchamps I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Thillenberg 1 (Differdange)"
     },
     {
      "id": 13512,
@@ -17526,6 +17527,24 @@
      "ort": "Terrain Op Birkelt (Larochette, synth.)"
     },
     {
+     "id": 13857,
+     "d": "2026-10-24T00:00:01+02:00",
+     "tag": 1,
+     "h": {
+      "id": 45927,
+      "n": "FC Les Aiglons Dalheim"
+     },
+     "a": {
+      "id": 46478,
+      "n": "Young Boys Diekirch"
+     },
+     "hs": 0,
+     "as": 3,
+     "gespielt": true,
+     "forfait": false,
+     "ort": "Terrain Kierlingerstrooss (Dalheim)"
+    },
+    {
      "id": 13856,
      "d": "2026-10-24T00:00:01+02:00",
      "tag": 1,
@@ -17797,24 +17816,6 @@
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain synth. Centre Scolaire Koetschette"
-    },
-    {
-     "id": 13857,
-     "d": "2026-10-24T15:00:00+02:00",
-     "tag": 1,
-     "h": {
-      "id": 45927,
-      "n": "FC Les Aiglons Dalheim"
-     },
-     "a": {
-      "id": 46478,
-      "n": "Young Boys Diekirch"
-     },
-     "hs": 0,
-     "as": 3,
-     "gespielt": true,
-     "forfait": false,
-     "ort": "Terrain Kierlingerstrooss (Dalheim)"
     },
     {
      "id": 13858,
@@ -18814,6 +18815,38 @@
     }
    ],
    "start": "2026-09-26"
+  },
+  "coach-45396": {
+   "id": "coach-45396",
+   "n": "Vom Trainer eingetragen",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 8000000003,
+     "d": "2026-10-30T20:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 45396,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "a": {
+      "id": 0,
+      "n": "BVB"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)",
+     "coach": {
+      "art": "Freundschaftsspiel",
+      "gegner": "BVB"
+     }
+    }
+   ],
+   "start": "2026-10-30"
   }
  },
  "bgl": {
@@ -23777,5 +23810,20 @@
   "1011066": "fc-victoria-rosport-mr1-fc-koeppchen-mr1-261026",
   "1015075": "us-moutfort-medingen-mr1-fc-koeppchen-mr2-261030"
  },
- "coach": []
+ "coach": [
+  {
+   "id": 3,
+   "reiter": "MIN 1",
+   "art": "Freundschaftsspiel",
+   "datum": "2026-10-30",
+   "zeit": "20:00",
+   "ende": null,
+   "gegner": "BVB",
+   "heim": true,
+   "ort": "Am Ga (Wormeldange, synth.)",
+   "bem": null,
+   "abgesagt": false,
+   "geaendert": "2026-10-27T17:15:38.786Z"
+  }
+ ]
 }
