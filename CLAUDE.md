@@ -274,6 +274,10 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   dabei gewesene dürfen bleiben. (3) **Nachfrage bei doppeltem Spiel** (`gleicherTag`): gleiche Mannschaft am selben Tag schon ein Trainer- oder
   FLF-Spiel → „Am … steht schon: … Trotzdem speichern?“ (Liste wird vorher frisch geholt). Tests: coach.mjs 60, fussball.mjs 381, Browser.
   **Worker neu einfügen nötig.**
+- **„Morgen/Heute Spiel“ wird bis zum Versand jedes Mal neu gebaut** (27.10.2026, vom Nutzer gesehen: ein mittags eingetragenes und gleich
+  gelöschtes Trainer-Spiel für MIN 2 kam um 19:00 trotzdem als „Morgen Spiel“): noch nicht fällige `heute`-Ereignisse (ab > jetzt) fallen
+  aus `vorher` weg und entstehen aus den aktuellen Daten neu — gelöscht/abgesagt/verlegt → weg, geänderte Uhrzeit → neuer Text (gleiche id).
+  Galt auch für FLF-Spiele (verlegtes Spiel behielt den alten Text). Schon fällige bleiben (verschickt). Test mit Gegenprobe.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

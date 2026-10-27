@@ -69,6 +69,10 @@ export function ereignisse(alt, neu, vorher, now) {
   const gedeckt = new Set();
   for (const e of [...aus.values()])
     if (e.art === "heute" && e.id.includes("+")) { if (e.ab <= now) spieleVon(e).forEach(id => gedeckt.add(id)); else aus.delete(e.id); }
+  // Noch nicht fällige „Morgen/Heute Spiel“ jedes Mal neu aus den aktuellen Daten bauen (27.10.2026: ein Trainer-Spiel für
+  // morgen wurde mittags eingetragen und gleich wieder gelöscht — die um 19 Uhr geplante Mitteilung blieb stehen und ging raus).
+  // So fallen gelöschte, abgesagte und verlegte Spiele weg, und eine geänderte Uhrzeit steht richtig im Text.
+  for (const e of [...aus.values()]) if (e.art === "heute" && e.ab > now && !e.id.includes("+")) aus.delete(e.id);
   const unsere = new Set(neu.teams.flatMap(t => t.ids || [t.id]));
 
   // Jedes Spiel einmal, mit allen Reitern, zu denen es gehört (Pokal ohne I/II: U13 1 und U13 2).

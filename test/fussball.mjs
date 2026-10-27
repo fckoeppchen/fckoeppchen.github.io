@@ -1196,6 +1196,15 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const alt2 = mk2(); alt2.coach = [];
   const nb = tr(alt2, DBB, null, t0 + 60e3);
   ok(nb[0]?.titel === "MIN 1+2 · Neues Spiel" && nb[0].reiter.includes("MIN 2") && nb[0].reiter.includes("Minimes U13"), "Beide: Neues Spiel als MIN 1+2");
+  // Morgen-Mitteilung geplant, dann Spiel gelöscht/abgesagt/verlegt, bevor sie raus ist (27.10.2026, gesehen): fällt weg bzw. stimmt
+  const mi = Date.parse("2026-11-13T12:00:00+01:00");
+  const vor = { ereignisse: mEreignisse(stand([]), stand([sp()]), null, mi).ereignisse, live: [] };
+  ok(vor.ereignisse.some(e => e.id === "heute:" + (COACH_ID + 7) && e.ab > mi), "Morgen Spiel geplant (19 Uhr)");
+  ok(!mEreignisse(stand([sp()]), stand([]), vor, mi + 3600e3).ereignisse.some(e => e.id === "heute:" + (COACH_ID + 7)), "Gelöscht vor 19 Uhr: Morgen Spiel fällt weg");
+  ok(!mEreignisse(stand([sp()]), stand([sp({ abgesagt: true })]), vor, mi + 3600e3).ereignisse.some(e => e.id === "heute:" + (COACH_ID + 7)), "Abgesagt vor 19 Uhr: Morgen Spiel fällt weg");
+  ok(mEreignisse(stand([sp()]), stand([sp({ zeit: "11:00" })]), vor, mi + 3600e3).ereignisse.find(e => e.id === "heute:" + (COACH_ID + 7))?.text.startsWith("11:00"), "Uhrzeit geändert vor 19 Uhr: Morgen Spiel mit neuer Zeit");
+  const nach19 = Date.parse("2026-11-13T19:05:00+01:00"), vor2 = { ereignisse: mEreignisse(stand([]), stand([sp()]), null, nach19).ereignisse, live: [] };
+  ok(mEreignisse(stand([sp()]), stand([sp({ zeit: "11:00" })]), vor2, nach19 + 60e3).ereignisse.find(e => e.id === "heute:" + (COACH_ID + 7))?.text.startsWith("10:00"), "Schon fällig (verschickt): bleibt, wie es war");
   // Ohne alten Coach-Stand (erster Lauf): nichts
   const ohne = mk(); ok(tr(ohne, stand([sp()]), null, t0 + 60e3).length === 0, "Trainer: erster Lauf ohne alten Stand → nichts");
 }
