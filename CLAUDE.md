@@ -248,8 +248,24 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Neu d** (vom Nutzer): „Zu Hause“ trägt gleich **Am Ga (Wormeldange, synth.)** ein (`HEIMPLATZ`; auswärts leert es wieder, Abruf nimmt
   es auch, wenn der Platz fehlt). Uhrzeit und Ende als **zwei Auswahlfelder 00–23 / Minuten in 5er-Schritten** (`zeitWahl`) statt
   `type=time` — das zeigte je nach Handysprache AM/PM. Datum bleibt das Handy-Datumsfeld, darunter auf Deutsch („→ Samstag, 31. Oktober 2026“).
-  **Stufe 2 offen:** Verwalter für Präsident/Tiago (Spalte `rolle` steht schon), Sperren-Knopf (Spalte `gesperrt` wird schon geprüft), Verlauf,
-  Mitteilungen „neu, geändert, abgesagt“ mit eigenem Haken (10 min nach der letzten Änderung).
+  **Stufe 2** (vom Nutzer, 27.10.2026, Fassung 27.10. neu e): **Rollen** — `chef` (Laurent, Gerät mit person 0, eigener Code), `admin` = Verwalter
+  (alle Spiele, Trainer anlegen/ändern/entfernen, **keine Verwalter** — die legt nur der Chef an und entfernt sie), `trainer`. `darfPerson` im
+  Worker, die App zeigt Knöpfe nur bei `p.darf`. **Mehrere Codes je Person** (Tabelle `coach_code`, je Gerät einer, jeder gilt einmal; der
+  Stufe-1-Code aus `coach_trainer.code_hash` zieht beim ersten Start einmal um): „+ Code für weiteres Gerät“ (andere Geräte bleiben),
+  offenen Code „zurückziehen“, „Alle Geräte abmelden“ (Handy verloren; offene Codes fallen mit weg), „Entfernen“ (Person, Codes, Geräte weg,
+  ihre Spiele bleiben mit „eingetragen von …“), „Mannschaften ändern“. Liste zeigt „📱 auf n Geräten angemeldet“, offene Codes, zuletzt
+  eingelöst. **Codes auch am Computer/Android im Browser** (vom Nutzer: Desktop) — gesperrt ist nur iPhone-Safari (`IOS && !istApp`,
+  getrennter Speicher). **Verlauf** (`coach_verlauf`, 1 Jahr, letzte 60 in der App, nur Chef/Verwalter): neu/geändert/abgesagt/gelöscht,
+  Personen angelegt/geändert/entfernt, Codes gemacht/eingelöst/zurückgezogen. **Mitteilungen** (Art `trainer`, Haken „Trainer: neu, geändert,
+  abgesagt“ bei jeder Mannschaft gleich nach „Spiel steht an“, beim Anhaken an; bestehende Auswahl muss ihn selbst anhaken): in
+  `tools/mitteilungen.mjs` aus `alt.coach`/`neu.coach` (öffentliche Liste hat jetzt `geaendert`) — **Neues Spiel**, **Geändert** („Jetzt … (vorher
+  …)“, nur Datum/Uhrzeit/Gegner/Art/Platz/Mannschaft, nicht Bemerkung/Ende), **Abgesagt**, **Findet statt**, **Gestrichen** (gelöscht nach
+  Ankündigung). `ab` = Änderung + 10 min; ändert er in der Zeit nochmal, ersetzt das neue Ereignis das wartende und behält dessen `basis` (Stand,
+  den die Eltern kennen) — vertippt = eine Mitteilung, zurückgeändert/gleich gelöscht = keine. Neue Spiele für heute/morgen nicht extra (dafür
+  „Morgen/Heute Spiel“). Kurz vor Anpfiff geändert → sofort. Erster Lauf ohne `alt.coach` → nichts. Tests: `test/coach.mjs` 51 (Rollen, Codes,
+  Geräte, Entfernen, Verlauf, Umzug Stufe 1), `test/fussball.mjs` 374 (Trainer-Mitteilungen, Gegenprobe), Browser: Chef → Verwalter am Computer
+  → Trainer, iPhone-Safari lehnt ab, iPhone-App nimmt an, zweiter Code am Computer, Mannschaften ändern, Verlauf, Geräte abmelden, Entfernen.
+  **Worker neu einfügen nötig.**
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

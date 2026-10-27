@@ -25,7 +25,7 @@ const hatErgebnis = sp => sp.hs != null && sp.as != null;
 // Welche Arten es für welchen Reiter gibt (Tabelle im Plan). Woche hat nur „woche“.
 export const ARTEN = {
   heute: "Heute Spiel", spieltag: "Spieltag komplett", tabelle: "Tabelle aktualisiert",
-  uhrzeit: "Uhrzeit steht fest", neu: "Neue Phase / neues Spiel", ticker: "Liveticker läuft", halbzeit: "Halbzeit", ende: "Endstand", woche: "Neue Woche",
+  uhrzeit: "Uhrzeit steht fest", neu: "Neue Phase / neues Spiel", trainer: "Trainer: neu, geändert, abgesagt", ticker: "Liveticker läuft", halbzeit: "Halbzeit", ende: "Endstand", woche: "Neue Woche",
 };
 
 // Tabelle fertig = jede Mannschaft hat in der FLF-Tabelle so viele Spiele wie Ergebnisse in der Klasse (vom Nutzer,
@@ -219,6 +219,51 @@ export function ereignisse(alt, neu, vorher, now) {
     if (a && !hatErgebnis(a) && hatErgebnis(sp) && d > now - 48 * H)
       dazu({ ...basis, id: "nende:" + sp.id, art: "ende", titel: "Roude Léiw · Endstand",
              text: `${sp.h.n} ${sp.hs}:${sp.as} ${sp.a.n}`, ab: now, bis: now + 18 * H });
+  }
+
+  // Trainer-Spiele (Coach, Stufe 2, vom Nutzer 27.10.2026): neu, geändert, abgesagt, findet doch statt, gestrichen — eigener
+  // Haken „trainer“. Erst 10 min nach der letzten Änderung (vertippt und gleich korrigiert = eine Mitteilung; zurückgeändert =
+  // keine). Verglichen wird mit dem Stand, den die Eltern zuletzt hatten: `basis` im noch wartenden Ereignis, sonst der alte Abruf.
+  // Neue Spiele für heute/morgen melden sich nicht extra — dafür kommt „Morgen/Heute Spiel“. Nur ab heute, nur bekannte Mannschaften.
+  if (Array.isArray(alt?.coach) && Array.isArray(neu.coach)) {
+    const altC = new Map(alt.coach.map(x => [x.id, x])), neuC = new Map(neu.coach.map(x => [x.id, x]));
+    const FELDER = ["reiter", "art", "datum", "zeit", "gegner", "heim", "ort", "abgesagt"];
+    const kern = x => x && Object.fromEntries(FELDER.map(k => [k, x[k] ?? null]));
+    const platz = x => x.ort || (x.heim ? "Am Ga (Wormeldange, synth.)" : "");
+    const wann = x => datum(x.datum + "T12:00:00Z") + (x.zeit ? " um " + x.zeit : "");
+    const was = x => x.art === "Freundschaftsspiel" ? "gegen " + x.gegner : x.art + ": " + x.gegner;
+    const voll = x => `${wann(x)} · ${was(x)}` + (platz(x) ? ` · 📍 ${platz(x)}` : "");
+    for (const id of new Set([...altC.keys(), ...neuC.keys()])) {
+      const a = altC.get(id), n = neuC.get(id), x = n || a;
+      if (a && n && a.geaendert === n.geaendert) continue;
+      if (x.datum < heute || !teams.some(t => t.reiter === x.reiter)) continue;
+      const w = [...aus.values()].find(e => e.art === "trainer" && e.spiel === id && e.ab > now);
+      const basis = w ? w.basis : kern(a);   // null: die Eltern kennen das Spiel noch nicht
+      if (w) aus.delete(w.id);
+      const [hh, mm] = (x.zeit || "22:00").split(":").map(Number), start = umLux(x.datum, hh, mm);
+      let ab = n ? Date.parse(n.geaendert) + 10 * 60e3 : now + 10 * 60e3;
+      if (ab >= start) ab = now;   // kurz vor dem Spiel geändert: gleich
+      const e = { reiter: [x.reiter], art: "trainer", spiel: id, basis, ab, bis: Math.min(start, ab + 48 * H) };
+      if (!n) {   // gelöscht
+        if (basis && !basis.abgesagt) dazu({ ...e, id: `trainer:${id}:weg`, titel: `${x.reiter} · Gestrichen`, text: `${voll(basis)} fällt weg` });
+        continue;
+      }
+      const k = kern(n);
+      if (!basis) {
+        if (n.abgesagt || n.datum <= morgen) continue;
+        dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${n.reiter} · Neues Spiel`, text: voll(n) });
+      } else if (basis.abgesagt !== k.abgesagt) {
+        dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${n.reiter} · ${k.abgesagt ? "Abgesagt" : "Findet statt"}`,
+               text: k.abgesagt ? `${voll(n)} fällt aus` : `${voll(n)} findet doch statt` });
+      } else if (!k.abgesagt) {
+        const vorher = [];
+        if (basis.datum !== k.datum || basis.zeit !== k.zeit) vorher.push(wann(basis));
+        if (basis.gegner !== k.gegner || basis.art !== k.art) vorher.push(was(basis));
+        if (platz(basis) !== platz(k)) vorher.push(platz(basis) ? "📍 " + platz(basis) : "ohne Platz");
+        if (basis.reiter !== k.reiter) vorher.push(basis.reiter);
+        if (vorher.length) dazu({ ...e, id: `trainer:${id}:${n.geaendert}`, titel: `${n.reiter} · Geändert`, text: `Jetzt ${voll(n)} (vorher ${vorher.join(", ")})` });
+      }
+    }
   }
 
   // Unsere Woche: montags 10:00 (vom Nutzer, 21.10.2026) „Diese Woche n Spiele, davon m zu Hause“ (ab So 22 Uhr vorbereitet).

@@ -1137,6 +1137,50 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(!me.some(e => e.art === "neu"), "Coach: kein „Neues Spiel“ in Stufe 1");
   const so = Date.parse("2026-11-08T09:00:00+01:00");
   ok(!mEreignisse(alt, neu, null, so).live.some(x => x.id === COACH_ID + 4), "Coach: Seniors-Trainerspiel nicht in der Live-Liste");
+
+  // Stufe 2: Mitteilungen „neu, geändert, abgesagt“ (eigener Haken trainer), 10 min nach der letzten Änderung.
+  const t0 = Date.parse("2026-11-01T12:00:00+01:00"), iso = ms => new Date(ms).toISOString();
+  const sp = (o = {}) => ({ id: 7, reiter: "MIN 1", art: "Freundschaftsspiel", datum: "2026-11-14", zeit: "10:00", ende: null, gegner: "Remich", heim: true, ort: null, bem: null, abgesagt: false, geaendert: iso(t0), ...o });
+  const stand = l => { const d = mk(); d.coach = l; coachDazu(d, l); return d; };
+  const tr = (a, b, vor, now) => mEreignisse(a, b, vor, now).ereignisse.filter(e => e.art === "trainer");
+  let e1 = tr(stand([]), stand([sp()]), null, t0 + 60e3);
+  ok(e1.length === 1 && e1[0].titel === "MIN 1 · Neues Spiel" && e1[0].text === "Sa., 14.11. um 10:00 · gegen Remich · 📍 Am Ga (Wormeldange, synth.)" && e1[0].ab === t0 + 10 * 60e3 && e1[0].reiter.includes("Minimes U13"),
+     "Trainer: neues Spiel, 10 min nach dem Eintragen, für MIN 1 und Minimes U13");
+  // 3 min später vertippt korrigiert: eine Mitteilung, weiter „Neues Spiel“, neuer Text, neue Wartezeit
+  const w1 = { ereignisse: mEreignisse(stand([]), stand([sp()]), null, t0 + 60e3).ereignisse, live: [] };
+  let e2 = tr(stand([sp()]), stand([sp({ zeit: "11:00", geaendert: iso(t0 + 3 * 60e3) })]), w1, t0 + 4 * 60e3);
+  ok(e2.length === 1 && e2[0].titel === "MIN 1 · Neues Spiel" && e2[0].text.includes("um 11:00") && e2[0].ab === t0 + 13 * 60e3, "Trainer: gleich korrigiert → eine Mitteilung, neue Wartezeit");
+  // Eingetragen und gleich wieder gelöscht: nichts
+  const w2 = { ereignisse: mEreignisse(stand([]), stand([sp()]), null, t0 + 60e3).ereignisse, live: [] };
+  ok(tr(stand([sp()]), stand([]), w2, t0 + 2 * 60e3).length === 0, "Trainer: eingetragen und gleich gelöscht → nichts");
+  // Nach dem Versand geändert: „Geändert“ mit vorher
+  const nach = t0 + 3600e3;
+  let e3 = tr(stand([sp()]), stand([sp({ zeit: "14:00", datum: "2026-11-15", geaendert: iso(nach) })]), null, nach + 60e3);
+  ok(e3.length === 1 && e3[0].titel === "MIN 1 · Geändert" && e3[0].text === "Jetzt So., 15.11. um 14:00 · gegen Remich · 📍 Am Ga (Wormeldange, synth.) (vorher Sa., 14.11. um 10:00)", "Trainer: geändert mit vorher");
+  let e4 = tr(stand([sp()]), stand([sp({ heim: false, ort: "Remich", geaendert: iso(nach) })]), null, nach + 60e3);
+  ok(e4[0]?.text.endsWith("📍 Remich (vorher 📍 Am Ga (Wormeldange, synth.))"), "Trainer: Platz geändert");
+  ok(tr(stand([sp()]), stand([sp({ bem: "Trikots weiß", geaendert: iso(nach) })]), null, nach + 60e3).length === 0, "Trainer: nur Bemerkung geändert → keine Mitteilung");
+  // Zurückgeändert, bevor es raus war: nichts
+  const w3 = { ereignisse: mEreignisse(stand([sp()]), stand([sp({ zeit: "14:00", geaendert: iso(nach) })]), null, nach + 60e3).ereignisse, live: [] };
+  ok(tr(stand([sp({ zeit: "14:00", geaendert: iso(nach) })]), stand([sp({ geaendert: iso(nach + 2 * 60e3) })]), w3, nach + 3 * 60e3).length === 0, "Trainer: zurückgeändert vor dem Versand → nichts");
+  // Abgesagt, findet statt, gestrichen
+  let e5 = tr(stand([sp()]), stand([sp({ abgesagt: true, geaendert: iso(nach) })]), null, nach + 60e3);
+  ok(e5[0]?.titel === "MIN 1 · Abgesagt" && e5[0].text.endsWith("fällt aus"), "Trainer: abgesagt");
+  let e6 = tr(stand([sp({ abgesagt: true })]), stand([sp({ geaendert: iso(nach) })]), null, nach + 60e3);
+  ok(e6[0]?.titel === "MIN 1 · Findet statt", "Trainer: wieder angesetzt");
+  let e7 = tr(stand([sp()]), stand([]), null, nach);
+  ok(e7[0]?.titel === "MIN 1 · Gestrichen" && e7[0].ab === nach + 10 * 60e3, "Trainer: gelöscht nach Ankündigung → gestrichen");
+  ok(tr(stand([sp({ abgesagt: true })]), stand([]), null, nach).length === 0, "Trainer: abgesagtes Spiel gelöscht → nichts mehr");
+  // Für morgen neu eingetragen: kein „Neues Spiel“ (dafür kommt Morgen Spiel)
+  const fr13 = Date.parse("2026-11-13T12:00:00+01:00");
+  const e8 = mEreignisse(stand([]), stand([sp({ geaendert: iso(fr13) })]), null, fr13 + 60e3).ereignisse;
+  ok(!e8.some(e => e.art === "trainer") && e8.some(e => e.art === "heute" && e.titel === "MIN 1 · Morgen Spiel"), "Trainer: für morgen nur Morgen Spiel");
+  // Geändert 5 min vor Anpfiff: gleich
+  const kurz = Date.parse("2026-11-14T09:55:00+01:00");
+  const e9 = tr(stand([sp()]), stand([sp({ ort: "Platz 2", geaendert: iso(kurz) })]), null, kurz);
+  ok(e9[0]?.ab === kurz && e9[0].bis === Date.parse("2026-11-14T10:00:00+01:00"), "Trainer: kurz vor dem Spiel → sofort");
+  // Ohne alten Coach-Stand (erster Lauf): nichts
+  const ohne = mk(); ok(tr(ohne, stand([sp()]), null, t0 + 60e3).length === 0, "Trainer: erster Lauf ohne alten Stand → nichts");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);

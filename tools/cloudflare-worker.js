@@ -419,7 +419,7 @@ export async function pushAnfrage(req, db, was, env = {}) {
 // noch am selben Abend); was nachts fällig wird, wartet bis 7 Uhr (solange
 // `bis` nicht vorbei ist). Jede id geht nur einmal raus (Tabelle gemeldet).
 const MITT_URL = "https://raw.githubusercontent.com/fckoeppchen/fckoeppchen.github.io/main/data/mitteilungen.json";
-const MITT_ARTEN = ["heute", "spieltag", "tabelle", "uhrzeit", "neu", "ticker", "halbzeit", "ende", "woche", "tor"];
+const MITT_ARTEN = ["heute", "spieltag", "tabelle", "uhrzeit", "neu", "ticker", "halbzeit", "ende", "woche", "tor", "trainer"];
 // Tore als Mitteilung (vom Nutzer, 23.10.2026; in der App vorerst nur mit eigenem Code wählbar): FuPas Tore mit eigener
 // id und Stand nach dem Tor. Nur Tore der letzten 20 min — sonst kämen nach einem Neustart oder spät gefundenem Spiel alle alten.
 export const toreRoh = f => (f.highlights || []).filter(x => x.type === "goal" && x.id != null)
@@ -488,7 +488,7 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
     .map(e => `<tr><td>${esc(e.titel)}${e.text ? `<br><small>${esc(e.text)}</small>` : ""}</td><td>${zeitLux(e.ab)}</td><td class="st">${esc(mittStatus(e, gem.get(e.id), now, wartend.get(e.id) || 0))}</td></tr>`).join("");
   // Gewählt je Mannschaft und Art, als Anzahl Handys (wer was gewählt hat, steht nirgends).
   const ART_KURZ = { heute: "Spiel steht an", neu: "Neue Phase/Spiel", spieltag: "Spieltag", tabelle: "Tabelle", uhrzeit: "Uhrzeit",
-    ticker: "Ticker", halbzeit: "Halbzeit", ende: "Endstand", woche: "Woche", tor: "Tore" };
+    ticker: "Ticker", halbzeit: "Halbzeit", ende: "Endstand", woche: "Woche", tor: "Tore", trainer: "Trainer" };
   const zahl = new Map();
   for (const a of abos) {
     let w = null; try { w = JSON.parse(a.wahl); } catch (e) {}
@@ -592,21 +592,32 @@ export async function mitteilungenSenden(db, now = Date.now()) {
   return { gesendet };
 }
 
-// ---- Coach, Stufe 1 (vom Nutzer, 27.10.2026; Plan in IDEEN.md „COACH-Reiter“) ----
-// Trainer tragen Freundschaftsspiele und Turniere ein, die nicht im Extranet stehen. Der Verwalter legt je Trainer
-// einen Code an, der nur EINMAL gilt; beim Einlösen bekommt das Handy einen eigenen geheimen Schlüssel und bleibt damit
-// angemeldet. Gespeichert werden von Codes und Schlüsseln nur SHA-256-Werte. Hauptverwalter ist der Code, dessen
-// SHA-256 ADMIN_HASH ist (derselbe wie CODE_HASH in index.html; der Code selbst steht nirgends).
-// Die Spiele holt der FLF-Abruf öffentlich über ?coach=spiele (ohne Trainernamen) und baut sie in die Daten ein —
-// gespeichert wird hier, angestoßen wird der Abruf sofort (höchstens einmal je Minute, sonst im nächsten Takt).
-// Aufrufe: POST ?coach=einloesen|ich|liste|speichern|loeschen|trainer_neu|trainer_code|abmelden (Text mit JSON).
+// ---- Coach (vom Nutzer, 27.10.2026; Plan in IDEEN.md „COACH-Reiter“) ----
+// Trainer tragen Freundschaftsspiele und Turniere ein, die nicht im Extranet stehen. Drei Rollen (Stufe 2, vom Nutzer):
+//  - Chef (Laurent): Gerät mit person 0, angemeldet mit dem Code, dessen SHA-256 ADMIN_HASH ist (= CODE_HASH in index.html,
+//    der Code selbst steht nirgends). Darf alles, auch Verwalter anlegen und entfernen.
+//  - Verwalter (z. B. Präsident der Jugendkommission, Jugendkoordinator): alle Spiele, Trainer anlegen/ändern/entfernen,
+//    aber keine Verwalter.
+//  - Trainer: nur eigene Spiele, nur eigene Mannschaften.
+// Jede Person kann mehrere Codes bekommen (je Gerät einer, z. B. Handy und Computer). Ein Code gilt EINMAL; beim Einlösen
+// bekommt das Gerät einen eigenen geheimen Schlüssel und bleibt damit angemeldet. Von Codes und Schlüsseln wird nur der
+// SHA-256 gespeichert. Jede Änderung steht im Verlauf (Chef und Verwalter sehen ihn).
+// Die Spiele holt der FLF-Abruf öffentlich über ?coach=spiele (ohne Namen) und baut sie in die Daten ein — gespeichert wird
+// hier, angestoßen wird der Abruf sofort (höchstens einmal je Minute, sonst im nächsten Takt).
+// Aufrufe: POST ?coach=einloesen|ich|liste|speichern|loeschen|abmelden|person_neu|person_aendern|code_neu|code_weg|
+// geraete_weg|person_weg (Text mit JSON).
 const ADMIN_HASH = "452407a9a9f0b6c22b1ea097c91cb140e13a3e35edac52e98785732c19379e9c";
 export const COACH_ARTEN = ["Freundschaftsspiel", "Turnier", "Hallenturnier", "Sonstiges"];
 const COACH_TABELLEN = [
   "CREATE TABLE IF NOT EXISTS coach_trainer (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, teams TEXT NOT NULL, rolle TEXT NOT NULL DEFAULT 'trainer', code_hash TEXT, eingeloest TEXT, gesperrt INTEGER NOT NULL DEFAULT 0, seit TEXT NOT NULL)",
+  "CREATE TABLE IF NOT EXISTS coach_code (id INTEGER PRIMARY KEY AUTOINCREMENT, trainer_id INTEGER NOT NULL, code_hash TEXT NOT NULL, eingeloest TEXT, seit TEXT NOT NULL)",
   "CREATE TABLE IF NOT EXISTS coach_geraet (schluessel_hash TEXT PRIMARY KEY, trainer_id INTEGER NOT NULL, seit TEXT NOT NULL)",
   "CREATE TABLE IF NOT EXISTS coach_spiel (id INTEGER PRIMARY KEY AUTOINCREMENT, trainer_id INTEGER NOT NULL, von TEXT NOT NULL, reiter TEXT NOT NULL, art TEXT NOT NULL, datum TEXT NOT NULL, zeit TEXT, ende TEXT, gegner TEXT NOT NULL, heim INTEGER NOT NULL, ort TEXT, bem TEXT, abgesagt INTEGER NOT NULL DEFAULT 0, geaendert TEXT NOT NULL)",
   "CREATE TABLE IF NOT EXISTS coach_stand (k TEXT PRIMARY KEY, v TEXT)",
+  "CREATE TABLE IF NOT EXISTS coach_verlauf (id INTEGER PRIMARY KEY AUTOINCREMENT, zeit TEXT NOT NULL, wer TEXT NOT NULL, was TEXT NOT NULL)",
+  // Stufe 1 hatte den Code in coach_trainer (ein Code je Trainer) — einmal in coach_code umziehen.
+  "INSERT INTO coach_code (trainer_id, code_hash, eingeloest, seit) SELECT id, code_hash, eingeloest, seit FROM coach_trainer WHERE code_hash IS NOT NULL",
+  "UPDATE coach_trainer SET code_hash = NULL WHERE code_hash IS NOT NULL",
 ];
 let COACH_BEREIT = false;
 async function coachTabellen(db) {
@@ -651,12 +662,12 @@ export function coachSpielPruefen(s, now = Date.now()) {
   if (!x.gegner) return x.art === "Freundschaftsspiel" ? "Gegner fehlt" : "Veranstalter fehlt";
   return x;
 }
-// Wer ist das? Schlüssel → { id, name, rolle, teams } oder null (unbekannt oder gesperrt).
+// Wer ist das? Schlüssel → { id, name, rolle, teams } oder null (unbekannt, entfernt oder abgemeldet).
 async function coachWer(db, schluessel) {
   if (typeof schluessel !== "string" || schluessel.length < 20 || schluessel.length > 100) return null;
   const g = await db.prepare("SELECT trainer_id FROM coach_geraet WHERE schluessel_hash = ?1").bind(await sha(schluessel)).first();
   if (!g) return null;
-  if (g.trainer_id === 0) return { id: 0, name: "Laurent", rolle: "admin", teams: [] };
+  if (g.trainer_id === 0) return { id: 0, name: "Laurent", rolle: "chef", teams: [] };
   const t = await db.prepare("SELECT * FROM coach_trainer WHERE id = ?1").bind(g.trainer_id).first();
   if (!t || t.gesperrt) return null;
   return { id: t.id, name: t.name, rolle: t.rolle, teams: JSON.parse(t.teams) };
@@ -667,6 +678,12 @@ async function geraetNeu(db, trainerId, now) {
   await db.prepare("INSERT INTO coach_geraet (schluessel_hash, trainer_id, seit) VALUES (?1, ?2, ?3)").bind(await sha(s), trainerId, new Date(now).toISOString()).run();
   return s;
 }
+async function verlauf(db, wer, was, now) {
+  await db.prepare("INSERT INTO coach_verlauf (zeit, wer, was) VALUES (?1, ?2, ?3)").bind(new Date(now).toISOString(), wer, was).run();
+  // Ein Jahr reicht.
+  await db.prepare("DELETE FROM coach_verlauf WHERE zeit < ?1").bind(new Date(now - 365 * 864e5).toISOString()).run();
+}
+const spielKurz = s => `${s.reiter} ${s.datum.slice(8, 10)}.${s.datum.slice(5, 7)}. ${s.zeit || "Uhrzeit offen"} · ${s.art === "Freundschaftsspiel" ? "gegen " : s.art + ": "}${s.gegner}`;
 // Abruf anstoßen: sofort, höchstens einmal je Minute; sonst merkt sich der Worker es für den nächsten Takt (scheduled).
 async function coachAnstossen(db, env, now) {
   const z = await db.prepare("SELECT v FROM coach_stand WHERE k = 'anstoss'").first();
@@ -676,43 +693,50 @@ async function coachAnstossen(db, env, now) {
     await anstossen(env);
   } else await db.prepare("INSERT OR REPLACE INTO coach_stand (k, v) VALUES ('nachholen', '1')").run();
 }
+// Im Minuten-Takt: ein Anstoß, der warten musste. (Die Mitteilungen „neu, geändert, abgesagt“ stehen schon nach dem
+// sofortigen Abruf mit `ab` = Änderung + 10 min in mitteilungen.json — der Worker schickt sie dann von selbst.)
 export async function coachNachholen(db, env, now) {
   await coachTabellen(db);
   if (await db.prepare("SELECT v FROM coach_stand WHERE k = 'nachholen'").first()) await coachAnstossen(db, env, now);
 }
 const spielAus = (r, mitVon) => ({ id: r.id, reiter: r.reiter, art: r.art, datum: r.datum, zeit: r.zeit, ende: r.ende, gegner: r.gegner,
   heim: !!r.heim, ort: r.ort, bem: r.bem, abgesagt: !!r.abgesagt, geaendert: r.geaendert, ...(mitVon ? { von: r.von } : {}) });
-// Öffentlich (für den FLF-Abruf): alle Spiele ab 60 Tagen zurück, ohne Namen.
+// Öffentlich (für den FLF-Abruf): alle Spiele ab 60 Tagen zurück, ohne Namen. `geaendert` braucht der Abruf für die Mitteilungen.
 export async function coachOeffentlich(db, now = Date.now()) {
   await coachTabellen(db);
   const ab = tagLuxNow(now - 60 * 864e5);
   const { results } = await db.prepare("SELECT * FROM coach_spiel WHERE datum >= ?1 ORDER BY datum, zeit, id").bind(ab).all();
-  return results.map(r => { const s = spielAus(r, false); delete s.geaendert; return s; });
+  return results.map(r => spielAus(r, false));
 }
+const istVerwalter = w => w.rolle === "chef" || w.rolle === "admin";
+// Wer darf diese Person verwalten? Chef alle, Verwalter nur Trainer, sich selbst nie (Chef ist keine Person in der Tabelle).
+const darfPerson = (w, t) => !!t && (w.rolle === "chef" || (w.rolle === "admin" && t.rolle === "trainer"));
 export async function coachAnfrage(req, db, was, env = {}, now = Date.now()) {
   if (req.method !== "POST") return antwort('{"fehler":"post"}', 405);
   let x; try { x = JSON.parse(await req.text()); } catch (e) { return antwort('{"fehler":"json"}', 400); }
   await coachTabellen(db);
+  const zeitIso = new Date(now).toISOString();
   if (was === "einloesen") {
     const ip = req.headers.get("cf-connecting-ip") || "?";
-    if (zuVieleVersuche(ip, now)) return antwort('{"fehler":"zu viele Versuche, bitte später nochmal"}', 429);
+    if (zuVieleVersuche(ip, now)) return antwort('{"fehler":"Zu viele Versuche, bitte in 10 Minuten nochmal."}', 429);
     const roh = String(x.code || "").trim();
     if (roh && await sha(roh.toUpperCase()) === ADMIN_HASH)
-      return antwort(JSON.stringify({ schluessel: await geraetNeu(db, 0, now), name: "Laurent", rolle: "admin", teams: [] }));
+      return antwort(JSON.stringify({ schluessel: await geraetNeu(db, 0, now), name: "Laurent", rolle: "chef", teams: [] }));
     const h = codeNorm(roh).length >= 8 ? await sha(codeNorm(roh)) : "";
-    const t = h && await db.prepare("SELECT * FROM coach_trainer WHERE code_hash = ?1").bind(h).first();
-    if (!t || t.gesperrt || t.eingeloest) {
+    const c = h && await db.prepare("SELECT * FROM coach_code WHERE code_hash = ?1").bind(h).first();
+    const t = c && await db.prepare("SELECT * FROM coach_trainer WHERE id = ?1").bind(c.trainer_id).first();
+    if (!t || t.gesperrt || c.eingeloest) {
       FEHLVERSUCHE.get(ip).push(now);
-      return antwort(JSON.stringify({ fehler: t && t.eingeloest ? "Dieser Code wurde schon benutzt." : "Diesen Code gibt es nicht." }), 404);
+      return antwort(JSON.stringify({ fehler: t && c.eingeloest ? "Dieser Code wurde schon benutzt." : "Diesen Code gibt es nicht." }), 404);
     }
-    // Einmal-Code: verbraucht, und ein früheres Handy desselben Trainers ist damit abgemeldet.
-    await db.prepare("UPDATE coach_trainer SET eingeloest = ?2 WHERE id = ?1").bind(t.id, new Date(now).toISOString()).run();
-    await db.prepare("DELETE FROM coach_geraet WHERE trainer_id = ?1").bind(t.id).run();
+    // Einmal-Code: verbraucht. Andere Geräte derselben Person bleiben angemeldet (Handy und Computer).
+    await db.prepare("UPDATE coach_code SET eingeloest = ?2 WHERE id = ?1").bind(c.id, zeitIso).run();
+    await verlauf(db, t.name, "Code eingelöst (neues Gerät)", now);
     return antwort(JSON.stringify({ schluessel: await geraetNeu(db, t.id, now), name: t.name, rolle: t.rolle, teams: JSON.parse(t.teams) }));
   }
   const w = await coachWer(db, x.schluessel);
   if (!w) return antwort('{"fehler":"abgemeldet"}', 401);
-  const admin = w.rolle === "admin";
+  const verw = istVerwalter(w);
   if (was === "ich") return antwort(JSON.stringify(coachIch(w)));
   if (was === "abmelden") {
     await db.prepare("DELETE FROM coach_geraet WHERE schluessel_hash = ?1").bind(await sha(x.schluessel)).run();
@@ -720,37 +744,45 @@ export async function coachAnfrage(req, db, was, env = {}, now = Date.now()) {
   }
   if (was === "liste") {
     const ab = tagLuxNow(now - 60 * 864e5);
-    const { results } = admin
+    const { results } = verw
       ? await db.prepare("SELECT * FROM coach_spiel WHERE datum >= ?1 ORDER BY datum, zeit, id").bind(ab).all()
       : await db.prepare("SELECT * FROM coach_spiel WHERE datum >= ?1 AND trainer_id = ?2 ORDER BY datum, zeit, id").bind(ab, w.id).all();
-    const aus = { ...coachIch(w), spiele: results.map(r => spielAus(r, admin)) };
-    if (admin) aus.trainer = (await db.prepare("SELECT id, name, teams, rolle, eingeloest, gesperrt, seit FROM coach_trainer ORDER BY name").all())
-      .results.map(t => ({ ...t, teams: JSON.parse(t.teams), gesperrt: !!t.gesperrt }));
+    const aus = { ...coachIch(w), spiele: results.map(r => spielAus(r, verw)) };
+    if (verw) {
+      const codes = (await db.prepare("SELECT id, trainer_id, eingeloest, seit FROM coach_code ORDER BY id").all()).results;
+      const geraete = (await db.prepare("SELECT trainer_id, COUNT(*) AS n FROM coach_geraet GROUP BY trainer_id").all()).results;
+      aus.personen = (await db.prepare("SELECT id, name, teams, rolle, seit FROM coach_trainer WHERE gesperrt = 0 ORDER BY rolle, name").all()).results
+        .map(t => ({ ...t, teams: JSON.parse(t.teams), darf: darfPerson(w, t), geraete: geraete.find(g => g.trainer_id === t.id)?.n || 0,
+          codes: codes.filter(c => c.trainer_id === t.id).map(c => ({ id: c.id, eingeloest: c.eingeloest, seit: c.seit })) }));
+      if (w.rolle === "chef") aus.chefGeraete = geraete.find(g => g.trainer_id === 0)?.n || 0;
+      aus.verlauf = (await db.prepare("SELECT zeit, wer, was FROM coach_verlauf ORDER BY id DESC LIMIT 60").all()).results;
+    }
     return antwort(JSON.stringify(aus));
   }
-  // Eigene Spiele, eigene Mannschaften; der Verwalter darf alles.
+  // Eigene Spiele, eigene Mannschaften; Chef und Verwalter dürfen alles.
   const darf = async id => {
     const r = await db.prepare("SELECT * FROM coach_spiel WHERE id = ?1").bind(Number(id) || 0).first();
-    return r && (admin || r.trainer_id === w.id) ? r : null;
+    return r && (verw || r.trainer_id === w.id) ? r : null;
   };
   if (was === "speichern") {
     const s = coachSpielPruefen(x.spiel, now);
     if (typeof s === "string") return antwort(JSON.stringify({ fehler: s }), 400);
-    if (!admin && !w.teams.includes(s.reiter)) return antwort('{"fehler":"nicht deine Mannschaft"}', 403);
-    const zeit = new Date(now).toISOString();
+    if (!verw && !w.teams.includes(s.reiter)) return antwort('{"fehler":"nicht deine Mannschaft"}', 403);
     let id;
     if (x.spiel.id) {
       const alt = await darf(x.spiel.id);
       if (!alt) return antwort('{"fehler":"nicht dein Spiel"}', 403);
       await db.prepare("UPDATE coach_spiel SET reiter=?2, art=?3, datum=?4, zeit=?5, ende=?6, gegner=?7, heim=?8, ort=?9, bem=?10, abgesagt=?11, geaendert=?12 WHERE id = ?1")
-        .bind(alt.id, s.reiter, s.art, s.datum, s.zeit, s.ende, s.gegner, s.heim, s.ort, s.bem, s.abgesagt, zeit).run();
+        .bind(alt.id, s.reiter, s.art, s.datum, s.zeit, s.ende, s.gegner, s.heim, s.ort, s.bem, s.abgesagt, zeitIso).run();
       id = alt.id;
+      await verlauf(db, w.name, (s.abgesagt && !alt.abgesagt ? "abgesagt: " : !s.abgesagt && alt.abgesagt ? "wieder angesetzt: " : "geändert: ") + spielKurz(s), now);
     } else {
       const n = await db.prepare("SELECT COUNT(*) AS n FROM coach_spiel WHERE trainer_id = ?1 AND datum >= ?2").bind(w.id, tagLuxNow(now)).first();
-      if (!admin && (n?.n || 0) >= 50) return antwort('{"fehler":"zu viele Spiele"}', 429);
+      if (!verw && (n?.n || 0) >= 50) return antwort('{"fehler":"zu viele Spiele"}', 429);
       const r = await db.prepare("INSERT INTO coach_spiel (trainer_id, von, reiter, art, datum, zeit, ende, gegner, heim, ort, bem, abgesagt, geaendert) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13) RETURNING id")
-        .bind(w.id, w.name, s.reiter, s.art, s.datum, s.zeit, s.ende, s.gegner, s.heim, s.ort, s.bem, s.abgesagt, zeit).first();
+        .bind(w.id, w.name, s.reiter, s.art, s.datum, s.zeit, s.ende, s.gegner, s.heim, s.ort, s.bem, s.abgesagt, zeitIso).first();
       id = r.id;
+      await verlauf(db, w.name, "neu: " + spielKurz(s), now);
     }
     await coachAnstossen(db, env, now);
     return antwort(JSON.stringify({ ok: true, id }));
@@ -759,26 +791,67 @@ export async function coachAnfrage(req, db, was, env = {}, now = Date.now()) {
     const alt = await darf(x.id);
     if (!alt) return antwort('{"fehler":"nicht dein Spiel"}', 403);
     await db.prepare("DELETE FROM coach_spiel WHERE id = ?1").bind(alt.id).run();
+    await verlauf(db, w.name, "gelöscht: " + spielKurz(alt), now);
     await coachAnstossen(db, env, now);
     return antwort('{"ok":true}');
   }
-  if (!admin) return antwort('{"fehler":"nur Verwalter"}', 403);
-  if (was === "trainer_neu") {
-    const name = text(x.name, 40), teams = (Array.isArray(x.teams) ? x.teams : []).map(t => text(t, 20)).filter(t => REITER_OK.test(t)).slice(0, 10);
-    if (!name || !teams.length) return antwort('{"fehler":"Name und Mannschaft fehlen"}', 400);
+  if (!verw) return antwort('{"fehler":"nur Verwalter"}', 403);
+  const neuerCodeFuer = async t => {
     const code = neuerCode();
-    const r = await db.prepare("INSERT INTO coach_trainer (name, teams, code_hash, seit) VALUES (?1, ?2, ?3, ?4) RETURNING id")
-      .bind(name, JSON.stringify(teams), await sha(codeNorm(code)), new Date(now).toISOString()).first();
+    await db.prepare("INSERT INTO coach_code (trainer_id, code_hash, seit) VALUES (?1, ?2, ?3)").bind(t.id, await sha(codeNorm(code)), zeitIso).run();
+    return code;
+  };
+  const teamsAus = l => (Array.isArray(l) ? l : []).map(t => text(t, 20)).filter(t => REITER_OK.test(t)).slice(0, 15);
+  if (was === "person_neu") {
+    const rolle = x.rolle === "admin" ? "admin" : "trainer";
+    if (rolle === "admin" && w.rolle !== "chef") return antwort('{"fehler":"Verwalter legt nur Laurent an"}', 403);
+    const name = text(x.name, 40), teams = rolle === "admin" ? [] : teamsAus(x.teams);
+    if (!name || (rolle === "trainer" && !teams.length)) return antwort(JSON.stringify({ fehler: rolle === "trainer" ? "Name und Mannschaft fehlen" : "Name fehlt" }), 400);
+    const r = await db.prepare("INSERT INTO coach_trainer (name, teams, rolle, seit) VALUES (?1, ?2, ?3, ?4) RETURNING id").bind(name, JSON.stringify(teams), rolle, zeitIso).first();
+    const t = { id: r.id, name, rolle };
+    const code = await neuerCodeFuer(t);
+    await verlauf(db, w.name, `${rolle === "admin" ? "Verwalter" : "Trainer"} ${name} angelegt${teams.length ? " (" + teams.join(", ") + ")" : ""}`, now);
     return antwort(JSON.stringify({ ok: true, id: r.id, name, code }));
   }
-  if (was === "trainer_code") {
-    // Neuer Code (Handy verloren, Code vergessen): alter Code und angemeldete Handys gelten nicht mehr.
-    const t = await db.prepare("SELECT id, name FROM coach_trainer WHERE id = ?1").bind(Number(x.id) || 0).first();
-    if (!t) return antwort('{"fehler":"Trainer unbekannt"}', 404);
-    const code = neuerCode();
-    await db.prepare("UPDATE coach_trainer SET code_hash = ?2, eingeloest = NULL WHERE id = ?1").bind(t.id, await sha(codeNorm(code))).run();
-    await db.prepare("DELETE FROM coach_geraet WHERE trainer_id = ?1").bind(t.id).run();
+  const t = await db.prepare("SELECT * FROM coach_trainer WHERE id = ?1 AND gesperrt = 0").bind(Number(x.id) || 0).first();
+  if (was === "code_weg") {
+    // Einen noch nicht eingelösten Code zurückziehen.
+    const c = await db.prepare("SELECT * FROM coach_code WHERE id = ?1").bind(Number(x.code) || 0).first();
+    const p = c && await db.prepare("SELECT * FROM coach_trainer WHERE id = ?1").bind(c.trainer_id).first();
+    if (!c || !darfPerson(w, p)) return antwort('{"fehler":"nicht erlaubt"}', 403);
+    if (c.eingeloest) return antwort('{"fehler":"schon eingelöst"}', 400);
+    await db.prepare("DELETE FROM coach_code WHERE id = ?1").bind(c.id).run();
+    await verlauf(db, w.name, `offenen Code von ${p.name} zurückgezogen`, now);
+    return antwort('{"ok":true}');
+  }
+  if (!darfPerson(w, t)) return antwort('{"fehler":"nicht erlaubt"}', 403);
+  if (was === "person_aendern") {
+    const name = text(x.name, 40) || t.name, teams = t.rolle === "admin" ? [] : teamsAus(x.teams);
+    if (t.rolle === "trainer" && !teams.length) return antwort('{"fehler":"mindestens eine Mannschaft"}', 400);
+    await db.prepare("UPDATE coach_trainer SET name = ?2, teams = ?3 WHERE id = ?1").bind(t.id, name, JSON.stringify(teams)).run();
+    await verlauf(db, w.name, `${t.name} geändert${name !== t.name ? " → " + name : ""}${teams.length ? " (" + teams.join(", ") + ")" : ""}`, now);
+    return antwort('{"ok":true}');
+  }
+  if (was === "code_neu") {
+    // Weiterer Code (z. B. für den Computer): die angemeldeten Geräte bleiben.
+    const code = await neuerCodeFuer(t);
+    await verlauf(db, w.name, `weiteren Code für ${t.name} gemacht`, now);
     return antwort(JSON.stringify({ ok: true, id: t.id, name: t.name, code }));
+  }
+  if (was === "geraete_weg") {
+    // Handy verloren o. Ä.: alle Geräte der Person abmelden, offene Codes gelten nicht mehr.
+    await db.prepare("DELETE FROM coach_geraet WHERE trainer_id = ?1").bind(t.id).run();
+    await db.prepare("DELETE FROM coach_code WHERE trainer_id = ?1 AND eingeloest IS NULL").bind(t.id).run();
+    await verlauf(db, w.name, `alle Geräte von ${t.name} abgemeldet`, now);
+    return antwort('{"ok":true}');
+  }
+  if (was === "person_weg") {
+    // Entfernen: Person, Codes und Geräte weg. Ihre Spiele bleiben stehen (Chef/Verwalter können sie ändern oder löschen).
+    await db.prepare("DELETE FROM coach_geraet WHERE trainer_id = ?1").bind(t.id).run();
+    await db.prepare("DELETE FROM coach_code WHERE trainer_id = ?1").bind(t.id).run();
+    await db.prepare("DELETE FROM coach_trainer WHERE id = ?1").bind(t.id).run();
+    await verlauf(db, w.name, `${t.rolle === "admin" ? "Verwalter" : "Trainer"} ${t.name} entfernt`, now);
+    return antwort('{"ok":true}');
   }
   return antwort('{"fehler":"coach"}', 400);
 }
