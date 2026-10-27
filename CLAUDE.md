@@ -243,6 +243,8 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (Worker mit echter SQLite, `node:sqlite`; **nicht in der Action**, weil experimentell) und Abschnitt Coach in `test/fussball.mjs`; Browser-Test
   mit dem echten Worker-Code hinter `page.route` (Verwalter → Trainer anlegen → Browser lehnt Code ab → App löst ein → Formular, Tippen ohne
   Fokusverlust, Speichern, Kopie, Absagen → Reiter zeigt Turnier → Neuer Code wirft das alte Handy raus). Gegenproben gemacht. **Worker neu einfügen nötig.**
+  **Neu c** (vom Nutzer): kleines dunkelgrünes „COACH“ (`coachZeichen`, `.coachz`) vor Datum/Zeile in Nächste Spiele, Ergebnissen, Woche und
+  im Kopf von Heute-/Morgen-Kasten — sofort erkennbar, dass es kein FLF-Spiel ist. Bei 390 px angesehen.
   **Stufe 2 offen:** Verwalter für Präsident/Tiago (Spalte `rolle` steht schon), Sperren-Knopf (Spalte `gesperrt` wird schon geprüft), Verlauf,
   Mitteilungen „neu, geändert, abgesagt“ mit eigenem Haken (10 min nach der letzten Änderung).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
