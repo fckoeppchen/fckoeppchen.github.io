@@ -296,3 +296,33 @@ Bekannte Lücke: Die Tabelle kommt nur beim Schritt „unfertig → fertig“. E
 der Spieltag damit als komplett. Trägt die FLF beim Nachholspiel Ergebnis und Tabelle im selben Abruf ein, kommt keine
 Tabellen-Mitteilung (meist kommt die Tabelle später, dann klappt es). Lösung, falls es stört: in `tools/mitteilungen.mjs`
 zusätzlich melden, wenn unsere Zeile ein Spiel mehr hat (`r.sp > ra.sp`) und alles fertig ist — die id verhindert Doppeltes.
+
+## Plan B ohne FuPa-Schnittstelle: Liveticker über das FuPa-Widget (28.10.2026, vom Nutzer)
+**Wann:** nur, wenn FuPa Nein sagt oder bis Sa 31.10. nichts kommt und der Nutzer die Phase einleitet. Vorher nichts bauen.
+**Grundsatz (vom Nutzer):** Tabellen sind Tatsachen, die dürfen weiter von FuPa kommen (BGL `standings?competition=nationaldivision`,
+Roude Léiw `standings?competition=…&group=…`). Ebenso Spielplan/Ergebnisse Roude Léiw. Nur der **Liveticker** wechselt aufs Widget.
+
+**Vorbereitung durch den Nutzer (ohne Token):** FuPa-Konto, auf widget.fupa.net den **Team-Liveticker** für Seniors 1
+(`fc-koeppchen-m1-<Saison>`), Seniors 2 (`mr1`), Seniors 3 (`mr2`) und Nationalmannschaft zusammenklicken, Farben weiß/schwarz/
+`--accentT`, Einbau-Code schicken. Bekannt vom 24.10.: Skript von `widget-api.fupa.net`, Daten über `/v2/widget/matches/<slug>/stream`,
+Code darf nicht verändert werden, laden erst **nach Zustimmung** (Handy spricht dann direkt mit FuPa, IP-Adresse). Team-Widget wechselt
+von selbst aufs aktuelle Spiel; Saisonwechsel im Juli → neuer Slug, Code ggf. neu.
+
+**Umbau (eine Sitzung):**
+- `index.html`: Live-Kasten (`liveAnzeige` ~322, `liveHtml` ~1059, `mitWorker` ~458) bei Seniors 1–3 und Roude Léiw ersetzen durch
+  Widget-Platz im Live-Fenster (`liveSpiel` ~478 / `natiLiveSpiel` ~576 bleiben als „wann zeigen“, nur ohne Worker-Daten).
+  Widget in eigenem Container **außerhalb** der Takt-Neubauten (wie `#mitt`/`#coach`), sonst lädt es alle 10 s neu.
+  Zustimmung: „Liveticker von FuPa anzeigen? Ja / Nein“ im Kasten, Merker in localStorage (`fussball_v1_fupaOk`), ändern im Datenschutz-Hinweis.
+- Worker-Abfragen der App weg: `holenWorker` ~715, `holenWorkerAlle` ~1119, `liveKandidaten` ~1108, `holenLive` ~1240 (live.json),
+  Endstand-Speicher `fussball_v1_ende` ~1084 und `ENDE_FRIST`-Fälle. Woche: statt Stand nur „läuft“ (+ evtl. Widget zum Aufklappen);
+  nach Abpfiff „Abpfiff · Ergebnis folgt“ bis FLF.
+- Mitteilungen: Arten ticker/halbzeit/tor/ende (FuPa) aus `mArtenFuer` und Worker (`liveEreignisse` ~445, Aufruf ~544, `toreRoh`,
+  `fupaSpiel`) abschalten. **Endstand aus FLF-Daten bleibt** (tools/mitteilungen.mjs). Bestehende Haken räumt `mAufraeumen` selbst weg.
+- Abruf: `reserveHolen` (tools/fussball.mjs ~354, Slugs `D.fupa`) und `.github/workflows/fussball-live.yml` (live.json) aus.
+  `natiHolen` ~243 und BGL-Tabelle in `bglHolen` ~314 **bleiben**.
+- Datenschutz-Text (`#datenschutz`): Widget lädt von FuPa nach Zustimmung. CLAUDE.md nachziehen, Tests (Live-Teile) anpassen.
+
+**Geht verloren:** Stand in „Unsere Woche“ und auf dem Woche-Knopf („🔴 n LIVE“), Live-Mitteilungen (Ticker läuft, Halbzeit, Tore,
+Endstand gleich nach Abpfiff), Endstand halten bis zur FLF, Heim/Gast drehen. **Kommt dazu:** Gelbe Karten, Auswechslungen, Vorlagen.
+**Falls FuPa antwortet:** gezielt fragen, ob wenigstens Spielstand/Endstand für Mitteilungen erlaubt ist (kleine Bitte).
+Optional vorher: versteckte Testseite mit dem Widget-Code für ein Seniors-Spiel am Wochenende (nicht in der App).
