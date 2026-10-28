@@ -12,7 +12,7 @@ import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpi
 import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux, spieltagStand } from "../tools/mitteilungen.mjs";
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
-import { bamAus, bamDazu, coachDazu, COACH_ID } from "../tools/fussball.mjs";
+import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst } from "../tools/fussball.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
 const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
@@ -1205,6 +1205,18 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(mEreignisse(stand([sp()]), stand([sp({ zeit: "11:00" })]), vor, mi + 3600e3).ereignisse.find(e => e.id === "heute:" + (COACH_ID + 7))?.text.startsWith("11:00"), "Uhrzeit geändert vor 19 Uhr: Morgen Spiel mit neuer Zeit");
   const nach19 = Date.parse("2026-11-13T19:05:00+01:00"), vor2 = { ereignisse: mEreignisse(stand([]), stand([sp()]), null, nach19).ereignisse, live: [] };
   ok(mEreignisse(stand([sp()]), stand([sp({ zeit: "11:00" })]), vor2, nach19 + 60e3).ereignisse.find(e => e.id === "heute:" + (COACH_ID + 7))?.text.startsWith("10:00"), "Schon fällig (verschickt): bleibt, wie es war");
+  // Nachholspiel und FLF zieht nach (vom Nutzer, 28.10.2026): dasselbe Spiel nur einmal
+  ok(gegnerPasst("UMW", "Union Mertert-Wasserbillig I") && gegnerPasst("Remich", "Union Remich/Bous") && gegnerPasst("FC Mondercange", "FC Mondercange")
+     && !gegnerPasst("Bous", "US Hostert") && !gegnerPasst("FC Schifflange", "FC Mondercange"), "Gegner passt: Wort oder Anfangsbuchstaben");
+  const mkF = () => { const d = mk(); d.klassen[1].spiele.push({ id: 77, d: "2026-10-31T10:00:00+01:00", tag: 2, h: { id: 45396, n: "FC Koeppchen Wormeldange I" }, a: { id: 9, n: "Union Mertert-Wasserbillig I" }, hs: null, as: null, gespielt: false }); return d; };
+  const nachS = { id: 20, reiter: "MIN 1", art: "Nachholspiel", datum: "2026-10-31", zeit: "10:00", gegner: "UMW", heim: true };
+  const DF = mkF(); coachDazu(DF, [nachS]);
+  ok(!(DF.klassen["coach-45396"]?.spiele || []).length && DF.coachDoppelt.includes(20), "Nachholspiel: FLF hat es jetzt → nur FLF-Spiel, Hinweis im Coach-Bereich");
+  const DO = mk(); coachDazu(DO, [nachS]);
+  ok(DO.klassen["coach-45396"].spiele.length === 1 && !DO.coachDoppelt.length && DO.klassen["coach-45396"].spiele[0].a.n === "UMW", "Nachholspiel: FLF hat es noch nicht → Trainer-Spiel, „gegen UMW“");
+  const DF2 = mkF(); coachDazu(DF2, [{ ...nachS, art: "Turnier", gegner: "Hallenturnier Bettembourg" }]);
+  ok(DF2.klassen["coach-45396"].spiele.length === 1, "Anderes Spiel am selben Tag (Turnier, anderer Name) bleibt");
+  ok(ics(DO, DO.teams[0]).includes("UMW (Nachholspiel)"), "Nachholspiel im Kalender");
   // Ohne alten Coach-Stand (erster Lauf): nichts
   const ohne = mk(); ok(tr(ohne, stand([sp()]), null, t0 + 60e3).length === 0, "Trainer: erster Lauf ohne alten Stand → nichts");
 }

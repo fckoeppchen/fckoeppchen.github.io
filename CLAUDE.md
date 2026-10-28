@@ -274,6 +274,13 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   dabei gewesene dürfen bleiben. (3) **Nachfrage bei doppeltem Spiel** (`gleicherTag`): gleiche Mannschaft am selben Tag schon ein Trainer- oder
   FLF-Spiel → „Am … steht schon: … Trotzdem speichern?“ (Liste wird vorher frisch geholt). Tests: coach.mjs 60, fussball.mjs 381, Browser.
   **Worker neu einfügen nötig.**
+- **Nachholspiel** (vom Nutzer, 28.10.2026, Fassung 28.10. neu a; Anlass PUP 1 – UMW vom 24.10. auf 31.10. verlegt, bei der FLF noch am alten
+  Datum, nicht gespielt): neue Coach-Art „Nachholspiel“ (wie Freundschaftsspiel „gegen …“, `mitGegner`/`coachMitGegner`, Kalender „(Nachholspiel)“).
+  **Doppelt mit der FLF:** `coachDazu` lässt ein Trainer-Spiel weg, sobald die FLF für dieselbe Mannschaft am selben Tag ein Spiel hat und der
+  Gegner passt (`gegnerPasst`: ein Wort gleich oder Anfangsbuchstaben „UMW“ = „Union Mertert-Wasserbillig“; beim Nachholspiel reicht der Tag),
+  `D.coachDoppelt` = ids → im Coach-Bereich „✓ Steht jetzt auch bei der FLF … kannst diesen Eintrag löschen“. Tests mit Gegenprobe.
+  Offen: das alte FLF-Spiel (24.10.) steht bei U9/U11 nach dem Termin als „gespielt“, obwohl es ausfiel — die FLF sagt es nicht anders.
+**Worker neu einfügen nötig** (Art im Worker).
 - **„Morgen/Heute Spiel“ wird bis zum Versand jedes Mal neu gebaut** (27.10.2026, vom Nutzer gesehen: ein mittags eingetragenes und gleich
   gelöschtes Trainer-Spiel für MIN 2 kam um 19:00 trotzdem als „Morgen Spiel“): noch nicht fällige `heute`-Ereignisse (ab > jetzt) fallen
   aus `vorher` weg und entstehen aus den aktuellen Daten neu — gelöscht/abgesagt/verlegt → weg, geänderte Uhrzeit → neuer Text (gleiche id).

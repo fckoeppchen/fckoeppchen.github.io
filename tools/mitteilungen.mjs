@@ -5,7 +5,7 @@
 // feste `id` — der Worker merkt sich, was er geschickt hat, ein Ereignis kommt also nie doppelt,
 // auch wenn es mehrere Läufe lang in der Datei steht. Was nur live zu sehen ist (FuPa tickert,
 // Endstand vom Ticker), prüft der Worker selbst; dafür stehen die Spiele des Tages unter `live`.
-import { eigeneSpiele, VEREIN, coachTeile, coachName } from "./fussball.mjs";
+import { eigeneSpiele, VEREIN, coachTeile, coachName, coachMitGegner } from "./fussball.mjs";
 
 const TZ = "Europe/Luxembourg";
 export const tagLux = ms => new Date(ms).toLocaleDateString("sv-SE", { timeZone: TZ });
@@ -100,7 +100,7 @@ export function ereignisse(alt, neu, vorher, now) {
     if (!hatErgebnis(sp) && !sp.forfait && !sp.abgesagt) {
       // BAM: kein Gegner, sondern ein Mini-Spieltag mit mehreren Mannschaften (Uhrzeit sicher erst mit dem Wochenprogramm).
       // Coach-Turniere: „10:00 · Turnier: FC Mondercange“ statt „gegen“.
-      const turnier = sp.coach && sp.coach.art !== "Freundschaftsspiel";
+      const turnier = sp.coach && !coachMitGegner(sp.coach.art);
       const was = sp.bam ? `${uhr(sp.d)}${sp.bam.zeitSicher ? "" : " (sauf changement)"} · Mini-Spieltag${wo}`
         : turnier ? `${offen ? "Uhrzeit noch offen" : uhr(sp.d)} · ${sp.coach.art}: ${sp.coach.gegner}${wo}`
         : (offen ? `Uhrzeit noch offen · gegen ${gegner}` : `${uhr(sp.d)} gegen ${gegner}`) + wo;
@@ -236,7 +236,7 @@ export function ereignisse(alt, neu, vorher, now) {
     const kern = x => x && Object.fromEntries(FELDER.map(k => [k, x[k] ?? null]));
     const platz = x => x.ort || (x.heim ? "Am Ga (Wormeldange, synth.)" : "");
     const wann = x => datum(x.datum + "T12:00:00Z") + (x.zeit ? " um " + x.zeit : "");
-    const was = x => x.art === "Freundschaftsspiel" ? "gegen " + x.gegner : x.art + ": " + x.gegner;
+    const was = x => coachMitGegner(x.art) ? "gegen " + x.gegner : x.art + ": " + x.gegner;
     const voll = x => `${wann(x)} · ${was(x)}` + (platz(x) ? ` · 📍 ${platz(x)}` : "");
     for (const id of new Set([...altC.keys(), ...neuC.keys()])) {
       const a = altC.get(id), n = neuC.get(id), x = n || a;

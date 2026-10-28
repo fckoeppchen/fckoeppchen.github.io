@@ -610,7 +610,9 @@ export async function mitteilungenSenden(db, now = Date.now()) {
 // Aufrufe: POST ?coach=einloesen|ich|liste|speichern|loeschen|abmelden|person_neu|person_aendern|code_neu|code_weg|
 // geraete_weg|person_weg (Text mit JSON).
 const ADMIN_HASH = "452407a9a9f0b6c22b1ea097c91cb140e13a3e35edac52e98785732c19379e9c";
-export const COACH_ARTEN = ["Freundschaftsspiel", "Turnier", "Hallenturnier", "Sonstiges"];
+// „Nachholspiel“ (vom Nutzer, 28.10.2026): ein Ligaspiel, das die FLF noch nicht neu angesetzt hat. Wie Freundschaftsspiel „gegen …“.
+export const COACH_ARTEN = ["Freundschaftsspiel", "Nachholspiel", "Turnier", "Hallenturnier", "Sonstiges"];
+const mitGegner = art => art === "Freundschaftsspiel" || art === "Nachholspiel";
 const COACH_TABELLEN = [
   "CREATE TABLE IF NOT EXISTS coach_trainer (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, teams TEXT NOT NULL, rolle TEXT NOT NULL DEFAULT 'trainer', code_hash TEXT, eingeloest TEXT, gesperrt INTEGER NOT NULL DEFAULT 0, seit TEXT NOT NULL)",
   "CREATE TABLE IF NOT EXISTS coach_code (id INTEGER PRIMARY KEY AUTOINCREMENT, trainer_id INTEGER NOT NULL, code_hash TEXT NOT NULL, eingeloest TEXT, seit TEXT NOT NULL)",
@@ -665,7 +667,7 @@ export function coachSpielPruefen(s, now = Date.now()) {
   if (tage < -60 || tage > 400) return "Datum zu weit weg";
   for (const f of ["zeit", "ende"]) if (x[f] && !/^([01]\d|2[0-3]):[0-5]\d$/.test(x[f])) return "Uhrzeit ungültig";
   if (x.zeit === "00:00") x.zeit = null;   // 00:00 heißt in der App „Uhrzeit offen“
-  if (!x.gegner) return x.art === "Freundschaftsspiel" ? "Gegner fehlt" : "Veranstalter fehlt";
+  if (!x.gegner) return mitGegner(x.art) ? "Gegner fehlt" : "Veranstalter fehlt";
   return x;
 }
 // Wer ist das? Schlüssel → { id, name, rolle, teams } oder null (unbekannt, entfernt oder abgemeldet).
@@ -689,7 +691,7 @@ async function verlauf(db, wer, was, now) {
   // Ein Jahr reicht.
   await db.prepare("DELETE FROM coach_verlauf WHERE zeit < ?1").bind(new Date(now - 365 * 864e5).toISOString()).run();
 }
-const spielKurz = s => `${s.reiter} ${s.datum.slice(8, 10)}.${s.datum.slice(5, 7)}. ${s.zeit || "Uhrzeit offen"} · ${s.art === "Freundschaftsspiel" ? "gegen " : s.art + ": "}${s.gegner}`;
+const spielKurz = s => `${s.reiter} ${s.datum.slice(8, 10)}.${s.datum.slice(5, 7)}. ${s.zeit || "Uhrzeit offen"} · ${mitGegner(s.art) ? "gegen " : s.art + ": "}${s.gegner}`;
 // Abruf anstoßen: sofort, höchstens einmal je Minute; sonst merkt sich der Worker es für den nächsten Takt (scheduled).
 async function coachAnstossen(db, env, now) {
   const z = await db.prepare("SELECT v FROM coach_stand WHERE k = 'anstoss'").first();

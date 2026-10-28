@@ -173,6 +173,7 @@
   .cspiel .pill{margin-left:0}
   .cweg>div:not(.cknoepfe){opacity:.55}
   .crot{color:#c62828}
+  .cflf{color:var(--accentT)}
   .cknoepfe{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
   .cform label{display:block;font-size:13px;font-weight:700;margin:8px 0 0}
   .cform input[type=text],.cform input[type=date],.cform input[type=time],.cform select{display:block;width:100%;box-sizing:border-box;margin-top:3px;font:inherit;font-size:16px;font-weight:400;padding:8px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text);min-height:40px}
@@ -658,7 +659,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "27.10.2026 neu i";
+const FASSUNG = "28.10.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1622,7 +1623,8 @@ if (!mtest()) swAufraeumen();   // Rückweg: ohne Merker kein Service Worker, ke
 // Der Coach-Bereich ist ein eigener Reiter wie das Zahnrad (COACH_OFFEN, #coach in main, bei Takten nicht neu gebaut).
 // Gespeichert wird beim Worker; alle sehen das Spiel nach dem nächsten Abruf (stößt der Worker sofort an, ~10 min).
 const COACH_KEY = KEY + "_coach";
-const COACH_ARTEN = ["Freundschaftsspiel", "Turnier", "Hallenturnier", "Sonstiges"];
+const COACH_ARTEN = ["Freundschaftsspiel", "Nachholspiel", "Turnier", "Hallenturnier", "Sonstiges"];
+const mitGegner = art => art === "Freundschaftsspiel" || art === "Nachholspiel";
 const coachDa = () => { try { return JSON.parse(localStorage.getItem(COACH_KEY) || "null"); } catch (e) { return null; } };
 let COACH_OFFEN = false, COACH_LISTE = null, COACH_FORM = null, COACH_STAND = "", COACH_CODE = null, COACH_TRAINER_FORM = null;
 const coachPost = (was, daten = {}) => fetch(WORKER_URL + "?coach=" + was, { method: "POST", body: JSON.stringify({ schluessel: coachDa()?.schluessel, ...daten }) })
@@ -1653,7 +1655,7 @@ function coachZeile(s) {
   const kn = (c, t) => `<button class="kopie" data-c="${c}" data-id="${s.id}">${t}</button>`;
   return `<div class="cspiel${s.abgesagt ? " cweg" : ""}">
     <div><b>${esc(datumText(s))} · ${esc(s.zeit || "Uhrzeit offen")}${s.ende ? " – " + esc(s.ende) : ""}</b> · <span class="pill wteam">${esc(coachName(s.reiter))}</span> ${esc(s.art)}${s.abgesagt ? ' · <b class="crot">ABGESAGT</b>' : ""}</div>
-    <div>${esc(s.gegner)} · ${esc(wo)}${s.bem ? `<br><span class="muted">${esc(s.bem)}</span>` : ""}${s.von ? `<br><span class="muted">eingetragen von ${esc(s.von)}</span>` : ""}</div>
+    <div>${esc(s.gegner)} · ${esc(wo)}${s.bem ? `<br><span class="muted">${esc(s.bem)}</span>` : ""}${s.von ? `<br><span class="muted">eingetragen von ${esc(s.von)}</span>` : ""}${(D?.coachDoppelt || []).includes(s.id) ? `<br><b class="cflf">✓ Steht jetzt auch bei der FLF – die App zeigt nur noch das FLF-Spiel. Du kannst diesen Eintrag löschen.</b>` : ""}</div>
     <div class="cknoepfe">${kn("aendern", "Ändern")}${kn("kopie", "Wie dieses nochmal")}${kn("absagen", s.abgesagt ? "Wieder ansetzen" : "Absagen")}${kn("loeschen", "Löschen")}</div></div>`;
 }
 // Heimplatz, wie die FLF ihn schreibt (vom Nutzer, 27.10.2026: bei „Zu Hause“ gleich eintragen).
@@ -1684,7 +1686,7 @@ function gleicherTag(f) {
   const rs = coachTeile(f.reiter), aus = [];
   for (const s of COACH_LISTE?.spiele || [])
     if (s.id !== f.id && !s.abgesagt && s.datum === f.datum && coachTeile(s.reiter).some(r => rs.includes(r)))
-      aus.push(`${coachName(s.reiter)}: ${s.zeit || "Uhrzeit offen"} ${s.art === "Freundschaftsspiel" ? "gegen " + s.gegner : s.art + ": " + s.gegner}${s.von ? " (eingetragen von " + s.von + ")" : ""}`);
+      aus.push(`${coachName(s.reiter)}: ${s.zeit || "Uhrzeit offen"} ${mitGegner(s.art) ? "gegen " + s.gegner : s.art + ": " + s.gegner}${s.von ? " (eingetragen von " + s.von + ")" : ""}`);
   for (const t of (D?.teams || []).filter(t => rs.includes(t.reiter))) {
     const v = sicht(D, t.id, Date.now());
     for (const sp of [...v.kommend, ...v.gespielt])
@@ -1808,7 +1810,7 @@ document.addEventListener("click", async e => {
     const f = coachFormLesen(), st = t => { document.getElementById("cFormStand").textContent = t; };
     if (!f.datum) return st("Bitte ein Datum wählen.");
     if (!f.zeit && !document.getElementById("cfOffen").checked) return st("Bitte eine Uhrzeit eingeben oder „Uhrzeit noch offen“ anhaken.");
-    if (!f.gegner) return st(f.art === "Freundschaftsspiel" ? "Bitte den Gegner eintragen." : "Bitte den Veranstalter eintragen.");
+    if (!f.gegner) return st(mitGegner(f.art) ? "Bitte den Gegner eintragen." : "Bitte den Veranstalter eintragen.");
     // Doppelt? Nachfragen statt verbieten (an einem Turniertag kann es wirklich zwei Einträge geben). Vorher die Liste frisch
     // holen — hat inzwischen jemand anderes dasselbe Spiel eingetragen, soll es die Nachfrage kennen.
     b.disabled = true; st("Prüfe …");

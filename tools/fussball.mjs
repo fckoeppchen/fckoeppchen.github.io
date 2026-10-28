@@ -170,7 +170,7 @@ function icsAus(D, liste, titel) {
              "REFRESH-INTERVAL;VALUE=DURATION:PT3H", "X-PUBLISHED-TTL:PT3H"];
   const spiele = [...new Map(liste.flatMap(t => eigeneSpiele(D, t)).map(sp => [sp.id, sp])).values()].sort((a, b) => a.d.localeCompare(b.d));
   for (const sp of spiele) {
-    const art = sp.typ === "CUP" ? " (Pokal)" : sp.typ === "FM" && (!sp.coach || sp.coach.art === "Freundschaftsspiel") ? " (Freundschaftsspiel)" : "";
+    const art = sp.typ === "CUP" ? " (Pokal)" : sp.coach?.art === "Nachholspiel" ? " (Nachholspiel)" : sp.typ === "FM" && (!sp.coach || sp.coach.art === "Freundschaftsspiel") ? " (Freundschaftsspiel)" : "";
     const erg = sp.erg && sp.gespielt && sp.hs != null ? ` ${sp.hs}:${sp.as}` : "";
     z.push("BEGIN:VEVENT", `UID:flf-${sp.id}@fc-koeppchen`, "DTSTAMP:20260701T000000Z");
     // 00:00 heißt bei der FLF „Uhrzeit noch offen“ (auch 00:00:01). Bewusst kein Ganztagstermin, sondern 00:00
@@ -458,16 +458,33 @@ export function coachName(reiter) {
   const l = coachTeile(reiter), m = l.map(r => r.match(/^(.*?) (\d+)$/));
   return l.length > 1 && m.every(x => x && x[1] === m[0][1]) ? `${m[0][1]} ${m.map(x => x[2]).join("+")}` : l.join(" + ");
 }
+export const coachMitGegner = art => art === "Freundschaftsspiel" || art === "Nachholspiel";
+// Steht dasselbe Spiel inzwischen auch bei der FLF (vom Nutzer, 28.10.2026: Nachholspiel PUP 1 gegen UMW, von der FLF noch nicht
+// neu angesetzt)? Gleiche Mannschaft, gleicher Tag, und der Gegner passt (ein Wort gleich oder die Anfangsbuchstaben: „UMW“ =
+// „Union Mertert-Wasserbillig“) — beim Nachholspiel reicht der Tag. Dann zeigt die App nur das FLF-Spiel.
+const LEER = new Set(["fc", "us", "as", "cs", "sc", "un", "ent", "union", "jeunesse", "racing", "sporting", "koeppchen", "wormeldange", "i", "ii", "iii"]);
+const woerter = n => String(n).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(/[^a-z0-9]+/).filter(w => w && !/^\d+$/.test(w));
+export function gegnerPasst(coach, flf) {
+  const c = woerter(coach).filter(w => !LEER.has(w)), f = woerter(flf), fk = f.filter(w => !LEER.has(w) && w.length > 2);
+  if (c.some(w => w.length > 2 && fk.includes(w))) return true;
+  const kuerzel = f.filter(w => !["i", "ii", "iii"].includes(w)).map(w => w[0]).join("");
+  return c.some(w => w.length >= 2 && w.length <= 5 && kuerzel.includes(w));
+}
+const tagLuxD = iso => new Date(iso).toLocaleDateString("sv-SE", { timeZone: "Europe/Luxembourg" });
 export function coachDazu(D, liste) {
+  D.coachDoppelt = [];
   for (const s of liste || []) {
     // Je Mannschaft eine Kopie mit derselben id: jeder Reiter zeigt sie, Woche/Kalender/Mitteilungen nehmen sie einmal.
-    const ts = coachTeile(s.reiter).map(r => D.teams.find(t => t.reiter === r)).filter(Boolean);
+    const alle = coachTeile(s.reiter).map(r => D.teams.find(t => t.reiter === r)).filter(Boolean);
+    const ts = alle.filter(t => !eigeneSpiele(D, t).some(sp => !sp.coach && tagLuxD(sp.d) === s.datum
+      && (s.art === "Nachholspiel" || gegnerPasst(s.gegner, (D.teams.some(o => o.id === sp.h.id || (o.ids || []).includes(sp.h.id)) ? sp.a : sp.h).n))));
+    if (ts.length < alle.length) D.coachDoppelt.push(s.id);
     const mehrere = ts.length > 1 ? coachName(s.reiter) : null;
     for (const t of ts) {
       const kid = "coach-" + t.id;
       D.klassen[kid] ??= { id: kid, n: "Vom Trainer eingetragen", typ: "FM", ergebnisse: false, tabelle: null, spiele: [], start: s.datum };
       if (!t.klassen.includes(kid)) t.klassen.push(kid);
-      const wir = { id: t.id, n: mehrere ? `${VEREIN} ${mehrere}` : t.n }, andere = { id: 0, n: s.art === "Freundschaftsspiel" ? s.gegner : `${s.art}: ${s.gegner}` };
+      const wir = { id: t.id, n: mehrere ? `${VEREIN} ${mehrere}` : t.n }, andere = { id: 0, n: coachMitGegner(s.art) ? s.gegner : `${s.art}: ${s.gegner}` };
       D.klassen[kid].spiele.push({ id: COACH_ID + s.id, d: isoLux(s.datum, s.zeit || "00:00"), tag: null, h: s.heim ? wir : andere, a: s.heim ? andere : wir,
         hs: null, as: null, gespielt: false, forfait: false, ort: s.ort || (s.heim ? "Am Ga (Wormeldange, synth.)" : undefined),
         coach: { art: s.art, gegner: s.gegner, ...(s.ende ? { ende: s.ende } : {}), ...(s.bem ? { bem: s.bem } : {}), ...(mehrere ? { mannschaften: mehrere } : {}) },
