@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-28T01:41:33.186Z",
+ "stand": "2026-10-28T07:25:35.344Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -170,7 +170,8 @@
    "kurz": "PUP",
    "klassen": [
     19563,
-    19447
+    19447,
+    "coach-45392"
    ],
    "reiter": "PUP 1",
    "datei": "u9-1.ics",
@@ -18814,6 +18815,38 @@
     }
    ],
    "start": "2026-09-26"
+  },
+  "coach-45392": {
+   "id": "coach-45392",
+   "n": "Vom Trainer eingetragen",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 8000000004,
+     "d": "2026-10-31T11:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 45392,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "a": {
+      "id": 0,
+      "n": "UMW"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)",
+     "coach": {
+      "art": "Nachholspiel",
+      "gegner": "UMW"
+     }
+    }
+   ],
+   "start": "2026-10-31"
   }
  },
  "bgl": {
@@ -23776,5 +23809,21 @@
  "fupa": {
   "1015075": "us-moutfort-medingen-mr1-fc-koeppchen-mr2-261030"
  },
- "coach": []
+ "coach": [
+  {
+   "id": 4,
+   "reiter": "PUP 1",
+   "art": "Nachholspiel",
+   "datum": "2026-10-31",
+   "zeit": "11:00",
+   "ende": null,
+   "gegner": "UMW",
+   "heim": true,
+   "ort": "Am Ga (Wormeldange, synth.)",
+   "bem": null,
+   "abgesagt": false,
+   "geaendert": "2026-10-28T07:24:13.424Z"
+  }
+ ],
+ "coachDoppelt": []
 }
