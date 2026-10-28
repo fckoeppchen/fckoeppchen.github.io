@@ -163,8 +163,10 @@ export function ereignisse(alt, neu, vorher, now) {
       const g = k.spiele.filter(sp => ist(sp) && hatErgebnis(sp) && Date.parse(sp.d) <= now).sort((a, b) => Date.parse(b.d) - Date.parse(a.d))[0];
       const bereit = (kk, zeit) => tabelleFertig(kk, zeit) && !!spieltagStand(kk.spiele, g.tag, zeit)?.komplett;
       const neuFertig = g && r && ra && Date.parse(g.d) > now - 10 * TAG_MS && bereit(k, now) && !bereit(ka, altZeit);
+      // id mit Spieltag (28.10.2026): Seniors 2/3 bekamen keine Tabelle, weil ihre alte id (Spielzahl) schon vor der
+      // Spieltag-Regel einmal verschickt war — der Worker schickt jede id nur einmal.
       if (neuFertig)
-        dazu({ reiter: [t.reiter], id: `tabelle:${k.id}:${r.id}:${r.sp}`, art: "tabelle", titel: `${t.reiter} · Tabelle`,
+        dazu({ reiter: [t.reiter], id: `tabelle:${k.id}:${r.id}:${r.sp}:${g.tag}`, art: "tabelle", titel: `${t.reiter} · Tabelle`,
                text: `${kurz(r.n)} jetzt ${r.pl}. Platz` + (r.sp > ra.sp ? (ra.pl !== r.pl ? ` (vorher ${ra.pl}.)` : " (wie vorher)") : "") + ` · ${r.pkt} Punkte`,
                ab: now, bis: now + 24 * H });
     }

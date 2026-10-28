@@ -274,6 +274,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   dabei gewesene dürfen bleiben. (3) **Nachfrage bei doppeltem Spiel** (`gleicherTag`): gleiche Mannschaft am selben Tag schon ein Trainer- oder
   FLF-Spiel → „Am … steht schon: … Trotzdem speichern?“ (Liste wird vorher frisch geholt). Tests: coach.mjs 60, fussball.mjs 381, Browser.
   **Worker neu einfügen nötig.**
+- **Tabellen-Mitteilung: id mit Spieltag** (28.10.2026): `tabelle:<Klasse>:<Team>:<Spiele>:<Spieltag>`. Seniors 2/3 bekamen nach „Spieltag
+  komplett“ keine Tabelle — ihre alte id (nur Spielzahl) war schon vor der Spieltag-Regel (24./27.10.) einmal verschickt, der Worker schickt
+  jede id nur einmal.
 - **Nachholspiel** (vom Nutzer, 28.10.2026, Fassung 28.10. neu a; Anlass PUP 1 – UMW vom 24.10. auf 31.10. verlegt, bei der FLF noch am alten
   Datum, nicht gespielt): neue Coach-Art „Nachholspiel“ (wie Freundschaftsspiel „gegen …“, `mitGegner`/`coachMitGegner`, Kalender „(Nachholspiel)“).
   **Doppelt mit der FLF:** `coachDazu` lässt ein Trainer-Spiel weg, sobald die FLF für dieselbe Mannschaft am selben Tag ein Spiel hat und der
