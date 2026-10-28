@@ -290,3 +290,9 @@ beim Scrollen. Gewählt (Variante 1 von 4): beim **Runterscrollen** schiebt sich
 Adresszeile). Kein Tipp mehr als heute. Verworfen/zurückgestellt: zuklappen mit „Mannschaft wechseln ▾“ (ein Tipp mehr),
 Wisch-Reihe (versteckt Reiter); „Meine Mannschaften“ (Favoriten + „Alle ▾“) ggf. später, wenn Eltern es wünschen.
 Beim Bauen auf iPhone achten: Gummiband-Scrollen oben/unten darf nicht flackern, Zahnrad/Live-Kasten nicht verdecken.
+
+## Tabellen-Mitteilung nach Nachholspiel (28.10.2026, vom Nutzer: „lass so sein“)
+Bekannte Lücke: Die Tabelle kommt nur beim Schritt „unfertig → fertig“. Ein verlegtes Spiel gilt nach 3 Tagen als verlegt,
+der Spieltag damit als komplett. Trägt die FLF beim Nachholspiel Ergebnis und Tabelle im selben Abruf ein, kommt keine
+Tabellen-Mitteilung (meist kommt die Tabelle später, dann klappt es). Lösung, falls es stört: in `tools/mitteilungen.mjs`
+zusätzlich melden, wenn unsere Zeile ein Spiel mehr hat (`r.sp > ra.sp`) und alles fertig ist — die id verhindert Doppeltes.
