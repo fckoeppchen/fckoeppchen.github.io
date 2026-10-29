@@ -106,6 +106,7 @@
   .live .tore li{padding:3px 0}
   .live .quelle{font-size:11.5px;color:var(--muted);text-align:center;margin-top:8px}
   .live .quelle a{color:var(--accentT)}
+  .fupatext a{color:var(--accentT)}
   .note{font-size:13.5px;line-height:1.4;padding:10px 12px;border-radius:10px;margin:12px 0;background:var(--panel);border:1px solid var(--line)}
   .note.up{border-color:var(--accent);background:#e6f6f2}
   .note.down{border-color:#e9a3ac;background:#fbecee}
@@ -659,7 +660,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "29.10.2026 neu d";
+const FASSUNG = "29.10.2026 neu e";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -720,11 +721,11 @@ function fupaWidgetHtml(id, reiter) {
   const team = FUPA_TEAM[reiter] ? "https://www.fupa.net/team/fc-koeppchen-" + FUPA_TEAM[reiter] : "https://www.fupa.net/club/fc-koeppchen";
   return `<section class="card"><div class="chead"><h2>Liveticker</h2><div class="hint">von FuPa</div></div><div class="cbody">` + (fupaOk()
     ? `<div class="fupaplatz" data-fw="${esc(id)}"></div>`
-    : `<div>Der Liveticker kommt direkt von <a href="https://www.fupa.net/club/fc-koeppchen" target="_blank" rel="noopener">FuPa</a>. Dafür verbindet sich das Handy mit FuPa, FuPa sieht dabei seine Internet-Adresse.</div>
+    : `<div class="fupatext">Der Liveticker kommt direkt von <a href="https://www.fupa.net/club/fc-koeppchen" target="_blank" rel="noopener">FuPa</a>. Dafür verbindet sich das Handy mit FuPa, FuPa sieht dabei seine Internet-Adresse.</div>
       <button class="kal" data-fupa="ja" style="margin-top:10px">Liveticker anzeigen</button>
       <div class="muted" style="font-size:12px;margin-top:6px">Die App merkt sich das. Zurücknehmen unter „Datenschutz“ ganz unten.</div>`)
     // Tore als Mitteilung gibt es ohne FuPa-Schnittstelle nicht — FuPas eigene App kann das (vom Nutzer, 29.10.2026).
-    + `<div class="muted" style="font-size:12px;margin-top:8px">Tore aufs Handy? Mit der FuPa-App dem <a href="${team}" target="_blank" rel="noopener">FC Koeppchen</a> folgen.</div></div></section>`;
+    + `<div class="muted fupatext" style="font-size:12px;margin-top:8px">Tore aufs Handy? Mit der FuPa-App dem <a href="${team}" target="_blank" rel="noopener">FC Koeppchen</a> folgen.</div></div></section>`;
 }
 // Das Widget-Element bleibt über alle Neuaufbauten dasselbe (main wird bei jedem Takt neu gebaut): nach dem Aufbau wird es in
 // seinen Platz gehängt. Das FuPa-Skript erkennt neu eingehängte Elemente selbst und lädt ein schon gefülltes nicht neu.
