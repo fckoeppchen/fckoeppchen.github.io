@@ -298,6 +298,7 @@ Tabellen-Mitteilung (meist kommt die Tabelle später, dann klappt es). Lösung, 
 zusätzlich melden, wenn unsere Zeile ein Spiel mehr hat (`r.sp > ra.sp`) und alles fertig ist — die id verhindert Doppeltes.
 
 ## Plan B ohne FuPa-Schnittstelle: Liveticker über das FuPa-Widget (28.10.2026, vom Nutzer)
+**Umgesetzt am 29.10.2026** (Fassung 29.10. neu a, Schalter `FUPA_API`/`tools/fupa-modus.mjs`, Stand davor `8485948`) — Einzelheiten in CLAUDE.md.
 **Wann:** nur, wenn FuPa Nein sagt oder bis Sa 31.10. nichts kommt und der Nutzer die Phase einleitet. Vorher nichts bauen.
 **Grundsatz (vom Nutzer):** Tabellen sind Tatsachen, die dürfen weiter von FuPa kommen (BGL `standings?competition=nationaldivision`,
 Roude Léiw `standings?competition=…&group=…`). Ebenso Spielplan/Ergebnisse Roude Léiw. Nur der **Liveticker** wechselt aufs Widget.

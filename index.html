@@ -659,7 +659,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "28.10.2026 neu a";
+const FASSUNG = "29.10.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -705,6 +705,45 @@ let D = null, ST = { team: null }, L = null;
 // Adresse des Cloudflare-Workers; leer = nur GitHub (langsamer, aber ohne eigenes Konto).
 const WORKER_URL = "https://fckoeppchen.rjtp6r9s9h.workers.dev/";
 let W = null;
+// Liveticker der Seniors (vom Nutzer, 29.10.2026, solange FuPa die Schnittstelle nicht erlaubt hat): false = FuPa-Widget
+// („Team-Liveticker“, im Widget-Builder unter koeppchenapp@hotmail.com angelegt, nur für https://fckoeppchen.github.io/),
+// kein Live-Kasten, kein Stand in der Woche, keine Live-Mitteilungen. true = wie bis 29.10.2026 über den Worker.
+// Zurück: hier true UND in tools/fupa-modus.mjs `api: true`. Roude Léiw hat kein Widget (gibt es nicht) → nur Link.
+const FUPA_API = false;
+const FUPA_WIDGET = { "Seniors 1": "3LNRpPm2WswJ9CO6lIEdG29RHz3", "Seniors 2": "3LNSdmf08oG7arPl5VYn8Geg71k", "Seniors 3": "3LNTBZRpC1FKg8JjaLMsMmN9hUS" };
+// Das Widget darf erst nach Zustimmung laden (FuPa-Bedingungen: das Handy spricht dann direkt mit FuPa). Die App merkt sich „ja“.
+const FUPA_OK = "fussball_v1_fupaOk";
+const fupaOk = () => { try { return localStorage.getItem(FUPA_OK) === "ja"; } catch (e) { return false; } };
+function fupaWidgetHtml(id) {
+  return `<section class="card"><div class="chead"><h2>Liveticker</h2><div class="hint">von FuPa</div></div><div class="cbody">` + (fupaOk()
+    ? `<div class="fupaplatz" data-fw="${esc(id)}"></div>`
+    : `<div>Der Liveticker kommt direkt von <a href="https://www.fupa.net/club/fc-koeppchen" target="_blank" rel="noopener">FuPa</a>. Dafür verbindet sich das Handy mit FuPa, FuPa sieht dabei seine Internet-Adresse.</div>
+      <button class="kal" data-fupa="ja" style="margin-top:10px">Liveticker anzeigen</button>
+      <div class="muted" style="font-size:12px;margin-top:6px">Die App merkt sich das. Zurücknehmen unter „Datenschutz“ ganz unten.</div>`) + `</div></section>`;
+}
+// Das Widget-Element bleibt über alle Neuaufbauten dasselbe (main wird bei jedem Takt neu gebaut): nach dem Aufbau wird es in
+// seinen Platz gehängt. Das FuPa-Skript erkennt neu eingehängte Elemente selbst und lädt ein schon gefülltes nicht neu.
+const FUPA_EL = new Map();
+function fupaEinsetzen() {
+  if (FUPA_API || !fupaOk()) return;
+  const plaetze = document.querySelectorAll(".fupaplatz[data-fw]");
+  for (const platz of plaetze) {
+    const id = platz.dataset.fw;
+    let el = FUPA_EL.get(id);
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "fp-widget_root-" + id;
+      el.innerHTML = `<a href="https://www.fupa.net/club/fc-koeppchen" target="_blank" rel="noopener">FC Koeppchen auf FuPa</a>`;
+      FUPA_EL.set(id, el);
+    }
+    platz.appendChild(el);
+  }
+  if (plaetze.length && !document.getElementById("fupaSkript")) {
+    const sk = document.createElement("script");
+    sk.id = "fupaSkript"; sk.src = "https://widget-api.fupa.net/vendor/widget.js?v1";
+    document.head.appendChild(sk);
+  }
+}
 // Mit Slug, wenn live.json schon einen fürs laufende Spiel hat, sonst mit der Anstoßzeit aus dem
 // FLF-Spielplan (der Worker sucht dann selbst bei FuPa).
 let LIVE_SP = null;
@@ -713,7 +752,7 @@ let LIVE_SP = null;
 const wFrisch = sp => { const a = W && sp && W.fuer === sp.id ? W : null, b = sp ? WS.get(sp.id) || null : null;
   return !a ? b : !b ? a : (b.abgerufen || "") > (a.abgerufen || "") ? b : a; };
 async function holenWorker() {
-  if (!WORKER_URL || !LIVE_SP || !brauchtAbruf(LIVE_SP, Date.now())) return null;
+  if (!FUPA_API || !WORKER_URL || !LIVE_SP || !brauchtAbruf(LIVE_SP, Date.now())) return null;
   const sp = LIVE_SP, b = liveBasis(L, sp);
   SPAET_VERSUCHT.add(sp.id);
   const q = b.slug ? "?slug=" + encodeURIComponent(b.slug) : "?anstoss=" + encodeURIComponent(sp.d);
@@ -804,7 +843,8 @@ function alleSpieleHtml(k, ids) {
   }).join("");
 }
 
-function render() {
+function render() { renderInnen(); fupaEinsetzen(); }
+function renderInnen() {
   const main = document.getElementById("main");
   if (!D) return;
   UMSCHALT = null;   // setzt heuteHtml, wenn ein Spieltag-Kasten steht
@@ -865,16 +905,19 @@ function render() {
   const art = sp => (sp.abgesagt ? "ABGESAGT · " : "") + artText(sp);
   let h = "";
 
-  LIVE_SP = liveSpiel(v, now, D.fupa || {}, spaet);
-  const lv = liveAnzeige(mitWorker(liveBasis(L, LIVE_SP), wFrisch(LIVE_SP)), v, now);
-  LIVE_POLL = !!lv?.laeuft || imLiveFenster(v, now);   // nach Abpfiff (bis zum FLF-Ergebnis) nicht mehr jede Minute
+  LIVE_SP = FUPA_API ? liveSpiel(v, now, D.fupa || {}, spaet) : null;
+  const lv = FUPA_API ? liveAnzeige(mitWorker(liveBasis(L, LIVE_SP), wFrisch(LIVE_SP)), v, now) : null;
+  LIVE_POLL = FUPA_API && (!!lv?.laeuft || imLiveFenster(v, now));   // nach Abpfiff (bis zum FLF-Ergebnis) nicht mehr jede Minute
   // Spieltag-Kasten, solange (noch) kein LIVE-Kasten da ist.
   const heute = !lv && spieltagHeute(v, now);
   const kinder = istKinder(v);
-  if (heute) h += heuteHtml(heute, v.ids, { live: !heute.sp.coach && (v.team.reiter === LIVE_REITER || !!(D.fupa || {})[heute.sp.id]), pill: sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "",
+  // Ohne FuPa-Schnittstelle: am Spieltag das FuPa-Widget unter dem Kasten (Seniors 1–3, nicht bei Trainer-Spielen).
+  const fw = !FUPA_API && heute && !heute.sp.coach && FUPA_WIDGET[v.team.reiter];
+  if (heute) h += heuteHtml(heute, v.ids, { live: FUPA_API && !heute.sp.coach && (v.team.reiter === LIVE_REITER || !!(D.fupa || {})[heute.sp.id]), widget: !!fw, pill: sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "",
     ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder, motto: true,
     fupaUrl: (D.fupa || {})[heute.sp.id] ? "https://www.fupa.net/match/" + D.fupa[heute.sp.id]
       : L && L.flfId === heute.sp.id && L.url ? L.url : "https://www.fupa.net/club/fc-koeppchen" });
+  if (fw) h += fupaWidgetHtml(fw);
   const morgen = kinder && !heute && !lv && spieltagMorgen(v, now);
   if (morgen) h += morgenHtml(morgen, v.ids, sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "");
   if (lv) h += liveHtml(lv, n => anzeige(n).startsWith("Koeppchen"), "offiziell zählt die FLF");
@@ -994,7 +1037,7 @@ function fuss() {
       Die App zählt anonym, wie oft sie geöffnet und welche Reiter angesehen werden — ohne Namen, Telefonnummern oder Standorte.
       Wer Mitteilungen einschaltet, für den wird nur die Push-Adresse des Handys und die Auswahl der Mannschaften gespeichert; Abmelden löscht beides.
       Was die App sich merkt (gewählter Reiter, letzter Stand), bleibt auf dem Handy. Keine Werbung, kein Tracking.
-      Spielpläne und Ergebnisse kommen von der FLF und von FuPa. Das Video im Reiter der Jugendkommission wird von YouTube geladen.
+      Spielpläne und Ergebnisse kommen von der FLF und von FuPa.${!FUPA_API ? ` Den Liveticker der Seniors lädt die App erst, wenn man „Liveticker anzeigen“ tippt, direkt von FuPa (fupa.net); FuPa sieht dabei die Internet-Adresse des Handys.${fupaOk() ? ` <button class="kal" data-fupa="nein" style="margin:4px 0">FuPa-Liveticker nicht mehr laden</button>` : ""}` : ""} Das Video im Reiter der Jugendkommission wird von YouTube geladen.
       Fragen: <a href="mailto:koeppchenapp@hotmail.com">koeppchenapp@hotmail.com</a>
     </details>
     <div style="margin-top:6px;font-size:11px">Fassung ${FASSUNG}</div></footer>`;
@@ -1004,7 +1047,7 @@ let DS_OFFEN = false;
 document.addEventListener("toggle", e => { if (e.target.id === "datenschutz") DS_OFFEN = e.target.open; }, true);
 
 // „Heute Spieltag“ (Mannschaften und Roude Léiw).
-function heuteHtml(heute, ids, { live, pill, ohneLive, koeppi, motto, fupaUrl }) {
+function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, motto, fupaUrl }) {
   const sp = heute.sp, zeit = wann(sp).split(" · ")[1];
   const min = !heute.begonnen && minutenBisAnpfiff(sp, Date.now());
   // Nächster Wechsel des Kastens (Countdown an, Anpfiff) — der Takt unten baut dann neu.
@@ -1017,7 +1060,11 @@ function heuteHtml(heute, ids, { live, pill, ohneLive, koeppi, motto, fupaUrl })
     : min ? `<span id="countdown" data-d="${esc(sp.d)}">${countdownText(min)}</span> · ${esc(zeit)}`
     : esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen");
   // Nicht „startet mit dem Anpfiff“: bei den Reserven tickert nicht immer jemand (vom Nutzer).
-  const unten = heute.begonnen
+  // Widget (ohne FuPa-Schnittstelle): der Ticker steht darunter. Link: Roude Léiw ohne Widget, nur zum Spiel bei FuPa.
+  const unten = widget ? (heute.begonnen ? "Liveticker von FuPa unten, falls dort jemand tickert. Das offizielle Ergebnis kommt, sobald die FLF es einträgt."
+      : "Liveticker von FuPa unten, sobald dort jemand tickert.")
+    : link ? "Liveticker auf FuPa, falls dort jemand tickert."
+    : heute.begonnen
     ? (!live ? ohneLive : keinTicker
         ? "Bisher tickert niemand bei FuPa – heute gibt es wohl keinen Liveticker. Das Ergebnis kommt, sobald die FLF es einträgt."
         : "Der Liveticker erscheint hier, falls bei FuPa jemand tickert.")
@@ -1033,7 +1080,7 @@ function heuteHtml(heute, ids, { live, pill, ohneLive, koeppi, motto, fupaUrl })
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
-    ${unten ? `<div class="zusatz">${fupaLink(esc(unten), live && fupaUrl)}</div>` : ""}${kz}${motto && !koeppi ? MOTTO : ""}
+    ${unten ? `<div class="zusatz">${fupaLink(esc(unten), (live || link) && fupaUrl)}</div>` : ""}${kz}${motto && !koeppi ? MOTTO : ""}
     </div></section>`;
 }
 // „FuPa“ im Hinweistext schon vor dem Ticker als Link (vom Nutzer, 23.10.2026): zum Spiel bei FuPa, wenn der
@@ -1106,7 +1153,7 @@ const spaet = sp => endeBekannt(sp) || !SPAET_VERSUCHT.has(sp.id);
 const imFenster = (sp, now) => now >= Date.parse(sp.d) - LIVE_FENSTER.vor && now <= Date.parse(sp.d) + LIVE_FENSTER.nach;
 const brauchtAbruf = (sp, now) => imFenster(sp, now) || (!endeBekannt(sp) && !SPAET_VERSUCHT.has(sp.id));
 function liveKandidaten(now) {
-  if (!D) return [];
+  if (!D || !FUPA_API) return [];
   return aufteilen(D).tabs.map(t => {
     const v = sicht(D, t.id, now), sp = liveSpiel(v, now, D.fupa || {}, spaet);
     return sp && { sp, v };
@@ -1117,7 +1164,7 @@ function liveStand(k, now) {
 }
 function liveZahl(now) { return liveKandidaten(now).filter(k => liveStand(k, now)?.laeuft).length; }
 async function holenWorkerAlle() {
-  if (!WORKER_URL) return false;
+  if (!FUPA_API || !WORKER_URL) return false;
   let neu = false;
   await Promise.all(liveKandidaten(Date.now()).filter(k => brauchtAbruf(k.sp, Date.now())).map(async k => {
     SPAET_VERSUCHT.add(k.sp.id);
@@ -1206,11 +1253,11 @@ function natiHtml(now) {
   const meta = sp => [esc(wann(sp.d)), esc(sp.wett + (sp.runde && !/^\d+$/.test(sp.runde) ? " " + sp.runde : ""))].filter(Boolean).join(" · ");
   let h = "";
   // Liveticker über den Worker (FuPa tickert die Länderspiele), Slug aus den Daten — ohne GitHub-Lauf.
-  LIVE_SP = natiLiveSpiel(v, now, spaet);
+  LIVE_SP = FUPA_API ? natiLiveSpiel(v, now, spaet) : null;
   const lv = LIVE_SP && liveAnzeige(mitWorker(liveBasis(null, LIVE_SP), wFrisch(LIVE_SP)), v, now);
   LIVE_POLL = !!LIVE_SP && !!WORKER_URL && (imFenster(LIVE_SP, now) || !!lv?.laeuft);
   const heute = !lv && spieltagHeute(v, now);
-  if (heute) h += heuteHtml(heute, ids, { live: !!WORKER_URL && !!heute.sp.slug, pill: sp => sp.wett === "Testspiele" ? "Testspiel" : "",
+  if (heute) h += heuteHtml(heute, ids, { live: FUPA_API && !!WORKER_URL && !!heute.sp.slug, link: !FUPA_API && !!heute.sp.slug, pill: sp => sp.wett === "Testspiele" ? "Testspiel" : "",
     ohneLive: "Das Ergebnis erscheint, sobald FuPa es hat.", fupaUrl: heute.sp.slug && "https://www.fupa.net/match/" + heute.sp.slug });
   if (lv) h += liveHtml(lv, n => n === "Luxemburg", "");
   h += `<section class="card"><div class="chead"><h2>Nächste Spiele</h2></div><div class="cbody">`;
@@ -1238,6 +1285,7 @@ async function holen() {
 
 // live.json fehlt, solange es nie ein Live-Spiel gab — dann einfach kein Kasten.
 async function holenLive() {
+  if (!FUPA_API) return null;
   for (const url of QUELLEN_LIVE) {
     try {
       const r = await fetch(url + "?t=" + Date.now(), { cache: "no-store" });
@@ -1267,6 +1315,11 @@ document.addEventListener("click", e => {
   if (z) { MITT_OFFEN = false; COACH_OFFEN = false; DS_OFFEN = false; ST.team = +z.dataset.gehe; persist(); render(); window.scrollTo(0, 0); angesehen(); return; }
   const b = e.target.closest("button");
   if (!b) return;
+  if (b.dataset.fupa) {
+    if (b.dataset.fupa === "ja") { try { localStorage.setItem(FUPA_OK, "ja"); } catch (e) {} render(); }
+    else { try { localStorage.removeItem(FUPA_OK); } catch (e) {} location.reload(); }   // neu laden: das FuPa-Skript ist sonst noch da
+    return;
+  }
   if (b.dataset.t) {
     MITT_OFFEN = false; COACH_OFFEN = false; DS_OFFEN = false; ST.team = /^\d+$/.test(b.dataset.t) ? +b.dataset.t : b.dataset.t; persist(); render(); window.scrollTo(0, 0); angesehen();
     // Live-Reiter gewählt: Worker sofort fragen, nicht erst beim nächsten 20-s-Takt.
@@ -1486,11 +1539,12 @@ function mArtenFuer(r) {
   const k = mKat(r);
   if (r === "Woche") return ["woche"];
   if (r === "BGL") return ["spieltag"];
-  const tor = mTore() ? ["tor"] : [];
-  if (r === "Roude Léiw") return ["heute", "ticker", "halbzeit", ...tor, "ende"];
+  // Ticker, Halbzeit und Tore gibt es nur über die FuPa-Schnittstelle; der Endstand kommt sonst von der FLF (Roude Léiw: aus den Daten).
+  const tor = mTore() ? ["tor"] : [], live = FUPA_API ? ["ticker", "halbzeit", ...tor] : [];
+  if (r === "Roude Léiw") return ["heute", ...live, "ende"];
   // Uhrzeit nur bei U9/U11, und nur wenn vorher keine da war (vom Nutzer: geänderte Zeiten gibt der Trainer durch).
   // „Trainer: neu, geändert, abgesagt“ (Coach, Stufe 2) bei jeder Mannschaft, gleich nach „Spiel steht an“.
-  if (k === "Seniors") return ["heute", "trainer", "spieltag", "tabelle", "ticker", "halbzeit", ...tor, "ende"];
+  if (k === "Seniors") return ["heute", "trainer", "spieltag", "tabelle", ...live, "ende"];
   if (k === "U13" || k === "U15") return ["heute", "trainer", "neu", "spieltag", "tabelle"];
   return ["heute", "trainer", "uhrzeit"];   // U7, U9, U11: die FLF zeigt keine Ergebnisse (U7: Uhrzeit = Wochenprogramm da)
 }

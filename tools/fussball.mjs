@@ -7,6 +7,7 @@
 
 import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, unlinkSync } from "node:fs";
 import { isoLux } from "./bambini.mjs";
+import { FUPA as FUPA_MODUS } from "./fupa-modus.mjs";
 
 export const API = "https://extranet.flf.lu/api/graphql";
 export const CLUB = 1003703;          // Wormeldange FC Koeppchen
@@ -529,7 +530,9 @@ async function main() {
   const alt = existsSync(OUT) ? JSON.parse(readFileSync(OUT, "utf8")) : {};
   try { neu.bgl = await bglHolen(saison, zeit, alt.bgl); } catch (e) { console.error("BGL:", e.message); neu.bgl = alt.bgl || null; }
   try { neu.nati = await natiHolen(); } catch (e) { console.error("Nationalteam:", e.message); neu.nati = alt.nati || null; }
-  try { neu.fupa = await reserveHolen(neu, saison); } catch (e) { console.error("FuPa Reserven:", e.message); neu.fupa = alt.fupa || {}; }
+  // FuPa-Slugs der Reserven nur für den Ticker über die Schnittstelle (tools/fupa-modus.mjs).
+  if (!FUPA_MODUS.api) neu.fupa = {};
+  else try { neu.fupa = await reserveHolen(neu, saison); } catch (e) { console.error("FuPa Reserven:", e.message); neu.fupa = alt.fupa || {}; }
   // BAM aus den FLF-PDFs (tools/bambini.mjs). Darf den Abruf nicht kippen: Fehler → alter BAM-Stand.
   let bam = null;
   try { bam = await (await import("./bambini.mjs")).bamHolen(); console.log("BAM:", bam.quellen.join(", ")); }

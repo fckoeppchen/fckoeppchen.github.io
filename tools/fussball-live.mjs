@@ -13,6 +13,7 @@
 import { writeFileSync, readFileSync, existsSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { eigeneSpiele } from "./fussball.mjs";
+import { FUPA } from "./fupa-modus.mjs";
 
 const DATEN = new URL("../data/fussball.json", import.meta.url);
 const OUT = new URL("../data/live.json", import.meta.url);
@@ -185,5 +186,7 @@ async function main() {
   await einmal(D, sp);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`)
+// Ohne FuPa-Schnittstelle (tools/fupa-modus.mjs) läuft die Wache gar nicht erst an.
+if (import.meta.url === `file://${process.argv[1]}` && !FUPA.api) console.log("FuPa-Schnittstelle aus (tools/fupa-modus.mjs) – kein Live-Abruf.");
+else if (import.meta.url === `file://${process.argv[1]}`)
   (process.argv.includes("--wache") ? wache() : main()).catch(e => { console.error(e); process.exit(1); });

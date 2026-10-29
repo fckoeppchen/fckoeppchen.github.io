@@ -6,6 +6,7 @@
 // auch wenn es mehrere Läufe lang in der Datei steht. Was nur live zu sehen ist (FuPa tickert,
 // Endstand vom Ticker), prüft der Worker selbst; dafür stehen die Spiele des Tages unter `live`.
 import { eigeneSpiele, VEREIN, coachTeile, coachName, coachMitGegner } from "./fussball.mjs";
+import { FUPA } from "./fupa-modus.mjs";
 
 const TZ = "Europe/Luxembourg";
 export const tagLux = ms => new Date(ms).toLocaleDateString("sv-SE", { timeZone: TZ });
@@ -128,7 +129,9 @@ export function ereignisse(alt, neu, vorher, now) {
       if (a && !hatErgebnis(a) && hatErgebnis(sp) && d > now - 48 * H)
         dazu({ ...basis, id: "ende:" + sp.id, art: "ende", titel: `${name} · Endstand`,
                text: `${kurz(sp.h.n)} ${sp.hs}:${sp.as} ${kurz(sp.a.n)}`, ab: now, bis: now + 18 * H });
-      if (tag === heute && !hatErgebnis(sp))
+      // Ohne FuPa-Schnittstelle (tools/fupa-modus.mjs) keine Live-Spiele für den Worker: kein Ticker/Halbzeit/Tor/Endstand von FuPa,
+      // der Endstand kommt dann oben aus den FLF-Daten.
+      if (FUPA.api && tag === heute && !hatErgebnis(sp))
         live.push({ id: sp.id, reiter, titel: name, d: sp.d, h: kurz(sp.h.n), a: kurz(sp.a.n), wirHeim: wirH, gegner,
                     slug: neu.fupa?.[sp.id] || undefined, anstoss: reiter.includes("Seniors 1") ? sp.d : undefined,
                     fupaWir: "fc-koeppchen", ticker: "ticker:" + sp.id, halbzeit: "halbzeit:" + sp.id, ende: "ende:" + sp.id });
@@ -219,7 +222,7 @@ export function ereignisse(alt, neu, vorher, now) {
     if (tagLux(d) === heute && !hatErgebnis(sp)) {
       dazu({ ...basis, id: "nheute:" + sp.id, art: "heute", titel: "Roude Léiw · Heute",
              text: `Länderspiel um ${uhr(sp.d)} gegen ${gegner}` + (sp.wett ? ` · ${sp.wett}` : ""), ab: umLux(heute, 10), bis: d });
-      if (sp.slug) live.push({ id: sp.id, reiter: ["Roude Léiw"], titel: "Roude Léiw", d: sp.d, h: sp.h.n, a: sp.a.n, wirHeim: lux,
+      if (FUPA.api && sp.slug) live.push({ id: sp.id, reiter: ["Roude Léiw"], titel: "Roude Léiw", d: sp.d, h: sp.h.n, a: sp.a.n, wirHeim: lux,
                                gegner, slug: sp.slug, fupaWir: "luxemburg-m1", ticker: "nticker:" + sp.id, halbzeit: "nhalbzeit:" + sp.id, ende: "nende:" + sp.id });
     }
     const a = altNati.get(sp.id);

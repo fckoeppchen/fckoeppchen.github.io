@@ -11,6 +11,10 @@ import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGru
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
 import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux, spieltagStand } from "../tools/mitteilungen.mjs";
+import { FUPA } from "../tools/fupa-modus.mjs";
+// Die Live-Teile werden mit FuPa-Schnittstelle geprüft (Schalter aus 29.10.2026); der Widget-Betrieb hat eigene Prüfungen.
+const FUPA_STAND = FUPA.api;
+FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
 import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst } from "../tools/fussball.mjs";
 
@@ -845,6 +849,16 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(mEreignisse(neu, neu, m, jetzt + 25 * 3600e3).ereignisse.every(e => e.bis > jetzt + 25 * 3600e3), "Mitteilung: abgelaufene fallen raus");
   // Heute Spiel und Live am Spieltag; Spiel vor 10 Uhr schon am Vorabend um 19 Uhr.
   const sa = mEreignisse(neu, neu, null, Date.parse("2026-10-24T06:00:00+02:00"));
+  {
+    // Ohne FuPa-Schnittstelle (Widget): keine Live-Spiele für den Worker, „Heute Spiel“ bleibt.
+    FUPA.api = false;
+    const w = mEreignisse(neu, neu, null, Date.parse("2026-10-24T06:00:00+02:00"));
+    FUPA.api = true;
+    ok(w.live.length === 0 && sa.live.length > 0 && w.ereignisse.length === sa.ereignisse.length, "Widget-Betrieb: keine Live-Kandidaten, sonst gleich");
+    // Beide Schalter gehören zusammen: App (index.html) und Abruf/Mitteilungen (tools/fupa-modus.mjs).
+    const app = /const FUPA_API = (true|false);/.exec(src)?.[1];
+    ok(app === String(FUPA_STAND), "FuPa-Schalter in index.html und tools/fupa-modus.mjs gleich");
+  }
   const fr = mEreignisse(neu, neu, null, Date.parse("2026-10-23T07:10:00+02:00"));
   const h = fr.ereignisse.find(e => e.id === "heute:103"), u9 = sa.ereignisse.find(e => e.id === "heute:302"), s2 = sa.ereignisse.find(e => e.id === "heute:503");
   ok(h?.titel === "U13 1 · Morgen Spiel" && h.text === "14:00 gegen AS Hosingen · 📍 Op der Bleech" && h.ab === Date.parse("2026-10-23T19:00:00+02:00") && h.bis === Date.parse("2026-10-24T14:00:00+02:00"), "Mitteilung: Kinder am Vorabend um 19 Uhr, bis Anpfiff");

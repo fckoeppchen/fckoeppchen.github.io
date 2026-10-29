@@ -288,6 +288,22 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   gelöschtes Trainer-Spiel für MIN 2 kam um 19:00 trotzdem als „Morgen Spiel“): noch nicht fällige `heute`-Ereignisse (ab > jetzt) fallen
   aus `vorher` weg und entstehen aus den aktuellen Daten neu — gelöscht/abgesagt/verlegt → weg, geänderte Uhrzeit → neuer Text (gleiche id).
   Galt auch für FLF-Spiele (verlegtes Spiel behielt den alten Text). Schon fällige bleiben (verschickt). Test mit Gegenprobe.
+- **FuPa-Widget statt Schnittstelle** (vom Nutzer, 29.10.2026, Fassung 29.10. neu a; FuPa hat auf die Anfrage nicht geantwortet, Paul Krier
+  von FuPa Luxemburg sieht eher ein rechtliches Problem → Mail an FuPa Deutschland). **Letzter Stand mit Schnittstelle: Commit `8485948`.**
+  **Schalter statt Ausbau:** `FUPA_API` in `index.html` und `FUPA.api` in `tools/fupa-modus.mjs` (beide `false`; der Test prüft, dass sie
+  gleich stehen). Zurück = beide auf `true`, sonst nichts (Worker unverändert). **Aus:** kein Live-Kasten, kein Stand in „Unsere Woche“
+  (`liveKandidaten` leer), keine Worker-/live.json-Abfragen, keine FuPa-Slugs der Reserven (`neu.fupa` leer), `fussball-live.mjs` startet
+  nicht, `mitteilungen.mjs` gibt dem Worker keine `live`-Spiele → keine Mitteilungen Ticker/Halbzeit/Tor; **Endstand kommt aus den
+  FLF-Daten** (Seniors) bzw. aus den Roude-Léiw-Daten. Im Zahnrad verschwinden die Haken (`mArtenFuer`, `mAufraeumen` räumt). **Bleibt von
+  FuPa** (vom Nutzer: Tabellen sind Tatsachen): BGL-Tabelle, Roude Léiw (Spiele, Ergebnisse, Tabelle). **Widget:** „Team-Liveticker“, im
+  Widget-Builder vom Nutzer unter koeppchenapp@hotmail.com angelegt, nur für https://fckoeppchen.github.io/ (`FUPA_WIDGET`, ids je Reiter
+  Seniors 1/2/3; für die Nationalmannschaft gibt es keins → im Heute-Kasten nur der Link „Liveticker auf FuPa“). Am Spieltag unter dem
+  Heute-Kasten (`fupaWidgetHtml`), nicht bei Trainer-Spielen. **Erst nach Zustimmung** („Liveticker anzeigen“, `fussball_v1_fupaOk` = ja;
+  FuPa-Bedingungen: das Handy spricht dann direkt mit FuPa), zurücknehmen im Datenschutz-Hinweis (lädt die Seite neu). Das Widget-Element
+  bleibt über alle Neuaufbauten dasselbe (`FUPA_EL`, `fupaEinsetzen` nach jedem `render`): FuPas `widget.js` beobachtet die Seite
+  (MutationObserver) und füllt ein schon gefülltes Element nicht neu. Browser-Test mit echter Adresse (Seite per `page.route` unter
+  fckoeppchen.github.io) und echtem Widget: vor Zustimmung 0 FuPa-Anfragen, danach Ticker da, Neuaufbau lädt keine Daten neu, Uhrzeit in
+  Ortszeit richtig. Kosmetik (Schrift, Farben) im Widget-Builder.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
