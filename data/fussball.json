@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-28T11:01:41.075Z",
+ "stand": "2026-10-29T11:01:41.254Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -18607,7 +18607,7 @@
     },
     {
      "id": 9202610241,
-     "d": "2026-10-24T09:30:00+02:00",
+     "d": "2026-10-24T10:30:00+02:00",
      "tag": 5,
      "h": {
       "id": 9000701,
@@ -18628,7 +18628,7 @@
        "US Berdorf-Consdorf 01",
        "US Moutfort-Medingen"
       ],
-      "zeitSicher": true
+      "zeitSicher": false
      }
     },
     {
@@ -18654,7 +18654,7 @@
        "Daring Echternach I",
        "ENT Biwer/Berbourg I"
       ],
-      "zeitSicher": true
+      "zeitSicher": false
      }
     },
     {

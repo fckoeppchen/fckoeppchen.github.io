@@ -54,12 +54,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:flf-9202610241@fc-koeppchen
 DTSTAMP:20260701T000000Z
-DTSTART:20261024T073000Z
-DTEND:20261024T090000Z
+DTSTART:20261024T083000Z
+DTEND:20261024T100000Z
 SUMMARY:⚽ Koeppchen BAM 1 · Mini-Spieltag in Wormeldange
 LOCATION:Am Ga (Wormeldange\, synth.)
 DESCRIPTION:Bambinis série 6\, Spieltag 5\nMit CS Grevenmacher I\, US Berd
- orf-Consdorf 01\, US Moutfort-Medingen
+ orf-Consdorf 01\, US Moutfort-Medingen\nUhrzeit laut FLF meist 10:30 (sauf
+  changement)
 END:VEVENT
 BEGIN:VEVENT
 UID:flf-9202611141@fc-koeppchen
