@@ -12,6 +12,29 @@
    "id": "trainer:4:2026-10-28T07:24:13.424Z",
    "titel": "PUP 1 · Neues Spiel",
    "text": "Sa., 31.10. um 11:00 · gegen UMW · 📍 Am Ga (Wormeldange, synth.)"
+  },
+  {
+   "reiter": [
+    "Seniors 3"
+   ],
+   "id": "heute:1015075",
+   "art": "heute",
+   "titel": "Seniors 3 · Heute Spiel",
+   "text": "20:00 gegen US Moutfort-Medingen · 📍 Terrain Am Brill (Moutfort, synth.)",
+   "ab": 1793350800000,
+   "bis": 1793386800000
+  },
+  {
+   "reiter": [
+    "PUP 1",
+    "Pupilles U9"
+   ],
+   "id": "heute:8000000004",
+   "art": "heute",
+   "titel": "PUP 1 · Morgen Spiel",
+   "text": "11:00 gegen UMW · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1793383200000,
+   "bis": 1793440800000
   }
  ],
  "live": []
