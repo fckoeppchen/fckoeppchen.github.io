@@ -659,7 +659,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "29.10.2026 neu a";
+const FASSUNG = "29.10.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1210,15 +1210,20 @@ function wocheHtml(tage, alle, now) {
       const s = lv ? { ...s0, gespielt: true, hs: gedreht ? lv.as : lv.hs, as: gedreht ? lv.hs : lv.as } : s0;
       const laeuft = !lv && !s0.gespielt && now >= Date.parse(s0.d) && now <= Date.parse(s0.d) + 3 * 3600e3 && !zeitOffen(s0);
       const ids = new Set([s.wir]);
+      // Ohne FuPa-Schnittstelle weiß die App nicht, ob jemand tickt — Hinweis aufs Widget im Reiter, 15 min vor bis 3 h nach Anpfiff
+      // (vom Nutzer, 29.10.2026).
+      const d0 = Date.parse(s0.d), tickerHinweis = !FUPA_API && !!FUPA_WIDGET[s0.reiter] && !s0.coach && !s0.gespielt && !zeitOffen(s0)
+        && now >= d0 - LIVE_FENSTER.vor && now <= d0 + LIVE_FENSTER.nach;
       const teile = [`${coachZeichen(s)}<span class="pill wteam">${esc(s.reiter)}</span>`, s.heim ? "🏠" : "✈️",
         lv ? `<span class="wlivetxt">${lv.laeuft ? "🔴 LIVE · " + esc(lv.zeit) : "Abpfiff · laut Ticker"}</span>`
-          : laeuft ? `<span class="wlivetxt">läuft</span>`
+          : laeuft ? `<span class="wlivetxt">${tickerHinweis ? "🔴 " : ""}läuft</span>`
           : s.gespielt ? "" : esc(zeitOffen(s) ? "Uhrzeit offen" : wann(s).split(" · ")[1]),
         // Stadion, solange die FLF kein Ergebnis hat — auch während das Spiel läuft (vom Nutzer).
         !s0.gespielt && s.ort ? "📍 " + esc(s.ort) : "",
         s.abgesagt ? "<b>abgesagt</b>" : "", s.coach ? esc(s.coach.art) : s.typ === "CUP" ? "Pokal" : s.typ === "FM" ? "Test" : "",
         s.forfait ? "Forfait" : "",
-        s.zugleich.length ? `<span class="wzugleich">gleichzeitig mit ${esc(s.zugleich.join(", "))}</span>` : ""];
+        s.zugleich.length ? `<span class="wzugleich">gleichzeitig mit ${esc(s.zugleich.join(", "))}</span>` : "",
+        tickerHinweis ? `<b>Liveticker von FuPa im Reiter</b>, falls jemand tickt` : ""];
       h += `<div class="wzeile${lv?.laeuft ? " wlive" : ""}" data-gehe="${s.tab}">${spielZeile(s, ids, teile.filter(Boolean).join(" · "))}</div>`;
     }
     h += `</div></section>`;
