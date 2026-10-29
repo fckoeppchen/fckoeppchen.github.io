@@ -307,7 +307,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **„Unsere Woche“** (vom Nutzer, Fassung 29.10. neu b): bei Seniors-Spielen mit Widget 15 min vor bis 3 h nach Anpfiff „🔴 läuft ·
   **Liveticker von FuPa im Reiter**, falls jemand tickt“ (ob jemand tickt, weiß die App ohne Schnittstelle nicht). Bei 390 px angesehen.
   **Fassung 29.10. neu c** (vom Nutzer): im Widget-Kasten „Tore aufs Handy? Mit der FuPa-App dem FC Koeppchen folgen.“ (Link zur
-  Vereinsseite bei FuPa) — Tor-Mitteilungen gibt es ohne Schnittstelle nicht.
+  Mannschaftsseite bei FuPa, `FUPA_TEAM` m1/mr1/mr2 ohne Saison — FuPa leitet auf die aktuelle weiter; neu d) — Tor-Mitteilungen gibt es ohne Schnittstelle nicht.
   **BGL-Tabelle wieder von der FLF** (vom Nutzer, 29.10.2026: FLF-Tabelle wieder aktuell, 11 Spiele, mit Swifts −12; FuPa für die BGL ganz
   raus): `FUPA.bgl` in `tools/fupa-modus.mjs` = false. Hinkt die FLF-Tabelle nach, rechnet die App selbst (`bglTabelle`, Punktabzug aus der
   FLF-Tabelle). FuPas Begründungstext zum Abzug entfällt. Roude Léiw bleibt bei FuPa (FLF fragen: vom Nutzer nicht gewollt, sonst stünde

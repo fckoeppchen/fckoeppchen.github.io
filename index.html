@@ -659,7 +659,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "29.10.2026 neu c";
+const FASSUNG = "29.10.2026 neu d";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -714,14 +714,17 @@ const FUPA_WIDGET = { "Seniors 1": "3LNRpPm2WswJ9CO6lIEdG29RHz3", "Seniors 2": "
 // Das Widget darf erst nach Zustimmung laden (FuPa-Bedingungen: das Handy spricht dann direkt mit FuPa). Die App merkt sich „ja“.
 const FUPA_OK = "fussball_v1_fupaOk";
 const fupaOk = () => { try { return localStorage.getItem(FUPA_OK) === "ja"; } catch (e) { return false; } };
-function fupaWidgetHtml(id) {
+// Mannschaftsseite bei FuPa (ohne Saison: FuPa leitet auf die aktuelle weiter, geprüft 29.10.2026).
+const FUPA_TEAM = { "Seniors 1": "m1", "Seniors 2": "mr1", "Seniors 3": "mr2" };
+function fupaWidgetHtml(id, reiter) {
+  const team = FUPA_TEAM[reiter] ? "https://www.fupa.net/team/fc-koeppchen-" + FUPA_TEAM[reiter] : "https://www.fupa.net/club/fc-koeppchen";
   return `<section class="card"><div class="chead"><h2>Liveticker</h2><div class="hint">von FuPa</div></div><div class="cbody">` + (fupaOk()
     ? `<div class="fupaplatz" data-fw="${esc(id)}"></div>`
     : `<div>Der Liveticker kommt direkt von <a href="https://www.fupa.net/club/fc-koeppchen" target="_blank" rel="noopener">FuPa</a>. Dafür verbindet sich das Handy mit FuPa, FuPa sieht dabei seine Internet-Adresse.</div>
       <button class="kal" data-fupa="ja" style="margin-top:10px">Liveticker anzeigen</button>
       <div class="muted" style="font-size:12px;margin-top:6px">Die App merkt sich das. Zurücknehmen unter „Datenschutz“ ganz unten.</div>`)
     // Tore als Mitteilung gibt es ohne FuPa-Schnittstelle nicht — FuPas eigene App kann das (vom Nutzer, 29.10.2026).
-    + `<div class="muted" style="font-size:12px;margin-top:8px">Tore aufs Handy? Mit der FuPa-App dem <a href="https://www.fupa.net/club/fc-koeppchen" target="_blank" rel="noopener">FC Koeppchen</a> folgen.</div></div></section>`;
+    + `<div class="muted" style="font-size:12px;margin-top:8px">Tore aufs Handy? Mit der FuPa-App dem <a href="${team}" target="_blank" rel="noopener">FC Koeppchen</a> folgen.</div></div></section>`;
 }
 // Das Widget-Element bleibt über alle Neuaufbauten dasselbe (main wird bei jedem Takt neu gebaut): nach dem Aufbau wird es in
 // seinen Platz gehängt. Das FuPa-Skript erkennt neu eingehängte Elemente selbst und lädt ein schon gefülltes nicht neu.
@@ -919,7 +922,7 @@ function renderInnen() {
     ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder, motto: true,
     fupaUrl: (D.fupa || {})[heute.sp.id] ? "https://www.fupa.net/match/" + D.fupa[heute.sp.id]
       : L && L.flfId === heute.sp.id && L.url ? L.url : "https://www.fupa.net/club/fc-koeppchen" });
-  if (fw) h += fupaWidgetHtml(fw);
+  if (fw) h += fupaWidgetHtml(fw, v.team.reiter);
   const morgen = kinder && !heute && !lv && spieltagMorgen(v, now);
   if (morgen) h += morgenHtml(morgen, v.ids, sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "");
   if (lv) h += liveHtml(lv, n => anzeige(n).startsWith("Koeppchen"), "offiziell zählt die FLF");
