@@ -304,6 +304,10 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (MutationObserver) und füllt ein schon gefülltes Element nicht neu. Browser-Test mit echter Adresse (Seite per `page.route` unter
   fckoeppchen.github.io) und echtem Widget: vor Zustimmung 0 FuPa-Anfragen, danach Ticker da, Neuaufbau lädt keine Daten neu, Uhrzeit in
   Ortszeit richtig. Kosmetik (Schrift, Farben) im Widget-Builder.
+  **BGL-Tabelle wieder von der FLF** (vom Nutzer, 29.10.2026: FLF-Tabelle wieder aktuell, 11 Spiele, mit Swifts −12; FuPa für die BGL ganz
+  raus): `FUPA.bgl` in `tools/fupa-modus.mjs` = false. Hinkt die FLF-Tabelle nach, rechnet die App selbst (`bglTabelle`, Punktabzug aus der
+  FLF-Tabelle). FuPas Begründungstext zum Abzug entfällt. Roude Léiw bleibt bei FuPa (FLF fragen: vom Nutzer nicht gewollt, sonst stünde
+  auch das Extranet zur Frage; die FLF-Webseite lädt die Länderspiele von Clubee nach — gleiche Lage wie FuPa, nicht genutzt).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

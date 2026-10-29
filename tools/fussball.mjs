@@ -321,7 +321,7 @@ async function bglHolen(saison, zeit, alt) {
   const { rankings } = await gq(Q_RANKING, { c: { seasonId: saison.id, divisionId: div.id, matchTypeId: "CC" } });
   const spiele = matches.map(spiel).sort((a, b) => a.d.localeCompare(b.d) || a.h.n.localeCompare(b.h.n));
   let tab = tabelle(rankings), quelle = "FLF", text = null, namen = alt?.namen || {};
-  try {
+  if (FUPA_MODUS.bgl) try {
     const st = await fupa("standings?competition=nationaldivision");
     if (st?.standings?.length) {
       const r = fupaTabelleMitFlfNamen(st.standings, spiele, alt?.namen);
