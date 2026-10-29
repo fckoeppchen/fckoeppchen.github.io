@@ -289,7 +289,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   aus `vorher` weg und entstehen aus den aktuellen Daten neu — gelöscht/abgesagt/verlegt → weg, geänderte Uhrzeit → neuer Text (gleiche id).
   Galt auch für FLF-Spiele (verlegtes Spiel behielt den alten Text). Schon fällige bleiben (verschickt). Test mit Gegenprobe.
 - **FuPa-Widget statt Schnittstelle** (vom Nutzer, 29.10.2026, Fassung 29.10. neu a; FuPa hat auf die Anfrage nicht geantwortet, Paul Krier
-  von FuPa Luxemburg sieht eher ein rechtliches Problem → Mail an FuPa Deutschland). **Letzter Stand mit Schnittstelle: Commit `8485948`.**
+  von FuPa Luxemburg sieht eher ein rechtliches Problem → Mail an FuPa Deutschland, **vom Nutzer verschickt am 29.10.2026**: Nutzung wie bisher? sonst wenigstens Halbzeit-/Endstand). **Letzter Stand mit Schnittstelle: Commit `8485948`.**
   **Schalter statt Ausbau:** `FUPA_API` in `index.html` und `FUPA.api` in `tools/fupa-modus.mjs` (beide `false`; der Test prüft, dass sie
   gleich stehen). Zurück = beide auf `true`, sonst nichts (Worker unverändert). **Aus:** kein Live-Kasten, kein Stand in „Unsere Woche“
   (`liveKandidaten` leer), keine Worker-/live.json-Abfragen, keine FuPa-Slugs der Reserven (`neu.fupa` leer), `fussball-live.mjs` startet
