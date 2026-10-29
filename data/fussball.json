@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-29T11:01:41.254Z",
+ "stand": "2026-10-29T18:03:26.804Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -17426,24 +17426,6 @@
      "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
-     "id": 13796,
-     "d": "2026-11-07T16:30:00+01:00",
-     "tag": 1,
-     "h": {
-      "id": 46218,
-      "n": "FC Lorentzweiler"
-     },
-     "a": {
-      "id": 46356,
-      "n": "ENT Biwer/Berbourg/UMW"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Lorentzweiler, synth.)"
-    },
-    {
      "id": 13793,
      "d": "2026-11-07T16:30:00+01:00",
      "tag": 1,
@@ -17496,6 +17478,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Carrière (Senningerberg, synth.)"
+    },
+    {
+     "id": 13796,
+     "d": "2026-11-10T19:00:00+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46218,
+      "n": "FC Lorentzweiler"
+     },
+     "a": {
+      "id": 46356,
+      "n": "ENT Biwer/Berbourg/UMW"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Lorentzweiler, synth.)"
     }
    ],
    "start": "2026-11-07T16:30:00+01:00"
@@ -23176,199 +23176,199 @@
   "tabelle": [
    {
     "pl": 1,
+    "id": 44678,
+    "n": "Una Strassen",
     "sp": 11,
     "s": 10,
     "u": 1,
     "nl": 0,
     "t": 22,
     "g": 3,
-    "pkt": 31,
-    "id": 44678,
-    "n": "Una Strassen"
+    "pkt": 31
    },
    {
     "pl": 2,
+    "id": 44988,
+    "n": "FC Differdange 03",
     "sp": 11,
     "s": 10,
     "u": 0,
     "nl": 1,
     "t": 32,
     "g": 9,
-    "pkt": 30,
-    "id": 44988,
-    "n": "FC Differdange 03"
+    "pkt": 30
    },
    {
     "pl": 3,
+    "id": 44543,
+    "n": "US Mondorf-les-Bains",
     "sp": 11,
     "s": 8,
     "u": 0,
     "nl": 3,
     "t": 22,
     "g": 19,
-    "pkt": 24,
-    "id": 44543,
-    "n": "US Mondorf-les-Bains"
+    "pkt": 24
    },
    {
     "pl": 4,
+    "id": 44980,
+    "n": "Racing FC Union Luxembourg",
     "sp": 11,
     "s": 6,
     "u": 4,
     "nl": 1,
     "t": 30,
     "g": 11,
-    "pkt": 22,
-    "id": 44980,
-    "n": "Racing FC Union Luxembourg"
+    "pkt": 22
    },
    {
     "pl": 5,
+    "id": 44790,
+    "n": "Atert Bissen",
     "sp": 11,
     "s": 7,
     "u": 1,
     "nl": 3,
     "t": 27,
     "g": 15,
-    "pkt": 22,
-    "id": 44790,
-    "n": "Atert Bissen"
+    "pkt": 22
    },
    {
     "pl": 6,
+    "id": 44912,
+    "n": "U.N. Käerjeng 97",
     "sp": 11,
     "s": 7,
     "u": 0,
     "nl": 4,
     "t": 30,
     "g": 19,
-    "pkt": 21,
-    "id": 44912,
-    "n": "U.N. Käerjeng 97"
+    "pkt": 21
    },
    {
     "pl": 7,
+    "id": 44975,
+    "n": "Progrès Niederkorn",
     "sp": 11,
     "s": 6,
     "u": 1,
     "nl": 4,
     "t": 16,
     "g": 9,
-    "pkt": 19,
-    "id": 44975,
-    "n": "Progrès Niederkorn"
+    "pkt": 19
    },
    {
     "pl": 8,
+    "id": 44598,
+    "n": "Résidence Walferdange",
     "sp": 11,
     "s": 5,
     "u": 1,
     "nl": 5,
     "t": 20,
     "g": 23,
-    "pkt": 16,
-    "id": 44598,
-    "n": "Résidence Walferdange"
+    "pkt": 16
    },
    {
     "pl": 9,
+    "id": 44586,
+    "n": "F91 Dudelange",
     "sp": 11,
     "s": 4,
     "u": 1,
     "nl": 6,
     "t": 17,
     "g": 18,
-    "pkt": 13,
-    "id": 44586,
-    "n": "F91 Dudelange"
+    "pkt": 13
    },
    {
     "pl": 10,
+    "id": 44695,
+    "n": "AS La Jeunesse d'Esch/Alzette",
     "sp": 11,
     "s": 4,
     "u": 1,
     "nl": 6,
     "t": 19,
     "g": 21,
-    "pkt": 13,
-    "id": 44695,
-    "n": "AS La Jeunesse d'Esch/Alzette"
+    "pkt": 13
    },
    {
     "pl": 11,
-    "sp": 11,
-    "s": 3,
-    "u": 2,
-    "nl": 6,
-    "t": 21,
-    "g": 26,
-    "pkt": 11,
-    "id": 44749,
-    "n": "Victoria Rosport"
-   },
-   {
-    "pl": 12,
+    "id": 45017,
+    "n": "US Hostert",
     "sp": 11,
     "s": 3,
     "u": 2,
     "nl": 6,
     "t": 15,
     "g": 20,
-    "pkt": 11,
-    "id": 45017,
-    "n": "US Hostert"
+    "pkt": 11
+   },
+   {
+    "pl": 12,
+    "id": 44749,
+    "n": "Victoria Rosport",
+    "sp": 11,
+    "s": 3,
+    "u": 2,
+    "nl": 6,
+    "t": 21,
+    "g": 26,
+    "pkt": 11
    },
    {
     "pl": 13,
+    "id": 44690,
+    "n": "Etzella Ettelbruck",
     "sp": 11,
     "s": 2,
     "u": 2,
     "nl": 7,
     "t": 9,
     "g": 19,
-    "pkt": 8,
-    "id": 44690,
-    "n": "Etzella Ettelbruck"
+    "pkt": 8
    },
    {
     "pl": 14,
+    "id": 44823,
+    "n": "US Rumelange",
     "sp": 11,
     "s": 2,
     "u": 2,
     "nl": 7,
     "t": 15,
     "g": 31,
-    "pkt": 8,
-    "id": 44823,
-    "n": "US Rumelange"
+    "pkt": 8
    },
    {
     "pl": 15,
+    "id": 44884,
+    "n": "FC Wiltz 71",
     "sp": 11,
     "s": 1,
     "u": 2,
     "nl": 8,
     "t": 18,
     "g": 31,
-    "pkt": 5,
-    "id": 44884,
-    "n": "FC Wiltz 71"
+    "pkt": 5
    },
    {
     "pl": 16,
+    "id": 44811,
+    "n": "Swift Hesperange",
     "sp": 11,
     "s": 0,
     "u": 0,
     "nl": 11,
     "t": 2,
     "g": 41,
-    "pkt": -12,
-    "id": 44811,
-    "n": "Swift Hesperange"
+    "pkt": -12
    }
   ],
-  "quelle": "FuPa",
-  "text": "Wertung gemäß Direkter Vergleich (wird ab Saisonmitte berücksichtigt)\nWegen mehrerer Verfehlungen gegen die Lizenzauflagen wurden Swift Hesperingen zwölf Punkte abgezogen. Zudem unterliegt der Verein noch mehrerer Transfersperren seitens der FIFA, so dass er keine neuen Spieler verpflichten darf.",
+  "quelle": "FLF",
+  "text": null,
   "namen": {
    "12269": "US Mondorf-les-Bains",
    "12279": "Etzella Ettelbruck",
@@ -23806,10 +23806,7 @@
    ]
   }
  },
- "fupa": {
-  "1011072": "fc-koeppchen-mr1-fc-lorentzweiler-mr1-261102",
-  "1015075": "us-moutfort-medingen-mr1-fc-koeppchen-mr2-261030"
- },
+ "fupa": {},
  "coach": [
   {
    "id": 4,
