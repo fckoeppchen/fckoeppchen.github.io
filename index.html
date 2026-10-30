@@ -676,7 +676,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu k";
+const FASSUNG = "30.10.2026 neu l";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1437,6 +1437,40 @@ document.addEventListener("click", e => {
 // Kein „Neu laden“-Knopf (vom Nutzer gestrichen): Er hätte nur die Datei neu gelesen, und das
 // passiert ohnehin beim Öffnen und beim Zurückholen aus dem Hintergrund.
 document.addEventListener("visibilitychange", () => { if (!document.hidden) aktualisieren(); });
+
+// Neue Fassung von selbst laden (vom Nutzer, 30.10.2026): iOS hält die App beim App-Wechsel im Speicher und lädt sie
+// nicht neu — Eltern, die sie nie ganz schließen, blieben sonst tagelang auf einer alten Fassung. Nach ≥ 30 min im
+// Hintergrund fragt die App beim Zurückkommen, ob es eine neue Fassung gibt, und lädt sich dann still neu (Reiter
+// bleibt, er steht in localStorage). Erst nur die Kopfzeilen (ETag); die ganze Datei nur, wenn der ETag unbekannt ist
+// — gemerkt wird, welcher ETag zu unserer Fassung gehört. Nicht neu geladen, solange Zahnrad oder Coach offen sind
+// (dort wird getippt), und höchstens einmal je Stunde für dieselbe neue Fassung (falls ein Zwischenspeicher noch die
+// alte liefert, sonst lüde sie bei jedem Zurückkommen neu).
+const UPDATE_PAUSE = 30 * 60e3;
+let UPDATE_WEG = 0;
+async function neueFassung() {
+  if (MITT_OFFEN || COACH_OFFEN || !/^https?:/.test(location.protocol)) return;
+  const url = location.origin + location.pathname;
+  try {
+    const kopf = await fetch(url, { method: "HEAD", cache: "no-store" });
+    const etag = kopf.ok && (kopf.headers.get("etag") || kopf.headers.get("last-modified")) || "";
+    let ich = {}; try { ich = JSON.parse(localStorage.getItem(KEY + "_etag") || "{}"); } catch (e) {}
+    if (etag && ich.etag === etag && ich.fassung === FASSUNG) return;   // nichts Neues
+    const r = await fetch(url, { cache: "no-store" });
+    if (!r.ok) return;
+    const neu = ((await r.text()).match(/const FASSUNG = "([^"]+)"/) || [])[1];
+    if (!neu) return;
+    if (neu === FASSUNG) { if (etag) try { localStorage.setItem(KEY + "_etag", JSON.stringify({ etag, fassung: FASSUNG })); } catch (e) {} return; }
+    let versucht = {}; try { versucht = JSON.parse(localStorage.getItem(KEY + "_neuGeladen") || "{}"); } catch (e) {}
+    if (versucht.fassung === neu && Date.now() - versucht.zeit < 3600e3) return;
+    try { localStorage.setItem(KEY + "_neuGeladen", JSON.stringify({ fassung: neu, zeit: Date.now() })); } catch (e) {}
+    if (document.hidden || MITT_OFFEN || COACH_OFFEN) return;
+    location.reload();
+  } catch (e) {}
+}
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) UPDATE_WEG = Date.now();
+  else if (UPDATE_WEG && Date.now() - UPDATE_WEG >= UPDATE_PAUSE) neueFassung();
+});
 
 // Während eines Spiels jede Minute den Live-Stand holen (nur, wenn die App sichtbar ist).
 // Neu gebaut wird nur, wenn sich der Stand geändert hat; sonst nur die Minute, damit nichts

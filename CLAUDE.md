@@ -333,6 +333,14 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Je Tag aufklappbar** (vom Nutzer, 30.10.2026): Mitteilungen nach dem Tag von „fällig ab“ gruppiert (`<details>`, heute offen, 7 Tage,
   höchstens 300). Datum **grün** = alles ✓✓ (oder „–“, niemand angehakt), **rot** nur bei einem Fehler (⚠️, ✗; vom Nutzer: „solange keine Fehlermeldung
   dasteht, ist alles ok“), sonst ohne Farbe (✓ ohne volle Empfangsbestätigung, oder es wartet noch). **Eigene Geräte nur 5 Tage** (`ICH_TAGE`): jedes Zählen löscht ältere Zeilen in `ich`. Tests mit Gegenprobe.
+- **Neue Fassung von selbst laden** (vom Nutzer, 30.10.2026, Fassung 30.10. neu l, **ohne Hinweis**): iOS lädt die App beim App-Wechsel nicht
+  neu, Eltern blieben tagelang auf alten Fassungen. `neueFassung()`: nach ≥ 30 min im Hintergrund (`UPDATE_PAUSE`) beim Zurückkommen `HEAD`
+  auf die eigene Adresse (`cache: no-store`); ist der ETag als „unsere Fassung“ gemerkt (`fussball_v1_etag`), nichts. Sonst die Datei holen,
+  `FASSUNG` herauslesen, anders → `location.reload()` (Reiter bleibt in localStorage). Nicht bei offenem Zahnrad/Coach, nicht unter file://,
+  dieselbe neue Fassung höchstens einmal je Stunde (`fussball_v1_neuGeladen`, gegen Schleifen, falls ein Zwischenspeicher die alte liefert).
+  Daten-Commits der Action ändern index.html nicht → kein Neuladen. GitHub Pages bis 10 min Verzug. Browser-Test mit nachgebautem Server
+  (10 min nichts, 40 min HEAD+GET, dann nur HEAD, Coach offen nichts, neue Fassung lädt neu mit Reiter, alter Zwischenspeicher keine Schleife).
+  **Wirkt erst ab dieser Fassung** — wer noch eine ältere offen hat, muss einmal ganz schließen.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
