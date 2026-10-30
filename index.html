@@ -672,7 +672,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu c";
+const FASSUNG = "30.10.2026 neu d";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -873,7 +873,6 @@ const W_TEXT = {
     so: "So geht's:", l: ["Oben eine Mannschaft antippen, dann seht ihr ihre Spiele, die Tabelle und die Ergebnisse.",
       "<b>Unsere Woche</b> zeigt alle Spiele des Vereins in dieser Woche.",
       "📅 Mit dem Kalender-Abo landen die Spiele direkt in eurem Handy-Kalender, auch wenn sich ein Termin ändert."],
-    m: "🔔 Oben rechts auf ⚙️: Mitteilungen für eure Mannschaften. Wir schalten sie nach und nach frei – sind gerade alle Plätze vergeben, in ein paar Tagen noch einmal versuchen.",
     ende: "Viel Spaß und bis bald am Platz! ⚽" },
   fr: { flag: "🇫🇷", titel: "Bienvenue au FC Koeppchen ! 👋", los: "C'est parti !",
     a: "Cette application a été créée pour les parents et les enfants. Vous voyez toujours quand et où joue votre équipe, et vous pouvez aussi suivre les matchs de vos amis.",
@@ -881,7 +880,6 @@ const W_TEXT = {
     so: "Comment ça marche :", l: ["Touchez une équipe en haut pour voir ses matchs, le classement et les résultats.",
       "<b>Unsere Woche</b> montre tous les matchs du club de la semaine.",
       "📅 Avec l'abonnement au calendrier, les matchs arrivent directement dans le calendrier de votre téléphone, même si un horaire change."],
-    m: "🔔 En haut à droite sur ⚙️ : les notifications pour vos équipes. Nous les activons petit à petit – si toutes les places sont prises, réessayez dans quelques jours.",
     ende: "Amusez-vous bien et à bientôt au terrain ! ⚽" },
   en: { flag: "🇬🇧", titel: "Welcome to FC Koeppchen! 👋", los: "Let's go!",
     a: "This app was made for parents and children. You can always see when and where your team plays, and you can also follow your friends' matches.",
@@ -889,7 +887,6 @@ const W_TEXT = {
     so: "How it works:", l: ["Tap a team at the top to see its matches, the table and the results.",
       "<b>Unsere Woche</b> shows all of the club's matches this week.",
       "📅 With the calendar subscription, the matches go straight into your phone's calendar, even if a time changes."],
-    m: "🔔 Top right on ⚙️: notifications for your teams. We are switching them on step by step – if all places are taken, try again in a few days.",
     ende: "Have fun and see you at the pitch! ⚽" },
 };
 let WLANG = (() => { const l = (navigator.language || "de").slice(0, 2); return W_TEXT[l] ? l : "de"; })();
@@ -904,7 +901,7 @@ function willkommen() {
   d.innerHTML = `<div class="cbody"><div class="wsprachen">${Object.entries(W_TEXT).map(([k, x]) =>
       `<button data-wlang="${k}" class="${k === WLANG ? "an" : ""}">${x.flag} ${k.toUpperCase()}</button>`).join("")}</div>
     <div class="kzeile">${koeppiBild("fahne")}<div class="mhtitel">${esc(t.titel)}</div></div>
-    <p>${esc(t.a)}</p><p>${esc(t.b)}</p><p><b>${esc(t.so)}</b></p><ul>${[...t.l, ...(MITT_FUER_ALLE ? [esc(t.m)] : [])].map(x => `<li>${x}</li>`).join("")}</ul>
+    <p>${esc(t.a)}</p><p>${esc(t.b)}</p><p><b>${esc(t.so)}</b></p><ul>${t.l.map(x => `<li>${x}</li>`).join("")}</ul>
     <p>${esc(t.ende)} <span class="motto">#mirvunderkoeppchen</span></p><button class="knopf" data-wlos="1">${esc(t.los)}</button></div>`;
   main.insertBefore(d, main.firstChild);
   return true;
@@ -912,8 +909,7 @@ function willkommen() {
 document.addEventListener("click", e => {
   const l = e.target.closest("[data-wlang]");
   if (l) { WLANG = l.dataset.wlang; willkommen(); return; }
-  // Stand der Mitteilungen-Satz schon in der Begrüßung, kommt der eigene Hinweis danach nicht mehr (vom Nutzer, 30.10.2026).
-  if (e.target.closest("[data-wlos]")) { try { localStorage.setItem(WILLKOMMEN, "1"); if (MITT_FUER_ALLE) localStorage.setItem(MHINWEIS, "1"); } catch (err) {} render(); window.scrollTo(0, 0); }
+  if (e.target.closest("[data-wlos]")) { try { localStorage.setItem(WILLKOMMEN, "1"); } catch (err) {} render(); window.scrollTo(0, 0); }
 });
 // Einmaliger Hinweis „Neu: Mitteilungen“ (vom Nutzer, 30.10.2026), sobald sie für alle freigeschaltet sind; ✕ merkt es sich je Gerät.
 const MHINWEIS = KEY + "_mhinweis";
