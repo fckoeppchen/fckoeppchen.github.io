@@ -678,7 +678,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu o";
+const FASSUNG = "30.10.2026 neu p";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -748,9 +748,14 @@ function fupaWidgetHtml(id, reiter, anstoss = "") {
 // Das Widget-Element bleibt über alle Neuaufbauten dasselbe (main wird bei jedem Takt neu gebaut): nach dem Aufbau wird es in
 // seinen Platz gehängt. Das FuPa-Skript erkennt neu eingehängte Elemente selbst und lädt ein schon gefülltes nicht neu.
 const FUPA_EL = new Map();
+let FUPA_ZULETZT = new Set();   // Widgets, die beim letzten Aufbau zu sehen waren
 function fupaEinsetzen() {
   if (FUPA_API || !fupaOk()) return;
   const plaetze = document.querySelectorAll(".fupaplatz[data-fw]");
+  // Zurück auf den Reiter mit dem Widget (vom Nutzer, 30.10.2026): sofort aktualisieren, nicht erst im nächsten Minutentakt.
+  const jetzt = new Set([...plaetze].map(p => p.dataset.fw));
+  if ([...jetzt].some(id => !FUPA_ZULETZT.has(id) && FUPA_EL.has(id))) setTimeout(fupaAktualisieren, 300);
+  FUPA_ZULETZT = jetzt;
   for (const platz of plaetze) {
     const id = platz.dataset.fw;
     let el = FUPA_EL.get(id);

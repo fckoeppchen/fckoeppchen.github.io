@@ -309,6 +309,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Darum tippt die App ihn an (vom Nutzer, Fassung 30.10. neu o, `fupaAktualisieren`): jede Minute und sofort beim Zurückkommen in die App,
   nur sichtbar und nur 15 min vor bis 3 h nach Anpfiff (`data-anstoss` am Platzhalter). Mit echtem Widget im laufenden Spiel geprüft:
   1 Abruf beim Laden, +1 nach einer Minute, +1 beim Zurückkommen.
+  **Neu p:** auch beim Zurückwechseln auf den Reiter mit dem Widget sofort (`FUPA_ZULETZT`); Neuaufbauten im selben Reiter lösen nichts aus (geprüft).
   **„Unsere Woche“** (vom Nutzer, Fassung 29.10. neu b): bei Seniors-Spielen mit Widget 15 min vor bis 3 h nach Anpfiff „🔴 läuft ·
   **Liveticker von FuPa im Reiter**, falls jemand tickt“ (ob jemand tickt, weiß die App ohne Schnittstelle nicht). Bei 390 px angesehen.
   **Fassung 29.10. neu c** (vom Nutzer): im Widget-Kasten „Tore aufs Handy? Mit der FuPa-App dem FC Koeppchen folgen.“ (Link zur
