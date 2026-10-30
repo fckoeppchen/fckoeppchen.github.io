@@ -329,6 +329,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Haken in der Mitteilungs-Liste auf `?zahlen`** (vom Nutzer, 31.10.2026): `mittStatus` setzt vorn **✓** = an alle passenden Handys
   verschickt, **✓✓** (grün) = auch überall angekommen (Quittung `angekommen` ≥ `passend`), **⚠️** (rot) = nicht an alle (Fehler), „–“ =
   niemand hat es angehakt; Text dahinter wie vorher. Test mit Gegenprobe. **Worker neu einfügen nötig.**
+  **Je Tag aufklappbar** (vom Nutzer, 30.10.2026): Mitteilungen nach dem Tag von „fällig ab“ gruppiert (`<details>`, heute offen, 7 Tage,
+  höchstens 300). Datum **grün** = alles ✓✓ (oder „–“, niemand angehakt), **rot** = mindestens eine nicht ✓✓ (✓, ⚠️, ✗), ohne Farbe,
+  solange noch etwas wartet/verschickt wird. **Eigene Geräte nur 5 Tage** (`ICH_TAGE`): jedes Zählen löscht ältere Zeilen in `ich`. Tests mit Gegenprobe.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

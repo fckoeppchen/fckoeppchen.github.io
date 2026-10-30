@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGruppe, natiTabelle, fupaTabelleMitFlfNamen, reserveSlugs, icsGruppe } from "../tools/fussball.mjs";
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
-import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel } from "../tools/cloudflare-worker.js";
+import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel, ichZaehlen } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux, spieltagStand } from "../tools/mitteilungen.mjs";
 import { FUPA } from "../tools/fupa-modus.mjs";
 // Die Live-Teile werden mit FuPa-Schnittstelle geprüft (Schalter aus 29.10.2026); der Widget-Betrieb hat eigene Prüfungen.
@@ -638,6 +638,11 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(JSON.stringify([...tage, ...rei, ...arten, ...std, ...ges, ...erste]) === vorherT && ich.size === 2, "Eigenes Gerät: zählt nirgends mit, nur getrennt");
   const mitIch = await zahlenSeite(db);
   ok([...ich.keys()].every(k => k.endsWith("|oeffnung") ? ich.get(k) === 2 : ich.get(k) === 1) && /Eigene Geräte[^]*<td>2<\/td><td>1<\/td>/.test(mitIch), "Zahlen-Seite: eigene Geräte getrennt (2 Öffnungen, 1 Umschalten)");
+  {
+    const geloescht = []; const db5 = { prepare: sql => ({ bind: (...a) => ({ sql, a }), sql }), batch: async l => { for (const x of l) if (x.sql?.startsWith("DELETE")) geloescht.push(x.a[0]); } };
+    await ichZaehlen(db5, "2026-10-30", "oeffnung");
+    ok(geloescht[0] === "2026-10-26", "Eigene Geräte: nur die letzten 5 Tage bleiben (ab 26.10.)");
+  }
   // Andere Länder und Roboter: getrennt, nirgends sonst (Scanner am 22.10. aus US, SG, CA, NL).
   const anfrageVon = (q, land, ua = "Mozilla/5.0 (iPhone)", chua = "") => ({ method: "GET", url: "https://w/" + q, cf: land ? { country: land } : undefined,
     headers: new Headers({ "user-agent": ua, ...(chua ? { "sec-ch-ua": chua } : {}) }) });
@@ -1058,6 +1063,16 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     return { results: [] }; } }) }, sa, Date.parse("2026-10-24T08:00:00+02:00"));
   ok(seite.includes("2 Handys angemeldet, davon 2 mit Auswahl") && seite.includes("<td>U13 2</td><td class=\"st\">Tabelle 2 · Spiel steht an 1</td>") && seite.includes("Ticker 1 · Endstand 1") && seite.includes("✓ Fr., 23.10., 19:00 an 1 von 1 Handys") && seite.includes("Heute mit Liveticker") && seite.includes("⏳ wartet")
      && seite.includes("Seniors 3 · Endstand<br><small>Avenir Beggen 2:2 Koeppchen II</small>"), "Übersicht: Seite mit Abos, Live und Stand, Text auch nach dem Versand");
+  // Je Tag aufklappbar: grün = alles ✓✓ (oder niemand angehakt), rot = etwas fehlt, ohne Farbe solange etwas wartet.
+  const tagSeite = gemeldet => mitteilungenStand({ prepare: sql => ({ async all() {
+    if (sql.includes("FROM gemeldet")) return { results: gemeldet }; return { results: [] }; } }) }, { ereignisse: [] }, Date.parse("2026-10-24T08:00:00+02:00"));
+  const gg = (id, tag, x) => ({ id, zeit: Date.parse(`2026-10-${tag}T19:00:00+02:00`), ab: Date.parse(`2026-10-${tag}T19:00:00+02:00`), titel: id, ...x });
+  const ts1 = await tagSeite([gg("a", 23, { an: 2, passend: 2, angekommen: 2 }), gg("b", 23, { an: 0, passend: 0 }), gg("c", 22, { an: 2, passend: 2, angekommen: 1 }), gg("d", 24, { an: 1, passend: 1, angekommen: 1 })]);
+  const ts2 = await tagSeite([gg("a", 23, { an: 2, passend: 2, angekommen: 2 }), gg("e", 23, { an: 1, passend: 2 })]);
+  const ts3 = await mitteilungenStand({ prepare: sql => ({ async all() { return { results: [] }; } }) }, { ereignisse: [{ id: "w", titel: "W", ab: Date.parse("2026-10-24T19:00:00+02:00") }] }, Date.parse("2026-10-24T08:00:00+02:00"));
+  ok(ts1.includes('<summary class="tagmitt ok2">Fr., 23.10. · 2 Mitteilungen') && ts1.includes('<summary class="tagmitt warn">Do., 22.10. · 1 Mitteilung<')
+     && ts2.includes('<summary class="tagmitt warn">Fr., 23.10.') && ts3.includes('<summary class="tagmitt">Sa., 24.10.')
+     && ts1.includes('<details open><summary class="tagmitt ok2">Sa., 24.10.') && ts1.includes('<details><summary class="tagmitt ok2">Fr., 23.10.'), "Übersicht: je Tag aufklappbar, grün/rot/ohne Farbe, heute offen");
 }
 // BAM (Bambinis U7) aus den FLF-PDFs: Wörter wie aus `pdftotext -bbox`, nachgebaut (vier Spalten).
 {

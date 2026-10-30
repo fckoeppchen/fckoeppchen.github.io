@@ -214,8 +214,12 @@ export async function ansehen(db, tag, reiter) {
 // Eigene Geräte (vom Nutzer, 21.10.2026): ein Handy, das in der App als „meins“ markiert ist, schickt
 // ich=1 mit und landet nur hier, getrennt von allen anderen Zahlen.
 const TAB_ICH = "CREATE TABLE IF NOT EXISTS ich (tag TEXT NOT NULL, was TEXT NOT NULL, n INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (tag, was))";
+// Nur die letzten 5 Tage (vom Nutzer, 30.10.2026): ältere Zeilen löscht jedes neue Zählen.
+export const ICH_TAGE = 5;
 export async function ichZaehlen(db, tag, was) {
-  await db.batch([db.prepare(TAB_ICH), db.prepare("INSERT INTO ich (tag, was, n) VALUES (?1, ?2, 1) ON CONFLICT(tag, was) DO UPDATE SET n = n + 1").bind(tag, was)]);
+  const ab = new Date(Date.parse(tag + "T12:00:00Z") - (ICH_TAGE - 1) * 864e5).toISOString().slice(0, 10);
+  await db.batch([db.prepare(TAB_ICH), db.prepare("INSERT INTO ich (tag, was, n) VALUES (?1, ?2, 1) ON CONFLICT(tag, was) DO UPDATE SET n = n + 1").bind(tag, was),
+    db.prepare("DELETE FROM ich WHERE tag < ?1").bind(ab)]);
 }
 // Andere Länder und Roboter (vom Nutzer, 22.10.2026): Kaum war die neue Adresse online, öffneten 8
 // Scanner die App (Amazon, Google, Palo Alto, Singapur, Toronto, Amsterdam; teils „HeadlessChrome“),
@@ -244,7 +248,7 @@ export async function zahlenSeite(db, zusatz = "") {
   const h = await alle("SELECT tag, stunde AS k, n FROM stunden WHERE tag >= ?1");
   const e = await alle("SELECT tag, art, n FROM erste WHERE tag >= ?1");
   const ich = await alle("SELECT tag, was, n FROM ich WHERE tag >= ?1");
-  const ichTage = [...new Set(ich.map(z => z.tag))].sort().reverse();
+  const ichTage = [...new Set(ich.map(z => z.tag))].sort().reverse().slice(0, ICH_TAGE);
   const ichN = (tag, was) => ich.find(z => z.tag === tag && z.was === was)?.n || 0;
   const fremd = await alle("SELECT tag, wer, n FROM fremd WHERE tag >= ?1");
   const fremdTage = [...new Set(fremd.map(z => z.tag))].sort().reverse();
@@ -272,14 +276,14 @@ td,th{padding:6px 6px;border-bottom:1px solid #ddd;text-align:right;white-space:
 td.ok2{color:#0f7a65;font-weight:600}td.warn{color:#c0392b}table.haupt{font-size:14px}table.haupt td,table.haupt th{padding:6px 3px}.breit{overflow-x:auto}
 td.bar{width:50%;text-align:left}td.bar span{display:inline-block;height:10px;background:#1aa39a;border-radius:2px}
 table.mitt td,table.mitt th{white-space:normal;vertical-align:top;font-size:13px;text-align:left}table.mitt small{color:#666}
-details{max-width:520px;border:1px solid #ddd;border-radius:10px;padding:8px 12px;margin:8px 0}summary{cursor:pointer;font-weight:700;color:#0f7a65}</style>
+details{max-width:520px;border:1px solid #ddd;border-radius:10px;padding:8px 12px;margin:8px 0}summary{cursor:pointer;font-weight:700;color:#0f7a65}summary.tagmitt{color:#111}summary.tagmitt.ok2{color:#0f7a65}summary.tagmitt.warn{color:#c0392b}</style>
 <h1>FC Koeppchen · Zahlen</h1><p>Handys = verschiedene Handys am Tag, Öffn. = Öffnungen, also Starts (oder zurück nach ≥ 30 min).
 App = vom Home-Bildschirm, Browser = in Safari o. Ä., je „Handys / Öffnungen“. Wer beides benutzt, zählt bei den Handys zweimal.
 Neu = zum allerersten Mal geöffnet (gezählt ab 21.10.2026); wer die App aus Safari auf den Home-Bildschirm legt, ist dort noch einmal neu.</p>
 <div class="breit"><table class="haupt"><tr><th>Tag</th><th>Handys</th><th>Öffn.</th><th>App</th><th>Browser</th><th>Neu</th></tr>${tage.map(zeile).join("") || "<tr><td colspan=6>noch nichts gezählt</td></tr>"}</table></div>
 <h2>Je Tag</h2>${jeTag || "<p>—</p>"}
 <h2>Alle 30 Tage zusammen</h2>${teile("", ", dieselben Tage")}
-<h2>Eigene Geräte (nicht mitgezählt)</h2><p>Geräte, die in der App als eigenes markiert sind (5× auf „Gemacht von …“ tippen). Sie stehen nur hier.</p>
+<h2>Eigene Geräte (nicht mitgezählt)</h2><p>Geräte, die in der App als eigenes markiert sind (5× auf „Gemacht von …“ tippen). Sie stehen nur hier, die letzten ${ICH_TAGE} Tage.</p>
 <table><tr><th>Tag</th><th>Öffnungen</th><th>Umschalten</th></tr>${ichTage.map(t => `<tr><td>${kurz(t)}</td><td>${ichN(t, "oeffnung")}</td><td>${ichN(t, "umschalten")}</td></tr>`).join("") || "<tr><td colspan=3>—</td></tr>"}</table>
 <h2>Andere Länder und Roboter (nicht mitgezählt)</h2><p>Öffnen und Umschalten von außerhalb Luxemburgs und der Nachbarländer (DE, FR, BE) und von erkannten Robotern. Meist Scanner, die neue Seiten prüfen; ein Vereinsmitglied im Urlaub stünde auch hier.</p>
 <table><tr><th>Tag</th><th>Abrufe</th><th style="text-align:left">woher</th></tr>${fremdTage.map(fremdZeile).join("") || "<tr><td colspan=3>—</td></tr>"}</table>
@@ -493,8 +497,20 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
   const ev = new Map();
   for (const e of [...(datei?.ereignisse || []), ...offen]) ev.set(e.id, e);
   for (const [id, g] of gem) if (!ev.has(id)) ev.set(id, { id, titel: g.titel || id, text: g.text || "", ab: g.ab || g.zeit });   // Text seit 23.10. mit gespeichert
-  const zeilen = [...ev.values()].sort((a, b) => b.ab - a.ab).slice(0, 50)
-    .map(e => `<tr><td>${esc(e.titel)}${e.text ? `<br><small>${esc(e.text)}</small>` : ""}</td><td>${zeitLux(e.ab)}</td>${(st => `<td class="st${st.startsWith("✓✓") ? " ok2" : st.startsWith("⚠") || st.startsWith("✗") ? " warn" : ""}">${esc(st)}</td>`)(mittStatus(e, gem.get(e.id), now, wartend.get(e.id) || 0))}</tr>`).join("");
+  // Je Tag aufklappbar (vom Nutzer, 30.10.2026), heute offen. Tag grün = alles ✓✓ (oder niemand angehakt),
+  // rot = etwas nicht ganz angekommen; solange noch etwas wartet oder verschickt wird, ohne Farbe.
+  const tage = new Map();
+  for (const e of [...ev.values()].sort((a, b) => b.ab - a.ab).slice(0, 300)) {
+    const st = mittStatus(e, gem.get(e.id), now, wartend.get(e.id) || 0), t = tagLux(e.ab);
+    (tage.get(t) || tage.set(t, []).get(t)).push({ e, st });
+  }
+  const heute = tagLux(now);
+  const zeilen = [...tage].map(([t, l]) => {
+    const farbe = l.some(z => /^[⏳🌙]/u.test(z.st)) ? "" : l.every(z => /^(✓✓|–)/.test(z.st)) ? " ok2" : " warn";
+    const name = new Date(t + "T12:00:00Z").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "numeric", timeZone: "UTC" });
+    return `<details${t >= heute ? " open" : ""}><summary class="tagmitt${farbe}">${name} · ${l.length} ${l.length === 1 ? "Mitteilung" : "Mitteilungen"}</summary><table class="mitt"><tr><th>Mitteilung</th><th>fällig ab</th><th>Stand</th></tr>`
+      + l.map(({ e, st }) => `<tr><td>${esc(e.titel)}${e.text ? `<br><small>${esc(e.text)}</small>` : ""}</td><td>${zeitLux(e.ab)}</td><td class="st${st.startsWith("✓✓") ? " ok2" : st.startsWith("⚠") || st.startsWith("✗") ? " warn" : ""}">${esc(st)}</td></tr>`).join("") + "</table></details>";
+  }).join("");
   // Gewählt je Mannschaft und Art, als Anzahl Handys (wer was gewählt hat, steht nirgends).
   const ART_KURZ = { heute: "Spiel steht an", neu: "Neue Phase/Spiel", spieltag: "Spieltag", tabelle: "Tabelle", uhrzeit: "Uhrzeit",
     ticker: "Ticker", halbzeit: "Halbzeit", ende: "Endstand", woche: "Woche", tor: "Tore", trainer: "Trainer" };
@@ -509,7 +525,7 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
   return `<h2>Mitteilungen</h2><p>${abos.length} ${abos.length === 1 ? "Handy" : "Handys"} angemeldet, davon ${abos.filter(a => a.wahl).length} mit Auswahl. Gesendet wird 7–23 Uhr.</p>
 <h3>Gewählt${abos.length > 1 ? " (Zahl = so viele Handys)" : ""}</h3><table class="mitt">${gewaehlt || "<tr><td>noch nichts</td></tr>"}</table>
 ${live ? `<h3>Heute mit Liveticker</h3><ul>${live}</ul>` : ""}
-<table class="mitt"><tr><th>Mitteilung</th><th>fällig ab</th><th>Stand</th></tr>${zeilen || "<tr><td colspan=3>noch nichts geplant</td></tr>"}</table>`;
+<h3>Geplant und verschickt (7 Tage)</h3>${zeilen || "<p>noch nichts geplant</p>"}`;
 }
 const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 // Handys je Minute (vom Nutzer: lieber klein und sicher). Erst nach Messung im Cloudflare-Dashboard erhöhen.
