@@ -361,7 +361,7 @@ nichts, FuPa wird gar nicht gefragt), darunter Seniors 1/2/3 und Roude Léiw, je
 - **Worker:** fragt FuPa für ein Spiel nur, wenn mindestens ein Abo den passenden „· live“-Namen gewählt hat (sonst 0 Anfragen);
   Spielsuche per Anstoß auch für `fc-koeppchen-mr1`/`mr2` (bisher nur m1), Fund 6 h gemerkt, Stand höchstens 1×/min je Spiel (`fupaSpiel`).
 - `reserveHolen` im FLF-Abruf bleibt aus (lief früher bei **jedem** Abruf, am Wochenende ~220 Anfragen am Tag).
-- App: `FUPA_API` bleibt false; nur `mArtenFuer`/Zahnrad bekommen den Kasten. Titel der Mitteilungen wie bis 29.10.
+- App: `FUPA_API` bleibt false; nur `mArtenFuer`/Zahnrad bekommen den Kasten. Titel der Mitteilungen wie bis 29.10., aber **mit 📡 vorn** (vom Nutzer: erkennen, dass es die FuPa-Mitteilungen sind), z. B. „📡 Seniors 3 · Tor ⚽“; derselbe 📡 im Kopf des Zahnrad-Kastens statt 🔒. Endstand doppelt (FuPa sofort + FLF später) bleibt so (vom Nutzer).
 
 **Tests:** ohne „· live“-Abo 0 FuPa-Anfragen; normales Abo bekommt keine Live-Mitteilung; FLF-Endstand kommt bei allen, auch wenn
 `ende-live` schon raus ist; Haupt-Haken aus → Auswahl ohne „· live“; Suche mr1/mr2 findet das Spiel; Kasten nur mit eigenem Code. Gegenproben.
