@@ -335,3 +335,14 @@ Ticker/Halbzeit/Tor/Endstand. Sauber trennen: Live-Kandidaten in `mitteilungen.j
 den nur ein Gerät im Modus „Persönlich“ in seiner Auswahl hat; FuPa-Endstand mit eigener id (sonst gilt der FLF-Endstand für alle als
 verschickt). Reserven-Slugs (`reserveHolen`) dafür wieder an. Vertretbar, solange FuPa nicht ausdrücklich „keine automatischen Abfragen,
 egal wofür“ sagt (dann aus); ein Nein nur zur Vereins-App betrifft den privaten Gebrauch nicht.
+
+## Startliste Umzug + Mitteilungen (vorbereitet 30.10.2026)
+Auf das Go des Vereins, in dieser Reihenfolge:
+1. **Statistik auf null** (Nutzer, Cloudflare → D1 `fckoeppchen-zahlen` → Console):
+   `DELETE FROM tage; DELETE FROM reiter; DELETE FROM arten; DELETE FROM stunden; DELETE FROM angesehen; DELETE FROM erste; DELETE FROM fremd;`
+   (`ich`, Abos, Coach, Mitteilungen bleiben.)
+2. **Neue App** (Claude): `BEGRUESSUNG = true` in index.html, Fassung hoch, push.
+3. **Alte App** (Claude): Branch `umzug-vorbereitet` in `strakekine/panini-wm-2026` auf `main` (Umzugsseite, Kalender-Spiegel,
+   Live-Action weg); danach `fussball.yml` einmal von Hand starten und prüfen, dass `kalender/*.ics` den Hinweis haben.
+4. **Mitteilungen für alle** (eigenes Go, kann später sein): `MITT_FUER_ALLE = true`; `MAX_ABOS` = 30 steht schon bei Cloudflare.
+5. Ende 2026: Kalender-Spiegel im alten Repo abschalten.
