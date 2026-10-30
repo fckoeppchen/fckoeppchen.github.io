@@ -458,8 +458,14 @@ function nachDemSpiel(v, now) {
 // Seniors 1–3: Ergebnis groß, dazu Klasse und Platz (kein „Sieg/Niederlage“, sieht man am Ergebnis). Jugend: Koeppi und Spruch
 // vorne, Ergebnis klein wie in der Liste (Vereinswunsch), U7/U9/U11 „gespielt“, Bambinis ohne Gegner-Zeile. Das Spiel steht
 // außerdem normal unten in den Ergebnissen (der grüne Koeppi-Streifen dort ist dafür weg).
-// „Am Ga (Wormeldange, synth.)“ → „Wormeldange“, ohne Klammer der Platzname.
-const ortKurz = o => (/\(([^,)]+)/.exec(o) || [])[1]?.trim() || o;
+// Tabelle nachgezogen? Gleiche Prüfung wie die Mitteilung „Tabelle“ (tools/mitteilungen.mjs): Spiele je Zeile = Ergebnisse bis jetzt.
+function tabelleFertig(k, now) {
+  if (!k.tabelle?.length) return false;
+  const n = new Map();
+  for (const sp of k.spiele) if (sp.gespielt && sp.hs != null && Date.parse(sp.d) <= now)
+    for (const id of [sp.h.id, sp.a.id]) n.set(id, (n.get(id) || 0) + 1);
+  return k.tabelle.every(r => r.sp === (n.get(r.id) || 0));
+}
 function letztesHtml(v, now) {
   if (spieltagHeute(v, now) || spieltagMorgen(v, now)) return "";
   const datum = sp => esc(wann(sp.d, false).split(" · ")[0]);
@@ -467,7 +473,8 @@ function letztesHtml(v, now) {
     const sp = v.gespielt.find(s => Date.parse(s.d) <= now && !s.abgesagt && !s.coach && s.gespielt && s.hs != null);
     if (!sp || now - Date.parse(sp.d) > 7 * 864e5) return "";
     const liga = v.aktuell && v.aktuell.spiele.some(x => x.id === sp.id);
-    const zeile = liga && (v.aktuell.tabelle || []).find(r => v.eigen.has(r.id));
+    // Platz erst, wenn die FLF-Tabelle nachgezogen ist (vom Nutzer): jede Zeile hat so viele Spiele wie Ergebnisse bis jetzt.
+    const zeile = liga && tabelleFertig(v.aktuell, now) && (v.aktuell.tabelle || []).find(r => v.eigen.has(r.id));
     const unten = [liga ? esc(v.aktuell.n) : art(sp) ? esc(art(sp)) : "", zeile ? `jetzt <b>${zeile.pl}. Platz</b>` : ""].filter(Boolean).join(" · ");
     return `<section class="card heute letztes"><div class="chead"><h2>Letztes Spiel</h2><span class="pill">Endstand</span></div><div class="cbody">
       <div class="wann klein">${datum(sp)}${liga && sp.tag ? ` · Spieltag ${sp.tag}` : ""}</div>
@@ -478,12 +485,12 @@ function letztesHtml(v, now) {
   const nach = nachDemSpiel(v, now);
   if (!nach) return "";
   const sp = nach.sp, naechst = v.kommend[0];
-  const spiel = sp.bam ? `<div class="zusatz">Mini-Spieltag${sp.ort ? " in " + esc(ortKurz(sp.ort)) : ""} mit ${esc(sp.bam.mit.map(anzeige).join(", "))}</div>`
+  const spiel = sp.bam ? `<div class="zusatz">Mini-Spieltag mit ${esc(sp.bam.mit.map(anzeige).join(", "))}${sp.ort ? `<br>📍 ${esc(sp.ort)}` : ""}</div>`
     : spielZeile(sp, v.ids, "").replace('<div class="m">', '<div class="m" style="border:0">');
   return `<section class="card heute letztes"><div class="chead"><h2>Letzter Spieltag</h2></div><div class="cbody">
     <div class="wann klein">${datum(sp)}</div>
     <div class="kzeile">${koeppiBild("ball-faust")}<span>Super gemacht, ${esc(v.team.reiter)}! 💪<br><span class="spruch">${esc(nach.spruch)}</span></span></div>
-    ${spiel}${naechst ? `<div class="zusatz">${sp.bam ? "Nächster Mini-Spieltag" : "Nächstes Spiel"}: ${esc(wann(naechst))}${esc(naechst.bam ? (naechst.ort ? " in " + ortKurz(naechst.ort) : "") : " gegen " + anzeige(v.ids.has(naechst.h.id) ? naechst.a.n : naechst.h.n))}</div>` : ""}${MOTTO}</div></section>`;
+    ${spiel}${naechst ? `<div class="zusatz">${sp.bam ? "Nächster Mini-Spieltag" : "Nächstes Spiel"}: ${esc(wann(naechst))}${esc(naechst.bam ? (naechst.ort ? " · 📍 " + naechst.ort : "") : " gegen " + anzeige(v.ids.has(naechst.h.id) ? naechst.a.n : naechst.h.n))}</div>` : ""}${MOTTO}</div></section>`;
 }
 // Sprüche vom Verein (22.10.2026).
 const SPRUECHE = ["Talent bringt dich weit, harte Arbeit bringt dich weiter!", "Werde jeden Tag ein kleines Stück besser!",
@@ -714,7 +721,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu r";
+const FASSUNG = "30.10.2026 neu s";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
