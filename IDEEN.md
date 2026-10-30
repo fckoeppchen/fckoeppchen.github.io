@@ -342,6 +342,33 @@ den nur ein Gerät im Modus „Persönlich“ in seiner Auswahl hat; FuPa-Endsta
 verschickt). Reserven-Slugs (`reserveHolen`) dafür wieder an. Vertretbar, solange FuPa nicht ausdrücklich „keine automatischen Abfragen,
 egal wofür“ sagt (dann aus); ein Nein nur zur Vereins-App betrifft den privaten Gebrauch nicht.
 
+## Live-Mitteilungen nur für den Nutzer („Live von FuPa“) — Bauplan (30.10.2026, vom Nutzer gewünscht, **noch nicht bauen**)
+
+Ersetzt den Schalter „Vereins-App / Persönlich“ oben: **die App bleibt für alle (auch für ihn) wie sie ist** — kein Live-Kasten, kein
+Stand in der Woche. Nur die Live-Mitteilungen kommen für ihn zurück: Ticker läuft, Halbzeit-Stand, Tor, Endstand.
+
+**Zahnrad** (nur mit eigenem Code „pro“, wie `mTore`): unter „Meine Mannschaften“ ein eigener Kasten mit gestricheltem grünen Rahmen
+„🔒 Nur für dich: Live von FuPa“ (vom Nutzer: extra erkennbar), Erklärsatz, ein Haupt-Haken „Live-Mitteilungen an“ (= der Schalter: aus →
+nichts, FuPa wird gar nicht gefragt), darunter Seniors 1/2/3 und Roude Léiw, je angehakt mit 🔴 Ticker läuft · ⏸️ Halbzeit-Stand · ⚽ Tor ·
+🏁 Endstand (von FuPa, sofort). Haken einmal je Mannschaft, gelten für jedes Spiel. Der normale Endstand (FLF) oben bleibt, wie er ist.
+**Kein Umschalten der Ansicht nötig** — der Haupt-Haken ist der Schalter.
+
+**Getrennt halten, damit die anderen nichts merken:**
+- Auswahl unter eigenem Namen: `je["Seniors 1 · live"] = ["ticker","halbzeit","tor","ende"]` — kein normales Abo hat diesen Namen.
+- `tools/mitteilungen.mjs`: `live`-Liste wieder füllen (Seniors 1–3 + Roude Léiw von heute), `reiter: ["Seniors 1 · live"]`, auch bei
+  `FUPA.api` false. Roude Léiw mit Slug aus den Daten, Reserven ohne Slug.
+- FuPa-Endstand mit eigener id (`ende-live:<Spiel>`), damit der FLF-Endstand (`ende:<Spiel>`) für alle anderen nicht als „schon verschickt“ gilt.
+- **Worker:** fragt FuPa für ein Spiel nur, wenn mindestens ein Abo den passenden „· live“-Namen gewählt hat (sonst 0 Anfragen);
+  Spielsuche per Anstoß auch für `fc-koeppchen-mr1`/`mr2` (bisher nur m1), Fund 6 h gemerkt, Stand höchstens 1×/min je Spiel (`fupaSpiel`).
+- `reserveHolen` im FLF-Abruf bleibt aus (lief früher bei **jedem** Abruf, am Wochenende ~220 Anfragen am Tag).
+- App: `FUPA_API` bleibt false; nur `mArtenFuer`/Zahnrad bekommen den Kasten. Titel der Mitteilungen wie bis 29.10.
+
+**Tests:** ohne „· live“-Abo 0 FuPa-Anfragen; normales Abo bekommt keine Live-Mitteilung; FLF-Endstand kommt bei allen, auch wenn
+`ende-live` schon raus ist; Haupt-Haken aus → Auswahl ohne „· live“; Suche mr1/mr2 findet das Spiel; Kasten nur mit eigenem Code. Gegenproben.
+
+**Danach vom Nutzer:** Worker neu einfügen (feste Commit-Adresse), im Zahnrad die Haken setzen.
+**Grenze:** sagt FuPa „keine automatischen Abfragen, egal wofür“ → Haupt-Haken weg. Erlaubt FuPa es für alle → beide `FUPA_API`-Schalter an, Kasten entfällt.
+
 ## Startliste Umzug + Mitteilungen (vorbereitet 30.10.2026)
 Auf das Go des Vereins, in dieser Reihenfolge:
 1. **Statistik auf null** (Nutzer, Cloudflare → D1 `fckoeppchen-zahlen` → Console):
