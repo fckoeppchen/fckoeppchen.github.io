@@ -371,6 +371,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   der Liste (`spielZeile`; U7/U9/U11 „gespielt“), Bambinis ohne Gegnerzeile („Mini-Spieltag in Wormeldange mit …“, `ortKurz`), nächstes Spiel.
   Der grüne Koeppi-Streifen in „Unsere Ergebnisse“ ist dafür weg, das Spiel steht dort wieder normal. Browser mit gestellter Uhr (Seniors 1/3,
   MIN 1, PUP 2, BAM 1, keine Fehler).
+  **Neu v** (vom Nutzer): bei der Jugend steht beim nächsten Spiel auch der Platz („📍 …“ in neuer Zeile), wie schon bei den Bambinis. Das gespielte Spiel bleibt ohne Platz (Stadion nur bei kommenden Spielen); Bambinis haben ihn, weil dort der Gegner fehlt.
   **Neu u** (vom Nutzer bemerkt): Seniors haben keinen „Morgen Spieltag!“-Kasten (nur Kinder) — „Letztes Spiel“ verschwand am Vortag trotzdem, dann stand dort nichts. Jetzt bleibt er bei den Seniors bis zum Heute-Kasten; Kinder unverändert. Browser mit gestellter Uhr, Gegenprobe.
   **Neu s** (vom Nutzer): Platz erst, wenn die FLF-Tabelle nachgezogen ist (`tabelleFertig` in der App, gleiche Regel wie die Mitteilung „Tabelle“), sonst nur die Klasse; Bambinis mit vollem Platz „📍 Am Ga (Wormeldange, synth.)“ statt nur Ort. Browser: Tabelle hinkt → ohne Platz.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“

@@ -491,7 +491,7 @@ function letztesHtml(v, now) {
   return `<section class="card heute letztes"><div class="chead"><h2>Letzter Spieltag</h2></div><div class="cbody">
     <div class="wann klein">${datum(sp)}</div>
     <div class="kzeile">${koeppiBild("ball-faust")}<span>Super gemacht, ${esc(v.team.reiter)}! 💪<br><span class="spruch">${esc(nach.spruch)}</span></span></div>
-    ${spiel}${naechst ? `<div class="zusatz">${sp.bam ? "Nächster Mini-Spieltag" : "Nächstes Spiel"}: ${esc(wann(naechst))}${esc(naechst.bam ? (naechst.ort ? " · 📍 " + naechst.ort : "") : " gegen " + anzeige(v.ids.has(naechst.h.id) ? naechst.a.n : naechst.h.n))}</div>` : ""}${MOTTO}</div></section>`;
+    ${spiel}${naechst ? `<div class="zusatz">${sp.bam ? "Nächster Mini-Spieltag" : "Nächstes Spiel"}: ${esc(wann(naechst))}${esc(naechst.bam ? "" : " gegen " + anzeige(v.ids.has(naechst.h.id) ? naechst.a.n : naechst.h.n))}${naechst.ort ? (naechst.bam ? " · " : "<br>") + "📍 " + esc(naechst.ort) : ""}</div>` : ""}${MOTTO}</div></section>`;
 }
 // Sprüche vom Verein (22.10.2026).
 const SPRUECHE = ["Talent bringt dich weit, harte Arbeit bringt dich weiter!", "Werde jeden Tag ein kleines Stück besser!",
@@ -722,7 +722,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu u";
+const FASSUNG = "30.10.2026 neu v";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
