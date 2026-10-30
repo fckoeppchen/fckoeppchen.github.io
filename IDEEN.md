@@ -327,3 +327,11 @@ von selbst aufs aktuelle Spiel; Saisonwechsel im Juli → neuer Slug, Code ggf. 
 Endstand gleich nach Abpfiff), Endstand halten bis zur FLF, Heim/Gast drehen. **Kommt dazu:** Gelbe Karten, Auswechslungen, Vorlagen.
 **Falls FuPa antwortet:** gezielt fragen, ob wenigstens Spielstand/Endstand für Mitteilungen erlaubt ist (kleine Bitte).
 Optional vorher: versteckte Testseite mit dem Widget-Code für ein Seniors-Spiel am Wochenende (nicht in der App).
+
+## Schalter „Vereins-App / Persönlich“ (vom Nutzer, 30.10.2026, vorgemerkt — erst auf sein Zeichen bauen)
+Nur mit eigenem Code („pro“, wie `mTore`) im Zahnrad: Ansicht je Gerät (localStorage). **Vereins-App** = wie alle (Widget, keine
+Live-Mitteilungen). **Persönlich** = wie bis 29.10. über die FuPa-Schnittstelle: Live-Kasten, Stand in „Unsere Woche“, Mitteilungen
+Ticker/Halbzeit/Tor/Endstand. Sauber trennen: Live-Kandidaten in `mitteilungen.json` unter eigenem Reiter-Namen (z. B. „Seniors 1 · live“),
+den nur ein Gerät im Modus „Persönlich“ in seiner Auswahl hat; FuPa-Endstand mit eigener id (sonst gilt der FLF-Endstand für alle als
+verschickt). Reserven-Slugs (`reserveHolen`) dafür wieder an. Vertretbar, solange FuPa nicht ausdrücklich „keine automatischen Abfragen,
+egal wofür“ sagt (dann aus); ein Nein nur zur Vereins-App betrifft den privaten Gebrauch nicht.
