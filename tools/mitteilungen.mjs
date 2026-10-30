@@ -7,6 +7,8 @@
 // Endstand vom Ticker), prüft der Worker selbst; dafür stehen die Spiele des Tages unter `live`.
 import { eigeneSpiele, VEREIN, coachTeile, coachName, coachMitGegner } from "./fussball.mjs";
 import { FUPA } from "./fupa-modus.mjs";
+// FuPa-Teams der Seniors (für „📡 Live von FuPa“: der Worker sucht das Spiel per Anstoß in dieser Mannschaft).
+export const LIVE_TEAM = { "Seniors 1": "m1", "Seniors 2": "mr1", "Seniors 3": "mr2" };
 
 const TZ = "Europe/Luxembourg";
 export const tagLux = ms => new Date(ms).toLocaleDateString("sv-SE", { timeZone: TZ });
@@ -135,6 +137,12 @@ export function ereignisse(alt, neu, vorher, now) {
         live.push({ id: sp.id, reiter, titel: name, d: sp.d, h: kurz(sp.h.n), a: kurz(sp.a.n), wirHeim: wirH, gegner,
                     slug: neu.fupa?.[sp.id] || undefined, anstoss: reiter.includes("Seniors 1") ? sp.d : undefined,
                     fupaWir: "fc-koeppchen", ticker: "ticker:" + sp.id, halbzeit: "halbzeit:" + sp.id, ende: "ende:" + sp.id });
+      // „📡 Live von FuPa“ nur für Geräte mit eigenem oder Familien-Code (vom Nutzer, 30.10.2026): eigener Reiter-Name „… · live“,
+      // den kein normales Abo hat, eigene ids (der FLF-Endstand oben bleibt für alle), Spiel sucht der Worker selbst per Anstoß.
+      else if (tag === heute && !hatErgebnis(sp) && LIVE_TEAM[name])
+        live.push({ id: sp.id, reiter: [name + " · live"], titel: "📡 " + name, d: sp.d, h: kurz(sp.h.n), a: kurz(sp.a.n), wirHeim: wirH, gegner,
+                    anstoss: sp.d, fupaTeam: LIVE_TEAM[name], fupaWir: "fc-koeppchen",
+                    ticker: "lticker:" + sp.id, halbzeit: "lhalbzeit:" + sp.id, ende: "ende-live:" + sp.id });
     }
   }
 
@@ -224,6 +232,8 @@ export function ereignisse(alt, neu, vorher, now) {
              text: `Länderspiel um ${uhr(sp.d)} gegen ${gegner}` + (sp.wett ? ` · ${sp.wett}` : ""), ab: umLux(heute, 10), bis: d });
       if (FUPA.api && sp.slug) live.push({ id: sp.id, reiter: ["Roude Léiw"], titel: "Roude Léiw", d: sp.d, h: sp.h.n, a: sp.a.n, wirHeim: lux,
                                gegner, slug: sp.slug, fupaWir: "luxemburg-m1", ticker: "nticker:" + sp.id, halbzeit: "nhalbzeit:" + sp.id, ende: "nende:" + sp.id });
+      else if (sp.slug) live.push({ id: sp.id, reiter: ["Roude Léiw · live"], titel: "📡 Roude Léiw", d: sp.d, h: sp.h.n, a: sp.a.n, wirHeim: lux,
+                               gegner, slug: sp.slug, fupaWir: "luxemburg-m1", ticker: "lnticker:" + sp.id, halbzeit: "lnhalbzeit:" + sp.id, ende: "nende-live:" + sp.id });
     }
     const a = altNati.get(sp.id);
     if (a && !hatErgebnis(a) && hatErgebnis(sp) && d > now - 48 * H)

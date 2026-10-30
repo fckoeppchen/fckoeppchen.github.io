@@ -202,6 +202,8 @@
   .ccode{font-family:ui-monospace,Menlo,monospace;font-size:20px;letter-spacing:1px}
   .mitt .haken.team{font-weight:700;font-size:15px}
   .mitt .marten{padding:0 0 6px 28px}
+  .livekasten{border:2px dashed var(--accentT);border-radius:12px;padding:10px 12px;margin:14px 0 6px;background:#f3fbf9}
+  .livekasten>b{font-size:16px}.livekasten .klein{margin:6px 0 8px}
   .mitt .marten .haken{font-size:13.5px;padding:3px 0}
 </style>
 </head>
@@ -676,7 +678,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu m";
+const FASSUNG = "30.10.2026 neu n";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1537,12 +1539,14 @@ let VON_TIPPS = [];
 const CODE_HASH = "452407a9a9f0b6c22b1ea097c91cb140e13a3e35edac52e98785732c19379e9c";
 // Zweiter Code nur für die Mitteilungen (Logo), für ein, zwei Tester (vom Nutzer, 23.10.2026). Die Statistik bleibt beim ersten.
 const TEST_HASH = "694820c22698076593b4a3bd3454ded0eca0e670e4f01ee9dc0d792c167a230c";
-// Eigener Code → "pro", Tester-Code → "test", sonst null (dann fragt der Logo-Eingang den Worker: Trainer-Code).
+// Familien-Code (vom Nutzer, 30.10.2026, für seine Kinder): Mitteilungen + „📡 Live von FuPa“, kein Coach, kein „eigenes Gerät“.
+const FAM_HASH = "42c0e585608186a38315976b1ebb477e52f39eb59500db61773922c9a7c62c96";
+// Eigener Code → "pro", Tester-Code → "test", Familien-Code → "familie", sonst null (dann fragt der Logo-Eingang den Worker: Trainer-Code).
 async function codeArt(c) {
   try {
     const h = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(c.trim().toUpperCase())));
     const x = [...h].map(b => b.toString(16).padStart(2, "0")).join("");
-    return x === CODE_HASH ? "pro" : x === TEST_HASH ? "test" : null;
+    return x === CODE_HASH ? "pro" : x === TEST_HASH ? "test" : x === FAM_HASH ? "familie" : null;
   } catch (e) { return null; }
 }
 async function codeStimmt(frage, auchTest = false) {
@@ -1607,7 +1611,7 @@ document.addEventListener("visibilitychange", () => {
 // 5× Tippen zum Ausschalten auch der Weg zurück. SPÄTER WIEDER AUSBAUEN (CLAUDE.md, 5×-Schalter).
 const SW_SCOPE = "./";
 // Merker: "pro" (eigener Code) oder "test" (Tester-Code); alte Merker "1" (vor 23.10. abends) zählen wie "test".
-const mtest = () => { try { return ["1", "pro", "test"].includes(localStorage.getItem(KEY + "_mtest")); } catch (e) { return false; } };
+const mtest = () => { try { return ["1", "pro", "test", "familie"].includes(localStorage.getItem(KEY + "_mtest")); } catch (e) { return false; } };
 // Tore als Mitteilung (vom Nutzer, 23.10.2026): erst nur mit eigenem Code. Für alle freischalten = hier true zurückgeben.
 // Mitteilungen für alle (vom Nutzer, 30.10.2026: vorbereitet, eingeschaltet erst auf sein Go): true = alle sehen das Zahnrad
 // und einmal den Hinweis „Neu: Mitteilungen“; Tore und Coach bleiben beim eigenen Code. Wie viele Handys sich anmelden können,
@@ -1615,6 +1619,14 @@ const mtest = () => { try { return ["1", "pro", "test"].includes(localStorage.ge
 const MITT_FUER_ALLE = false;
 const mitt = () => MITT_FUER_ALLE || mtest();
 const mTore = () => { try { return localStorage.getItem(KEY + "_mtest") === "pro"; } catch (e) { return false; } };
+// „📡 Live von FuPa“ (vom Nutzer, 30.10.2026): Ticker, Halbzeit, Tor, Endstand von FuPa — nur mit eigenem oder Familien-Code. Die App
+// bleibt für alle gleich (kein Live-Kasten); nur diese Mitteilungen. Eigener Name „Seniors 1 · live“ in der Auswahl: kein normales Abo
+// hat ihn, und der Worker fragt FuPa nur, wenn ihn jemand gewählt hat. Haupt-Haken aus → die „· live“-Auswahl geht nicht zum Worker.
+const mLive = () => { try { return ["pro", "familie"].includes(localStorage.getItem(KEY + "_mtest")); } catch (e) { return false; } };
+const LIVE_ZUSATZ = " · live", LIVE_ARTEN_APP = ["ticker", "halbzeit", "tor", "ende"];
+const LIVE_TEXT = { ticker: "🔴 Ticker läuft", halbzeit: "⏸️ Halbzeit-Stand", tor: "⚽ Tor", ende: "🏁 Endstand (von FuPa, sofort)" };
+const liveAn = () => { try { return localStorage.getItem(KEY + "_livean") !== "0"; } catch (e) { return true; } };
+const liveReiter = () => [...(D?.teams || []).filter(t => t.reiter && t.kat === "Seniors").map(t => t.reiter), "Roude Léiw"];
 const pushGeht = () => "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
 const istApp = () => navigator.standalone === true || matchMedia("(display-mode: standalone)").matches;
 let MITT_OFFEN = false, MITT_STAND = "";
@@ -1657,6 +1669,7 @@ async function mittHtml() {
       ? `<p>✓ Mitteilungen sind auf diesem Gerät erlaubt. Nachts (23–7 Uhr) kommt nichts, das wartet bis morgens.</p>
          ${mAufraeumen()}<h3 class="mh">Meine Mannschaften</h3><p class="klein">Mannschaft anhaken, dann darunter wählen, was von ihr kommen soll.</p>
          ${mReiter().map(mannschaft).join("")}
+         ${mLive() ? liveKasten(w) : ""}
          <button class="knopf" id="mTest">Test-Mitteilung senden</button>
          <button class="knopf zweit" id="mAus">Abmelden</button>`
       : `<p>Dein Handy fragt einmal, ob die App Mitteilungen schicken darf. Danach wählst du Mannschaften und Arten aus.</p>
@@ -1664,6 +1677,21 @@ async function mittHtml() {
   }
   box.innerHTML = `<section class="card"><div class="chead"><h2>Mitteilungen</h2></div><div class="cbody">${h}
     <div class="stand" id="mStand">${esc(MITT_STAND)}</div></div></section>`;
+}
+// Eigener Kasten, gestrichelt umrandet, damit man die FuPa-Mitteilungen sofort von den anderen unterscheidet (vom Nutzer).
+function liveKasten(w) {
+  const an = liveAn();
+  const team = r => {
+    const key = r + LIVE_ZUSATZ, dabei = !!w.je[key];
+    const kopf = `<label class="haken team"><input type="checkbox" data-t="${esc(key)}"${dabei ? " checked" : ""}> ${esc(r)}</label>`;
+    return `<div class="mteam">${kopf}${dabei ? `<div class="marten">${LIVE_ARTEN_APP.map(k =>
+      `<label class="haken"><input type="checkbox" data-t="${esc(key)}" data-a="${k}"${w.je[key].includes(k) ? " checked" : ""}> ${LIVE_TEXT[k]}</label>`).join("")}</div>` : ""}</div>`;
+  };
+  return `<div class="livekasten"><b>📡 Nur für dich: Live von FuPa</b>
+    <p class="klein">Sieht nur ein Gerät mit eigenem Code. Kommt über FuPas Schnittstelle: Der Worker fragt FuPa nur während der Spiele
+    der Mannschaften, die du hier anhakst. Die Mitteilungen tragen vorn ein 📡. Der normale Endstand oben kommt später zusätzlich von der FLF.</p>
+    <label class="haken team"><input type="checkbox" id="mLiveAn"${an ? " checked" : ""}> <b>Live-Mitteilungen an</b></label>
+    ${an ? liveReiter().map(team).join("") : ""}</div>`;
 }
 const IOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 const ANDROID = /Android/.test(navigator.userAgent);
@@ -1689,6 +1717,7 @@ const M_ART_TEXT = { heute: "Heute Spiel (10 Uhr)", spieltag: "Spieltag komplett
   tor: "Tore (fast live, nur mit Ticker)", trainer: "Trainer: neu, geändert, abgesagt" };
 const mKat = r => (D?.teams || []).find(t => t.reiter === r || t.gruppe?.name === r)?.kat || r;
 function mArtenFuer(r) {
+  if (r.endsWith(LIVE_ZUSATZ)) return mLive() ? LIVE_ARTEN_APP : [];
   const k = mKat(r);
   if (r === "Woche") return ["woche"];
   if (r === "BGL") return ["spieltag"];
@@ -1734,15 +1763,18 @@ function mAufraeumen() {
 async function mWahlSenden() {
   const reg = await swReg(), abo = reg && await reg.pushManager.getSubscription();
   if (!abo) return;
-  const a = await pushPost("wahl", { endpoint: abo.endpoint, ...mWahl() }).catch(() => ({ ok: false }));
+  const w = mWahl();
+  if (!liveAn()) for (const r of Object.keys(w.je)) if (r.endsWith(LIVE_ZUSATZ)) delete w.je[r];
+  const a = await pushPost("wahl", { endpoint: abo.endpoint, ...w }).catch(() => ({ ok: false }));
   MITT_STAND = a.ok ? "Gespeichert." : "Speichern ging nicht (" + (a.status || "?") + ").";
   const st = document.getElementById("mStand"); if (st) st.textContent = MITT_STAND;
 }
 document.addEventListener("change", e => {
+  if (e.target.id === "mLiveAn") { try { localStorage.setItem(KEY + "_livean", e.target.checked ? "1" : "0"); } catch (x) {} mittHtml().then(mWahlSenden); return; }
   const c = e.target.closest("#mitt input[type=checkbox][data-t]");
   if (!c) return;
   const w = mWahl(), r = c.dataset.t, k = c.dataset.a;
-  if (!k) { if (c.checked) w.je[r] = mArtenFuer(r).filter(x => x !== "tor"); else delete w.je[r]; }   // Mannschaft an: alles außer Tore (bewusst wählen, vom Nutzer)
+  if (!k) { if (c.checked) w.je[r] = mArtenFuer(r).filter(x => x !== "tor" || r.endsWith(LIVE_ZUSATZ)); else delete w.je[r]; }   // Mannschaft an: alles außer Tore (bewusst wählen, vom Nutzer); bei „📡 Live“ mit Toren
   else { w.je[r] = (w.je[r] || []).filter(x => x !== k); if (c.checked) w.je[r].push(k); }
   try { localStorage.setItem(KEY + "_mwahl", JSON.stringify(w)); } catch (x) {}
   if (!k) mittHtml().then(mWahlSenden); else mWahlSenden();
@@ -1810,7 +1842,7 @@ document.getElementById("logo").addEventListener("click", async () => {
   // Codes gelten einmal: am iPhone nur in der App vom Home-Bildschirm, sonst wäre er in Safari verbraucht (eigener Speicher).
   // Computer und Android: Browser und installierte App teilen sich den Speicher, dort geht es überall (Stufe 2, vom Nutzer: auch am Desktop).
   if (!lokal && IOS && !istApp()) { alert("Bitte den Code in der App vom Home-Bildschirm eingeben, nicht in Safari – er gilt nur einmal."); return; }
-  if (lokal !== "test" && !(lokal === "pro" && coachAdmin())) {
+  if (lokal !== "test" && lokal !== "familie" && !(lokal === "pro" && coachAdmin())) {
     const a = await fetch(WORKER_URL + "?coach=einloesen", { method: "POST", body: JSON.stringify({ code: roh }) })
       .then(async r => ({ ok: r.ok, ...(await r.json().catch(() => ({}))) })).catch(() => ({ fehler: "Keine Verbindung – bitte später nochmal." }));
     if (a.ok && a.schluessel) {

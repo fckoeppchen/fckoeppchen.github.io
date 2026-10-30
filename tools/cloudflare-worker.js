@@ -80,10 +80,12 @@ export function saisonVon(anstoss) {
 // Spielliste der Mannschaft über die Schnittstelle (`flavor=current`: die Spiele um jetzt herum,
 // `past` als Rückfall). Erst lief das über die Webseite — die gab dem Worker bei Cloudflare aber
 // nicht dasselbe wie einem normalen Abruf (18.10.2026: „spiel nicht gefunden“).
-async function slugZu(anstoss) {
-  const g = gefunden.get(anstoss);
+// `kurz`: FuPa-Mannschaft (m1 = Seniors 1, mr1/mr2 = Réserves I/II; seit 30.10.2026 auch die Reserven, für „📡 Live von FuPa“).
+async function slugZu(anstoss, kurz = "m1") {
+  const schl = kurz === "m1" ? anstoss : kurz + "|" + anstoss;
+  const g = gefunden.get(schl);
   if (g && Date.now() - g.t < 6 * 3600e3) return g.slug;
-  const team = "fc-koeppchen-m1-" + saisonVon(anstoss);
+  const team = `fc-koeppchen-${kurz}-` + saisonVon(anstoss);
   let slug = null;
   for (const flavor of ["current", "past"]) {
     const r = await fetch(`https://api.fupa.net/v1/teams/${team}/matches?flavor=${flavor}`, { headers: { accept: "application/json" } });
@@ -92,7 +94,7 @@ async function slugZu(anstoss) {
     slug = Array.isArray(spiele) ? passendesSpiel(spiele, anstoss)?.slug || null : null;
     if (slug) break;
   }
-  if (slug) gefunden.set(anstoss, { t: Date.now(), slug });
+  if (slug) gefunden.set(schl, { t: Date.now(), slug });
   return slug;
 }
 
@@ -444,6 +446,11 @@ export function passtZu(wahl, e) {
   if (!Array.isArray(wahl.teams) || !e.reiter.some(r => wahl.teams.includes(r))) return false;
   return e.art === "woche" || (wahl.arten || []).includes(e.art);
 }
+// Will ein Abo von diesem Live-Spiel überhaupt etwas (Ticker, Halbzeit, Tor, Endstand)?
+export function liveGewollt(abos, c) {
+  return abos.some(a => { let w = null; try { w = JSON.parse(a.wahl); } catch (e) {}
+    return LIVE_ARTEN.some(art => passtZu(w, { reiter: c.reiter, art })); });
+}
 export const tagzeit = ms => { const h = stundeLux(ms); return h >= 7 && h < 23; };
 // Liveticker und Endstand für ein Spiel des Tages (Kandidat aus mitteilungen.json → live).
 export function liveEreignisse(c, k, now) {
@@ -521,7 +528,7 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
     for (const [t, l] of Object.entries(je)) { const m = zahl.get(t) || zahl.set(t, new Map()).get(t); for (const k of l) m.set(k, (m.get(k) || 0) + 1); }
   }
   const gewaehlt = [...zahl].map(([t, m]) => `<tr><td>${esc(t)}</td><td class="st">${[...m].map(([k, n]) => esc(ART_KURZ[k] || k) + (abos.length > 1 ? ` ${n}` : "")).join(" · ") || "—"}</td></tr>`).join("");
-  const live = (datei?.live || []).map(c => `<li>${esc(c.titel)}: ${zeitLux(Date.parse(c.d))} gegen ${esc(c.gegner)} — FuPa wird vom Anpfiff bis 3 h danach jede Minute geprüft${c.slug || c.anstoss ? "" : " (noch ohne FuPa-Spiel)"}</li>`).join("");
+  const live = (datei?.live || []).map(c => `<li>${esc(c.titel)}: ${zeitLux(Date.parse(c.d))} gegen ${esc(c.gegner)} — FuPa wird vom Anpfiff bis 3 h danach jede Minute geprüft, ${liveGewollt(abos, c) ? "ein Handy hat es gewählt" : "aber nur, wenn ein Handy es wählt (gerade keins)"}${c.slug || c.anstoss ? "" : " (noch ohne FuPa-Spiel)"}</li>`).join("");
   return `<h2>Mitteilungen</h2><p>${abos.length} ${abos.length === 1 ? "Handy" : "Handys"} angemeldet, davon ${abos.filter(a => a.wahl).length} mit Auswahl. Gesendet wird 7–23 Uhr.</p>
 <h3>Gewählt${abos.length > 1 ? " (Zahl = so viele Handys)" : ""}</h3><table class="mitt">${gewaehlt || "<tr><td>noch nichts</td></tr>"}</table>
 ${live ? `<h3>Heute mit Liveticker</h3><ul>${live}</ul>` : ""}
@@ -552,11 +559,15 @@ export async function mitteilungenSenden(db, now = Date.now()) {
     const d = Date.parse(c.d);
     if (now < d || now > d + 180 * 60e3) continue;
     if ((await schon(c.ende))) continue;
+    // FuPa nur fragen, wenn ein Handy für dieses Spiel Live-Mitteilungen gewählt hat (30.10.2026: „📡 Live von FuPa“ hat nur,
+    // wer den eigenen oder den Familien-Code hat) — sonst keine einzige Anfrage.
+    if (!liveGewollt(abos, c)) continue;
     try {
       let slug = c.slug;
       if (!slug && c.anstoss) {
-        slug = (await db.prepare("SELECT slug FROM live_slug WHERE anstoss = ?1").bind(c.anstoss).first())?.slug;
-        if (!slug && (slug = await slugZu(c.anstoss))) await db.prepare("INSERT OR REPLACE INTO live_slug (anstoss, slug) VALUES (?1, ?2)").bind(c.anstoss, slug).run();
+        const schl = !c.fupaTeam || c.fupaTeam === "m1" ? c.anstoss : c.fupaTeam + "|" + c.anstoss;
+        slug = (await db.prepare("SELECT slug FROM live_slug WHERE anstoss = ?1").bind(schl).first())?.slug;
+        if (!slug && (slug = await slugZu(c.anstoss, c.fupaTeam || "m1"))) await db.prepare("INSERT OR REPLACE INTO live_slug (anstoss, slug) VALUES (?1, ?2)").bind(schl, slug).run();
       }
       if (!slug) continue;
       const sp = await fupaSpiel(slug, db, now);

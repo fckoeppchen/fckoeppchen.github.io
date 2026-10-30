@@ -342,7 +342,7 @@ den nur ein Gerät im Modus „Persönlich“ in seiner Auswahl hat; FuPa-Endsta
 verschickt). Reserven-Slugs (`reserveHolen`) dafür wieder an. Vertretbar, solange FuPa nicht ausdrücklich „keine automatischen Abfragen,
 egal wofür“ sagt (dann aus); ein Nein nur zur Vereins-App betrifft den privaten Gebrauch nicht.
 
-## Live-Mitteilungen nur für den Nutzer („Live von FuPa“) — Bauplan (30.10.2026, vom Nutzer gewünscht, **noch nicht bauen**)
+## Live-Mitteilungen nur für den Nutzer („📡 Live von FuPa“) — Bauplan (30.10.2026, vom Nutzer gewünscht) — **gebaut 30.10. (Fassung neu n), mit Familien-Code für seine Kinder**
 
 Ersetzt den Schalter „Vereins-App / Persönlich“ oben: **die App bleibt für alle (auch für ihn) wie sie ist** — kein Live-Kasten, kein
 Stand in der Woche. Nur die Live-Mitteilungen kommen für ihn zurück: Ticker läuft, Halbzeit-Stand, Tor, Endstand.

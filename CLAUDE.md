@@ -345,6 +345,17 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   erst ganz schließen half): Prüfung **auch 5 s nach jedem Start**, und **nur vorwärts** (`fassungWert`: Datum + Buchstaben a…z, aa…;
   unbekanntes Format → nie neu laden) — eine ältere Fassung vom Server lädt nie. Browser-Test: alte Kopie geöffnet → lädt neue, Server
   älter → bleibt.
+- **„📡 Live von FuPa“ nur für eigene Geräte** (vom Nutzer, 30.10.2026, Fassung 30.10. neu n; Bauplan in IDEEN.md): App bleibt für alle gleich
+  (`FUPA_API` false), nur Live-Mitteilungen kommen zurück — für Geräte mit eigenem Code („pro“) oder **Familien-Code** (`FAM_HASH`, Merker
+  `"familie"`: Mitteilungen + 📡, kein Coach, kein „eigenes Gerät“; Wortlaut nur beim Nutzer). Zahnrad: gestrichelter Kasten „📡 Nur für dich:
+  Live von FuPa“ (`liveKasten`, `.livekasten`), Haupt-Haken „Live-Mitteilungen an“ (`fussball_v1_livean`; aus → „· live“-Auswahl geht nicht
+  zum Worker), Seniors 1–3 + Roude Léiw mit Ticker/Halbzeit/Tor/Endstand, Auswahl unter `"Seniors 1 · live"` (`LIVE_ZUSATZ`). Abruf
+  (`tools/mitteilungen.mjs`, `LIVE_TEAM`): bei `FUPA.api` false Live-Kandidaten mit `reiter: ["… · live"]`, Titel „📡 Seniors 1“, ids
+  `lticker:`/`lhalbzeit:`/`ende-live:` (Nati `lnticker:`/`lnhalbzeit:`/`nende-live:`) — der FLF-Endstand `ende:` bleibt für alle (bei ihm
+  kommt der Endstand also zweimal, vom Nutzer so gewollt). **Worker:** `liveGewollt(abos, c)` — FuPa nur, wenn ein Abo für den Kandidaten
+  eine Live-Art gewählt hat; `slugZu(anstoss, kurz)` sucht jetzt auch `mr1`/`mr2` (live_slug-Schlüssel `mr1|<anstoss>`). `reserveHolen`
+  bleibt aus. Tests (fussball.mjs 400): ohne Abo 0 FuPa-Anfragen, Suche mr1, nur ans „· live“-Abo, eigene Endstand-id; Gegenproben.
+  Browser: Kasten mit Familien- und eigenem Code, nicht mit Tester-Code, Auswahl/Haupt-Haken richtig zum Worker. **Worker neu einfügen nötig.**
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

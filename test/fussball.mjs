@@ -859,7 +859,11 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     FUPA.api = false;
     const w = mEreignisse(neu, neu, null, Date.parse("2026-10-24T06:00:00+02:00"));
     FUPA.api = true;
-    ok(w.live.length === 0 && sa.live.length > 0 && w.ereignisse.length === sa.ereignisse.length, "Widget-Betrieb: keine Live-Kandidaten, sonst gleich");
+    ok(w.live.every(c => c.reiter.every(r => r.endsWith(" · live"))) && sa.live.length > 0 && w.ereignisse.length === sa.ereignisse.length, "Widget-Betrieb: Live-Kandidaten nur für „· live“, sonst gleich");
+    // „📡 Live von FuPa“ (nur eigener/Familien-Code): eigener Name, 📡 im Titel, eigene ids — der FLF-Endstand („ende:“) bleibt für alle.
+    const sn = sa.live.find(c => c.reiter.includes("Seniors 2")), wn = w.live.find(c => c.id === sn?.id);
+    ok(wn && wn.reiter[0] === "Seniors 2 · live" && wn.titel === "📡 Seniors 2" && wn.ende === "ende-live:" + sn.id && wn.ticker !== sn.ticker && wn.fupaTeam === "mr1" && !wn.slug && wn.anstoss === sn.d,
+       "📡 Live: Kandidat unter „Seniors 2 · live“, eigene ids, Suche per Anstoß (mr1)");
     // Beide Schalter gehören zusammen: App (index.html) und Abruf/Mitteilungen (tools/fupa-modus.mjs).
     const app = /const FUPA_API = (true|false);/.exec(src)?.[1];
     ok(app === String(FUPA_STAND), "FuPa-Schalter in index.html und tools/fupa-modus.mjs gleich");
@@ -999,6 +1003,36 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
      "Versandzeit 7–23 Uhr (vom Nutzer, 23.10.2026), auch im Winter");
   await mitteilungenSenden(db, Date.parse("2026-10-25T07:00:00+01:00"));
   ok(an.join() === "U13,SEN,SEN" && !T.offen.has("ende:503") && T.gemeldet.has("ende:503"), "Versand: Endstand morgens um 7");
+  // „📡 Live von FuPa“ (30.10.2026): ohne „· live“-Abo fragt der Worker FuPa gar nicht; mit Abo sucht er das Reservespiel selbst (mr1),
+  // schickt nur an dieses Abo, eigene ids (der FLF-Endstand „ende:503“ bleibt frei).
+  {
+    T.abos.clear(); T.gemeldet.clear(); T.offen.clear(); T.post.clear(); an.length = 0;
+    FUPA.api = false; const wl = mEreignisse(neu, neu, null, Date.parse("2026-10-24T06:00:00+02:00")); FUPA.api = true;
+    const fragen = [];
+    const slug2 = c.slug + "-live";   // eigener Slug, sonst nähme der Worker den gemerkten Stand von oben
+    let fp = { slug: slug2, section: "LIVE", homeGoal: 0, awayGoal: 1, tickerAuthor: { name: "Paul" }, highlights: [] };
+    globalThis.fetch = async (url, o) => {
+      const u = String(url);
+      if (u.includes("mitteilungen.json")) return new Response(JSON.stringify(wl));
+      if (u.includes("api.fupa.net")) { fragen.push(u); return new Response(JSON.stringify(u.includes("/teams/") ? [{ slug: slug2, kickoff: c.d }] : fp)); }
+      an.push(u.split("/").pop()); return new Response("", { status: 201 });
+    };
+    abo("https://web.push.apple.com/SEN", { je: { "Seniors 2": ["heute", "ticker", "halbzeit", "ende"] } });
+    await mitteilungenSenden(db, spiel);
+    ok(fragen.length === 0 && an.length === 0, "📡 Live: ohne „· live“-Abo keine einzige FuPa-Anfrage, nichts verschickt");
+    abo("https://web.push.apple.com/LIVE", { je: { "Seniors 2 · live": ["ticker", "halbzeit", "tor", "ende"] } });
+    await mitteilungenSenden(db, spiel + 60e3);
+    ok(fragen.some(u => u.includes("/teams/fc-koeppchen-mr1-2026-27/matches")) && fragen.some(u => u.endsWith("/matches/" + slug2)) && an.join() === "LIVE"
+       && T.gemeldet.has("lticker:503") && !T.gemeldet.has("ticker:503"), "📡 Live: Worker sucht das Reservespiel selbst, Ticker nur ans „· live“-Abo");
+    const vorher = fragen.length;
+    await mitteilungenSenden(db, spiel + 90e3);
+    ok(fragen.length === vorher, "📡 Live: Spiel gemerkt, FuPa höchstens einmal pro Minute");
+    fp = { ...fp, section: "POST", homeGoal: 1, awayGoal: 2 };
+    await mitteilungenSenden(db, spiel + 3 * 60e3);
+    const g = T.gemeldet.get("ende-live:503");
+    ok(g && g.passend === 1 && !T.gemeldet.has("ende:503") && an.filter(x => x === "SEN").length === 0, "📡 Live: Endstand mit eigener id nur an „· live“, der FLF-Endstand bleibt frei");
+    globalThis.fetch = echt;
+  }
 
   // Postausgang (vom Nutzer, 23.10.2026): viele Handys in kleinen Paketen, Live zuerst, Zähler stimmen.
   T.abos.clear(); T.gemeldet.clear(); T.offen.clear(); T.post.clear();
