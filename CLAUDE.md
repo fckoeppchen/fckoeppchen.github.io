@@ -362,6 +362,13 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   eine Live-Art gewählt hat; `slugZu(anstoss, kurz)` sucht jetzt auch `mr1`/`mr2` (live_slug-Schlüssel `mr1|<anstoss>`). `reserveHolen`
   bleibt aus. Tests (fussball.mjs 400): ohne Abo 0 FuPa-Anfragen, Suche mr1, nur ans „· live“-Abo, eigene Endstand-id; Gegenproben.
   Browser: Kasten mit Familien- und eigenem Code, nicht mit Tester-Code, Auswahl/Haupt-Haken richtig zum Worker. **Worker neu einfügen nötig.**
+- **Kasten „Letztes Spiel“ oben** (vom Nutzer, 30.10.2026, Fassung 30.10. neu r, `letztesHtml`): nach dem Spiel bis zum Vortag des nächsten
+  (Heute-/Morgen-Kasten übernimmt), höchstens 7 Tage. **Seniors 1–3:** „Letztes Spiel · Endstand“, Datum + Spieltag, Ergebnis groß in Grün
+  (`.letztes .gross`), darunter Klasse und „jetzt n. Platz“ (kein Sieg/Niederlage — vom Nutzer: sieht man am Ergebnis), nur mit FLF-Ergebnis,
+  keine Trainer-Spiele. **Jugend:** „Letzter Spieltag“ mit Koeppi (ball-faust), „Super gemacht“ + Spruch (`nachDemSpiel`), Spiel klein wie in
+  der Liste (`spielZeile`; U7/U9/U11 „gespielt“), Bambinis ohne Gegnerzeile („Mini-Spieltag in Wormeldange mit …“, `ortKurz`), nächstes Spiel.
+  Der grüne Koeppi-Streifen in „Unsere Ergebnisse“ ist dafür weg, das Spiel steht dort wieder normal. Browser mit gestellter Uhr (Seniors 1/3,
+  MIN 1, PUP 2, BAM 1, keine Fehler).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
