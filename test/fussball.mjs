@@ -1070,9 +1070,9 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const ts1 = await tagSeite([gg("a", 23, { an: 2, passend: 2, angekommen: 2 }), gg("b", 23, { an: 0, passend: 0 }), gg("c", 22, { an: 2, passend: 2, angekommen: 1 }), gg("d", 24, { an: 1, passend: 1, angekommen: 1 })]);
   const ts2 = await tagSeite([gg("a", 23, { an: 2, passend: 2, angekommen: 2 }), gg("e", 23, { an: 1, passend: 2 })]);
   const ts3 = await mitteilungenStand({ prepare: sql => ({ async all() { return { results: [] }; } }) }, { ereignisse: [{ id: "w", titel: "W", ab: Date.parse("2026-10-24T19:00:00+02:00") }] }, Date.parse("2026-10-24T08:00:00+02:00"));
-  ok(ts1.includes('<summary class="tagmitt ok2">Fr., 23.10. · 2 Mitteilungen') && ts1.includes('<summary class="tagmitt warn">Do., 22.10. · 1 Mitteilung<')
+  ok(ts1.includes('<summary class="tagmitt ok2">Fr., 23.10. · 2 Mitteilungen') && ts1.includes('<summary class="tagmitt">Do., 22.10. · 1 Mitteilung<')
      && ts2.includes('<summary class="tagmitt warn">Fr., 23.10.') && ts3.includes('<summary class="tagmitt">Sa., 24.10.')
-     && ts1.includes('<details open><summary class="tagmitt ok2">Sa., 24.10.') && ts1.includes('<details><summary class="tagmitt ok2">Fr., 23.10.'), "Übersicht: je Tag aufklappbar, grün/rot/ohne Farbe, heute offen");
+     && ts1.includes('<details open><summary class="tagmitt ok2">Sa., 24.10.') && ts1.includes('<details><summary class="tagmitt ok2">Fr., 23.10.'), "Übersicht: je Tag aufklappbar, grün, rot nur bei Fehler, sonst ohne Farbe, heute offen");
 }
 // BAM (Bambinis U7) aus den FLF-PDFs: Wörter wie aus `pdftotext -bbox`, nachgebaut (vier Spalten).
 {

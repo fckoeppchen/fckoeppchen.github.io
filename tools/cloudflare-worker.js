@@ -498,7 +498,7 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
   for (const e of [...(datei?.ereignisse || []), ...offen]) ev.set(e.id, e);
   for (const [id, g] of gem) if (!ev.has(id)) ev.set(id, { id, titel: g.titel || id, text: g.text || "", ab: g.ab || g.zeit });   // Text seit 23.10. mit gespeichert
   // Je Tag aufklappbar (vom Nutzer, 30.10.2026), heute offen. Tag grün = alles ✓✓ (oder niemand angehakt),
-  // rot = etwas nicht ganz angekommen; solange noch etwas wartet oder verschickt wird, ohne Farbe.
+  // rot nur bei einem Fehler (⚠️, ✗) — „solange keine Fehlermeldung dasteht, ist alles ok“; sonst ohne Farbe.
   const tage = new Map();
   for (const e of [...ev.values()].sort((a, b) => b.ab - a.ab).slice(0, 300)) {
     const st = mittStatus(e, gem.get(e.id), now, wartend.get(e.id) || 0), t = tagLux(e.ab);
@@ -506,7 +506,7 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
   }
   const heute = tagLux(now);
   const zeilen = [...tage].map(([t, l]) => {
-    const farbe = l.some(z => /^[⏳🌙]/u.test(z.st)) ? "" : l.every(z => /^(✓✓|–)/.test(z.st)) ? " ok2" : " warn";
+    const farbe = l.some(z => /^(⚠|✗)/.test(z.st)) ? " warn" : l.every(z => /^(✓✓|–)/.test(z.st)) ? " ok2" : "";
     const name = new Date(t + "T12:00:00Z").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "numeric", timeZone: "UTC" });
     return `<details${t >= heute ? " open" : ""}><summary class="tagmitt${farbe}">${name} · ${l.length} ${l.length === 1 ? "Mitteilung" : "Mitteilungen"}</summary><table class="mitt"><tr><th>Mitteilung</th><th>fällig ab</th><th>Stand</th></tr>`
       + l.map(({ e, st }) => `<tr><td>${esc(e.titel)}${e.text ? `<br><small>${esc(e.text)}</small>` : ""}</td><td>${zeitLux(e.ab)}</td><td class="st${st.startsWith("✓✓") ? " ok2" : st.startsWith("⚠") || st.startsWith("✗") ? " warn" : ""}">${esc(st)}</td></tr>`).join("") + "</table></details>";
