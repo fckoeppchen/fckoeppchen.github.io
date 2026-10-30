@@ -326,6 +326,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **`?reiter=<id>`** in der Adresse setzt einmal den Reiter und wird gleich wieder entfernt (`history.replaceState`) — für die
   Umzugsseite der alten App; sonst landete er in der Home-Bildschirm-Adresse. Browser-Test: Sprachwechsel bleibt bei Takten, „Los
   geht's“ bleibt nach Neuladen weg, danach Mitteilungen-Hinweis, `?reiter=45404` → Seniors 3 und Adresse ohne Parameter.
+- **Haken in der Mitteilungs-Liste auf `?zahlen`** (vom Nutzer, 31.10.2026): `mittStatus` setzt vorn **✓** = an alle passenden Handys
+  verschickt, **✓✓** (grün) = auch überall angekommen (Quittung `angekommen` ≥ `passend`), **⚠️** (rot) = nicht an alle (Fehler), „–“ =
+  niemand hat es angehakt; Text dahinter wie vorher. Test mit Gegenprobe. **Worker neu einfügen nötig.**
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

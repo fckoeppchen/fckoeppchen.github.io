@@ -1024,7 +1024,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(T.post.size === 0 && gw.an === 24 && gw.passend === 25 && gw.fehler === "Handy abgemeldet (410)" && ge.an === 23 && !T.abos.has("https://web.push.apple.com/WEG"),
      "Postausgang: am Ende alle verschickt, 410 gezählt und Abo gelöscht");
   ok(koepfe.size === 2, "VAPID: eine Unterschrift je Push-Dienst (Apple, Google), nicht je Handy");
-  ok(mittStatus(wo, gw, p0 + 9 * 60e3, 0).startsWith("✓") && mittStatus(wo, { ...gw, angekommen: 20 }, 0, 0).includes("· angekommen auf 20 · Fehler: Handy abgemeldet (410)"), "Übersicht: verschickt, angekommen und Fehler");
+  ok(/^(✓|⚠️)/.test(mittStatus(wo, gw, p0 + 9 * 60e3, 0)) && mittStatus(wo, { ...gw, angekommen: 20 }, 0, 0).includes("· angekommen auf 20 · Fehler: Handy abgemeldet (410)"), "Übersicht: verschickt, angekommen und Fehler");
   // Nachts bleibt der Postausgang liegen; abgelaufene Zeilen zählen als Fehler, nicht als verschickt.
   T.post.set(wo.id + "|https://web.push.apple.com/W1", { id: wo.id, endpoint: "https://web.push.apple.com/W1", nachricht: "{}", bis: p0 + 24 * 3600e3, prio: 1, zeit: p0 });
   const vorher2 = gesamt;
@@ -1046,6 +1046,10 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
      && mittStatus(e0, { zeit: e0.ab, an: 1, passend: 1 }, 0) === "✓ Fr., 23.10., 19:00 an 1 von 1 Handys"
      && mittStatus(e0, { zeit: e0.ab, an: 0, passend: 0 }, 0).includes("niemand hat es angehakt")
      && mittStatus(e0, { zeit: e0.ab, an: 0, passend: 1, fehler: "Push-Dienst 403" }, 0).endsWith("Fehler: Push-Dienst 403")
+     && mittStatus(e0, { zeit: e0.ab, an: 2, passend: 2, angekommen: 2 }, 0).startsWith("✓✓ ")
+     && mittStatus(e0, { zeit: e0.ab, an: 2, passend: 2, angekommen: 1 }, 0).startsWith("✓ ")
+     && mittStatus(e0, { zeit: e0.ab, an: 1, passend: 2 }, 0).startsWith("⚠️ ")
+     && mittStatus(e0, { zeit: e0.ab, an: 0, passend: 0 }, 0).startsWith("– ")
      && mittStatus(e0, { verpasst: 1, ab: Date.parse("2026-10-23T23:00:00+02:00") }, 0) === "✗ nicht verschickt (abgelaufen, war nachts fällig)", "Übersicht: Stand je Mitteilung");
   const seite = await mitteilungenStand({ prepare: sql => ({ async all() {
     if (sql.includes("FROM abos")) return { results: [{ wahl: '{"je":{"U13 2":["tabelle"],"Seniors 1":["ticker","ende"]}}' }, { wahl: '{"je":{"U13 2":["tabelle","heute"]}}' }] };

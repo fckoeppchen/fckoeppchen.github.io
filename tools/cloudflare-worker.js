@@ -269,7 +269,7 @@ export async function zahlenSeite(db, zusatz = "") {
   return `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FC Koeppchen · Zahlen</title><style>body{font-family:system-ui,sans-serif;margin:16px;color:#111}table{border-collapse:collapse;width:100%;max-width:520px}
 td,th{padding:6px 6px;border-bottom:1px solid #ddd;text-align:right;white-space:nowrap}td:first-child,th:first-child{text-align:left}h2{margin-top:28px}h3{font-size:15px;margin:16px 0 4px}
-table.haupt{font-size:14px}table.haupt td,table.haupt th{padding:6px 3px}.breit{overflow-x:auto}
+td.ok2{color:#0f7a65;font-weight:600}td.warn{color:#c0392b}table.haupt{font-size:14px}table.haupt td,table.haupt th{padding:6px 3px}.breit{overflow-x:auto}
 td.bar{width:50%;text-align:left}td.bar span{display:inline-block;height:10px;background:#1aa39a;border-radius:2px}
 table.mitt td,table.mitt th{white-space:normal;vertical-align:top;font-size:13px;text-align:left}table.mitt small{color:#666}
 details{max-width:520px;border:1px solid #ddd;border-radius:10px;padding:8px 12px;margin:8px 0}summary{cursor:pointer;font-weight:700;color:#0f7a65}</style>
@@ -472,8 +472,14 @@ export function mittStatus(e, g, now, wartend = 0) {
   if (g?.verpasst) return "✗ nicht verschickt (abgelaufen" + (g.ab && !tagzeit(g.ab) ? ", war nachts fällig" : "") + ")";
   const fehler = g?.fehler ? ` · Fehler: ${g.fehler}` : "";
   if (g && wartend) return `⏳ wird verschickt: ${g.an || 0} von ${g.passend ?? "?"} Handys, ${wartend} warten` + fehler;
-  if (g) return `✓ ${zeitLux(g.zeit)} an ${g.an ?? "?"} von ${g.passend ?? "?"} Handys` + (g.passend === 0 ? " (niemand hat es angehakt)" : "")
-    + (g.angekommen ? ` · angekommen auf ${g.angekommen}` : "") + fehler;
+  // Haken wie beim Messenger (vom Nutzer, 31.10.2026): ✓ = an alle verschickt, ✓✓ = auch überall angekommen (Quittung von sw.js),
+  // ⚠️ = nicht an alle verschickt (Fehler). So sieht man auf einen Blick, wo man genauer hinschauen muss.
+  if (g) {
+    const alle = g.passend > 0 && (g.an || 0) >= g.passend, da = alle && (g.angekommen || 0) >= g.passend;
+    const zeichen = !g.passend ? "–" : da ? "✓✓" : alle ? "✓" : "⚠️";
+    return `${zeichen} ${zeitLux(g.zeit)} an ${g.an ?? "?"} von ${g.passend ?? "?"} Handys` + (g.passend === 0 ? " (niemand hat es angehakt)" : "")
+      + (g.angekommen ? ` · angekommen auf ${g.angekommen}` : "") + fehler;
+  }
   if (e.ab > now) return "⏳ wartet";
   if (!tagzeit(now)) return "🌙 wartet bis 7 Uhr";
   return "⏳ geht in der nächsten Minute raus";
@@ -488,7 +494,7 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
   for (const e of [...(datei?.ereignisse || []), ...offen]) ev.set(e.id, e);
   for (const [id, g] of gem) if (!ev.has(id)) ev.set(id, { id, titel: g.titel || id, text: g.text || "", ab: g.ab || g.zeit });   // Text seit 23.10. mit gespeichert
   const zeilen = [...ev.values()].sort((a, b) => b.ab - a.ab).slice(0, 50)
-    .map(e => `<tr><td>${esc(e.titel)}${e.text ? `<br><small>${esc(e.text)}</small>` : ""}</td><td>${zeitLux(e.ab)}</td><td class="st">${esc(mittStatus(e, gem.get(e.id), now, wartend.get(e.id) || 0))}</td></tr>`).join("");
+    .map(e => `<tr><td>${esc(e.titel)}${e.text ? `<br><small>${esc(e.text)}</small>` : ""}</td><td>${zeitLux(e.ab)}</td>${(st => `<td class="st${st.startsWith("✓✓") ? " ok2" : st.startsWith("⚠") || st.startsWith("✗") ? " warn" : ""}">${esc(st)}</td>`)(mittStatus(e, gem.get(e.id), now, wartend.get(e.id) || 0))}</tr>`).join("");
   // Gewählt je Mannschaft und Art, als Anzahl Handys (wer was gewählt hat, steht nirgends).
   const ART_KURZ = { heute: "Spiel steht an", neu: "Neue Phase/Spiel", spieltag: "Spieltag", tabelle: "Tabelle", uhrzeit: "Uhrzeit",
     ticker: "Ticker", halbzeit: "Halbzeit", ende: "Endstand", woche: "Woche", tor: "Tore", trainer: "Trainer" };
