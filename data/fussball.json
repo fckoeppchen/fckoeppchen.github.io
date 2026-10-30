@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-30T18:28:53.557Z",
+ "stand": "2026-10-30T21:16:36.410Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -8172,9 +8172,9 @@
       "id": 45708,
       "n": "Alisontia Steinsel"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Stegen, synth.)"
     },
@@ -8226,9 +8226,9 @@
       "id": 45404,
       "n": "FC Koeppchen Wormeldange II"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Am Brill (Moutfort, synth.)"
     },
