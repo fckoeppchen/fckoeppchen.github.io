@@ -194,6 +194,11 @@
   .czeit{display:flex;align-items:center;gap:4px;margin-top:3px}
   .cform .czeit select{display:inline-block;width:auto;flex:1;margin-top:0}
   .coachz{display:inline-block;font-family:Barlow,sans-serif;font-size:10px;font-weight:800;letter-spacing:.6px;line-height:1;padding:3px 5px;border-radius:5px;background:var(--accentT);color:#fff;vertical-align:2px;margin-right:5px}
+  /* Heute/Morgen-Kästen und der heutige Tag in „Unsere Woche“ dunkelgrün, damit das Aktuelle sofort auffällt (vom Nutzer, 30.10.2026) */
+  .heute{border-color:var(--accentT)}
+  .heute .chead{background:var(--accentT);border-bottom-color:var(--accentT)}
+  .heute .chead h2,.heute .chead .hint{color:#fff}
+  .heute .chead .pill,.heute .chead .coachz{background:#fff;color:var(--accentT)}
   .ccode{font-family:ui-monospace,Menlo,monospace;font-size:20px;letter-spacing:1px}
   .mitt .haken.team{font-weight:700;font-size:15px}
   .mitt .marten{padding:0 0 6px 28px}
@@ -671,7 +676,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu g";
+const FASSUNG = "30.10.2026 neu h";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
