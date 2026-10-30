@@ -202,6 +202,8 @@
   .ccode{font-family:ui-monospace,Menlo,monospace;font-size:20px;letter-spacing:1px}
   .mitt .haken.team{font-weight:700;font-size:15px}
   .mitt .marten{padding:0 0 6px 28px}
+  /* Rote Rahmen um die Spielminute im FuPa-Widget weg (vom Nutzer: „hässlich“); der grüne Fortschrittsbalken bleibt */
+  .fupaplatz .match-header-caption.live,.fupaplatz .fp-caption-text.live{border:0!important;box-shadow:none!important}
   .livekasten{border:2px dashed var(--accentT);border-radius:12px;padding:10px 12px;margin:14px 0 6px;background:#f3fbf9}
   .livekasten>b{font-size:16px}.livekasten .klein{margin:6px 0 8px}
   .mitt .marten .haken{font-size:13.5px;padding:3px 0}
@@ -678,7 +680,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu p";
+const FASSUNG = "30.10.2026 neu q";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
