@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-29T18:03:26.804Z",
+ "stand": "2026-10-30T18:28:53.557Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -15358,7 +15358,7 @@
      "as": null,
      "gespielt": false,
      "forfait": false,
-     "ort": "Terrain 2 (Mensdorf, synth.)"
+     "ort": "Stade Op Biirk (Mensdorf)"
     },
     {
      "id": 13510,
@@ -17210,6 +17210,24 @@
    "tabelle": null,
    "spiele": [
     {
+     "id": 13800,
+     "d": "2026-11-07T14:30:00+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45770,
+      "n": "ENT Izeg/Sandweiler"
+     },
+     "a": {
+      "id": 45747,
+      "n": "Tricolore Gasperich"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Itzig, synth.)"
+    },
+    {
      "id": 13802,
      "d": "2026-11-07T14:30:00+01:00",
      "tag": 1,
@@ -17388,24 +17406,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Hollerich (synth.)"
-    },
-    {
-     "id": 13800,
-     "d": "2026-11-07T16:30:00+01:00",
-     "tag": 1,
-     "h": {
-      "id": 45770,
-      "n": "ENT Izeg/Sandweiler"
-     },
-     "a": {
-      "id": 45747,
-      "n": "Tricolore Gasperich"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Itzig, synth.)"
     },
     {
      "id": 13806,

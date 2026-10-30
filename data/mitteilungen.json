@@ -24,5 +24,24 @@
    "bis": 1793440800000
   }
  ],
- "live": []
+ "live": [
+  {
+   "id": 1015075,
+   "reiter": [
+    "Seniors 3 · live"
+   ],
+   "titel": "📡 Seniors 3",
+   "d": "2026-10-30T20:00:00+01:00",
+   "h": "US Moutfort-Medingen",
+   "a": "Koeppchen II",
+   "wirHeim": false,
+   "gegner": "US Moutfort-Medingen",
+   "anstoss": "2026-10-30T20:00:00+01:00",
+   "fupaTeam": "mr2",
+   "fupaWir": "fc-koeppchen",
+   "ticker": "lticker:1015075",
+   "halbzeit": "lhalbzeit:1015075",
+   "ende": "ende-live:1015075"
+  }
+ ]
 }
