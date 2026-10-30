@@ -367,7 +367,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Kasten „Letztes Spiel“ oben** (vom Nutzer, 30.10.2026, Fassung 30.10. neu r, `letztesHtml`): nach dem Spiel bis zum Vortag des nächsten
   (Heute-/Morgen-Kasten übernimmt), höchstens 7 Tage. **Seniors 1–3:** „Letztes Spiel · Endstand“, Datum + Spieltag, Ergebnis groß in Grün
   (`.letztes .gross`), darunter Klasse und „jetzt n. Platz“ (kein Sieg/Niederlage — vom Nutzer: sieht man am Ergebnis), nur mit FLF-Ergebnis,
-  keine Trainer-Spiele. **Jugend:** „Letzter Spieltag“ mit Koeppi (ball-faust), „Super gemacht“ + Spruch (`nachDemSpiel`), Spiel klein wie in
+  keine Trainer-Spiele. **Jugend:** „Letztes Spiel“ (bis neu w „Letzter Spieltag“, vom Nutzer vereinheitlicht, auch Bambinis) mit Koeppi (ball-faust), „Super gemacht“ + Spruch (`nachDemSpiel`), Spiel klein wie in
   der Liste (`spielZeile`; U7/U9/U11 „gespielt“), Bambinis ohne Gegnerzeile („Mini-Spieltag in Wormeldange mit …“, `ortKurz`), nächstes Spiel.
   Der grüne Koeppi-Streifen in „Unsere Ergebnisse“ ist dafür weg, das Spiel steht dort wieder normal. Browser mit gestellter Uhr (Seniors 1/3,
   MIN 1, PUP 2, BAM 1, keine Fehler).
