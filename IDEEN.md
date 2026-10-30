@@ -214,6 +214,7 @@ falls gewünscht, Bild vom Verein). **Drei Sprachen DE · FR · EN** (vom Nutzer
 > **So geht's:** Oben eine Mannschaft antippen, dann seht ihr ihre Spiele, die Tabelle und die Ergebnisse. ·
 > **Unsere Woche** zeigt alle Spiele des Vereins in dieser Woche. · 📅 Mit dem Kalender-Abo landen die Spiele direkt in
 > eurem Handy-Kalender, auch wenn sich ein Termin ändert.
+> · ↗︎ Mit dem Knopf **App teilen** ganz unten schickt ihr die App ganz einfach an Freunde, Familie und Kinder.
 > Viel Spaß und bis bald am Platz! ⚽ **#mirvunderkoeppchen**  [ Los geht's ]
 
 > 🇫🇷 **Bienvenue au FC Koeppchen ! 👋**
@@ -224,6 +225,7 @@ falls gewünscht, Bild vom Verein). **Drei Sprachen DE · FR · EN** (vom Nutzer
 > **Comment ça marche :** Touchez une équipe en haut pour voir ses matchs, le classement et les résultats. ·
 > **Unsere Woche** montre tous les matchs du club de la semaine. · 📅 Avec l'abonnement au calendrier, les matchs
 > arrivent directement dans le calendrier de votre téléphone, même si un horaire change.
+> · ↗︎ Avec le bouton **App teilen** tout en bas, vous partagez facilement l'application avec vos amis, votre famille et les enfants.
 > Amusez-vous bien et à bientôt au terrain ! ⚽ **#mirvunderkoeppchen**  [ C'est parti ! ]
 
 > 🇬🇧 **Welcome to FC Koeppchen! 👋**
@@ -234,6 +236,7 @@ falls gewünscht, Bild vom Verein). **Drei Sprachen DE · FR · EN** (vom Nutzer
 > **How it works:** Tap a team at the top to see its matches, the table and the results. · **Unsere Woche** shows all
 > of the club's matches this week. · 📅 With the calendar subscription, the matches go straight into your phone's
 > calendar, even if a time changes.
+> · ↗︎ With the **App teilen** button at the very bottom, you can easily share the app with friends, family and children.
 > Have fun and see you at the pitch! ⚽ **#mirvunderkoeppchen**  [ Let's go! ]
 
 ## COACH-Reiter: Trainer tragen eigene Spiele ein (vom Nutzer, 26.10.2026) — **Stufe 1 und 2 gebaut am 27.10.2026** (Fassung neu b/e, Stand in CLAUDE.md). Rollen geändert vom Nutzer: Chef (Laurent) legt Verwalter an, Verwalter nur Trainer; mehrere Codes je Person (Handy + Computer).
