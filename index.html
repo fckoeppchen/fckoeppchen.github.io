@@ -676,7 +676,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu i";
+const FASSUNG = "30.10.2026 neu j";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -877,7 +877,7 @@ const W_TEXT = {
     so: "So geht's:", l: ["Oben eine Mannschaft antippen, dann seht ihr ihre Spiele, die Tabelle und die Ergebnisse.",
       "<b>Unsere Woche</b> zeigt alle Spiele des Vereins in dieser Woche.",
       "📅 Mit dem Kalender-Abo landen die Spiele direkt in eurem Handy-Kalender, auch wenn sich ein Termin ändert.",
-      "↗︎ Mit dem Knopf <b>App teilen</b> ganz unten schickt ihr die App ganz einfach an Freunde, Familie und Kinder."],
+      "↗︎ Mit dem Knopf <b>App teilen</b> ganz unten schickt ihr die App ganz einfach an Freunde und Familie."],
     ende: "Viel Spaß und bis bald am Platz! ⚽" },
   fr: { flag: "🇫🇷", titel: "Bienvenue au FC Koeppchen ! 👋", los: "C'est parti !",
     a: "Cette application a été créée pour les parents et les enfants. Vous voyez toujours quand et où joue votre équipe, et vous pouvez aussi suivre les matchs de vos amis.",
@@ -885,7 +885,7 @@ const W_TEXT = {
     so: "Comment ça marche :", l: ["Touchez une équipe en haut pour voir ses matchs, le classement et les résultats.",
       "<b>Unsere Woche</b> montre tous les matchs du club de la semaine.",
       "📅 Avec l'abonnement au calendrier, les matchs arrivent directement dans le calendrier de votre téléphone, même si un horaire change.",
-      "↗︎ Avec le bouton <b>App teilen</b> tout en bas, vous partagez facilement l'application avec vos amis, votre famille et les enfants."],
+      "↗︎ Avec le bouton <b>App teilen</b> tout en bas, vous partagez facilement l'application avec vos amis et votre famille."],
     ende: "Amusez-vous bien et à bientôt au terrain ! ⚽" },
   en: { flag: "🇬🇧", titel: "Welcome to FC Koeppchen! 👋", los: "Let's go!",
     a: "This app was made for parents and children. You can always see when and where your team plays, and you can also follow your friends' matches.",
@@ -893,7 +893,7 @@ const W_TEXT = {
     so: "How it works:", l: ["Tap a team at the top to see its matches, the table and the results.",
       "<b>Unsere Woche</b> shows all of the club's matches this week.",
       "📅 With the calendar subscription, the matches go straight into your phone's calendar, even if a time changes.",
-      "↗︎ With the <b>App teilen</b> button at the very bottom, you can easily share the app with friends, family and children."],
+      "↗︎ With the <b>App teilen</b> button at the very bottom, you can easily share the app with friends and family."],
     ende: "Have fun and see you at the pitch! ⚽" },
 };
 let WLANG = (() => { const l = (navigator.language || "de").slice(0, 2); return W_TEXT[l] ? l : "de"; })();
