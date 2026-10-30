@@ -351,6 +351,8 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   erst ganz schließen half): Prüfung **auch 5 s nach jedem Start**, und **nur vorwärts** (`fassungWert`: Datum + Buchstaben a…z, aa…;
   unbekanntes Format → nie neu laden) — eine ältere Fassung vom Server lädt nie. Browser-Test: alte Kopie geöffnet → lädt neue, Server
   älter → bleibt.
+  **Neu t** (vom Nutzer, 30.10. abends: nach kurzem App-Wechsel lief noch die alte Fassung): Prüfung **bei jedem Zurückkommen**, höchstens
+  alle 5 min (`UPDATE_PAUSE`, `UPDATE_GEPRUEFT`), statt erst nach 30 min Hintergrund; dieselbe neue Fassung höchstens alle 10 min neu laden.
 - **„📡 Live von FuPa“ nur für eigene Geräte** (vom Nutzer, 30.10.2026, Fassung 30.10. neu n; Bauplan in IDEEN.md): App bleibt für alle gleich
   (`FUPA_API` false), nur Live-Mitteilungen kommen zurück — für Geräte mit eigenem Code („pro“) oder **Familien-Code** (`FAM_HASH`, Merker
   `"familie"`: Mitteilungen + 📡, kein Coach, kein „eigenes Gerät“; Wortlaut nur beim Nutzer). Zahnrad: gestrichelter Kasten „📡 Nur für dich:
