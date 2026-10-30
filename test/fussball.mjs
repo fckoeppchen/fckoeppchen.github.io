@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGruppe, natiTabelle, fupaTabelleMitFlfNamen, reserveSlugs, icsGruppe } from "../tools/fussball.mjs";
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
-import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel, ichZaehlen } from "../tools/cloudflare-worker.js";
+import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel, ichZaehlen, WAHL_OK } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux, spieltagStand } from "../tools/mitteilungen.mjs";
 import { FUPA } from "../tools/fupa-modus.mjs";
 // Die Live-Teile werden mit FuPa-Schnittstelle geprüft (Schalter aus 29.10.2026); der Widget-Betrieb hat eigene Prüfungen.
@@ -1031,6 +1031,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     await mitteilungenSenden(db, spiel + 3 * 60e3);
     const g = T.gemeldet.get("ende-live:503");
     ok(g && g.passend === 1 && !T.gemeldet.has("ende:503") && an.filter(x => x === "SEN").length === 0, "📡 Live: Endstand mit eigener id nur an „· live“, der FLF-Endstand bleibt frei");
+    ok(WAHL_OK.test("Seniors 3 · live") && WAHL_OK.test("Roude Léiw · live") && WAHL_OK.test("Minimes U13") && !WAHL_OK.test("x<script>"), "📡 Live: Worker nimmt „· live“ in der Auswahl an");
     globalThis.fetch = echt;
   }
 

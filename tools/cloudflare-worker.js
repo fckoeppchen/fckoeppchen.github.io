@@ -184,6 +184,8 @@ async function anstossen(env) {
 // Öffnen zählt dort mit, die Liste zeigt also alles, was angeschaut wurde.
 // Ohne Binding tut der Zähler nichts. Ansehen: ?zahlen (die letzten 30 Tage).
 const REITER_OK = /^[A-Za-zÀ-ÿ0-9 ]{1,20}$/;
+// Namen in der Mitteilungs-Auswahl: wie Reiter, dazu „Seniors 1 · live“ (📡 Live von FuPa, 30.10.2026 — der Punkt fehlte erst, die Auswahl fiel still weg).
+export const WAHL_OK = /^[A-Za-zÀ-ÿ0-9 ·]{1,24}$/;
 const ARTEN = ["app", "web"];
 export const stundeLux = ms => +new Date(ms).toLocaleString("en-GB", { timeZone: "Europe/Luxembourg", hour: "2-digit", hourCycle: "h23" });
 export async function zaehlen(db, tag, neu, reiter, art = "", stunde = null, erst = false) {
@@ -413,7 +415,7 @@ export async function pushAnfrage(req, db, was, env = {}) {
     // Je Mannschaft ihre Arten (vom Nutzer, 21.10.2026): { je: { "U13 2": ["tabelle"] } }.
     const je = {};
     for (const [t, a] of Object.entries(x.je && typeof x.je === "object" ? x.je : {}).slice(0, 30))
-      if (REITER_OK.test(t) && Array.isArray(a)) je[t] = a.filter(k => MITT_ARTEN.includes(k));
+      if (WAHL_OK.test(t) && Array.isArray(a)) je[t] = a.filter(k => MITT_ARTEN.includes(k));
     await abosSpalte(db);
     await db.prepare("UPDATE abos SET wahl = ?2 WHERE endpoint = ?1").bind(x.endpoint, JSON.stringify({ je })).run();
     return antwort('{"ok":true}');
