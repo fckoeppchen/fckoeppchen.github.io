@@ -107,6 +107,11 @@
   .live .quelle{font-size:11.5px;color:var(--muted);text-align:center;margin-top:8px}
   .live .quelle a{color:var(--accentT)}
   .fupatext a{color:var(--accentT)}
+  .mhinweis{border:2px solid var(--accentT);position:relative}
+  .mhinweis .cbody{padding-right:40px}
+  .mhinweis a{color:var(--accentT)}
+  .mhtitel{font-weight:700;font-size:17px;margin-bottom:6px}
+  .mhweg{position:absolute;top:8px;right:10px;border:0;background:none;font-size:22px;color:var(--muted);cursor:pointer;padding:4px 6px}
   .note{font-size:13.5px;line-height:1.4;padding:10px 12px;border-radius:10px;margin:12px 0;background:var(--panel);border:1px solid var(--line)}
   .note.up{border-color:var(--accent);background:#e6f6f2}
   .note.down{border-color:#e9a3ac;background:#fbecee}
@@ -660,7 +665,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "29.10.2026 neu e";
+const FASSUNG = "30.10.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -849,7 +854,28 @@ function alleSpieleHtml(k, ids) {
   }).join("");
 }
 
-function render() { renderInnen(); fupaEinsetzen(); }
+function render() { renderInnen(); fupaEinsetzen(); mittHinweis(); }
+// Einmaliger Hinweis „Neu: Mitteilungen“ (vom Nutzer, 30.10.2026), sobald sie für alle freigeschaltet sind; ✕ merkt es sich je Gerät.
+const MHINWEIS = KEY + "_mhinweis";
+function mittHinweis() {
+  if (!MITT_FUER_ALLE || MITT_OFFEN || COACH_OFFEN) return;
+  try { if (localStorage.getItem(MHINWEIS)) return; } catch (e) { return; }
+  const main = document.querySelector("main");
+  if (!main || document.getElementById("mhinweis")) return;
+  const d = document.createElement("section");
+  d.className = "card mhinweis"; d.id = "mhinweis";
+  d.innerHTML = `<button class="mhweg" data-mhweg="1" aria-label="Schließen">✕</button><div class="cbody">
+    <div class="mhtitel">🔔 Neu: Mitteilungen</div>
+    <div>Tipp oben rechts auf ⚙️ und wähl deine Mannschaften – z. B. „Morgen Spiel“, „Spieltag“ oder „Tabelle“.</div>
+    <div style="margin-top:6px">Wir schalten die Mitteilungen <b>nach und nach</b> frei. Sind gerade alle Plätze vergeben, probier es in ein paar Tagen noch einmal.</div>
+    <div class="muted" style="font-size:13px;margin-top:6px">${istApp() ? "Funktioniert nur in der installierten App."
+      : `Funktioniert nur in der installierten App – <a href="#" data-mhinstall="1">so installierst du sie</a>.`}</div></div>`;
+  main.insertBefore(d, main.firstChild);
+}
+document.addEventListener("click", e => {
+  if (e.target.closest("[data-mhweg]")) { try { localStorage.setItem(MHINWEIS, "1"); } catch (err) {} document.getElementById("mhinweis")?.remove(); return; }
+  if (e.target.closest("[data-mhinstall]")) { e.preventDefault(); MITT_OFFEN = true; COACH_OFFEN = false; MITT_STAND = ""; render(); window.scrollTo(0, 0); }
+});
 function renderInnen() {
   const main = document.getElementById("main");
   if (!D) return;
@@ -1472,6 +1498,11 @@ const SW_SCOPE = "./";
 // Merker: "pro" (eigener Code) oder "test" (Tester-Code); alte Merker "1" (vor 23.10. abends) zählen wie "test".
 const mtest = () => { try { return ["1", "pro", "test"].includes(localStorage.getItem(KEY + "_mtest")); } catch (e) { return false; } };
 // Tore als Mitteilung (vom Nutzer, 23.10.2026): erst nur mit eigenem Code. Für alle freischalten = hier true zurückgeben.
+// Mitteilungen für alle (vom Nutzer, 30.10.2026: vorbereitet, eingeschaltet erst auf sein Go): true = alle sehen das Zahnrad
+// und einmal den Hinweis „Neu: Mitteilungen“; Tore und Coach bleiben beim eigenen Code. Wie viele Handys sich anmelden können,
+// regelt der Worker (`MAX_ABOS` bei Cloudflare, ohne sie 50) — phasenweise hochsetzen.
+const MITT_FUER_ALLE = false;
+const mitt = () => MITT_FUER_ALLE || mtest();
 const mTore = () => { try { return localStorage.getItem(KEY + "_mtest") === "pro"; } catch (e) { return false; } };
 const pushGeht = () => "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
 const istApp = () => navigator.standalone === true || matchMedia("(display-mode: standalone)").matches;
@@ -1496,7 +1527,7 @@ async function mittHtml() {
   // Mitteilungen nur in der installierten App, auf jedem Gerät (vom Nutzer, 21.10.2026) — im Browser die Anleitung.
   if (!istApp()) h = installHtml();
   else if (!pushGeht()) h = `<p>Hier fehlt die Mitteilungs-Funktion. Lösch die App vom Home-Bildschirm und leg sie neu an
-    (Safari → Teilen → „Zum Home-Bildschirm“), dann in der neuen App wieder 5× aufs Logo. Braucht iOS 16.4 oder neuer.</p>`;
+    (Safari → Teilen → „Zum Home-Bildschirm“), dann in der neuen App wieder ${MITT_FUER_ALLE ? "oben rechts aufs ⚙️" : "5× aufs Logo"}. Braucht iOS 16.4 oder neuer.</p>`;
   else if (Notification.permission === "denied") h = `<p>Mitteilungen sind für die App ausgeschaltet. Einschalten unter
     Einstellungen → Mitteilungen → FC Koeppchen.</p>`;
   else {
@@ -1645,7 +1676,7 @@ document.addEventListener("click", e => {
   else if (b.id === "mTest") mittTest();
   else { MITT_STAND = "Abgemeldet."; swAufraeumen().then(mittHtml); }
 });
-function zahnradZeigen() { document.getElementById("zahnrad").hidden = !mtest(); }
+function zahnradZeigen() { document.getElementById("zahnrad").hidden = !mitt(); }
 let LOGO_TIPPS = [];
 document.getElementById("logo").addEventListener("click", async () => {
   const t = Date.now();
@@ -1661,7 +1692,7 @@ document.getElementById("logo").addEventListener("click", async () => {
     if (!schon || !confirm("Mitteilungen-Test und Coach auf diesem Gerät ausschalten?")) return;
     try { localStorage.removeItem(KEY + "_mtest"); } catch (e) {}
     if (coachDa()) { coachPost("abmelden").catch(() => {}); coachVergessen(); }
-    MITT_OFFEN = false; zahnradZeigen(); swAufraeumen(); render(); return;
+    MITT_OFFEN = false; zahnradZeigen(); if (!mitt()) swAufraeumen(); render(); return;
   }
   const lokal = await codeArt(roh);
   if (lokal) { try { localStorage.setItem(KEY + "_mtest", lokal); } catch (e) {} MITT_OFFEN = true; COACH_OFFEN = false; MITT_STAND = ""; zahnradZeigen(); }
@@ -1680,7 +1711,7 @@ document.getElementById("logo").addEventListener("click", async () => {
   render(); window.scrollTo(0, 0);
 });
 zahnradZeigen();
-if (!mtest()) swAufraeumen();   // Rückweg: ohne Merker kein Service Worker, kein Abo
+if (!mitt()) swAufraeumen();   // Rückweg: ohne Merker (und solange nicht für alle) kein Service Worker, kein Abo
 
 // ---- Coach, Stufe 1 (vom Nutzer, 27.10.2026; Plan in IDEEN.md „COACH-Reiter“) ----
 // Trainer tragen Freundschaftsspiele und Turniere ein. Eingang: 5× aufs Logo, persönlicher Code (gilt einmal, prüft der
