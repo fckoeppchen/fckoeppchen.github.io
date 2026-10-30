@@ -678,7 +678,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu n";
+const FASSUNG = "30.10.2026 neu o";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -735,10 +735,10 @@ const FUPA_OK = "fussball_v1_fupaOk";
 const fupaOk = () => { try { return localStorage.getItem(FUPA_OK) === "ja"; } catch (e) { return false; } };
 // Mannschaftsseite bei FuPa (ohne Saison: FuPa leitet auf die aktuelle weiter, geprüft 29.10.2026).
 const FUPA_TEAM = { "Seniors 1": "m1", "Seniors 2": "mr1", "Seniors 3": "mr2" };
-function fupaWidgetHtml(id, reiter) {
+function fupaWidgetHtml(id, reiter, anstoss = "") {
   const team = FUPA_TEAM[reiter] ? "https://www.fupa.net/team/fc-koeppchen-" + FUPA_TEAM[reiter] : "https://www.fupa.net/club/fc-koeppchen";
   return `<section class="card fupakarte"><div class="chead"><h2>Liveticker</h2><div class="hint">von FuPa</div></div><div class="cbody">` + (fupaOk()
-    ? `<div class="fupaplatz" data-fw="${esc(id)}"></div>`
+    ? `<div class="fupaplatz" data-fw="${esc(id)}" data-anstoss="${esc(anstoss)}"></div>`
     : `<div class="fupatext">Der Liveticker kommt direkt von <a href="https://www.fupa.net/club/fc-koeppchen" target="_blank" rel="noopener">FuPa</a>. Dafür verbindet sich das Handy mit FuPa, FuPa sieht dabei seine Internet-Adresse.</div>
       <button class="kal" data-fupa="ja" style="margin-top:10px">Liveticker anzeigen</button>
       <div class="muted" style="font-size:12px;margin-top:6px">Die App merkt sich das. Zurücknehmen unter „Datenschutz“ ganz unten.</div>`)
@@ -768,6 +768,20 @@ function fupaEinsetzen() {
     document.head.appendChild(sk);
   }
 }
+// FuPas Widget lädt den Ticker nur einmal und aktualisiert sich nicht von selbst (am 30.10.2026 im Skript nachgesehen: kein Takt,
+// nur der Knopf ↻ „Aktualisieren“). Darum tippt die App ihn an (vom Nutzer): jede Minute, solange die App vorne ist und das Spiel
+// läuft (15 min vor bis 3 h nach Anpfiff), und sofort, wenn man in die App zurückkommt. Im Hintergrund nichts.
+function fupaAktualisieren() {
+  if (FUPA_API || !fupaOk() || document.hidden) return;
+  const jetzt = Date.now();
+  for (const platz of document.querySelectorAll(".fupaplatz[data-anstoss]")) {
+    const a = Date.parse(platz.dataset.anstoss);
+    if (!(a - 15 * 60e3 <= jetzt && jetzt <= a + 180 * 60e3)) continue;
+    platz.querySelector(".fp-liveticker-view-refresh-button")?.click();
+  }
+}
+setInterval(fupaAktualisieren, 60e3);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) setTimeout(fupaAktualisieren, 500); });
 // Mit Slug, wenn live.json schon einen fürs laufende Spiel hat, sonst mit der Anstoßzeit aus dem
 // FLF-Spielplan (der Worker sucht dann selbst bei FuPa).
 let LIVE_SP = null;
@@ -1017,7 +1031,7 @@ function renderInnen() {
     ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder, motto: true,
     fupaUrl: (D.fupa || {})[heute.sp.id] ? "https://www.fupa.net/match/" + D.fupa[heute.sp.id]
       : L && L.flfId === heute.sp.id && L.url ? L.url : "https://www.fupa.net/club/fc-koeppchen" });
-  if (fw) h += fupaWidgetHtml(fw, v.team.reiter);
+  if (fw) h += fupaWidgetHtml(fw, v.team.reiter, heute.sp.d);
   const morgen = kinder && !heute && !lv && spieltagMorgen(v, now);
   if (morgen) h += morgenHtml(morgen, v.ids, sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "");
   if (lv) h += liveHtml(lv, n => anzeige(n).startsWith("Koeppchen"), "offiziell zählt die FLF");
