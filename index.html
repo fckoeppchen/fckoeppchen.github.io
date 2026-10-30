@@ -111,6 +111,13 @@
   .mhinweis .cbody{padding-right:40px}
   .mhinweis a{color:var(--accentT)}
   .mhtitel{font-weight:700;font-size:17px;margin-bottom:6px}
+  .willkommen{border:2px solid var(--accentT)}
+  .willkommen p{margin:8px 0}.willkommen ul{margin:4px 0 8px;padding-left:20px}.willkommen li{margin:3px 0}
+  .willkommen .motto{display:inline}
+  .willkommen .knopf{display:block;width:100%;margin-top:10px;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:11px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer}
+  .wsprachen{display:flex;gap:6px;justify-content:flex-end;margin-bottom:4px}
+  .wsprachen button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:3px 8px;font:inherit;font-size:13px;cursor:pointer}
+  .wsprachen button.an{border-color:var(--accentT);color:var(--accentT);font-weight:700}
   .mhweg{position:absolute;top:8px;right:10px;border:0;background:none;font-size:22px;color:var(--muted);cursor:pointer;padding:4px 6px}
   .note{font-size:13.5px;line-height:1.4;padding:10px 12px;border-radius:10px;margin:12px 0;background:var(--panel);border:1px solid var(--line)}
   .note.up{border-color:var(--accent);background:#e6f6f2}
@@ -665,7 +672,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu a";
+const FASSUNG = "30.10.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -854,7 +861,56 @@ function alleSpieleHtml(k, ids) {
   }).join("");
 }
 
-function render() { renderInnen(); fupaEinsetzen(); mittHinweis(); }
+function render() { renderInnen(); fupaEinsetzen(); willkommen() || mittHinweis(); }
+// Begrüßung beim ersten Öffnen (vom Nutzer, 26.10.2026, Texte abgenommen, Plan in IDEEN.md): für den Umzug vorbereitet, erst mit
+// dem Go an. Eigener Merker — darum sehen ihn alle einmal, auch bisherige Nutzer. „Los geht's“ schließt ihn für immer.
+const BEGRUESSUNG = false;
+const WILLKOMMEN = KEY + "_willkommen";
+const W_TEXT = {
+  de: { flag: "🇩🇪", titel: "Willkommen beim FC Koeppchen! 👋", los: "Los geht's",
+    a: "Diese App ist für Eltern und Kinder gemacht. Hier seht ihr immer, wann und wo eure Mannschaft spielt, und ihr könnt auch die Spiele eurer Freunde verfolgen.",
+    b: "Die Seniors sind auch mit dabei. So sehen die Kinder, wie „die Großen“ spielen, und alle im Verein bleiben auf dem Laufenden. Denn wir sind alle Koeppchen.",
+    so: "So geht's:", l: ["Oben eine Mannschaft antippen, dann seht ihr ihre Spiele, die Tabelle und die Ergebnisse.",
+      "<b>Unsere Woche</b> zeigt alle Spiele des Vereins in dieser Woche.",
+      "📅 Mit dem Kalender-Abo landen die Spiele direkt in eurem Handy-Kalender, auch wenn sich ein Termin ändert."],
+    ende: "Viel Spaß und bis bald am Platz! ⚽" },
+  fr: { flag: "🇫🇷", titel: "Bienvenue au FC Koeppchen ! 👋", los: "C'est parti !",
+    a: "Cette application a été créée pour les parents et les enfants. Vous voyez toujours quand et où joue votre équipe, et vous pouvez aussi suivre les matchs de vos amis.",
+    b: "Les Seniors sont aussi de la partie. Ainsi, les enfants voient comment jouent « les grands », et tout le club reste informé. Car nous sommes tous Koeppchen.",
+    so: "Comment ça marche :", l: ["Touchez une équipe en haut pour voir ses matchs, le classement et les résultats.",
+      "<b>Unsere Woche</b> montre tous les matchs du club de la semaine.",
+      "📅 Avec l'abonnement au calendrier, les matchs arrivent directement dans le calendrier de votre téléphone, même si un horaire change."],
+    ende: "Amusez-vous bien et à bientôt au terrain ! ⚽" },
+  en: { flag: "🇬🇧", titel: "Welcome to FC Koeppchen! 👋", los: "Let's go!",
+    a: "This app was made for parents and children. You can always see when and where your team plays, and you can also follow your friends' matches.",
+    b: "The Seniors are part of it too. This way, the children see how \"the grown-ups\" play, and everyone in the club stays up to date. Because we are all Koeppchen.",
+    so: "How it works:", l: ["Tap a team at the top to see its matches, the table and the results.",
+      "<b>Unsere Woche</b> shows all of the club's matches this week.",
+      "📅 With the calendar subscription, the matches go straight into your phone's calendar, even if a time changes."],
+    ende: "Have fun and see you at the pitch! ⚽" },
+};
+let WLANG = (() => { const l = (navigator.language || "de").slice(0, 2); return W_TEXT[l] ? l : "de"; })();
+function willkommen() {
+  document.getElementById("willkommen")?.remove();
+  if (!BEGRUESSUNG || MITT_OFFEN || COACH_OFFEN) return false;
+  try { if (localStorage.getItem(WILLKOMMEN)) return false; } catch (e) { return false; }
+  const main = document.querySelector("main");
+  if (!main) return false;
+  const t = W_TEXT[WLANG], d = document.createElement("section");
+  d.className = "card willkommen"; d.id = "willkommen";
+  d.innerHTML = `<div class="cbody"><div class="wsprachen">${Object.entries(W_TEXT).map(([k, x]) =>
+      `<button data-wlang="${k}" class="${k === WLANG ? "an" : ""}">${x.flag} ${k.toUpperCase()}</button>`).join("")}</div>
+    <div class="kzeile">${koeppiBild("fahne")}<div class="mhtitel">${esc(t.titel)}</div></div>
+    <p>${esc(t.a)}</p><p>${esc(t.b)}</p><p><b>${esc(t.so)}</b></p><ul>${t.l.map(x => `<li>${x}</li>`).join("")}</ul>
+    <p>${esc(t.ende)} <span class="motto">#mirvunderkoeppchen</span></p><button class="knopf" data-wlos="1">${esc(t.los)}</button></div>`;
+  main.insertBefore(d, main.firstChild);
+  return true;
+}
+document.addEventListener("click", e => {
+  const l = e.target.closest("[data-wlang]");
+  if (l) { WLANG = l.dataset.wlang; willkommen(); return; }
+  if (e.target.closest("[data-wlos]")) { try { localStorage.setItem(WILLKOMMEN, "1"); } catch (err) {} render(); window.scrollTo(0, 0); }
+});
 // Einmaliger Hinweis „Neu: Mitteilungen“ (vom Nutzer, 30.10.2026), sobald sie für alle freigeschaltet sind; ✕ merkt es sich je Gerät.
 const MHINWEIS = KEY + "_mhinweis";
 function mittHinweis() {
@@ -1998,6 +2054,12 @@ kopfHoehe();
 
 document.getElementById("logo").src = LOGO;
 load();
+// Umzug (vom Nutzer): die Umzugsseite der alten App schickt ?reiter=<zuletzt gewählter Reiter> mit. Einmal übernehmen und
+// aus der Adresse nehmen — sonst landete der Parameter in der Home-Bildschirm-App und setzte bei jedem Start den Reiter.
+try {
+  const r = new URLSearchParams(location.search).get("reiter");
+  if (r) { ST.team = /^\d+$/.test(r) ? +r : r; persist(); history.replaceState(null, "", location.pathname + location.hash); }
+} catch (e) {}
 try { D = JSON.parse(localStorage.getItem(KEY + "_data") || "null"); } catch (e) {}
 render();
 aktualisieren().finally(zaehle);   // nach dem Laden, damit der Reiter bekannt ist

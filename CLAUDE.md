@@ -320,6 +320,12 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Anleitung. **Phasen über `MAX_ABOS`** bei Cloudflare (erst ~30–35, die Tester-Handys zählen mit; dann ~100; ab mehreren hundert `PAKET`
   hoch nach Blick auf die Rechenzeit, ggf. Bezahlplan 5 $). Browser-Test: aus = wie vorher (normal kein Zahnrad, Tester schon), an =
   Zahnrad + Hinweis, Link öffnet Anleitung, ✕ bleibt auch nach Neuladen weg.
+- **Begrüßung beim ersten Öffnen — vorbereitet, noch aus** (Fassung 30.10. neu b, Plan und Texte in IDEEN.md): `BEGRUESSUNG` in
+  `index.html` (false), Kasten oben mit Koeppi-Fahne, DE/FR/EN-Knöpfe (vorausgewählt nach `navigator.language`), „Los geht's“ →
+  `fussball_v1_willkommen`. Solange er steht, kommt der Mitteilungen-Hinweis nicht (`willkommen() || mittHinweis()`), danach schon.
+  **`?reiter=<id>`** in der Adresse setzt einmal den Reiter und wird gleich wieder entfernt (`history.replaceState`) — für die
+  Umzugsseite der alten App; sonst landete er in der Home-Bildschirm-Adresse. Browser-Test: Sprachwechsel bleibt bei Takten, „Los
+  geht's“ bleibt nach Neuladen weg, danach Mitteilungen-Hinweis, `?reiter=45404` → Seniors 3 und Adresse ohne Parameter.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
