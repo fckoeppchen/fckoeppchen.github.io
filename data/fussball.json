@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-30T22:31:37.852Z",
+ "stand": "2026-10-30T23:01:06.322Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -5620,9 +5620,9 @@
       "id": 44981,
       "n": "Racing FC Union Luxembourg"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 5,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Rumelange, synth.)"
     },

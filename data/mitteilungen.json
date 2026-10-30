@@ -44,7 +44,37 @@
    "text": "Koeppchen II jetzt 5. Platz (vorher 7.) · 10 Punkte",
    "ab": 1793399511126,
    "bis": 1793485911126
+  },
+  {
+   "reiter": [
+    "Seniors 1"
+   ],
+   "id": "heute:1002112",
+   "art": "heute",
+   "titel": "Seniors 1 · Heute Spiel",
+   "text": "18:00 gegen FC Mondercange · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1793437200000,
+   "bis": 1793466000000
   }
  ],
- "live": []
+ "live": [
+  {
+   "id": 1002112,
+   "reiter": [
+    "Seniors 1 · live"
+   ],
+   "titel": "📡 Seniors 1",
+   "d": "2026-10-31T18:00:00+01:00",
+   "h": "Koeppchen",
+   "a": "FC Mondercange",
+   "wirHeim": true,
+   "gegner": "FC Mondercange",
+   "anstoss": "2026-10-31T18:00:00+01:00",
+   "fupaTeam": "m1",
+   "fupaWir": "fc-koeppchen",
+   "ticker": "lticker:1002112",
+   "halbzeit": "lhalbzeit:1002112",
+   "ende": "ende-live:1002112"
+  }
+ ]
 }
