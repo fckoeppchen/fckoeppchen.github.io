@@ -304,6 +304,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (MutationObserver) und füllt ein schon gefülltes Element nicht neu. Browser-Test mit echter Adresse (Seite per `page.route` unter
   fckoeppchen.github.io) und echtem Widget: vor Zustimmung 0 FuPa-Anfragen, danach Ticker da, Neuaufbau lädt keine Daten neu, Uhrzeit in
   Ortszeit richtig. Kosmetik (Schrift, Farben) im Widget-Builder.
+  **Kopf des Widget-Kastens hellgrün wie der Heute-Kasten** (vom Nutzer, Fassung 30.10. neu e, `.fupakarte`).
   **„Unsere Woche“** (vom Nutzer, Fassung 29.10. neu b): bei Seniors-Spielen mit Widget 15 min vor bis 3 h nach Anpfiff „🔴 läuft ·
   **Liveticker von FuPa im Reiter**, falls jemand tickt“ (ob jemand tickt, weiß die App ohne Schnittstelle nicht). Bei 390 px angesehen.
   **Fassung 29.10. neu c** (vom Nutzer): im Widget-Kasten „Tore aufs Handy? Mit der FuPa-App dem FC Koeppchen folgen.“ (Link zur
