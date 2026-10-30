@@ -214,6 +214,7 @@ falls gewünscht, Bild vom Verein). **Drei Sprachen DE · FR · EN** (vom Nutzer
 > **So geht's:** Oben eine Mannschaft antippen, dann seht ihr ihre Spiele, die Tabelle und die Ergebnisse. ·
 > **Unsere Woche** zeigt alle Spiele des Vereins in dieser Woche. · 📅 Mit dem Kalender-Abo landen die Spiele direkt in
 > eurem Handy-Kalender, auch wenn sich ein Termin ändert.
+> · 🔴 Bei den Seniors gibt es am Spieltag den **Liveticker** von FuPa direkt in der App, sobald dort jemand tickert.
 > · ↗︎ Mit dem Knopf **App teilen** ganz unten schickt ihr die App ganz einfach an Freunde und Familie.
 > Viel Spaß und bis bald am Platz! ⚽ **#mirvunderkoeppchen**  [ Los geht's ]
 
@@ -225,6 +226,7 @@ falls gewünscht, Bild vom Verein). **Drei Sprachen DE · FR · EN** (vom Nutzer
 > **Comment ça marche :** Touchez une équipe en haut pour voir ses matchs, le classement et les résultats. ·
 > **Unsere Woche** montre tous les matchs du club de la semaine. · 📅 Avec l'abonnement au calendrier, les matchs
 > arrivent directement dans le calendrier de votre téléphone, même si un horaire change.
+> · 🔴 Pour les Seniors, le **live-ticker** de FuPa est disponible directement dans l'application le jour du match, dès que quelqu'un y commente le match.
 > · ↗︎ Avec le bouton **App teilen** tout en bas, vous partagez facilement l'application avec vos amis et votre famille.
 > Amusez-vous bien et à bientôt au terrain ! ⚽ **#mirvunderkoeppchen**  [ C'est parti ! ]
 
@@ -236,6 +238,7 @@ falls gewünscht, Bild vom Verein). **Drei Sprachen DE · FR · EN** (vom Nutzer
 > **How it works:** Tap a team at the top to see its matches, the table and the results. · **Unsere Woche** shows all
 > of the club's matches this week. · 📅 With the calendar subscription, the matches go straight into your phone's
 > calendar, even if a time changes.
+> · 🔴 For the Seniors, FuPa's **live ticker** is available right in the app on match day, as soon as someone is covering the match there.
 > · ↗︎ With the **App teilen** button at the very bottom, you can easily share the app with friends and family.
 > Have fun and see you at the pitch! ⚽ **#mirvunderkoeppchen**  [ Let's go! ]
 
