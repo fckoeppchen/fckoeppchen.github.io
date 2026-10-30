@@ -454,7 +454,7 @@ function nachDemSpiel(v, now) {
   const versatz = fest >= 0 ? fest : [...v.team.reiter].reduce((x, c) => x + c.charCodeAt(0), 0);
   return { sp, spruch: SPRUECHE[(nr + versatz) % SPRUECHE.length] };
 }
-// „Letztes Spiel“ oben (vom Nutzer, 30.10.2026, Fassung 30.10. neu r): bis zum Vortag des nächsten Spiels, höchstens 7 Tage.
+// „Letztes Spiel“ oben (vom Nutzer, 30.10.2026, Fassung 30.10. neu r): bis zum Vortag des nächsten Spiels (Seniors: bis zum Spieltag, neu u), höchstens 7 Tage.
 // Seniors 1–3: Ergebnis groß, dazu Klasse und Platz (kein „Sieg/Niederlage“, sieht man am Ergebnis). Jugend: Koeppi und Spruch
 // vorne, Ergebnis klein wie in der Liste (Vereinswunsch), U7/U9/U11 „gespielt“, Bambinis ohne Gegner-Zeile. Das Spiel steht
 // außerdem normal unten in den Ergebnissen (der grüne Koeppi-Streifen dort ist dafür weg).
@@ -467,7 +467,8 @@ function tabelleFertig(k, now) {
   return k.tabelle.every(r => r.sp === (n.get(r.id) || 0));
 }
 function letztesHtml(v, now) {
-  if (spieltagHeute(v, now) || spieltagMorgen(v, now)) return "";
+  // Am Vortag nur bei den Kindern weg (dort kommt „Morgen Spieltag!“), die Seniors haben keinen Morgen-Kasten.
+  if (spieltagHeute(v, now) || (istKinder(v) && spieltagMorgen(v, now))) return "";
   const datum = sp => esc(wann(sp.d, false).split(" · ")[0]);
   if (v.team.kat === "Seniors") {
     const sp = v.gespielt.find(s => Date.parse(s.d) <= now && !s.abgesagt && !s.coach && s.gespielt && s.hs != null);
@@ -721,7 +722,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu t";
+const FASSUNG = "30.10.2026 neu u";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
