@@ -676,7 +676,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu l";
+const FASSUNG = "30.10.2026 neu m";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1445,7 +1445,16 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden) aktu
 // — gemerkt wird, welcher ETag zu unserer Fassung gehört. Nicht neu geladen, solange Zahnrad oder Coach offen sind
 // (dort wird getippt), und höchstens einmal je Stunde für dieselbe neue Fassung (falls ein Zwischenspeicher noch die
 // alte liefert, sonst lüde sie bei jedem Zurückkommen neu).
+// Auch gleich nach dem Start (vom Nutzer gesehen, 30.10.: iOS öffnete die App aus einem alten Zwischenspeicher, ohne die
+// grünen Kästen von 10:42; erst ganz schließen half) — dann holt sie sich die neue Fassung nach ein paar Sekunden selbst.
 const UPDATE_PAUSE = 30 * 60e3;
+// „30.10.2026 neu l“ → vergleichbare Zahl (Datum, dann Buchstaben a…z, aa…); unbekanntes Format → 0 (lädt nie neu).
+function fassungWert(f) {
+  const m = /^(\d{1,2})\.(\d{1,2})\.(\d{4})(?: neu)? ([a-z]+)$/.exec(f || "");
+  if (!m) return 0;
+  const b = [...m[4]].reduce((n, c) => n * 27 + c.charCodeAt(0) - 96, 0);
+  return ((+m[3] * 100 + +m[2]) * 100 + +m[1]) * 1e6 + b;
+}
 let UPDATE_WEG = 0;
 async function neueFassung() {
   if (MITT_OFFEN || COACH_OFFEN || !/^https?:/.test(location.protocol)) return;
@@ -1460,6 +1469,7 @@ async function neueFassung() {
     const neu = ((await r.text()).match(/const FASSUNG = "([^"]+)"/) || [])[1];
     if (!neu) return;
     if (neu === FASSUNG) { if (etag) try { localStorage.setItem(KEY + "_etag", JSON.stringify({ etag, fassung: FASSUNG })); } catch (e) {} return; }
+    if (!(fassungWert(neu) > fassungWert(FASSUNG))) return;   // nur vorwärts — nie auf eine ältere Fassung zurück
     let versucht = {}; try { versucht = JSON.parse(localStorage.getItem(KEY + "_neuGeladen") || "{}"); } catch (e) {}
     if (versucht.fassung === neu && Date.now() - versucht.zeit < 3600e3) return;
     try { localStorage.setItem(KEY + "_neuGeladen", JSON.stringify({ fassung: neu, zeit: Date.now() })); } catch (e) {}
@@ -1467,6 +1477,7 @@ async function neueFassung() {
     location.reload();
   } catch (e) {}
 }
+setTimeout(neueFassung, 5000);
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) UPDATE_WEG = Date.now();
   else if (UPDATE_WEG && Date.now() - UPDATE_WEG >= UPDATE_PAUSE) neueFassung();

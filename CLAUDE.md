@@ -341,6 +341,10 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Daten-Commits der Action ändern index.html nicht → kein Neuladen. GitHub Pages bis 10 min Verzug. Browser-Test mit nachgebautem Server
   (10 min nichts, 40 min HEAD+GET, dann nur HEAD, Coach offen nichts, neue Fassung lädt neu mit Reiter, alter Zwischenspeicher keine Schleife).
   **Wirkt erst ab dieser Fassung** — wer noch eine ältere offen hat, muss einmal ganz schließen.
+  **Neu m** (30.10. nachmittags, vom Nutzer gesehen: iOS öffnete die App aus einem alten Zwischenspeicher, ohne die grünen Kästen,
+  erst ganz schließen half): Prüfung **auch 5 s nach jedem Start**, und **nur vorwärts** (`fassungWert`: Datum + Buchstaben a…z, aa…;
+  unbekanntes Format → nie neu laden) — eine ältere Fassung vom Server lädt nie. Browser-Test: alte Kopie geöffnet → lädt neue, Server
+  älter → bleibt.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
