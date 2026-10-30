@@ -722,7 +722,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu v";
+const FASSUNG = "30.10.2026 neu w";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1067,6 +1067,13 @@ function renderInnen() {
   document.getElementById("sub").textContent = (alter ? alter + " · " : "") + D.saison.n.replace("Saison ", "");
   const art = sp => (sp.abgesagt ? "ABGESAGT · " : "") + artText(sp);
   let h = "";
+  // Phase beendet (Platz, Auf-/Abstieg) ganz oben, über allen anderen Kästen (vom Nutzer, 30.10.2026, neu w).
+  if (v.status && v.status.was) {
+    // Kinder: wartet die neue Klasse noch, steht der ruhige Koeppi rechts im Kasten.
+    const ruhig = istKinder(v) && v.status.neuFehlt;
+    h += `<div class="note ${v.status.was.art}${ruhig ? " mitk" : ""}">${ruhig ? "<div>" : ""}<b>${esc(v.aktuell.n)} ist beendet.</b> ${esc(v.status.was.txt)}` +
+      (v.status.neuFehlt ? `<br><span class="muted">Die neue Klasse ist bei der FLF noch nicht eingetragen. Sobald das erste Spiel drinsteht, erscheint sie hier von selbst.</span>` : "") + `${ruhig ? "</div>" + koeppiBild("ruhig") : ""}</div>`;
+  }
 
   LIVE_SP = FUPA_API ? liveSpiel(v, now, D.fupa || {}, spaet) : null;
   const lv = FUPA_API ? liveAnzeige(mitWorker(liveBasis(L, LIVE_SP), wFrisch(LIVE_SP)), v, now) : null;
@@ -1086,12 +1093,6 @@ function renderInnen() {
   h += letztesHtml(v, now);
   if (lv) h += liveHtml(lv, n => anzeige(n).startsWith("Koeppchen"), "offiziell zählt die FLF");
 
-  if (v.status && v.status.was) {
-    // Kinder: wartet die neue Klasse noch, steht der ruhige Koeppi rechts im Kasten.
-    const ruhig = kinder && v.status.neuFehlt;
-    h += `<div class="note ${v.status.was.art}${ruhig ? " mitk" : ""}">${ruhig ? "<div>" : ""}<b>${esc(v.aktuell.n)} ist beendet.</b> ${esc(v.status.was.txt)}` +
-      (v.status.neuFehlt ? `<br><span class="muted">Die neue Klasse ist bei der FLF noch nicht eingetragen. Sobald das erste Spiel drinsteht, erscheint sie hier von selbst.</span>` : "") + `${ruhig ? "</div>" + koeppiBild("ruhig") : ""}</div>`;
-  }
 
   h += `<section class="card"><div class="chead"><h2>Nächste Spiele</h2></div><div class="cbody">`;
   if (!v.kommend.length) h += kinder ? koeppiZeile("ruhig", "Noch keine Termine eingetragen.", "links") : `<div class="muted">Noch keine Termine eingetragen.</div>`;
