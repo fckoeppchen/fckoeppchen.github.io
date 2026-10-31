@@ -380,7 +380,7 @@ Auf das Go des Vereins, in dieser Reihenfolge:
 4. **Mitteilungen für alle** (eigenes Go, kann später sein): `MITT_FUER_ALLE = true`; `MAX_ABOS` = 30 steht schon bei Cloudflare.
 5. Ende 2026: Kalender-Spiegel im alten Repo abschalten.
 
-## Events von der Vereins-Homepage (vom Nutzer, 31.10.2026) — **noch nicht bauen**, Nutzer telefoniert erst mit dem Präsidenten
+## Events von der Vereins-Homepage (vom Nutzer, 31.10.2026) — **Präsident einverstanden** (Verein hat die Rechte bei Clubee); Plan geändert, siehe „Stand 31.10. abends“ unten
 
 Homepage www.fckoeppchen.lu läuft über **Clubee** (Next.js). Menüpunkt „Events“ (Dropdown) = freie Textseiten (`custom_page`),
 z. B. `dodge-op-der-koepp-993027v4`, `oktoberfest-86045v4`, `koeppchen-youth-cup-86601v4`, `x-mas-bamverkaaf-86047v4`. Der Clubee-Kalender
@@ -402,3 +402,13 @@ sauberes Datum, dann auch Mitteilungen) bleibt offen. `robots.txt`: `User-agent:
 - Kein kommendes Event: Kasten bleibt mit „Im Moment sind keine Events geplant.“
 - **Events der Woche auch in „Unsere Woche“** (vom Nutzer) — am Tag des Events eine Zeile, Tippen öffnet die Event-Seite (oder den JK-Reiter).
 - Keine Mitteilungen bei Weg A (Datum nur geraten).
+
+**Stand 31.10. abends (vom Nutzer, nach Idee des Jugendkoordinators; ersetzt den Platz im JK-Reiter):**
+- **Nicht im Reiter Jugendkommission, sondern in „Unsere Woche“.** Unten Kasten **„Nächste Events des Vereins“**: Events nach dieser Woche,
+  sortiert, Bild (Event-Bild oder Vereinslogo), „📅 Fr., 4.12.2026“, **„· in n Tagen“ nur bis 30 Tage** (sonst nur das Datum), Titel, Link
+  „Mehr auf fckoeppchen.lu ›“. Keins geplant → „Im Moment sind keine Events geplant.“
+- **Event in dieser Woche:** steht an seinem Tag zwischen den Spieltagen (eigener Tag, auch ohne Spiel), grünes Schild „Event des Vereins“,
+  Titel, Link — **ohne** „in n Tagen/morgen/heute“ (das Datum steht im Tageskopf). Am Tag selbst wird der Tag dunkelgrün („Heute · …“).
+  Unten fällt es dann weg.
+- **Kopf:** „3 Spiele, davon 3 zu Hause · 1 Event“ (Events der Woche mitzählen).
+- Vorschau-Bilder vom 31.10. vom Nutzer abgenommen. Clubee-Kalender „Evenementer“ füllt der Präsident in der Woche → dann Weg B ausprobieren.
