@@ -412,3 +412,21 @@ sauberes Datum, dann auch Mitteilungen) bleibt offen. `robots.txt`: `User-agent:
   Unten fällt es dann weg.
 - **Kopf:** „3 Spiele, davon 3 zu Hause · 1 Event“ (Events der Woche mitzählen).
 - Vorschau-Bilder vom 31.10. vom Nutzer abgenommen. Clubee-Kalender „Evenementer“ füllt der Präsident in der Woche → dann Weg B ausprobieren.
+
+## RTL Live Arena: Video der Seniors 1 (geprüft am 31.10.2026 während Koeppchen – Monnerech, **nicht eingebaut**)
+
+Vom Nutzer gewünscht: nur nachsehen, damit man RTL fragen kann. Ergebnis:
+- **RTL-Schnittstelle** (für ihre eigene Seite): Spiele der Éierepromotioun = Wettbewerb 475,
+  `https://api-gate.rtl.lu/sport/v4/competitions/475/results/current?lang=lu` → je Spiel `id`, Datum, Uhrzeit, Mannschaften,
+  `has_video`. Unser Spiel am 31.10.: **13932** (Bettemburg 25.10.: 13925). Reserven führt RTL nicht.
+- **Spielseite für einen Link:** `https://www.rtl.lu/live-arena/match?m=<id>` (vor, während und nach dem Spiel erreichbar).
+- **Video direkt:** `https://api-gate.rtl.lu/sport/v4/matches/<id>?lang=lu` → `live_arena.video_url`, z. B.
+  `https://stream.rtl.lu/live-arena/634980/master.m3u8` (HLS, 1080p/720p/360p, Kameras von Staige, Bild mit RTL-Logo). **Ohne Anmeldung,
+  ohne Schlüssel, CORS `*`** — ein iPhone könnte es in einem `<video>`-Feld direkt abspielen. Live: Liste läuft ab Kamerastart (17:56), also
+  auch Zurückspulen. **Replay:** dieselbe Adresse bleibt nach dem Spiel gültig (13925: ganze Aufnahme, ~3 h, mit Ende-Markierung).
+  `is_live` sagt, ob es gerade läuft; `video_summary_url` (Zusammenfassung) war bei beiden leer.
+- **Darf man nicht ohne RTL:** Das Video gehört RTL (urheberrechtlich geschützt). In der App abspielen nur mit Erlaubnis von RTL.
+  Ein **Link** auf die Spielseite geht immer.
+- **Bauplan, falls RTL Ja sagt:** Abruf holt einmal am Tag (und am Spieltag öfter) die RTL-Spiele der Éierepromotioun, ordnet unser Spiel
+  über Datum + Gegner zu und merkt sich `id` + `video_url`. App: im Heute-Kasten Seniors 1 „📺 Live-Video“ (Video im Kasten, Ton aus beim Start),
+  nach dem Spiel im Kasten „Letztes Spiel“ „📺 Ganzes Spiel ansehen“. Ohne Erlaubnis: dieselbe Zuordnung, aber nur Link auf die Spielseite.
