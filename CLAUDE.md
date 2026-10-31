@@ -327,7 +327,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Anleitung. **Phasen über `MAX_ABOS`** bei Cloudflare (erst ~30–35, die Tester-Handys zählen mit; dann ~100; ab mehreren hundert `PAKET`
   hoch nach Blick auf die Rechenzeit, ggf. Bezahlplan 5 $). Browser-Test: aus = wie vorher (normal kein Zahnrad, Tester schon), an =
   Zahnrad + Hinweis, Link öffnet Anleitung, ✕ bleibt auch nach Neuladen weg.
-- **Begrüßung beim ersten Öffnen — vorbereitet, noch aus** (Fassung 30.10. neu b, Plan und Texte in IDEEN.md): `BEGRUESSUNG` in
+- **Begrüßung beim ersten Öffnen — seit 31.10.2026 an** (Umzug, vom Nutzer; Fassung 31.10. neu b; vorbereitet in Fassung 30.10. neu b, Plan und Texte in IDEEN.md): `BEGRUESSUNG` in
   `index.html` (false), Kasten oben mit Koeppi-Fahne, DE/FR/EN-Knöpfe (vorausgewählt nach `navigator.language`), „Los geht's“ →
   `fussball_v1_willkommen`. Solange er steht, kommt der Mitteilungen-Hinweis nicht (`willkommen() || mittHinweis()`), danach schon.
   **`?reiter=<id>`** in der Adresse setzt einmal den Reiter und wird gleich wieder entfernt (`history.replaceState`) — für die

@@ -746,7 +746,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "31.10.2026 neu a";
+const FASSUNG = "31.10.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -957,7 +957,7 @@ function alleSpieleHtml(k, ids) {
 function render() { renderInnen(); fupaEinsetzen(); willkommen() || mittHinweis(); }
 // Begrüßung beim ersten Öffnen (vom Nutzer, 26.10.2026, Texte abgenommen, Plan in IDEEN.md): für den Umzug vorbereitet, erst mit
 // dem Go an. Eigener Merker — darum sehen ihn alle einmal, auch bisherige Nutzer. „Los geht's“ schließt ihn für immer.
-const BEGRUESSUNG = false;
+const BEGRUESSUNG = true;
 const WILLKOMMEN = KEY + "_willkommen";
 const W_TEXT = {
   de: { flag: "🇩🇪", titel: "Willkommen beim FC Koeppchen! 👋", los: "Los geht's",
