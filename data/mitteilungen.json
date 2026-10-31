@@ -2,18 +2,6 @@
  "ereignisse": [
   {
    "reiter": [
-    "PUP 1",
-    "Pupilles U9"
-   ],
-   "id": "heute:8000000004",
-   "art": "heute",
-   "titel": "PUP 1 · Morgen Spiel",
-   "text": "11:00 gegen UMW · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1793383200000,
-   "bis": 1793440800000
-  },
-  {
-   "reiter": [
     "Seniors 3"
    ],
    "id": "ende:1015075",
