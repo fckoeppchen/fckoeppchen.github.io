@@ -23827,28 +23827,35 @@
  "events": {
   "liste": [
    {
+    "t": "Kleeschen & Kreschtbamverkaf",
+    "url": "https://www.fckoeppchen.lu/x-mas-bamverkaaf-86047v4",
+    "tag": "2026-12-04",
+    "von": "17:00",
+    "bis": "21:00",
+    "ort": "Terrain Koeppchen",
+    "bild": "bilder/events/3E2A8WGF8H8P6SX69WHVBTW7AX.jpg",
+    "quelle": "beide"
+   },
+   {
     "t": "Dodge op der Koepp",
     "url": "https://www.fckoeppchen.lu/dodge-op-der-koepp-993027v4",
     "tag": "2027-06-19",
-    "bild": "bilder/events/0GGDMJ5NHB93FTA33V2CXWXB8B.jpg"
+    "bild": "bilder/events/0GGDMJ5NHB93FTA33V2CXWXB8B.jpg",
+    "quelle": "seite"
    },
    {
     "t": "Oktoberfest",
     "url": "https://www.fckoeppchen.lu/oktoberfest-86045v4",
     "tag": "2026-10-24",
-    "bild": "bilder/events/328EC11A8D8VC9B1AAD1CV2JTF.jpg"
+    "bild": "bilder/events/328EC11A8D8VC9B1AAD1CV2JTF.jpg",
+    "quelle": "seite"
    },
    {
     "t": "Koeppchen YOUTH CUP",
     "url": "https://www.fckoeppchen.lu/koeppchen-youth-cup-86601v4",
     "tag": "2026-09-12",
-    "bild": "bilder/events/3W28VM3CHZ9KMRDEBZX6FGJ3JG.jpg"
-   },
-   {
-    "t": "X-Mas Bamverkaaf",
-    "url": "https://www.fckoeppchen.lu/x-mas-bamverkaaf-86047v4",
-    "tag": "2026-12-04",
-    "bild": "bilder/events/3E2A8WGF8H8P6SX69WHVBTW7AX.jpg"
+    "bild": "bilder/events/3W28VM3CHZ9KMRDEBZX6FGJ3JG.jpg",
+    "quelle": "seite"
    }
   ]
  }
