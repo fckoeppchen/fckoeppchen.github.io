@@ -2,28 +2,6 @@
  "ereignisse": [
   {
    "reiter": [
-    "Seniors 3"
-   ],
-   "id": "spieltag:18936:7",
-   "art": "spieltag",
-   "titel": "Seniors 3 · Spieltag",
-   "text": "Spieltag 7 komplett: US Moutfort-Medingen 1:2 Koeppchen II · alle Ergebnisse in der App",
-   "ab": 1793399511126,
-   "bis": 1793485911126
-  },
-  {
-   "reiter": [
-    "Seniors 3"
-   ],
-   "id": "tabelle:18936:45404:6:7",
-   "art": "tabelle",
-   "titel": "Seniors 3 · Tabelle",
-   "text": "Koeppchen II jetzt 5. Platz (vorher 7.) · 10 Punkte",
-   "ab": 1793399511126,
-   "bis": 1793485911126
-  },
-  {
-   "reiter": [
     "Seniors 2"
    ],
    "id": "tabelle:18918:45403:6:6",
@@ -59,6 +37,22 @@
    "text": "Koeppchen 1:4 FC Mondercange",
    "ab": 1793479635641,
    "bis": 1793544435641
+  },
+  {
+   "reiter": [
+    "Seniors 1"
+   ],
+   "id": "tabelle:18888:44831:11:11:13:2026-11-01",
+   "art": "tabelle",
+   "titel": "Seniors 1 · Tabelle",
+   "text": "Koeppchen jetzt 13. Platz · 11 Punkte aus 11 Spielen",
+   "basis": {
+    "pl": 13,
+    "pkt": 11,
+    "sp": 10
+   },
+   "ab": 1793512800000,
+   "bis": 1793599200000
   }
  ],
  "live": []
