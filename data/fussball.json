@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-31T20:47:06.687Z",
+ "stand": "2026-10-31T21:38:37.603Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -2063,9 +2063,9 @@
       "id": 45070,
       "n": "FC Mamer 32"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Op der Millen (Remich)"
     },
@@ -20574,9 +20574,9 @@
      "id": 44980,
      "n": "Racing FC Union Luxembourg"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 2,
+    "as": 1,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade Municipal (Rumelange)"
    },
