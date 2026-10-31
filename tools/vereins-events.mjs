@@ -43,9 +43,13 @@ const MONATE = {
   dezember: 12, décembre: 12, decembre: 12, december: 12,
 };
 
+const ENT = { nbsp: " ", amp: "&", quot: '"', apos: "'", lt: "<", gt: ">", szlig: "ß", ccedil: "ç", Ccedil: "Ç" };
+const AKZENT = { uml: "\u0308", acute: "\u0301", grave: "\u0300", circ: "\u0302", tilde: "\u0303" };
 export function seitenText(html) {
   return html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, " ").replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&#x27;|&#39;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, " ");
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16))).replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(+d))
+    .replace(/&([a-zA-Z])(uml|acute|grave|circ|tilde);/g, (_, b, a) => (b + AKZENT[a]).normalize("NFC"))
+    .replace(/&([a-z]+);/gi, (x, n) => ENT[n] ?? x).replace(/\s+/g, " ");
 }
 
 // Spätestes gültiges Datum im Text als „JJJJ-MM-TT“, nur bis 2 Jahre voraus (Tippfehler wie 2062) und nicht vor 2020; sonst null.
@@ -113,19 +117,104 @@ async function eventBild(urls) {
 
 const holen = async url => { const r = await fetch(url); if (!r.ok) throw new Error(url + ": HTTP " + r.status); return r.text(); };
 
-// [{t, url, tag|null, bild|null}]. Fehler bei einer Seite → ohne Datum/Bild, Fehler beim Menü → Ausnahme (alter Stand bleibt).
+// Kalender der Homepage (Clubee, Menüpunkt mit system_page „calendar“), Rubrik „Evenementer“ (vom Nutzer, 31.10.2026: der Präsident trägt
+// Events dort ein). Clubee führt sie mit eigenen Feldern (type "event", Trainings sind "training"), also mit sicherem Datum, Uhrzeit und Ort.
+export function kalenderAdresse(html) {
+  const s = html.replace(/\\"/g, '"');
+  const m = /"type":"calendar","system":true[^{}]*\},"url":"([^"]+)"/.exec(s);
+  return HOMEPAGE + (m ? m[1] : "kalenner-57201v4");
+}
+// ids der Einträge vom Typ "event" auf der Kalender-Seite (jedes Objekt: "id":…,"title":…, später "club":{…},"type":"…").
+export function kalenderIds(html) {
+  const s = html.replace(/\\"/g, '"');
+  const treffer = [...s.matchAll(/"id":(\d+),"title":"/g)];
+  const ids = [];
+  treffer.forEach((m, i) => {
+    const stueck = s.slice(m.index, treffer[i + 1] ? treffer[i + 1].index : m.index + 4000);
+    const typ = /"club":\{"id":\d+,"tags":\[\]\},"type":"([a-z_]+)"/.exec(stueck);
+    if (typ && typ[1] === "event" && !ids.includes(m[1])) ids.push(m[1]);
+  });
+  return ids;
+}
+// Ein Event von /events/<id>: schema.org-Daten (sauberes JSON) + abgesagt/Bild aus Clubees Daten.
+// Clubee hängt an die Uhrzeit „+00:00“, gemeint ist aber die Ortszeit (17:00 auf der Homepage = "T17:00:00+00:00") —
+// darum Datum und Uhrzeit so, wie sie dastehen.
+export function kalenderEvent(html, id) {
+  const ld = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)]
+    .map(m => { try { return JSON.parse(m[1]); } catch { return null; } }).find(j => j && j["@type"] === "Event");
+  if (!ld || !/^\d{4}-\d\d-\d\dT\d\d:\d\d/.test(ld.startDate || "")) return null;
+  const s = html.replace(/\\"/g, '"');
+  const typ = /"club":\{"id":\d+,"tags":\[\]\},"type":"([a-z_]+)","recurrent"/.exec(s);
+  if (typ && typ[1] !== "event") return null;
+  const tag = ld.startDate.slice(0, 10), von = ld.startDate.slice(11, 16);
+  const bis = (ld.endDate || "").slice(0, 10) === tag ? ld.endDate.slice(11, 16) : null;
+  const text = seitenText(ld.description || "");
+  // Nur das eigene Objekt („"event":{"id":<id>…“) ansehen, nicht andere Einträge auf der Seite.
+  const ab = s.indexOf(`"event":{"id":${id},`), eig = ab >= 0 ? s.slice(ab, ab + 20000) : "";
+  return {
+    t: seitenText(ld.name || "").trim(), url: HOMEPAGE + "events/" + id, tag, von, bis: bis && bis !== von ? bis : null,
+    ort: (ld.location && ld.location.name || "").trim() || null, abgesagt: (/"cancelled":(true|false)/.exec(eig) || [])[1] === "true",
+    bildUrl: (/"picture":"(https:[^"]+)"/.exec(eig) || [])[1] || null, text,
+  };
+}
+
+// Dasselbe Event? Gleicher Tag UND (Text großteils gleich ODER Titel teilen ein Wortstück ab 5 Buchstaben, ohne Vereinsnamen).
+// Im Zweifel nicht zusammenlegen (vom Nutzer, 31.10.2026): lieber zweimal da als eins unsichtbar.
+const falten = t => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const ALLGEMEIN = /\b(fc|koeppchen|wormer|wormeldange|wormeldingen|event|evenement|fest)\b/g;
+const woerter = t => new Set(falten(t).match(/[a-z]{4,}/g) || []);
+export function textGleich(a, b) {
+  const wa = woerter(a), wb = woerter(b);
+  if (wa.size < 8) return false;
+  return [...wa].filter(w => wb.has(w)).length / wa.size >= 0.6;
+}
+export function titelGleich(a, b) {
+  const x = falten(a).replace(ALLGEMEIN, " ").replace(/[^a-z]/g, ""), y = falten(b).replace(ALLGEMEIN, " ").replace(/[^a-z]/g, "");
+  for (let i = 0; i + 5 <= x.length; i++) if (y.includes(x.slice(i, i + 5))) return true;
+  return false;
+}
+// Kalender-Events und Menü-Seiten zu einer Liste: zusammengelegt kommen Titel, Datum, Uhrzeit, Ort aus dem Kalender,
+// Link und Bild von der Seite (dort stehen mehr Infos), sonst das Bild aus dem Kalender.
+export function zusammenfuehren(kalender, seiten) {
+  const frei = [...seiten], aus = [];
+  for (const k of kalender) {
+    const i = frei.findIndex(p => p.tag === k.tag && (textGleich(k.text, p.text || "") || textGleich(p.text || "", k.text) || titelGleich(k.t, p.t)));
+    const p = i >= 0 ? frei.splice(i, 1)[0] : null;
+    aus.push({ t: k.t, url: p ? p.url : k.url, tag: k.tag, von: k.von, bis: k.bis, ort: k.ort, ...(k.abgesagt ? { abgesagt: true } : {}),
+      bild: (p && p.bild) || k.bild || null, quelle: p ? "beide" : "kalender" });
+  }
+  for (const p of frei) aus.push({ t: p.t, url: p.url, tag: p.tag, bild: p.bild, quelle: "seite" });
+  return aus;
+}
+
+// [{t, url, tag|null, von?, bis?, ort?, abgesagt?, bild|null, quelle}]. Fehler bei einer Seite → ohne Datum/Bild,
+// Fehler beim Menü → Ausnahme (alter Stand bleibt); Fehler beim Kalender → nur die Seiten.
 export async function eventsHolen(now = Date.now()) {
-  const menue = eventMenue(await holen(HOMEPAGE));
-  const aus = [];
-  for (const e of menue) {
-    let tag = null, bild = null;
+  const start = await holen(HOMEPAGE);
+  const seiten = [];
+  for (const e of eventMenue(start)) {
+    let tag = null, bild = null, text = "";
     try {
       const html = await holen(e.url);
-      tag = eventDatum(seitenText(html), now);
+      text = seitenText(html);
+      tag = eventDatum(text, now);
       try { bild = await eventBild(seitenBilder(html)); } catch (x) { console.error("Event-Bild", e.t, x.message); }
     } catch (x) { console.error("Event", e.t, x.message); }
-    aus.push({ ...e, tag, bild });
+    seiten.push({ ...e, tag, bild, text });
   }
+  const kalender = [];
+  try {
+    const heute = new Date(now).toLocaleDateString("sv-SE", { timeZone: TZ });
+    for (const id of kalenderIds(await holen(kalenderAdresse(start)))) {
+      try {
+        const k = kalenderEvent(await holen(HOMEPAGE + "events/" + id), id);
+        if (!k || k.tag < heute) continue;
+        try { k.bild = k.bildUrl ? await eventBild([k.bildUrl]) : null; } catch (x) { console.error("Event-Bild", k.t, x.message); }
+        kalender.push(k);
+      } catch (x) { console.error("Kalender-Event", id, x.message); }
+    }
+  } catch (x) { console.error("Kalender", x.message); }
+  const aus = zusammenfuehren(kalender, seiten);
   // Bilder, die keine Seite mehr nutzt, wieder weg (.gitkeep bleibt, sonst scheitert `git add bilder/events` in der Action).
   if (existsSync(BILDER)) {
     const genutzt = new Set(aus.map(e => e.bild && e.bild.split("/").pop()));

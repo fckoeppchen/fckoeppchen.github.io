@@ -63,6 +63,7 @@
   .evd{font-size:13.5px;font-weight:600;color:var(--accentT)}
   .evl{font-size:13.5px;color:var(--accentT);text-decoration:underline}
   .pill.evpill{background:var(--accentT);color:#fff}
+  .evab{color:#c0392b}
   .pill.wteam{margin-left:0;background:var(--accentT);font-size:14px;padding:3px 10px;vertical-align:1px}
   .wzugleich{color:#b45309;font-weight:600}
   .wlive .sc{background:#d4001a !important;color:#fff !important}
@@ -746,7 +747,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "31.10.2026 neu b";
+const FASSUNG = "31.10.2026 neu c";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1367,11 +1368,14 @@ async function holenWorkerAlle() {
 }
 
 // Eine Event-Zeile: Bild (sonst Vereinslogo), unten in der Liste mit Datum, in der Woche mit Schild (Datum steht im Tageskopf).
+// Kalender-Events (Clubee) bringen Uhrzeit und Ort mit (`von`, `bis`, `ort`), Seiten aus dem Menü nur das gelesene Datum.
 function evZeile(e, now, inWoche) {
   const bis = !inWoche && e.tag ? eventBis(e.tag, now) : "";
-  const oben = inWoche ? `<span class="pill evpill">Event des Vereins</span>`
-    : e.tag ? `<span class="evd">📅 ${esc(new Date(e.tag + "T12:00:00").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "numeric", year: "numeric" }))}${bis ? ` <span class="muted">· ${bis}</span>` : ""}</span>` : "";
-  return `<a class="evz" href="${esc(e.url)}" target="_blank" rel="noopener"><img src="${esc(e.bild || LOGO)}" alt=""><span>${oben ? oben + "<br>" : ""}<b>${esc(e.t)}</b><br><span class="evl">Mehr auf fckoeppchen.lu ›</span></span></a>`;
+  const zeit = e.von ? (e.bis ? `${e.von}–${e.bis}` : e.von) : "";
+  const oben = inWoche ? `<span class="pill evpill">Event des Vereins</span>${zeit ? ` <span class="evd">${esc(zeit)}</span>` : ""}`
+    : e.tag ? `<span class="evd">📅 ${esc(new Date(e.tag + "T12:00:00").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "numeric", year: "numeric" }))}${zeit ? " · " + esc(zeit) : ""}${bis ? ` <span class="muted">· ${bis}</span>` : ""}</span>` : "";
+  const unten = [e.ort ? `<span class="muted">📍 ${esc(e.ort)}</span>` : "", `<span class="evl">Mehr auf fckoeppchen.lu ›</span>`].filter(Boolean).join("<br>");
+  return `<a class="evz" href="${esc(e.url)}" target="_blank" rel="noopener"><img src="${esc(e.bild || LOGO)}" alt=""><span>${oben ? oben + "<br>" : ""}<b>${esc(e.t)}</b>${e.abgesagt ? ` <b class="evab">abgesagt</b>` : ""}<br>${unten}</span></a>`;
 }
 function evKasten(tage, now) {
   if (!D.events) return "";
@@ -1381,8 +1385,8 @@ function evKasten(tage, now) {
 function wocheHtml(tage, alle, now) {
   const kurz = d => { const x = new Date(d + "T12:00:00"); return x.getDate() + "." + (x.getMonth() + 1) + "."; };
   const heim = alle.filter(sp => sp.heim).length;
-  const evW = eventsWoche(D.events?.liste, tage, now);
-  const evText = evW.length ? ` · ${evW.length} ${evW.length === 1 ? "Event" : "Events"}` : "";
+  const evW = eventsWoche(D.events?.liste, tage, now), evN = evW.filter(e => !e.abgesagt).length;
+  const evText = evN ? ` · ${evN} ${evN === 1 ? "Event" : "Events"}` : "";
   // Keine Bilanz (Siege/Remis/Niederlagen): vom Verein, 22.10.2026 — es geht nicht ums Gewinnen.
   const zus = !alle.length ? (evW.length ? "Diese Woche keine Spiele" + evText : "Diese Woche keine Spiele.")
     : `${alle.length} ${alle.length === 1 ? "Spiel" : "Spiele"}, davon ${heim} zu Hause${evText}`;
@@ -1395,7 +1399,7 @@ function wocheHtml(tage, alle, now) {
     return h + evKasten(tage, now);
   }
   for (const tag of tage) {
-    const sp = alle.filter(s => tagLux(Date.parse(s.d)) === tag), evs = evW.filter(e => e.tag === tag);
+    const sp = alle.filter(s => tagLux(Date.parse(s.d)) === tag), evs = evW.filter(e => e.tag === tag).sort((a, b) => (a.von || "").localeCompare(b.von || ""));
     if (!sp.length && !evs.length) continue;
     const istHeute = tag === tagLux(now);
     const titel = new Date(tag + "T12:00:00").toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "numeric" });

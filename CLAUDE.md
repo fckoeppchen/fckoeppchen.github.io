@@ -387,6 +387,16 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   („morgen“/„heute“); keins → „Im Moment sind keine Events geplant.“ Vergangene weg. Link „Mehr auf fckoeppchen.lu ›“ direkt auf die Seite.
   Datenschutz-Hinweis nennt die Homepage. Weg B (Clubee-Kalender „Evenementer“, füllt der Präsident) noch offen → dann sauberes Datum, ggf.
   Mitteilungen. Tests (fussball.mjs 420) mit Gegenprobe; Browser mit gestellter Uhr (31.10., 2.12., 4.12., 20.11.).
+  **Weg B dazu (Fassung 31.10. neu c, vom Nutzer):** der Präsident hat ein Test-Event in den Clubee-Kalender gesetzt. Der Abruf liest die
+  Kalender-Seite (`kalenderAdresse`: Menüpunkt mit system_page „calendar“, sonst `kalenner-57201v4`), nimmt die Einträge mit `"type":"event"`
+  (`kalenderIds`; Trainings sind "training"), je Event `/events/<id>` mit schema.org-JSON (`kalenderEvent`: Titel, Start/Ende, Ort, Text; dazu
+  `cancelled` und `picture` aus Clubees Objekt). **Clubee schreibt die Ortszeit mit „+00:00“** — Uhrzeit wird so genommen, wie sie dasteht (17:00,
+  nicht 18:00). **Zusammenführen** (`zusammenfuehren`) nur bei gleichem Tag UND (Text großteils gleich `textGleich` ODER Titel mit gemeinsamem
+  Wortstück ≥ 5 Buchstaben ohne Vereinsnamen `titelGleich`) — vom Nutzer: im Zweifel getrennt (lieber doppelt als eins unsichtbar). Zusammengelegt:
+  Titel/Datum/Uhrzeit/Ort aus dem Kalender, Link und Bild von der Seite; nur Kalender: Link auf /events/<id>, Bild aus dem Kalender; nur Seite: wie
+  bisher. App: „📅 Fr., 4.12.2026 · 17:00–21:00“, darunter „📍 Ort“, in der Woche Schild + Uhrzeit, nach Uhrzeit sortiert, abgesagt rot (zählt nicht
+  im Kopf). Offen: die Kalender-Seite zeigt unter „Events“ vielleicht nur die nächsten paar („Méi uweisen“) — prüfen, wenn mehr eingetragen sind.
+  Tests (431) mit Gegenprobe; Browser mit gestellter Uhr.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

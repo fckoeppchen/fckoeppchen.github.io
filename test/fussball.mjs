@@ -17,7 +17,7 @@ const FUPA_STAND = FUPA.api;
 FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
 import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst } from "../tools/fussball.mjs";
-import { eventMenue, eventDatum, seitenText, seitenBilder, bildBreite, eventsFaellig } from "../tools/vereins-events.mjs";
+import { eventMenue, eventDatum, seitenText, seitenBilder, bildBreite, eventsFaellig, kalenderAdresse, kalenderIds, kalenderEvent, textGleich, titelGleich, zusammenfuehren } from "../tools/vereins-events.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
 const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
@@ -1329,6 +1329,40 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   // So 22:30 → nächste Woche; ein Event am Sonntag selbst steht dann unten mit „heute“
   const so = Date.parse("2026-11-01T22:30:00+01:00"), w3 = M.wocheTage(so);
   gleich([M.eventsWoche([{ t: "So", tag: "2026-11-01" }], w3, so).length, M.eventsSpaeter([{ t: "So", tag: "2026-11-01" }], w3, so).length], [0, 0], "Events: Sonntagabend nach Wochenwechsel — Event von heute weder oben noch unten");
+}
+
+// Events aus dem Clubee-Kalender (Rubrik „Evenementer“) und Zusammenführen mit den Menü-Seiten (31.10.2026).
+{
+  const esc2 = o => JSON.stringify(o).replace(/"/g, '\\"');   // so steht es eingebettet in der Seite
+  const obj = (id, title, typ, start) => ({ id, title, start_date: start, end_date: start, information: "", club: { id: 4965, tags: [] }, type: typ, recurrent: typ === "training", cancelled: false });
+  const kal = "<script>self.__next_f.push([1,\"" + esc2({ a: [obj(2951607, "Training Minimes/U13", "training", "2026-11-02T17:45:00+00:00"), obj(3041019, "Kleeschen & Kreschtbamverkaf", "event", "2026-12-04T17:00:00+00:00"), obj(3041019, "Kleeschen & Kreschtbamverkaf", "event", "2026-12-04T17:00:00+00:00"), obj(7, "Spill", "game", "2026-11-01T16:00:00+00:00")] }) + "\"])</script>";
+  gleich(kalenderIds(kal), ["3041019"], "Kalender: nur Einträge vom Typ event, jeder einmal");
+  gleich(kalenderAdresse('x' + esc2({ page: { id: 57201, system_page: { id: 23, type: "calendar", route: "/calendar" }, type: "calendar", system: true, customizable: false, navigation: true }, url: "kalenner-57201v4" })), "https://www.fckoeppchen.lu/kalenner-57201v4", "Kalender-Adresse aus dem Menü");
+  const ld = { "@context": "https://schema.org", "@type": "Event", location: { "@type": "Place", name: "Terrain Koeppchen" }, name: "Kleeschen &amp; Kreschtbamverkaf",
+    startDate: "2026-12-04T17:00:00+00:00", endDate: "2026-12-04T21:00:00+00:00", description: "Den FC KOEPPCHEN WORMER verkeeft a liwwert Kr&euml;schtbeem (Nordmann) den 04.12.2026 an den Gemengen WORMER, FLUESSWEILER, LENNENG a STADTBREDIMUS<br />Bestellung bis den 29.11.2026" };
+  const evSeite = (typ, cancelled) => `<script type="application/ld+json">${JSON.stringify(ld)}</script><script>self.__next_f.push([1,"` + esc2({ event: { id: 3041019, title: "x", club: { id: 4965, tags: [] }, type: typ, recurrent: false, cancelled, picture: "https://clubee-websites-prod.s3.eu-central-1.amazonaws.com/4965/files/image/6V.png" } }) + `"])</script>`;
+  const k = kalenderEvent(evSeite("event", false), "3041019");
+  gleich([k.t, k.tag, k.von, k.bis, k.ort, k.abgesagt, k.url, k.bildUrl.endsWith("6V.png")], ["Kleeschen & Kreschtbamverkaf", "2026-12-04", "17:00", "21:00", "Terrain Koeppchen", false, "https://www.fckoeppchen.lu/events/3041019", true],
+    "Kalender-Event: Titel, Ortszeit wie angezeigt (nicht +00:00 umgerechnet), Ort, Bild");
+  ok(k.text.includes("Krëschtbeem"), "Kalender-Text: HTML-Zeichen (&euml;) richtig");
+  ok(kalenderEvent(evSeite("event", true), "3041019").abgesagt, "Kalender-Event: abgesagt erkannt");
+  ok(kalenderEvent(evSeite("training", false), "3041019") === null, "Kalender: Training ist kein Event");
+  // Dasselbe Event?
+  ok(titelGleich("Kleeschen & Kreschtbamverkaf", "X-Mas Bamverkaaf"), "Titel: gemeinsames Wortstück (Bamverka)");
+  ok(!titelGleich("Assemblée générale FC Koeppchen", "Koeppchen YOUTH CUP"), "Titel: nur der Vereinsname zählt nicht");
+  const seiteText = "XMAS Tree by FC Koeppchen Den FC KOEPPCHEN WORMER verkeeft a liwwert Krëschtbeem (Nordmann) den 04.12.2026 an den Gemengen WORMER, FLUESSWEILER, LENNENG a STADTBREDIMUS Bestellung bis den 29.11.2026 iwwer Facebook";
+  ok(textGleich(k.text, seiteText) && !textGleich(k.text, "Dodge op der Koepp Völkerball Festival Teamgeescht Spaass Musek Kompetitioun ganzen Dag zesummen Equippen"), "Text: großteils gleich ja, anderer Text nein");
+  const seiten = [{ t: "X-Mas Bamverkaaf", url: "S1", tag: "2026-12-04", bild: "b1", text: seiteText }, { t: "Dodge op der Koepp", url: "S2", tag: "2027-06-19", bild: "b2", text: "Dodge" }];
+  const kGv = { t: "Generalversammlung", url: "K2", tag: "2027-01-15", von: "19:30", bis: null, ort: "Buvette", abgesagt: false, bild: null, text: "Alle Mitglieder sind eingeladen zur jährlichen Versammlung mit Bericht und Wahlen" };
+  const z = zusammenfuehren([{ ...k, bild: "bk" }, kGv], seiten);
+  gleich(z.map(e => [e.t, e.url, e.tag, e.von || null, e.ort || null, e.bild, e.quelle]), [
+    ["Kleeschen & Kreschtbamverkaf", "S1", "2026-12-04", "17:00", "Terrain Koeppchen", "b1", "beide"],
+    ["Generalversammlung", "K2", "2027-01-15", "19:30", "Buvette", null, "kalender"],
+    ["Dodge op der Koepp", "S2", "2027-06-19", null, null, "b2", "seite"]], "Zusammenführen: beide → Kalender-Daten + Seite (Link, Bild); nur Kalender; nur Seite");
+  // Gleicher Tag, aber verschiedene Events → getrennt
+  const kAnders = { ...kGv, t: "Generalversammlung", tag: "2026-12-04", url: "K3" };
+  const z2 = zusammenfuehren([kAnders], [seiten[0]]);
+  gleich(z2.map(e => e.quelle), ["kalender", "seite"], "Gleicher Tag, anderes Event (Titel und Text verschieden) → zwei Zeilen");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);
