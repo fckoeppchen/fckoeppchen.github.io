@@ -795,31 +795,45 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(id("spieltag:k1:5")?.text === "Spieltag 5 komplett: Koeppchen I 3:1 FC Mondorf · alle Ergebnisse in der App" && id("spieltag:k1:5").titel === "U13 1 · Spieltag", "Mitteilung: Spieltag komplett mit unserem Ergebnis, kurzer Titel");
   ok(id("spieltag:k2:7")?.text === "Spieltag 7 komplett: Koeppchen I 2:1 FC Titus · alle Ergebnisse in der App" && id("spieltag:k2:7").titel === "Seniors 2 · Spieltag", "Mitteilung: Spieltag komplett auch bei den Seniors");
   ok(!id("spieltag:k2:8"), "Mitteilung: Seniors-Spieltag ohne alle Ergebnisse nicht komplett");
-  ok(id("tabelle:k1")?.text === "Koeppchen I jetzt 2. Platz (vorher 1.) · 10 Punkte" && id("tabelle:k2")?.text === "Koeppchen I jetzt 3. Platz (wie vorher) · 13 Punkte", "Mitteilung: Tabelle mit Platz und vorher");
+  ok(id("tabelle:k1")?.text === "Koeppchen I jetzt 2. Platz (vorher 1.) · 10 Punkte aus 1 Spiel" && id("tabelle:k2")?.text === "Koeppchen I jetzt 3. Platz · 13 Punkte aus 1 Spiel", "Mitteilung: Tabelle mit Platz, vorher nur wenn anders");
   {
-    // Tabelle erst, wenn sie ganz nachgezogen ist (vom Nutzer, 25.10.2026).
+    // Tabelle (vom Nutzer, 31.10.2026): nur wenn sich UNSERE Zeile ändert (Platz, Punkte, Spiele), egal ob der Rest nachgezogen ist.
     const halb = neuD(); halb.klassen.k1.tabelle = [{ pl: 1, id: 12, n: "US Hostert", sp: 0, pkt: 8 }, { pl: 2, id: 1, n: K + " I", sp: 1, pkt: 10 }];
-    const e1 = mEreignisse(alt, halb, null, jetzt).ereignisse;
-    ok(!e1.some(e => e.id.startsWith("tabelle:k1")), "Mitteilung: Tabelle nicht, solange nur unsere Zeile nachgezogen ist");
-    const e2 = mEreignisse(halb, neu, null, jetzt).ereignisse.find(e => e.id.startsWith("tabelle:k1"));
-    ok(e2?.text === "Koeppchen I jetzt 2. Platz · 10 Punkte", "Mitteilung: Tabelle kommt, sobald die anderen nachgezogen sind (ohne „vorher“)");
-    // Im Voraus gewertetes Forfait (Termin in der Zukunft) zählt die FLF erst ab dem Datum — darf nicht blockieren.
-    const ff = neuD(); ff.klassen.k1.spiele.push(sp(104, "2026-12-05T00:00:00+01:00", 9, [12, "US Hostert"], [1, K + " I"], 0, 3, { forfait: true }));
-    ok(mEreignisse(alt, ff, null, jetzt).ereignisse.some(e => e.id.startsWith("tabelle:k1")), "Mitteilung: Tabelle trotz Forfait im Voraus");
+    ok(mEreignisse(alt, halb, null, jetzt).ereignisse.some(e => e.id.startsWith("tabelle:k1")), "Tabelle: unsere Zeile geändert → Mitteilung, auch wenn andere noch fehlen");
+    ok(!mEreignisse(halb, neu, null, jetzt).ereignisse.some(e => e.id.startsWith("tabelle:k1")), "Tabelle: nur andere Zeilen geändert → keine Mitteilung");
+    const gleich7 = neuD(); gleich7.klassen.k1.tabelle = [{ pl: 1, id: 12, n: "US Hostert", sp: 1, pkt: 11 }, { pl: 3, id: 1, n: K + " I", sp: 1, pkt: 10 }];
+    ok(mEreignisse(neu, gleich7, null, jetzt).ereignisse.find(e => e.id.startsWith("tabelle:k1"))?.text === "Koeppchen I jetzt 3. Platz (vorher 2.) · 10 Punkte aus 1 Spiel",
+      "Tabelle: nur der Platz ändert sich (andere haben gespielt) → Mitteilung");
+    // Nachts: wartet bis 7:00; eine zweite Änderung in derselben Nacht ersetzt die erste und vergleicht mit dem Stand vom Abend.
+    const nacht = Date.parse("2026-10-27T01:38:00+01:00"), sieben = Date.parse("2026-10-27T07:00:00+01:00");
+    const n1 = mEreignisse(alt, neu, null, nacht), t1 = n1.ereignisse.find(e => e.id.startsWith("tabelle:k1"));
+    ok(t1?.ab === sieben, "Tabelle nachts: wartet bis 7:00");
+    const n2 = mEreignisse(neu, gleich7, n1, nacht + 3600e3).ereignisse.filter(e => e.id.startsWith("tabelle:k1"));
+    ok(n2.length === 1 && n2[0].text === "Koeppchen I jetzt 3. Platz (vorher 1.) · 10 Punkte aus 1 Spiel" && n2[0].ab === sieben, "Tabelle nachts: zweite Änderung ersetzt die wartende, „vorher“ vom Abend");
+    const zurueck = mEreignisse(neu, alt, n1, nacht + 3600e3).ereignisse.filter(e => e.id.startsWith("tabelle:k1"));
+    ok(zurueck.length === 0, "Tabelle nachts: zurück auf den Stand vom Abend → keine Mitteilung");
+    // Tagsüber zwei Änderungen nacheinander → zwei Mitteilungen.
+    const d1 = mEreignisse(alt, neu, null, jetzt), d2 = mEreignisse(neu, gleich7, d1, jetzt + 3600e3).ereignisse.filter(e => e.id.startsWith("tabelle:k1"));
+    ok(d2.length === 2, "Tabelle tagsüber: jede Änderung eine Mitteilung");
     // Ein Spiel desselben Spieltags fehlt noch (gleicher Tag, FLF noch nicht eingetragen): weder Spieltag noch Tabelle (vom Nutzer, 25.10.2026).
     const fehlt = neuD(); fehlt.klassen.k1.spiele.push(sp(105, "2026-10-18T15:00:00+02:00", 5, [13, "FC Remich"], [14, "AS Hosingen"]));
     const fehltVor = neuD(); fehltVor.klassen.k1.spiele.push({ ...fehlt.klassen.k1.spiele.at(-1) });
     fehltVor.klassen.k1.tabelle = fehltVor.klassen.k1.tabelle.map(x => ({ ...x, sp: 0 }));   // FLF-Tabelle hing noch hinterher
     const ef = [...mEreignisse(alt, fehlt, null, jetzt).ereignisse, ...mEreignisse(fehltVor, fehlt, null, jetzt).ereignisse];
-    ok(!ef.some(e => e.id.startsWith("spieltag:k1:5")) && !ef.some(e => e.id.startsWith("tabelle:k1")), "Mitteilung: Spieltag/Tabelle warten auf ein fehlendes Spiel vom selben Wochenende");
+    ok(!ef.some(e => e.id.startsWith("spieltag:k1:5")), "Mitteilung: Spieltag wartet auf ein fehlendes Spiel vom selben Wochenende");
     // Kommt es nach, gehen beide raus.
     const ek = mEreignisse(fehlt, (() => { const d = neuD(); d.klassen.k1.spiele.push(sp(105, "2026-10-18T15:00:00+02:00", 5, [13, "FC Remich"], [14, "AS Hosingen"], 1, 1));
       d.klassen.k1.tabelle.push({ pl: 3, id: 13, n: "FC Remich", sp: 2, pkt: 2 }, { pl: 4, id: 14, n: "AS Hosingen", sp: 1, pkt: 1 }); return d; })(), null, jetzt).ereignisse;
-    ok(ek.some(e => e.id === "spieltag:k1:5") && ek.some(e => e.id.startsWith("tabelle:k1")), "Mitteilung: nachgetragenes Spiel → Spieltag komplett und Tabelle");
+    ok(ek.some(e => e.id === "spieltag:k1:5"), "Mitteilung: nachgetragenes Spiel → Spieltag komplett");
     // Verlegtes Spiel mit altem Datum (über 3 Tage her, ohne Ergebnis) hält nicht auf; steht im Titel.
     const vl = neuD(); vl.klassen.k1.spiele.push(sp(106, "2026-10-16T20:00:00+02:00", 5, [13, "FC Remich"], [14, "AS Hosingen"]));
     const ev = mEreignisse(alt, vl, null, jetzt + 2 * 864e5).ereignisse.find(e => e.id === "spieltag:k1:5");
     ok(ev?.text.startsWith("Spieltag 5 komplett (1 Spiel verlegt): "), "Mitteilung: verlegtes Spiel hält nicht auf, „(1 Spiel verlegt)“");
+    // Im Voraus gewertetes Forfait (Larochette – Christnach, Termin 2.11.) gehört zum Spieltag und hat schon sein Ergebnis →
+    // „Spieltag komplett“ wartet nicht auf das Datum (vom Nutzer, 31.10.2026).
+    const fv = spieltagStand([sp(1, "2026-10-30T20:00:00+01:00", 7, [1, "a"], [2, "b"], 1, 2), sp(2, "2026-11-02T00:00:00+01:00", 7, [3, "c"], [4, "d"], 0, 3, { forfait: true })],
+      7, Date.parse("2026-10-31T07:00:00+01:00"));
+    ok(fv?.komplett, "Spieltag: Forfait mit späterem Datum, Ergebnis steht → komplett");
     // Spiel am Dienstag nach dem Spieltag (Syra – Moutfort) wird abgewartet.
     const st = spieltagStand([sp(1, "2026-10-23T20:00:00+02:00", 6, [1, "a"], [2, "b"], 1, 0), sp(2, "2026-10-24T18:30:00+02:00", 6, [3, "c"], [4, "d"], 2, 2),
       sp(3, "2026-10-27T20:00:00+01:00", 6, [5, "e"], [6, "f"])], 6, Date.parse("2026-10-25T21:00:00+01:00"));

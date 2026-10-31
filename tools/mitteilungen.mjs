@@ -22,6 +22,11 @@ export function umLux(tag, hh, mm = 0) {
   return g - (dort - g);
 }
 const H = 3600e3;
+// Mitteilungen gehen nur 7–23 Uhr raus (Worker, `tagzeit`). Für die Tabelle: nachts bis 7:00 warten (dann ist die Meldung
+// noch „nicht fällig“ und eine spätere Änderung in derselben Nacht ersetzt sie).
+const stundeLux = ms => +new Date(ms).toLocaleString("en-GB", { timeZone: TZ, hour: "2-digit", hourCycle: "h23" });
+const tagzeit = ms => { const h = stundeLux(ms); return h >= 7 && h < 23; };
+const naechste7 = ms => { const t = umLux(tagLux(ms), 7); return t > ms ? t : umLux(tagLux(ms + 12 * H), 7); };
 const kurz = n => String(n).replace(VEREIN, "Koeppchen");
 const hatErgebnis = sp => sp.hs != null && sp.as != null;
 
@@ -31,15 +36,6 @@ export const ARTEN = {
   uhrzeit: "Uhrzeit steht fest", neu: "Neue Phase / neues Spiel", trainer: "Trainer: neu, geändert, abgesagt", ticker: "Liveticker läuft", halbzeit: "Halbzeit", ende: "Endstand", woche: "Neue Woche",
 };
 
-// Tabelle fertig = jede Mannschaft hat in der FLF-Tabelle so viele Spiele wie Ergebnisse in der Klasse (vom Nutzer,
-// 25.10.2026: die Mitteilung kam, als nur unsere Zeile nachgezogen war, die anderen noch nicht — Platz konnte falsch sein).
-// Nur Spiele bis jetzt: ein im Voraus gewertetes Forfait (Larochette, Termin in der Zukunft) hat schon ein Ergebnis,
-// die FLF zählt es in der Tabelle aber erst ab seinem Datum — sonst wäre die Tabelle nie „fertig“.
-export const tabelleFertig = (k, now) => {
-  const n = new Map();
-  for (const sp of k.spiele || []) if (hatErgebnis(sp) && Date.parse(sp.d) <= now) for (const id of [sp.h.id, sp.a.id]) n.set(id, (n.get(id) || 0) + 1);
-  return !!k.tabelle?.length && k.tabelle.every(x => x.sp === (n.get(x.id) || 0));
-};
 // Spieltag komplett = alle Spiele um den Termin des Spieltags haben ein Ergebnis (vom Nutzer, 25.10.2026). Haupttermin =
 // mittlerer Termin. Verlegt (hält nichts auf): mehr als 7 Tage vom Haupttermin weg, oder Termin seit 3 Tagen vorbei und noch
 // ohne Ergebnis — die FLF lässt beim Verlegen oft das alte Datum stehen (Koeppchen II – Syra, 3.10.). Ein Spiel am Dienstag
@@ -166,20 +162,26 @@ export function ereignisse(alt, neu, vorher, now) {
              text: `Spieltag ${tag} komplett${verlegtText(sn)}: ` + (unser ? (hatErgebnis(unser) ? `${kurz(unser.h.n)} ${unser.hs}:${unser.as} ${kurz(unser.a.n)} · ` : "unser Spiel noch offen · ") : "") + "alle Ergebnisse in der App",
              ab: now, bis: now + 24 * H });
     }
+    // Tabelle (vom Nutzer, 31.10.2026, ersetzt alle früheren Tabellen-Regeln): immer dann, wenn sich in der FLF-Tabelle bei UNS
+    // etwas ändert — Platz, Punkte oder Spielzahl. Ein Spiel weiter unten, das an unserem Platz nichts ändert, meldet nichts.
+    // In der Nacht (23–7 Uhr) wartet die Meldung bis 7:00; kommen bis dahin weitere Änderungen, ersetzt die neue die wartende
+    // und vergleicht mit dem Stand, den die Eltern zuletzt kannten (`basis`). Zurück auf genau diesen Stand → keine Meldung.
     if (k.tabelle && ka.tabelle) {
       const ich = new Set(t.ids || [t.id]);
       const r = k.tabelle.find(x => ich.has(x.id)), ra = ka.tabelle.find(x => ich.has(x.id));
-      // Tabelle erst, wenn der Spieltag unseres letzten Spiels komplett ist UND die FLF die Tabelle damit nachgezogen hat
-      // (vom Nutzer, 25.10.2026). Eine Meldung je Spiel von uns (id mit Spielzahl, der Worker schickt jede id nur einmal).
-      const g = k.spiele.filter(sp => ist(sp) && hatErgebnis(sp) && Date.parse(sp.d) <= now).sort((a, b) => Date.parse(b.d) - Date.parse(a.d))[0];
-      const bereit = (kk, zeit) => tabelleFertig(kk, zeit) && !!spieltagStand(kk.spiele, g.tag, zeit)?.komplett;
-      const neuFertig = g && r && ra && Date.parse(g.d) > now - 10 * TAG_MS && bereit(k, now) && !bereit(ka, altZeit);
-      // id mit Spieltag (28.10.2026): Seniors 2/3 bekamen keine Tabelle, weil ihre alte id (Spielzahl) schon vor der
-      // Spieltag-Regel einmal verschickt war — der Worker schickt jede id nur einmal.
-      if (neuFertig)
-        dazu({ reiter: [t.reiter], id: `tabelle:${k.id}:${r.id}:${r.sp}:${g.tag}`, art: "tabelle", titel: `${t.reiter} · Tabelle`,
-               text: `${kurz(r.n)} jetzt ${r.pl}. Platz` + (r.sp > ra.sp ? (ra.pl !== r.pl ? ` (vorher ${ra.pl}.)` : " (wie vorher)") : "") + ` · ${r.pkt} Punkte`,
-               ab: now, bis: now + 24 * H });
+      const stand = x => `${x.pl}/${x.pkt}/${x.sp}`;
+      if (r && ra && stand(r) !== stand(ra)) {
+        const vorn = `tabelle:${k.id}:${r.id}:`;
+        const wartend = [...aus.values()].find(e => e.id.startsWith(vorn) && e.ab > now);
+        const basis = wartend?.basis || { pl: ra.pl, pkt: ra.pkt, sp: ra.sp };
+        if (wartend) aus.delete(wartend.id);
+        if (stand(r) !== stand(basis)) {
+          const ab = tagzeit(now) ? now : naechste7(now);
+          dazu({ reiter: [t.reiter], id: `${vorn}${r.sp}:${r.pkt}:${r.pl}:${tagLux(ab)}`, art: "tabelle", titel: `${t.reiter} · Tabelle`,
+                 text: `${kurz(r.n)} jetzt ${r.pl}. Platz` + (basis.pl !== r.pl ? ` (vorher ${basis.pl}.)` : "") + ` · ${r.pkt} Punkte aus ${r.sp} ${r.sp === 1 ? "Spiel" : "Spielen"}`,
+                 basis, ab, bis: ab + 24 * H });
+        }
+      }
     }
   }
 

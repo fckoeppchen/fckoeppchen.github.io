@@ -399,6 +399,15 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   bisher. App: „📅 Fr., 4.12.2026 · 17:00–21:00“, darunter „📍 Ort“, in der Woche Schild + Uhrzeit, nach Uhrzeit sortiert, abgesagt rot (zählt nicht
   im Kopf). Offen: die Kalender-Seite zeigt unter „Events“ vielleicht nur die nächsten paar („Méi uweisen“) — prüfen, wenn mehr eingetragen sind.
   Tests (431) mit Gegenprobe; Browser mit gestellter Uhr.
+- **Tabelle: eine einzige Regel** (vom Nutzer, 31.10.2026, Fassung 31.10. neu e; **ersetzt** „Tabelle erst, wenn ganz nachgezogen“, „nach
+  Spieltag komplett“, `tabelleFertig` und die id mit Spieltag): Mitteilung „Tabelle“ **immer, wenn sich in der FLF-Tabelle bei uns etwas ändert —
+  Platz, Punkte oder Spielzahl** (U13/U15/Seniors gleich). Anlass: Seniors 3 bekam „5. Platz“, obwohl Christnach am 2.11. per Forfait (im Voraus
+  gewertet, zählt erst ab dem Datum) vorbeizieht — die vielen Sonderregeln wurden unübersichtlich. Gezählt 22.–31.10.: 13 Tabellenänderungen
+  bei den Seniors, davon 6 mit Änderung bei uns. Text „Koeppchen II jetzt 6. Platz (vorher 5.) · 10 Punkte aus 6 Spielen“ („vorher“ nur bei
+  anderem Platz). id `tabelle:<Klasse>:<Team>:<Spiele>:<Punkte>:<Platz>:<Tag>`. **Nachts (23–7 Uhr) `ab` = 7:00**; eine weitere Änderung in
+  derselben Nacht ersetzt die wartende und behält deren `basis` (Stand vom Abend); zurück auf genau diesen Stand → nichts. „Spieltag komplett“
+  bleibt wie es war (ein im Voraus gewertetes Forfait mit späterem Datum hat sein Ergebnis → zählt, vom Nutzer). App: „Letztes Spiel“ zeigt den
+  Platz immer aus der aktuellen FLF-Tabelle (ohne Prüfung). Tests (436) mit Gegenprobe (ohne Nachtregel 3 rot).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
