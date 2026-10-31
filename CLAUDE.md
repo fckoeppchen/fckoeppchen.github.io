@@ -20,6 +20,8 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   `-512.png` (purpose `maskable`): Logo auf 58 % verkleinert, damit Androids runde Maske die Streifen
   stehen lässt und das Logo nicht anschneidet (Vorschau mit 80- und 72-%-Kreis geprüft). **Erstes Android-Gerät, 23.10.2026:** installierte App, der Launcher nahm das `any`-Symbol rund ausgeschnitten (Logo fast voll, rechts schmaler schwarz-grüner Rand), nicht das maskable — vom Nutzer: „es ist gut so“, nicht ändern. In der App selbst
   steht weiter das Logo ohne Streifen (`LOGO` kommt jetzt aus `rel="icon"`, nicht mehr aus dem Home-Icon).
+  **Seit 31.10.2026 (Fassung neu d) als Datei** `bilder/apple-touch-icon.png` (+ Kopie `apple-touch-icon.png` im Hauptordner, dort sucht iOS von selbst) statt
+  `data:`-Adresse: bei einem Freund (iPhone 14) kam nach dem Installieren nur Apples Ersatz-Symbol (grau mit „F“). Wer so ein Symbol hat: App löschen, neu hinzufügen.
 - **Eigener Worker „fckoeppchen“** (`https://fckoeppchen.rjtp6r9s9h.workers.dev/`), eigene D1-Datenbank
   → Statistik und Mitteilungen fangen neu an (vom Nutzer: „komplett neue Statistik“). Stößt dieses
   Repo an (`REPO`), liest `data/mitteilungen.json` von hier. Der alte Worker `koeppchen-live` bleibt
