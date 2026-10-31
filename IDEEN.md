@@ -379,3 +379,26 @@ Auf das Go des Vereins, in dieser Reihenfolge:
    Live-Action weg); danach `fussball.yml` einmal von Hand starten und prüfen, dass `kalender/*.ics` den Hinweis haben.
 4. **Mitteilungen für alle** (eigenes Go, kann später sein): `MITT_FUER_ALLE = true`; `MAX_ABOS` = 30 steht schon bei Cloudflare.
 5. Ende 2026: Kalender-Spiegel im alten Repo abschalten.
+
+## Events von der Vereins-Homepage (vom Nutzer, 31.10.2026) — **noch nicht bauen**, Nutzer telefoniert erst mit dem Präsidenten
+
+Homepage www.fckoeppchen.lu läuft über **Clubee** (Next.js). Menüpunkt „Events“ (Dropdown) = freie Textseiten (`custom_page`),
+z. B. `dodge-op-der-koepp-993027v4`, `oktoberfest-86045v4`, `koeppchen-youth-cup-86601v4`, `x-mas-bamverkaaf-86047v4`. Der Clubee-Kalender
+(`kalenner-57201v4`) hat auch die Rubrik „Evenementer“, am 31.10. leer („Keng Evenementer virzeweisen“) — Weg B (Verein trägt dort ein,
+sauberes Datum, dann auch Mitteilungen) bleibt offen. `robots.txt`: `User-agent: *` ohne Verbot. Bei Clubee nachfragen: nicht nötig
+(eigene Inhalte des Vereins, einmal am Tag gelesen); den Verein fragen: ja (Nutzer klärt mit dem Präsidenten).
+
+**Weg A, so abgenommen (Vorschau 31.10.):**
+- Kasten **„Events vum FC Koeppchen“ ganz oben im Reiter Jugendkommission** (`jkHtml`).
+- Abruf **einmal am Tag um 7:00** (mit dem FLF-Lauf): Menü „Events“ aus der Startseite (JSON im Next-Daten-Block, `name`/`url`),
+  je Seite Titel, Datum, Bild. Neue Menü-Seite erscheint von selbst, gelöschte verschwindet. Fehler → alter Stand.
+- **Datum = spätestes Datum auf der Seite** (Formate „19.06.2027“, „12/9/2026“, „24. Oktober 2026“, auch fr/en/lb Monatsnamen; nur bis
+  2 Jahre voraus). Am 31.10. bei allen vier richtig (Bamverkaaf: 4.12. statt Bestellschluss 29.11. und Tippfehler 04.12.2025). Ohne
+  erkennbares Datum: Event ohne Datum, wird nie ausgeblendet.
+- Zeile: Bild 64 px (erstes **großes** Bild der Seite, ≥ 600 px — sonst sind es Sponsoren-Logos; sonst **Vereinslogo**), darüber
+  „📅 Fr., 4.12.2026 · in 34 Tagen“ (Datum immer, dahinter **immer** „in n Tagen“, dann „morgen“, „heute“), Titel fett, Link
+  „Mehr auf fckoeppchen.lu ›“ direkt auf die Event-Seite. Bilder in die App kopieren (Handys laden nicht bei Clubee).
+- Sortiert nach Datum; **vergangene Events weg** (bis einschließlich Event-Tag sichtbar).
+- Kein kommendes Event: Kasten bleibt mit „Im Moment sind keine Events geplant.“
+- **Events der Woche auch in „Unsere Woche“** (vom Nutzer) — am Tag des Events eine Zeile, Tippen öffnet die Event-Seite (oder den JK-Reiter).
+- Keine Mitteilungen bei Weg A (Datum nur geraten).
