@@ -741,7 +741,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "31.10.2026 neu f";
+const FASSUNG = "31.10.2026 neu g";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1267,7 +1267,7 @@ function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, mot
 // Spielseite bei RTL (das Video in der App abzuspielen bräuchte das Okay von RTL), im „Heute“-Kasten und im Kasten „Letztes Spiel“.
 // Rot wie RTL, damit man ihn sofort erkennt. Nummern holt der Abruf (tools/rtl.mjs) nach D.rtl.spiele.
 const rtlId = sp => sp && !sp.coach && D.rtl?.spiele?.[sp.id];
-const rtlKnopf = (sp, text) => rtlId(sp) ? `<div class="rtlzeile"><a class="rtlbtn" href="https://www.rtl.lu/live-arena/match?m=${encodeURIComponent(rtlId(sp))}" target="_blank" rel="noopener">${text}</a></div>` : "";
+const rtlKnopf = (sp, text) => rtlId(sp) ? `<div class="rtlzeile"><a class="rtlbtn" href="https://play.rtl.lu/live-arena/${encodeURIComponent(rtlId(sp))}" target="_blank" rel="noopener">${text}</a></div>` : "";
 // „FuPa“ im Hinweistext schon vor dem Ticker als Link (vom Nutzer, 23.10.2026): zum Spiel bei FuPa, wenn der
 // Slug bekannt ist, sonst zur Vereinsseite.
 const fupaLink = (html, url) => url ? html.replace("FuPa", `<a href="${esc(url)}" target="_blank" rel="noopener">FuPa</a>`) : html;

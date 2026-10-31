@@ -1,5 +1,5 @@
 // RTL Live Arena (vom Nutzer, 31.10.2026): RTL überträgt die Spiele der Seniors 1 als Video, live und danach als ganzes Spiel.
-// Die App verlinkt nur die Spielseite bei RTL (www.rtl.lu/live-arena/match?m=<id>) — im „Heute“-Kasten und im Kasten „Letztes Spiel“.
+// Die App verlinkt nur die Spielseite bei RTL (play.rtl.lu/live-arena/<id>, Player direkt — seit neu g; vorher www.rtl.lu/live-arena/match?m=<id>, dort musste man erst Play tippen) — im „Heute“-Kasten und im Kasten „Letztes Spiel“.
 // Das Video selbst abzuspielen ginge technisch, braucht aber das Okay von RTL (siehe IDEEN.md).
 // Hier: zu jedem Spiel der Seniors 1 die RTL-Nummer finden (gleicher Tag, Koeppchen spielt, RTL hat ein Video).
 

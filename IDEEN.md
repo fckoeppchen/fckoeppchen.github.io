@@ -419,7 +419,7 @@ Vom Nutzer gewünscht: nur nachsehen, damit man RTL fragen kann. Ergebnis:
 - **RTL-Schnittstelle** (für ihre eigene Seite): Spiele der Éierepromotioun = Wettbewerb 475,
   `https://api-gate.rtl.lu/sport/v4/competitions/475/results/current?lang=lu` → je Spiel `id`, Datum, Uhrzeit, Mannschaften,
   `has_video`. Unser Spiel am 31.10.: **13932** (Bettemburg 25.10.: 13925). Reserven führt RTL nicht.
-- **Spielseite für einen Link:** `https://www.rtl.lu/live-arena/match?m=<id>` (vor, während und nach dem Spiel erreichbar).
+- **Spielseite für einen Link:** `https://www.rtl.lu/live-arena/match?m=<id>` (vor, während und nach dem Spiel erreichbar). **Seit neu g direkt** `https://play.rtl.lu/live-arena/<id>` (dorthin führt RTLs Play-Bild; Player sofort da).
 - **Video direkt:** `https://api-gate.rtl.lu/sport/v4/matches/<id>?lang=lu` → `live_arena.video_url`, z. B.
   `https://stream.rtl.lu/live-arena/634980/master.m3u8` (HLS, 1080p/720p/360p, Kameras von Staige, Bild mit RTL-Logo). **Ohne Anmeldung,
   ohne Schlüssel, CORS `*`** — ein iPhone könnte es in einem `<video>`-Feld direkt abspielen. Live: Liste läuft ab Kamerastart (17:56), also

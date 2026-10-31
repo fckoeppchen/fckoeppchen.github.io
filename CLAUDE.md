@@ -410,7 +410,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Platz immer aus der aktuellen FLF-Tabelle (ohne Prüfung). Tests (436) mit Gegenprobe (ohne Nachtregel 3 rot).
 - **RTL Live Arena: Link „Live-Video · RTL“** (vom Nutzer, 31.10.2026, Fassung 31.10. neu f; Prüfung und Bauplan in IDEEN.md): RTL überträgt die
   Seniors 1 (Éierepromotioun) als Video, live und danach als ganzes Spiel (9 von 10 Saisonspielen abrufbar). **Nur Link** auf die Spielseite
-  `www.rtl.lu/live-arena/match?m=<id>` — das Video in der App abzuspielen ginge technisch (offene HLS-Adresse), braucht aber RTLs Okay. Knöpfe
+  `play.rtl.lu/live-arena/<id>` (seit neu g, vom Nutzer: `www.rtl.lu/live-arena/match?m=<id>` zeigte nur ein Standbild, erst Play öffnete diese Seite) — das Video in der App abzuspielen ginge technisch (offene HLS-Adresse), braucht aber RTLs Okay. Knöpfe
   (rot wie RTL, `.rtlbtn`, `rtlKnopf`) **nur** im „Heute“-Kasten („📺 Live-Video ab Anpfiff · RTL“ / ab Anpfiff „🔴 Live-Video · RTL“) und im Kasten
   „Letztes Spiel“ („▶ Ganzes Spiel ansehen · RTL“); keine Replay-Knöpfe in der Ergebnisliste (vom Nutzer: „keiner geht so weit zurück“).
   `tools/rtl.mjs`: RTL-Schnittstelle `api-gate.rtl.lu/sport/v4/` (für RTLs eigene Seite), Wettbewerbe der Saison (Liga + Coupe de Luxembourg),
