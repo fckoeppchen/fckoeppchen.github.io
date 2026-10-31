@@ -542,6 +542,13 @@ async function main() {
   try { const r = await fetch(COACH_URL); if (!r.ok) throw new Error("HTTP " + r.status); neu.coach = (await r.json()).spiele; }
   catch (e) { console.error("Coach:", e.message); neu.coach = alt.coach || []; }
   coachDazu(neu, neu.coach);
+  // RTL Live Arena (tools/rtl.mjs): RTL-Nummern der Spiele der Seniors 1 für den Link „Live-Video · RTL“. Fehler → alter Stand.
+  neu.rtl = alt.rtl || null;
+  const rtl = await import("./rtl.mjs");
+  if (rtl.rtlFaellig(neu, alt.rtl, Date.now())) {
+    try { neu.rtl = await rtl.rtlHolen(neu, alt.rtl); console.log("RTL:", JSON.stringify(neu.rtl.spiele)); }
+    catch (e) { console.error("RTL:", e.message); }
+  }
   // Events von der Vereins-Homepage (tools/vereins-events.mjs), einmal am Tag um 7 Uhr. Fehler → alter Stand.
   neu.events = alt.events || null;
   const ev = await import("./vereins-events.mjs");

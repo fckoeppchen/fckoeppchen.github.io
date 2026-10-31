@@ -17,6 +17,7 @@ const FUPA_STAND = FUPA.api;
 FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
 import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst } from "../tools/fussball.mjs";
+import { unsereRtlSpiele, rtlZuordnen, rtlFaellig } from "../tools/rtl.mjs";
 import { eventMenue, eventDatum, seitenText, seitenBilder, bildBreite, eventsFaellig, kalenderAdresse, kalenderIds, kalenderEvent, textGleich, titelGleich, zusammenfuehren } from "../tools/vereins-events.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
@@ -1377,6 +1378,26 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const kAnders = { ...kGv, t: "Generalversammlung", tag: "2026-12-04", url: "K3" };
   const z2 = zusammenfuehren([kAnders], [seiten[0]]);
   gleich(z2.map(e => e.quelle), ["kalender", "seite"], "Gleicher Tag, anderes Event (Titel und Text verschieden) → zwei Zeilen");
+}
+
+// RTL Live Arena (tools/rtl.mjs, 31.10.2026): RTL-Nummer je Spiel der Seniors 1, nur unsere Spiele, nur mit Video.
+{
+  const liste = { matches: [
+    { id: 13932, date: "2026-10-31", has_video: true, home_team: { name: "FC Koeppchen" }, visitor_team: { name: "FC Monnerech" } },
+    { id: 13931, date: "2026-10-31", has_video: true, home_team: { name: "SC Beetebuerg" }, visitor_team: { name: "Avenir Beggen" } },
+    { id: 13758, date: "2026-08-14", has_video: false, home_team: { name: "Jeunesse Kanech" }, visitor_team: { name: "FC Koeppchen" } } ] };
+  gleich(unsereRtlSpiele(liste), [{ id: 13932, tag: "2026-10-31" }], "RTL: nur Koeppchen-Spiele mit Video");
+  const sp = (id, d, h, a) => ({ id, d, h: { id: h, n: String(h) }, a: { id: a, n: String(a) } });
+  const D = { teams: [{ id: 1, ids: [1], reiter: "Seniors 1", klassen: ["k"] }], klassen: { k: { spiele: [
+    sp(10, "2026-10-31T18:00:00+01:00", 1, 2), sp(11, "2026-10-31T18:00:00+01:00", 3, 4),   // fremdes Spiel am selben Tag
+    sp(12, "2026-10-25T16:00:00+01:00", 5, 1), sp(13, "2026-08-23T16:00:00+02:00", 1, 6),
+    { ...sp(14, "2026-11-01T10:00:00+01:00", 1, 7), coach: { art: "Freundschaftsspiel" } } ] } } };
+  const jetzt = Date.parse("2026-10-31T18:30:00+01:00");
+  gleich(rtlZuordnen(D, [{ id: 13932, tag: "2026-10-31" }], { 12: 13925, 13: 13767 }, jetzt), { 10: 13932, 12: 13925 },
+    "RTL: unser Spiel über den Tag, fremde Spiele nicht, gemerkte bleiben, älter als 30 Tage weg");
+  gleich(rtlZuordnen(D, [{ id: 1, tag: "2026-10-31" }, { id: 2, tag: "2026-10-31" }], null, jetzt), {}, "RTL: zwei Treffer am selben Tag → lieber keiner");
+  ok(rtlFaellig(D, null, jetzt) && rtlFaellig(D, { wettbewerbe: [475] }, jetzt) && !rtlFaellig(D, { wettbewerbe: [475] }, Date.parse("2026-10-28T12:00:00+01:00"))
+    && rtlFaellig(D, { wettbewerbe: [475] }, Date.parse("2026-10-28T07:10:00+01:00")), "RTL: erstes Mal, Spieltag ±1 und 7 Uhr — sonst nicht");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);

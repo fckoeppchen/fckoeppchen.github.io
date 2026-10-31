@@ -408,6 +408,16 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   derselben Nacht ersetzt die wartende und behält deren `basis` (Stand vom Abend); zurück auf genau diesen Stand → nichts. „Spieltag komplett“
   bleibt wie es war (ein im Voraus gewertetes Forfait mit späterem Datum hat sein Ergebnis → zählt, vom Nutzer). App: „Letztes Spiel“ zeigt den
   Platz immer aus der aktuellen FLF-Tabelle (ohne Prüfung). Tests (436) mit Gegenprobe (ohne Nachtregel 3 rot).
+- **RTL Live Arena: Link „Live-Video · RTL“** (vom Nutzer, 31.10.2026, Fassung 31.10. neu f; Prüfung und Bauplan in IDEEN.md): RTL überträgt die
+  Seniors 1 (Éierepromotioun) als Video, live und danach als ganzes Spiel (9 von 10 Saisonspielen abrufbar). **Nur Link** auf die Spielseite
+  `www.rtl.lu/live-arena/match?m=<id>` — das Video in der App abzuspielen ginge technisch (offene HLS-Adresse), braucht aber RTLs Okay. Knöpfe
+  (rot wie RTL, `.rtlbtn`, `rtlKnopf`) **nur** im „Heute“-Kasten („📺 Live-Video ab Anpfiff · RTL“ / ab Anpfiff „🔴 Live-Video · RTL“) und im Kasten
+  „Letztes Spiel“ („▶ Ganzes Spiel ansehen · RTL“); keine Replay-Knöpfe in der Ergebnisliste (vom Nutzer: „keiner geht so weit zurück“).
+  `tools/rtl.mjs`: RTL-Schnittstelle `api-gate.rtl.lu/sport/v4/` (für RTLs eigene Seite), Wettbewerbe der Saison (Liga + Coupe de Luxembourg),
+  gemerkt in `D.rtl.wettbewerbe`; je Wettbewerb aktuelle + vorige Runde, Koeppchen-Spiele mit `has_video` → über den Tag einem FLF-Spiel der
+  Seniors 1 zugeordnet (nur unsere Spiele, bei zwei Treffern am Tag keins) → `D.rtl.spiele` (FLF-Id → RTL-Id, 30 Tage). Gefragt beim ersten Mal,
+  um 7 Uhr und an Tagen ±1 um ein Spiel der Seniors 1; Fehler → alter Stand. Datenschutz-Hinweis nennt den Knopf. Tests (440) mit Gegenprobe;
+  Browser mit gestellter Uhr (vor/nach Anpfiff, Letztes Spiel, Seniors 2 ohne Knopf).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

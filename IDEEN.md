@@ -413,7 +413,7 @@ sauberes Datum, dann auch Mitteilungen) bleibt offen. `robots.txt`: `User-agent:
 - **Kopf:** „3 Spiele, davon 3 zu Hause · 1 Event“ (Events der Woche mitzählen).
 - Vorschau-Bilder vom 31.10. vom Nutzer abgenommen. Clubee-Kalender „Evenementer“ füllt der Präsident in der Woche → dann Weg B ausprobieren.
 
-## RTL Live Arena: Video der Seniors 1 (geprüft am 31.10.2026 während Koeppchen – Monnerech, **nicht eingebaut**)
+## RTL Live Arena: Video der Seniors 1 (geprüft am 31.10.2026 während Koeppchen – Monnerech; **Link gebaut 31.10., Fassung neu f**, Video in der App nicht)
 
 Vom Nutzer gewünscht: nur nachsehen, damit man RTL fragen kann. Ergebnis:
 - **RTL-Schnittstelle** (für ihre eigene Seite): Spiele der Éierepromotioun = Wettbewerb 475,

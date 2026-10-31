@@ -56,6 +56,8 @@
   .seg button.woche img{height:22px;margin:-4px 0;display:inline-block}
   .wzus{font-size:15px;font-weight:600;text-align:center}
   .wzeile{cursor:pointer}
+  .rtlzeile{text-align:center;margin:10px 0 2px}
+  .rtlbtn{display:inline-block;background:#e3001b;color:#fff!important;font-weight:700;font-size:15px;padding:9px 16px;border-radius:999px;text-decoration:none}
   .evz{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e3e8e6;color:inherit;text-decoration:none}
   .cbody>.evz:first-child{border-top:0;padding-top:0}
   .evz img{width:64px;height:64px;object-fit:cover;border-radius:10px;flex:none;background:#fff;border:1px solid #e3e8e6}
@@ -481,7 +483,7 @@ function letztesHtml(v, now) {
       <div class="wann klein">${datum(sp)}${liga && sp.tag ? ` · Spieltag ${sp.tag}` : ""}</div>
       <div class="m" style="border:0"><div class="t h${v.ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
       <div class="gross">${sp.hs}:${sp.as}</div><div class="t${v.ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
-      ${unten ? `<div class="zusatz">${unten}</div>` : ""}${MOTTO}</div></section>`;
+      ${unten ? `<div class="zusatz">${unten}</div>` : ""}${rtlKnopf(sp, "▶ Ganzes Spiel ansehen · RTL")}${MOTTO}</div></section>`;
   }
   const nach = nachDemSpiel(v, now);
   if (!nach) return "";
@@ -739,7 +741,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "31.10.2026 neu e";
+const FASSUNG = "31.10.2026 neu f";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1215,7 +1217,7 @@ function fuss() {
       Die App zählt anonym, wie oft sie geöffnet und welche Reiter angesehen werden — ohne Namen, Telefonnummern oder Standorte.
       Wer Mitteilungen einschaltet, für den wird nur die Push-Adresse des Handys und die Auswahl der Mannschaften gespeichert; Abmelden löscht beides.
       Was die App sich merkt (gewählter Reiter, letzter Stand), bleibt auf dem Handy. Keine Werbung, kein Tracking.
-      Spielpläne und Ergebnisse kommen von der FLF und von FuPa.${!FUPA_API ? ` Den Liveticker der Seniors lädt die App erst, wenn man „Liveticker anzeigen“ tippt, direkt von FuPa (fupa.net); FuPa sieht dabei die Internet-Adresse des Handys.${fupaOk() ? ` <button class="kal" data-fupa="nein" style="margin:4px 0">FuPa-Liveticker nicht mehr laden</button>` : ""}` : ""} Die Events kommen von der Vereins-Homepage fckoeppchen.lu. Das Video im Reiter der Jugendkommission wird von YouTube geladen.
+      Spielpläne und Ergebnisse kommen von der FLF und von FuPa.${!FUPA_API ? ` Den Liveticker der Seniors lädt die App erst, wenn man „Liveticker anzeigen“ tippt, direkt von FuPa (fupa.net); FuPa sieht dabei die Internet-Adresse des Handys.${fupaOk() ? ` <button class="kal" data-fupa="nein" style="margin:4px 0">FuPa-Liveticker nicht mehr laden</button>` : ""}` : ""} Die Events kommen von der Vereins-Homepage fckoeppchen.lu. Der Knopf „Live-Video · RTL“ öffnet die Seite von RTL. Das Video im Reiter der Jugendkommission wird von YouTube geladen.
       Fragen: <a href="mailto:koeppchenapp@hotmail.com">koeppchenapp@hotmail.com</a>
     </details>
     <div style="margin-top:6px;font-size:11px">Fassung ${FASSUNG}</div></footer>`;
@@ -1258,9 +1260,14 @@ function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, mot
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
-    ${unten ? `<div class="zusatz">${fupaLink(esc(unten), (live || link) && fupaUrl)}</div>` : ""}${kz}${motto && !koeppi ? MOTTO : ""}
+    ${unten ? `<div class="zusatz">${fupaLink(esc(unten), (live || link) && fupaUrl)}</div>` : ""}${rtlKnopf(sp, heute.begonnen ? "🔴 Live-Video · RTL" : "📺 Live-Video ab Anpfiff · RTL")}${kz}${motto && !koeppi ? MOTTO : ""}
     </div></section>`;
 }
+// RTL Live Arena (vom Nutzer, 31.10.2026): Seniors 1 werden bei RTL live gezeigt und bleiben als ganzes Spiel abrufbar. Nur ein Link auf die
+// Spielseite bei RTL (das Video in der App abzuspielen bräuchte das Okay von RTL), im „Heute“-Kasten und im Kasten „Letztes Spiel“.
+// Rot wie RTL, damit man ihn sofort erkennt. Nummern holt der Abruf (tools/rtl.mjs) nach D.rtl.spiele.
+const rtlId = sp => sp && !sp.coach && D.rtl?.spiele?.[sp.id];
+const rtlKnopf = (sp, text) => rtlId(sp) ? `<div class="rtlzeile"><a class="rtlbtn" href="https://www.rtl.lu/live-arena/match?m=${encodeURIComponent(rtlId(sp))}" target="_blank" rel="noopener">${text}</a></div>` : "";
 // „FuPa“ im Hinweistext schon vor dem Ticker als Link (vom Nutzer, 23.10.2026): zum Spiel bei FuPa, wenn der
 // Slug bekannt ist, sonst zur Vereinsseite.
 const fupaLink = (html, url) => url ? html.replace("FuPa", `<a href="${esc(url)}" target="_blank" rel="noopener">FuPa</a>`) : html;
