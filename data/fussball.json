@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-31T19:46:42.608Z",
+ "stand": "2026-10-31T20:16:38.006Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -305,6 +305,30 @@
     },
     {
      "pl": 2,
+     "id": 44892,
+     "n": "FC Lorentzweiler",
+     "sp": 11,
+     "s": 6,
+     "u": 4,
+     "nl": 1,
+     "t": 21,
+     "g": 14,
+     "pkt": 22
+    },
+    {
+     "pl": 3,
+     "id": 45113,
+     "n": "CS Fola Esch-Alzette",
+     "sp": 11,
+     "s": 6,
+     "u": 3,
+     "nl": 2,
+     "t": 19,
+     "g": 9,
+     "pkt": 21
+    },
+    {
+     "pl": 4,
      "id": 44560,
      "n": "Union Titus Pétange",
      "sp": 10,
@@ -316,19 +340,7 @@
      "pkt": 19
     },
     {
-     "pl": 3,
-     "id": 44892,
-     "n": "FC Lorentzweiler",
-     "sp": 10,
-     "s": 5,
-     "u": 4,
-     "nl": 1,
-     "t": 20,
-     "g": 14,
-     "pkt": 19
-    },
-    {
-     "pl": 4,
+     "pl": 5,
      "id": 45041,
      "n": "FC Rodange 91",
      "sp": 10,
@@ -340,79 +352,79 @@
      "pkt": 18
     },
     {
-     "pl": 5,
-     "id": 45113,
-     "n": "CS Fola Esch-Alzette",
-     "sp": 10,
-     "s": 5,
-     "u": 3,
-     "nl": 2,
-     "t": 18,
-     "g": 9,
-     "pkt": 18
-    },
-    {
      "pl": 6,
-     "id": 45002,
-     "n": "SC Bettembourg",
-     "sp": 10,
+     "id": 44799,
+     "n": "FC The Belval Belvaux",
+     "sp": 11,
      "s": 4,
-     "u": 3,
+     "u": 4,
      "nl": 3,
-     "t": 23,
-     "g": 15,
-     "pkt": 15
+     "t": 15,
+     "g": 16,
+     "pkt": 16
     },
     {
      "pl": 7,
-     "id": 44587,
-     "n": "Berdenia Berbourg",
-     "sp": 10,
+     "id": 45002,
+     "n": "SC Bettembourg",
+     "sp": 11,
      "s": 4,
      "u": 3,
-     "nl": 3,
-     "t": 17,
-     "g": 12,
+     "nl": 4,
+     "t": 23,
+     "g": 17,
      "pkt": 15
     },
     {
      "pl": 8,
-     "id": 44799,
-     "n": "FC The Belval Belvaux",
-     "sp": 10,
+     "id": 44587,
+     "n": "Berdenia Berbourg",
+     "sp": 11,
      "s": 4,
      "u": 3,
-     "nl": 3,
-     "t": 15,
-     "g": 16,
+     "nl": 4,
+     "t": 17,
+     "g": 13,
      "pkt": 15
     },
     {
      "pl": 9,
      "id": 44694,
      "n": "US Feulen",
-     "sp": 10,
+     "sp": 11,
      "s": 4,
-     "u": 1,
+     "u": 2,
      "nl": 5,
      "t": 20,
      "g": 21,
-     "pkt": 13
+     "pkt": 14
     },
     {
      "pl": 10,
-     "id": 45208,
-     "n": "FC Luxembourg City",
-     "sp": 10,
+     "id": 44914,
+     "n": "Avenir Beggen",
+     "sp": 11,
      "s": 3,
      "u": 3,
-     "nl": 4,
+     "nl": 5,
      "t": 15,
-     "g": 17,
+     "g": 14,
      "pkt": 12
     },
     {
      "pl": 11,
+     "id": 45208,
+     "n": "FC Luxembourg City",
+     "sp": 11,
+     "s": 3,
+     "u": 3,
+     "nl": 5,
+     "t": 15,
+     "g": 18,
+     "pkt": 12
+    },
+    {
+     "pl": 12,
      "id": 44991,
      "n": "FC Mondercange",
      "sp": 10,
@@ -424,7 +436,7 @@
      "pkt": 12
     },
     {
-     "pl": 12,
+     "pl": 13,
      "id": 44831,
      "n": "FC Koeppchen Wormeldange",
      "sp": 10,
@@ -436,7 +448,7 @@
      "pkt": 11
     },
     {
-     "pl": 13,
+     "pl": 14,
      "id": 45031,
      "n": "Jeunesse Canach",
      "sp": 10,
@@ -446,18 +458,6 @@
      "t": 19,
      "g": 25,
      "pkt": 11
-    },
-    {
-     "pl": 14,
-     "id": 44914,
-     "n": "Avenir Beggen",
-     "sp": 10,
-     "s": 2,
-     "u": 3,
-     "nl": 5,
-     "t": 13,
-     "g": 14,
-     "pkt": 9
     },
     {
      "pl": 15,
@@ -1937,9 +1937,9 @@
       "id": 45113,
       "n": "CS Fola Esch-Alzette"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Streetwheels Arena (Berbourg)"
     },
@@ -20538,9 +20538,9 @@
      "id": 44912,
      "n": "U.N. Käerjeng 97"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 2,
+    "as": 1,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade An de Millewisen (Strassen)"
    },
@@ -20556,9 +20556,9 @@
      "id": 45017,
      "n": "US Hostert"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 2,
+    "as": 1,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade John Grün (Mondorf)"
    },
@@ -23176,6 +23176,18 @@
   "tabelle": [
    {
     "pl": 1,
+    "id": 44678,
+    "n": "Una Strassen",
+    "sp": 12,
+    "s": 11,
+    "u": 1,
+    "nl": 0,
+    "t": 24,
+    "g": 4,
+    "pkt": 34
+   },
+   {
+    "pl": 2,
     "id": 44988,
     "n": "FC Differdange 03",
     "sp": 12,
@@ -23187,31 +23199,31 @@
     "pkt": 33
    },
    {
-    "pl": 2,
-    "id": 44678,
-    "n": "Una Strassen",
-    "sp": 11,
-    "s": 10,
-    "u": 1,
-    "nl": 0,
-    "t": 22,
-    "g": 3,
-    "pkt": 31
-   },
-   {
     "pl": 3,
     "id": 44543,
     "n": "US Mondorf-les-Bains",
-    "sp": 11,
-    "s": 8,
+    "sp": 12,
+    "s": 9,
     "u": 0,
     "nl": 3,
-    "t": 22,
-    "g": 19,
-    "pkt": 24
+    "t": 24,
+    "g": 20,
+    "pkt": 27
    },
    {
     "pl": 4,
+    "id": 44790,
+    "n": "Atert Bissen",
+    "sp": 12,
+    "s": 8,
+    "u": 1,
+    "nl": 3,
+    "t": 32,
+    "g": 16,
+    "pkt": 25
+   },
+   {
+    "pl": 5,
     "id": 44980,
     "n": "Racing FC Union Luxembourg",
     "sp": 11,
@@ -23223,40 +23235,28 @@
     "pkt": 22
    },
    {
-    "pl": 5,
-    "id": 44790,
-    "n": "Atert Bissen",
-    "sp": 11,
+    "pl": 6,
+    "id": 44975,
+    "n": "Progrès Niederkorn",
+    "sp": 12,
     "s": 7,
     "u": 1,
-    "nl": 3,
-    "t": 27,
-    "g": 15,
+    "nl": 4,
+    "t": 19,
+    "g": 9,
     "pkt": 22
    },
    {
-    "pl": 6,
+    "pl": 7,
     "id": 44912,
     "n": "U.N. Käerjeng 97",
-    "sp": 11,
+    "sp": 12,
     "s": 7,
     "u": 0,
-    "nl": 4,
-    "t": 30,
-    "g": 19,
+    "nl": 5,
+    "t": 31,
+    "g": 21,
     "pkt": 21
-   },
-   {
-    "pl": 7,
-    "id": 44975,
-    "n": "Progrès Niederkorn",
-    "sp": 11,
-    "s": 6,
-    "u": 1,
-    "nl": 4,
-    "t": 16,
-    "g": 9,
-    "pkt": 19
    },
    {
     "pl": 8,
@@ -23298,12 +23298,12 @@
     "pl": 11,
     "id": 45017,
     "n": "US Hostert",
-    "sp": 11,
+    "sp": 12,
     "s": 3,
     "u": 2,
-    "nl": 6,
-    "t": 15,
-    "g": 20,
+    "nl": 7,
+    "t": 16,
+    "g": 22,
     "pkt": 11
    },
    {
@@ -23322,12 +23322,12 @@
     "pl": 13,
     "id": 44690,
     "n": "Etzella Ettelbruck",
-    "sp": 11,
+    "sp": 12,
     "s": 2,
     "u": 2,
-    "nl": 7,
-    "t": 9,
-    "g": 19,
+    "nl": 8,
+    "t": 10,
+    "g": 24,
     "pkt": 8
    },
    {
@@ -23358,12 +23358,12 @@
     "pl": 16,
     "id": 44811,
     "n": "Swift Hesperange",
-    "sp": 11,
+    "sp": 12,
     "s": 0,
     "u": 0,
-    "nl": 11,
+    "nl": 12,
     "t": 2,
-    "g": 41,
+    "g": 44,
     "pkt": -12
    }
   ],
