@@ -433,6 +433,9 @@ seit 23.10. jede Minute je Handy) anschauen.
 - Mo 26.10.: Verein verschickt Link + Einladungstext (4 Sprachen) + QR-Code + Koeppi-Text im Newschannel.
   **Verschoben** (vom Nutzer, 25.10.2026 abends): der Verein wartet erst FuPas Antwort ab. Bis zum „Go“ des Vereins bleibt die alte
   App unverändert (kein Umzug, kein Kalender-Spiegel); direkt vor dem Start Statistik prüfen/auf null.
+- **Sa 31.10.2026: Umzug gemacht** (Go vom Verein über den Nutzer): Statistik vom Nutzer am 30.10. genullt, Begrüßung an (neu b),
+  im alten Repo `umzug-vorbereitet` nach `main` (Merge 7de192a): Umzugsseite, Kalender-Spiegel (erster Lauf grün, 10 Kalender mit
+  „(alt – bitte neu abonnieren)“), Live-Action aus. Als Nächstes verschickt der Verein den Link. Mitteilungen für alle: erst später (`MITT_FUER_ALLE`).
 - Danach: erste Woche Statistik und Worker-Last beobachten; FuPa (Nutzer: „später“); Mitteilungen für alle
   erst mit Versand in Paketen; 5×-Schalter ausbauen (vorher fragen); Android-Test; Kalender-Spiegel Ende 2026 aus.
 
