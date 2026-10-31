@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-31T19:16:39.288Z",
+ "stand": "2026-10-31T19:46:42.608Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -1973,9 +1973,9 @@
       "id": 44892,
       "n": "FC Lorentzweiler"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Luxembourg-Cents"
     },
@@ -2045,9 +2045,9 @@
       "id": 44914,
       "n": "Avenir Beggen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Municipal (Bettembourg, synth.)"
     },
@@ -20484,9 +20484,9 @@
      "id": 44690,
      "n": "Etzella Ettelbruck"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 5,
+    "as": 1,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade Klengbousbierg (Bissen)"
    },
