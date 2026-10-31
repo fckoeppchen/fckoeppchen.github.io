@@ -430,3 +430,14 @@ Vom Nutzer gewünscht: nur nachsehen, damit man RTL fragen kann. Ergebnis:
 - **Bauplan, falls RTL Ja sagt:** Abruf holt einmal am Tag (und am Spieltag öfter) die RTL-Spiele der Éierepromotioun, ordnet unser Spiel
   über Datum + Gegner zu und merkt sich `id` + `video_url`. App: im Heute-Kasten Seniors 1 „📺 Live-Video“ (Video im Kasten, Ton aus beim Start),
   nach dem Spiel im Kasten „Letztes Spiel“ „📺 Ganzes Spiel ansehen“. Ohne Erlaubnis: dieselbe Zuordnung, aber nur Link auf die Spielseite.
+
+## Idee: RTL-Knopf auch für Roude Léiw (vom Nutzer, 31.10.2026: „abwarten, als Idee speichern“; BGL nicht)
+
+- **Länderspiele sind nicht in der Live Arena**: RTLs Sport-Schnittstelle (`api-gate.rtl.lu/sport/v4`, Saison 30) führt nur
+  Luxemburger Wettbewerbe (BGL, Éierepromotioun, Divisionen, Coupe, Dammen) — keine Spielnummer, keine eigene Spielseite.
+- Sie laufen im **Fernsehen**: RTL Télé Lëtzebuerg (laut Übertragungslisten Nations League bis 2026-27), Livestream
+  `https://play.rtl.lu/live/rtl`. Ein Programm (EPG), aus dem die App lesen könnte, ob ein bestimmtes Spiel dort läuft, nicht gefunden.
+- **Möglicher Bau:** im „Heute“-Kasten von Roude Léiw ab kurz vor Anpfiff „📺 Live bei RTL“ → Livestream. Haken: App prüft nicht,
+  ob das Spiel wirklich bei RTL läuft (Freundschaftsspiel ohne Übertragung → normales Programm); Livestream evtl. nur in Luxemburg;
+  kein „Ganzes Spiel ansehen“ (keine feste Adresse).
+- **Vorher ansehen:** beim nächsten Länderspiel (13.11. gegen Estland) prüfen, ob RTL es zeigt und wie die Seite aussieht.
