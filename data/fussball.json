@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-31T18:16:42.259Z",
+ "stand": "2026-10-31T19:16:39.288Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -2009,9 +2009,9 @@
       "id": 44694,
       "n": "US Feulen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade FC The Belval (Belvaux, synth.)"
     },
@@ -20502,9 +20502,9 @@
      "id": 44811,
      "n": "Swift Hesperange"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 3,
+    "as": 0,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade Jos Haupert (Niederkorn)"
    },
