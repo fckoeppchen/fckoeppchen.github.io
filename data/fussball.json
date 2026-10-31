@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-31T01:47:35.154Z",
+ "stand": "2026-10-31T09:50:17.408Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -23823,5 +23823,33 @@
    "geaendert": "2026-10-28T07:24:13.424Z"
   }
  ],
- "coachDoppelt": []
+ "coachDoppelt": [],
+ "events": {
+  "liste": [
+   {
+    "t": "Dodge op der Koepp",
+    "url": "https://www.fckoeppchen.lu/dodge-op-der-koepp-993027v4",
+    "tag": "2027-06-19",
+    "bild": "bilder/events/0GGDMJ5NHB93FTA33V2CXWXB8B.jpg"
+   },
+   {
+    "t": "Oktoberfest",
+    "url": "https://www.fckoeppchen.lu/oktoberfest-86045v4",
+    "tag": "2026-10-24",
+    "bild": "bilder/events/328EC11A8D8VC9B1AAD1CV2JTF.jpg"
+   },
+   {
+    "t": "Koeppchen YOUTH CUP",
+    "url": "https://www.fckoeppchen.lu/koeppchen-youth-cup-86601v4",
+    "tag": "2026-09-12",
+    "bild": "bilder/events/3W28VM3CHZ9KMRDEBZX6FGJ3JG.jpg"
+   },
+   {
+    "t": "X-Mas Bamverkaaf",
+    "url": "https://www.fckoeppchen.lu/x-mas-bamverkaaf-86047v4",
+    "tag": "2026-12-04",
+    "bild": "bilder/events/3E2A8WGF8H8P6SX69WHVBTW7AX.jpg"
+   }
+  ]
+ }
 }
