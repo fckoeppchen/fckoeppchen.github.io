@@ -56,6 +56,13 @@
   .seg button.woche img{height:22px;margin:-4px 0;display:inline-block}
   .wzus{font-size:15px;font-weight:600;text-align:center}
   .wzeile{cursor:pointer}
+  .evz{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e3e8e6;color:inherit;text-decoration:none}
+  .cbody>.evz:first-child{border-top:0;padding-top:0}
+  .evz img{width:64px;height:64px;object-fit:cover;border-radius:10px;flex:none;background:#fff;border:1px solid #e3e8e6}
+  .evz b{font-size:16px}
+  .evd{font-size:13.5px;font-weight:600;color:var(--accentT)}
+  .evl{font-size:13.5px;color:var(--accentT);text-decoration:underline}
+  .pill.evpill{background:var(--accentT);color:#fff}
   .pill.wteam{margin-left:0;background:var(--accentT);font-size:14px;padding:3px 10px;vertical-align:1px}
   .wzugleich{color:#b45309;font-weight:600}
   .wlive .sc{background:#d4001a !important;color:#fff !important}
@@ -676,6 +683,23 @@ function wocheTage(now) {
   const montag = tagPlus(tagLux(now), -i + (i === 6 && h >= 22 ? 7 : 0));
   return [0, 1, 2, 3, 4, 5, 6].map(k => tagPlus(montag, k));
 }
+// Events von der Vereins-Homepage (tools/vereins-events.mjs, D.events.liste = [{t, url, tag|null, bild|null}]; vom Nutzer, 31.10.2026).
+// In dieser Woche → an ihrem Tag zwischen den Spielen; später → unten „Nächste Events des Vereins“. Vorbei → weg. Ohne Datum
+// (nicht erkannt) → unten am Ende, nie ausgeblendet.
+function eventsWoche(liste, tage, now) {
+  const heute = tagLux(now);
+  return (liste || []).filter(e => e.tag && e.tag >= heute && tage.includes(e.tag));
+}
+function eventsSpaeter(liste, tage, now) {
+  const heute = tagLux(now);
+  return (liste || []).filter(e => !e.tag || (e.tag >= heute && e.tag > tage[6]))
+    .sort((a, b) => (a.tag || "9999").localeCompare(b.tag || "9999"));
+}
+// „in n Tagen“ nur bis 30 Tage (vom Nutzer), davor „morgen“/„heute“; weiter weg nur das Datum.
+function eventBis(tag, now) {
+  const n = tageZwischen(tagLux(now), tag);
+  return n === 0 ? "heute" : n === 1 ? "morgen" : n > 1 && n <= 30 ? `in ${n} Tagen` : "";
+}
 function wocheSpiele(D, tage, now) {
   const { tabs } = aufteilen(D);
   const zuTeam = new Map();
@@ -722,7 +746,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "30.10.2026 neu x";
+const FASSUNG = "31.10.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1198,7 +1222,7 @@ function fuss() {
       Die App zählt anonym, wie oft sie geöffnet und welche Reiter angesehen werden — ohne Namen, Telefonnummern oder Standorte.
       Wer Mitteilungen einschaltet, für den wird nur die Push-Adresse des Handys und die Auswahl der Mannschaften gespeichert; Abmelden löscht beides.
       Was die App sich merkt (gewählter Reiter, letzter Stand), bleibt auf dem Handy. Keine Werbung, kein Tracking.
-      Spielpläne und Ergebnisse kommen von der FLF und von FuPa.${!FUPA_API ? ` Den Liveticker der Seniors lädt die App erst, wenn man „Liveticker anzeigen“ tippt, direkt von FuPa (fupa.net); FuPa sieht dabei die Internet-Adresse des Handys.${fupaOk() ? ` <button class="kal" data-fupa="nein" style="margin:4px 0">FuPa-Liveticker nicht mehr laden</button>` : ""}` : ""} Das Video im Reiter der Jugendkommission wird von YouTube geladen.
+      Spielpläne und Ergebnisse kommen von der FLF und von FuPa.${!FUPA_API ? ` Den Liveticker der Seniors lädt die App erst, wenn man „Liveticker anzeigen“ tippt, direkt von FuPa (fupa.net); FuPa sieht dabei die Internet-Adresse des Handys.${fupaOk() ? ` <button class="kal" data-fupa="nein" style="margin:4px 0">FuPa-Liveticker nicht mehr laden</button>` : ""}` : ""} Die Events kommen von der Vereins-Homepage fckoeppchen.lu. Das Video im Reiter der Jugendkommission wird von YouTube geladen.
       Fragen: <a href="mailto:koeppchenapp@hotmail.com">koeppchenapp@hotmail.com</a>
     </details>
     <div style="margin-top:6px;font-size:11px">Fassung ${FASSUNG}</div></footer>`;
@@ -1342,26 +1366,40 @@ async function holenWorkerAlle() {
   return neu;
 }
 
+// Eine Event-Zeile: Bild (sonst Vereinslogo), unten in der Liste mit Datum, in der Woche mit Schild (Datum steht im Tageskopf).
+function evZeile(e, now, inWoche) {
+  const bis = !inWoche && e.tag ? eventBis(e.tag, now) : "";
+  const oben = inWoche ? `<span class="pill evpill">Event des Vereins</span>`
+    : e.tag ? `<span class="evd">📅 ${esc(new Date(e.tag + "T12:00:00").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "numeric", year: "numeric" }))}${bis ? ` <span class="muted">· ${bis}</span>` : ""}</span>` : "";
+  return `<a class="evz" href="${esc(e.url)}" target="_blank" rel="noopener"><img src="${esc(e.bild || LOGO)}" alt=""><span>${oben ? oben + "<br>" : ""}<b>${esc(e.t)}</b><br><span class="evl">Mehr auf fckoeppchen.lu ›</span></span></a>`;
+}
+function evKasten(tage, now) {
+  if (!D.events) return "";
+  const l = eventsSpaeter(D.events.liste, tage, now);
+  return `<section class="card"><div class="chead"><h2>Nächste Events des Vereins</h2></div><div class="cbody">${l.length ? l.map(e => evZeile(e, now, false)).join("") : `<div class="muted">Im Moment sind keine Events geplant.</div>`}</div></section>`;
+}
 function wocheHtml(tage, alle, now) {
   const kurz = d => { const x = new Date(d + "T12:00:00"); return x.getDate() + "." + (x.getMonth() + 1) + "."; };
   const heim = alle.filter(sp => sp.heim).length;
+  const evW = eventsWoche(D.events?.liste, tage, now);
+  const evText = evW.length ? ` · ${evW.length} ${evW.length === 1 ? "Event" : "Events"}` : "";
   // Keine Bilanz (Siege/Remis/Niederlagen): vom Verein, 22.10.2026 — es geht nicht ums Gewinnen.
-  const zus = !alle.length ? "Diese Woche keine Spiele."
-    : `${alle.length} ${alle.length === 1 ? "Spiel" : "Spiele"}, davon ${heim} zu Hause`;
+  const zus = !alle.length ? (evW.length ? "Diese Woche keine Spiele" + evText : "Diese Woche keine Spiele.")
+    : `${alle.length} ${alle.length === 1 ? "Spiel" : "Spiele"}, davon ${heim} zu Hause${evText}`;
   let h = `<section class="card"><div class="chead"><h2>Unsere Woche</h2><div class="hint tagdatum">${kurz(tage[0])} – ${kurz(tage[6])}</div></div>
-    <div class="cbody"><div class="kzeile">${koeppiBild(alle.length ? "fahne" : "ruhig")}<div><div class="wzus">${esc(zus)}</div>${MOTTO}</div></div></div></section>`;
-  if (!alle.length) {
+    <div class="cbody"><div class="kzeile">${koeppiBild(alle.length || evW.length ? "fahne" : "ruhig")}<div><div class="wzus">${esc(zus)}</div>${MOTTO}</div></div></div></section>`;
+  if (!alle.length && !evW.length) {
     const naechstes = aufteilen(D).tabs.flatMap(t => sicht(D, t.id, now).kommend.map(sp => ({ ...sp, reiter: t.reiter })))
       .sort((a, b) => a.d.localeCompare(b.d))[0];
     if (naechstes) h += `<div class="note">Nächstes Spiel: ${esc(wann(naechstes))} · ${esc(naechstes.reiter)} gegen ${esc(anzeige(naechstes.h.id === naechstes.wir ? naechstes.a.n : naechstes.h.n))}</div>`;
-    return h;
+    return h + evKasten(tage, now);
   }
   for (const tag of tage) {
-    const sp = alle.filter(s => tagLux(Date.parse(s.d)) === tag);
-    if (!sp.length) continue;
+    const sp = alle.filter(s => tagLux(Date.parse(s.d)) === tag), evs = evW.filter(e => e.tag === tag);
+    if (!sp.length && !evs.length) continue;
     const istHeute = tag === tagLux(now);
     const titel = new Date(tag + "T12:00:00").toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "numeric" });
-    h += `<section class="card${istHeute ? " heute" : ""}"><div class="chead"><h2>${istHeute ? "Heute · " : ""}${esc(titel)}</h2></div><div class="cbody">`;
+    h += `<section class="card${istHeute ? " heute" : ""}"><div class="chead"><h2>${istHeute ? "Heute · " : ""}${esc(titel)}</h2></div><div class="cbody">${evs.map(e => evZeile(e, now, true)).join("")}`;
     const kand = liveKandidaten(now);
     for (const s0 of [...sp.filter(x => !zeitOffen(x)), ...sp.filter(zeitOffen)]) {
       const k = kand.find(k => k.sp.id === s0.id), lv = k && liveStand(k, now);
@@ -1389,7 +1427,7 @@ function wocheHtml(tage, alle, now) {
     }
     h += `</div></section>`;
   }
-  return h;
+  return h + evKasten(tage, now);
 }
 
 function bglHtml(now) {

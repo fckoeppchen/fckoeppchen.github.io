@@ -375,6 +375,18 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Neu v** (vom Nutzer): bei der Jugend steht beim nächsten Spiel auch der Platz („📍 …“ in neuer Zeile), wie schon bei den Bambinis. Das gespielte Spiel bleibt ohne Platz (Stadion nur bei kommenden Spielen); Bambinis haben ihn, weil dort der Gegner fehlt.
   **Neu u** (vom Nutzer bemerkt): Seniors haben keinen „Morgen Spieltag!“-Kasten (nur Kinder) — „Letztes Spiel“ verschwand am Vortag trotzdem, dann stand dort nichts. Jetzt bleibt er bei den Seniors bis zum Heute-Kasten; Kinder unverändert. Browser mit gestellter Uhr, Gegenprobe.
   **Neu s** (vom Nutzer): Platz erst, wenn die FLF-Tabelle nachgezogen ist (`tabelleFertig` in der App, gleiche Regel wie die Mitteilung „Tabelle“), sonst nur die Klasse; Bambinis mit vollem Platz „📍 Am Ga (Wormeldange, synth.)“ statt nur Ort. Browser: Tabelle hinkt → ohne Platz.
+- **Events des Vereins in „Unsere Woche“** (vom Nutzer, 31.10.2026, Fassung 31.10. neu a; Idee des Jugendkoordinators, Präsident einverstanden —
+  der Verein hat die Rechte bei Clubee; Plan in IDEEN.md). `tools/vereins-events.mjs`: Startseite www.fckoeppchen.lu (Clubee) → Menü „Events“
+  (`eventMenue`, Kinder-Liste im eingebetteten Menü-JSON), je Seite **Datum = spätestes Datum im Text** (`eventDatum`: 19.06.2027, 12/9/2026,
+  „24. Oktober 2026“, „1er décembre 2026“, de/lb/fr/en; nur bis 2 Jahre voraus, ohne Jahr → null) und **erstes Bild ≥ 600 px** (kleinere sind
+  Sponsoren) → `bilder/events/<name>.jpg` 192×192 per ImageMagick `convert` (Workflow installiert es, falls es fehlt; ohne → Vereinslogo),
+  ungenutzte Bilder weg (`.gitkeep` bleibt). **Einmal am Tag** (`eventsFaellig`: 7-Uhr-Stunde oder noch nichts da; `EVENTS=1` erzwingt), Fehler
+  → alter Stand. `D.events = {liste: [{t, url, tag, bild}]}`. **App** (`eventsWoche`, `eventsSpaeter`, `eventBis`, `evZeile`, `evKasten`): Event
+  dieser Woche (ab heute) an seinem Tag zwischen den Spielen mit Schild „Event des Vereins“, auch an einem Tag ohne Spiel; Kopf „… · 1 Event“;
+  unten Kasten „Nächste Events des Vereins“ (nach Datum, ohne Datum zuletzt) mit „📅 Fr., 4.12.2026“ und **„· in n Tagen“ nur bis 30 Tage**
+  („morgen“/„heute“); keins → „Im Moment sind keine Events geplant.“ Vergangene weg. Link „Mehr auf fckoeppchen.lu ›“ direkt auf die Seite.
+  Datenschutz-Hinweis nennt die Homepage. Weg B (Clubee-Kalender „Evenementer“, füllt der Präsident) noch offen → dann sauberes Datum, ggf.
+  Mitteilungen. Tests (fussball.mjs 420) mit Gegenprobe; Browser mit gestellter Uhr (31.10., 2.12., 4.12., 20.11.).
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit

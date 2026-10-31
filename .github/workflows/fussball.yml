@@ -44,10 +44,12 @@ jobs:
       - run: node test/fussball.mjs
       # pdftotext für die BAM-PDFs (tools/bambini.mjs). Fehlt es, bleibt nur der alte BAM-Stand.
       - run: command -v pdftotext || (sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils) || true
+      # convert verkleinert die Event-Bilder der Vereins-Homepage (tools/vereins-events.mjs). Fehlt es, gibt es nur das Vereinslogo.
+      - run: command -v convert || (sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick) || true
       - run: node tools/fussball.mjs
       - name: Commit, falls sich etwas geändert hat
         run: |
-          git add data/fussball.json data/mitteilungen.json kalender
+          git add -A data/fussball.json data/mitteilungen.json kalender bilder/events
           if git diff --cached --quiet; then echo "keine Änderung"; exit 0; fi
           git config user.name "fussball-abruf"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

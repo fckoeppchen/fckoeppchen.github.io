@@ -542,6 +542,13 @@ async function main() {
   try { const r = await fetch(COACH_URL); if (!r.ok) throw new Error("HTTP " + r.status); neu.coach = (await r.json()).spiele; }
   catch (e) { console.error("Coach:", e.message); neu.coach = alt.coach || []; }
   coachDazu(neu, neu.coach);
+  // Events von der Vereins-Homepage (tools/vereins-events.mjs), einmal am Tag um 7 Uhr. Fehler → alter Stand.
+  neu.events = alt.events || null;
+  const ev = await import("./vereins-events.mjs");
+  if (process.env.EVENTS || ev.eventsFaellig(alt.events)) {
+    try { neu.events = { liste: await ev.eventsHolen() }; console.log("Events:", neu.events.liste.map(e => `${e.t} ${e.tag || "ohne Datum"}`).join(", ")); }
+    catch (e) { console.error("Events:", e.message); }
+  }
   // Mitteilungen: Ereignisse aus dem Vergleich alt/neu (tools/mitteilungen.mjs). Vor der
   // „unverändert“-Prüfung, weil „Heute Spiel“ auch ohne neue FLF-Daten fällig wird. Darf den
   // Abruf nicht kippen.

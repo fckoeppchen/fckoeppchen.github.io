@@ -17,13 +17,14 @@ const FUPA_STAND = FUPA.api;
 FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
 import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst } from "../tools/fussball.mjs";
+import { eventMenue, eventDatum, seitenText, seitenBilder, bildBreite, eventsFaellig } from "../tools/vereins-events.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
 const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
 const i = src.indexOf("==== Logik"), j = src.indexOf("==== Oberfläche");
 if (i < 0 || j < 0) throw new Error("Abschnittsmarken Logik/Oberfläche nicht gefunden");
 const M = new Function(src.slice(src.lastIndexOf("//", i), src.lastIndexOf("//", j)) + `
-  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei, artText, coachZusatz, coachName, wocheSpiele };`)();
+  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei, artText, coachZusatz, coachName, wocheSpiele, eventsWoche, eventsSpaeter, eventBis };`)();
 
 let fehler = 0, n = 0;
 function ok(bed, text) { n++; if (!bed) { fehler++; console.log("✗ " + text); } }
@@ -1287,6 +1288,47 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(ics(DO, DO.teams[0]).includes("UMW (Nachholspiel)"), "Nachholspiel im Kalender");
   // Ohne alten Coach-Stand (erster Lauf): nichts
   const ohne = mk(); ok(tr(ohne, stand([sp()]), null, t0 + 60e3).length === 0, "Trainer: erster Lauf ohne alten Stand → nichts");
+}
+
+// Events von der Vereins-Homepage (tools/vereins-events.mjs, Anzeige in „Unsere Woche“), 31.10.2026.
+{
+  const jetzt = Date.parse("2026-10-31T10:00:00+01:00");
+  // Datum: das späteste auf der Seite (Texte wie am 31.10. auf fckoeppchen.lu)
+  gleich(eventDatum("De 19. Juni 2027 gëtt de Stade … Umeldung bis 19.06.2027", jetzt), "2027-06-19", "Event-Datum: Monatsname (lb)");
+  gleich(eventDatum("Bestellung bis den 29.11.2026 … liwwert den 04.12.2026 … on 04.12.2025 … until 29.11.2026", jetzt), "2026-12-04", "Event-Datum: spätestes, nicht Bestellschluss/Tippfehler");
+  gleich(eventDatum("YOUTH CUP 2026 – 12/9/2026 … Registration 12.09.2026 … 2003 RWDM Brussels", jetzt), "2026-09-12", "Event-Datum: 12/9/2026, Jahreszahlen allein zählen nicht");
+  gleich(eventDatum("Le 1er décembre 2026 et le 24 octobre 2026", jetzt), "2026-12-01", "Event-Datum: französisch mit „1er“");
+  gleich(eventDatum("am 4. Dezember 2062 (Tippfehler) und 5.12.2026", jetzt), "2026-12-05", "Event-Datum: mehr als 2 Jahre voraus zählt nicht");
+  gleich(eventDatum("Samschdeg, den 4. Dezember — kee Joer", jetzt), null, "Event-Datum: ohne Jahr → keins");
+  gleich(eventDatum("31.11.2026 gibt es nicht, 30.11.2026 schon", jetzt), "2026-11-30", "Event-Datum: unmögliches Datum zählt nicht");
+  // Menü aus dem eingebetteten JSON (wie auf der Seite, mit \" escaped)
+  const menue = JSON.stringify({ x: [{ children: [{ children: [], id: 1, name: "Teams A", type: "page", url: "a-1v4" }], id: 9, name: "Teams", icon: "Menu.svg", position: 3, type: "drop-down" },
+    { children: [{ children: [], id: 2, name: "Dodge op der Koepp", type: "page", url: "dodge-993027v4" }, { children: [], id: 3, name: " X-Mas Bamverkaaf ", type: "page", url: "x-mas-86047v4" }], id: 114035, name: "Events", icon: "Menu.svg", position: 4, type: "drop-down" }] });
+  gleich(eventMenue("<script>self.__next_f.push([1,\"" + menue.replace(/"/g, '\\"') + "\"])</script>"),
+    [{ t: "Dodge op der Koepp", url: "https://www.fckoeppchen.lu/dodge-993027v4" }, { t: "X-Mas Bamverkaaf", url: "https://www.fckoeppchen.lu/x-mas-86047v4" }], "Event-Menü: nur die Seiten unter „Events“");
+  let wurf = false; try { eventMenue("<html>nichts</html>"); } catch { wurf = true; }
+  ok(wurf, "Event-Menü fehlt → Fehler (alter Stand bleibt)");
+  gleich(seitenBilder('<img src="https://d28kyj1r8oju1l.cloudfront.net/4965/logo/x.png"><img alt="" src="https://clubee-websites-prod.s3.eu-central-1.amazonaws.com/4965/files/image/AB.png"><img src="https://clubee-websites-prod.s3.eu-central-1.amazonaws.com/4965/files/image/AB.png">'),
+    ["https://clubee-websites-prod.s3.eu-central-1.amazonaws.com/4965/files/image/AB.png"], "Event-Bilder: nur hochgeladene, einmal");
+  const png = Buffer.alloc(24); png[0] = 0x89; png[1] = 0x50; png.writeUInt32BE(1254, 16);
+  const jpg = Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0, 4, 0, 0, 0xff, 0xc0, 0, 17, 8, 0, 101, 0, 200, 3, 0, 0]);
+  ok(bildBreite(png) === 1254 && bildBreite(jpg) === 200 && bildBreite(Buffer.from("GIF89a....")) === 0, "Bildbreite aus PNG/JPEG-Kopf");
+  gleich(seitenText("<style>.a{}</style><p>Den&nbsp;4.12.2026</p><script>x=1</script>").trim(), "Den 4.12.2026", "Seitentext ohne Skripte");
+  ok(eventsFaellig(null, jetzt) && eventsFaellig({ liste: [] }, Date.parse("2026-11-02T07:00:20+01:00"))
+    && !eventsFaellig({ liste: [] }, Date.parse("2026-11-02T12:00:00+01:00")) && !eventsFaellig({ liste: [] }, Date.parse("2026-11-02T06:59:00+01:00")), "Events: einmal am Tag (7-Uhr-Stunde) oder wenn noch nichts da");
+  // Anzeige: Woche 26.10.–1.11. bzw. 30.11.–6.12.
+  const liste = [{ t: "Oktoberfest", tag: "2026-10-24" }, { t: "Bamverkaaf", tag: "2026-12-04" }, { t: "Dodge", tag: "2027-06-19" }, { t: "Ohne", tag: null }, { t: "Fest", tag: "2026-10-31" }, { t: "Gestern", tag: "2026-10-30" }];
+  const w1 = M.wocheTage(jetzt);
+  gleich(M.eventsWoche(liste, w1, jetzt).map(e => e.t), ["Fest"], "Events: in dieser Woche nur heute und später (gestern weg)");
+  gleich(M.eventsSpaeter(liste, w1, jetzt).map(e => e.t), ["Bamverkaaf", "Dodge", "Ohne"], "Events: unten nach Datum, ohne Datum zuletzt, vergangene weg");
+  const mi = Date.parse("2026-12-02T10:00:00+01:00"), w2 = M.wocheTage(mi);
+  gleich(M.eventsWoche(liste, w2, mi).map(e => e.t), ["Bamverkaaf"], "Events: Bamverkaaf steht in seiner Woche am Tag");
+  gleich(M.eventsSpaeter(liste, w2, mi).map(e => e.t), ["Dodge", "Ohne"], "Events: und unten nicht mehr");
+  gleich([M.eventBis("2026-10-31", jetzt), M.eventBis("2026-11-01", jetzt), M.eventBis("2026-11-30", jetzt), M.eventBis("2026-12-01", jetzt), M.eventBis("2026-12-04", jetzt)],
+    ["heute", "morgen", "in 30 Tagen", "", ""], "Events: „in n Tagen“ nur bis 30 Tage");
+  // So 22:30 → nächste Woche; ein Event am Sonntag selbst steht dann unten mit „heute“
+  const so = Date.parse("2026-11-01T22:30:00+01:00"), w3 = M.wocheTage(so);
+  gleich([M.eventsWoche([{ t: "So", tag: "2026-11-01" }], w3, so).length, M.eventsSpaeter([{ t: "So", tag: "2026-11-01" }], w3, so).length], [0, 0], "Events: Sonntagabend nach Wochenwechsel — Event von heute weder oben noch unten");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);

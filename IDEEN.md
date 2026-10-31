@@ -403,7 +403,7 @@ sauberes Datum, dann auch Mitteilungen) bleibt offen. `robots.txt`: `User-agent:
 - **Events der Woche auch in „Unsere Woche“** (vom Nutzer) — am Tag des Events eine Zeile, Tippen öffnet die Event-Seite (oder den JK-Reiter).
 - Keine Mitteilungen bei Weg A (Datum nur geraten).
 
-**Stand 31.10. abends (vom Nutzer, nach Idee des Jugendkoordinators; ersetzt den Platz im JK-Reiter):**
+**Stand 31.10. abends (vom Nutzer, nach Idee des Jugendkoordinators; ersetzt den Platz im JK-Reiter) — gebaut 31.10., Fassung 31.10. neu a:**
 - **Nicht im Reiter Jugendkommission, sondern in „Unsere Woche“.** Unten Kasten **„Nächste Events des Vereins“**: Events nach dieser Woche,
   sortiert, Bild (Event-Bild oder Vereinslogo), „📅 Fr., 4.12.2026“, **„· in n Tagen“ nur bis 30 Tage** (sonst nur das Datum), Titel, Link
   „Mehr auf fckoeppchen.lu ›“. Keins geplant → „Im Moment sind keine Events geplant.“
