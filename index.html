@@ -473,17 +473,22 @@ function letztesHtml(v, now) {
   if (spieltagHeute(v, now) || (istKinder(v) && spieltagMorgen(v, now))) return "";
   const datum = sp => esc(wann(sp.d, false).split(" · ")[0]);
   if (v.team.kat === "Seniors") {
-    const sp = v.gespielt.find(s => Date.parse(s.d) <= now && !s.abgesagt && !s.coach && s.gespielt && s.hs != null);
+    // Das zuletzt gespielte Spiel, auch wenn die FLF noch kein Ergebnis hat (vom Nutzer, 31.10.2026: sonst stand nach dem
+    // Spiel noch das vorige da). Ohne Ergebnis nur bis 48 h — ein verlegtes Spiel behält bei der FLF sein altes Datum.
+    const mitErg = s => s.gespielt && s.hs != null;
+    const vorbei = v.gespielt.filter(s => Date.parse(s.d) <= now && !s.abgesagt && !s.coach);
+    const sp = vorbei.find(s => mitErg(s) || now - Date.parse(s.d) <= 48 * 36e5);
     if (!sp || now - Date.parse(sp.d) > 7 * 864e5) return "";
+    const erg = mitErg(sp);
     const liga = v.aktuell && v.aktuell.spiele.some(x => x.id === sp.id);
     // Platz = aktueller Stand der FLF-Tabelle, ohne weitere Prüfung (vom Nutzer, 31.10.2026: wie die Mitteilung „Tabelle“).
-    const zeile = liga && (v.aktuell.tabelle || []).find(r => v.eigen.has(r.id));
+    const zeile = erg && liga && (v.aktuell.tabelle || []).find(r => v.eigen.has(r.id));
     const unten = [liga ? esc(v.aktuell.n) : art(sp) ? esc(art(sp)) : "", zeile ? `jetzt <b>${zeile.pl}. Platz</b>` : ""].filter(Boolean).join(" · ");
-    return `<section class="card heute letztes"><div class="chead"><h2>Letztes Spiel</h2><span class="pill">Endstand</span></div><div class="cbody">
+    return `<section class="card heute letztes"><div class="chead"><h2>Letztes Spiel</h2><span class="pill">${erg ? "Endstand" : "Ergebnis folgt"}</span></div><div class="cbody">
       <div class="wann klein">${datum(sp)}${liga && sp.tag ? ` · Spieltag ${sp.tag}` : ""}</div>
       <div class="m" style="border:0"><div class="t h${v.ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
-      <div class="gross">${sp.hs}:${sp.as}</div><div class="t${v.ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
-      ${unten ? `<div class="zusatz">${unten}</div>` : ""}${rtlKnopf(sp, "▶ Ganzes Spiel ansehen · RTL")}${MOTTO}</div></section>`;
+      <div class="gross">${erg ? `${sp.hs}:${sp.as}` : "–:–"}</div><div class="t${v.ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
+      ${erg ? "" : `<div class="zusatz">Ergebnis kommt, sobald die FLF es einträgt.</div>`}${unten ? `<div class="zusatz">${unten}</div>` : ""}${rtlKnopf(sp, "▶ Ganzes Spiel ansehen · RTL")}${MOTTO}</div></section>`;
   }
   const nach = nachDemSpiel(v, now);
   if (!nach) return "";
@@ -741,7 +746,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "31.10.2026 neu g";
+const FASSUNG = "31.10.2026 neu h";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action

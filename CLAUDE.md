@@ -376,6 +376,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Neu w** (vom Nutzer): Hinweis „Phase … ist beendet“ (Platz, Auf-/Abstieg, neue Klasse fehlt) wieder ganz oben, über Heute-/Morgen-/Letztes-Kasten.
   **Neu v** (vom Nutzer): bei der Jugend steht beim nächsten Spiel auch der Platz („📍 …“ in neuer Zeile), wie schon bei den Bambinis. Das gespielte Spiel bleibt ohne Platz (Stadion nur bei kommenden Spielen); Bambinis haben ihn, weil dort der Gegner fehlt.
   **Neu u** (vom Nutzer bemerkt): Seniors haben keinen „Morgen Spieltag!“-Kasten (nur Kinder) — „Letztes Spiel“ verschwand am Vortag trotzdem, dann stand dort nichts. Jetzt bleibt er bei den Seniors bis zum Heute-Kasten; Kinder unverändert. Browser mit gestellter Uhr, Gegenprobe.
+  **31.10. neu h** (vom Nutzer: nach dem Spiel gegen Mondercange stand noch Bettemburg da): Seniors nehmen das zuletzt gespielte Spiel auch
+  ohne FLF-Ergebnis („Ergebnis folgt“, „–:–“, „Ergebnis kommt, sobald die FLF es einträgt.“, ohne Platz, RTL-Knopf schon da) — ohne Ergebnis nur
+  bis 48 h nach Anpfiff (verlegte Spiele behalten bei der FLF das alte Datum), danach wieder das letzte mit Ergebnis. Browser mit gestellter Uhr.
   **Neu s** (vom Nutzer): Platz erst, wenn die FLF-Tabelle nachgezogen ist (`tabelleFertig` in der App, gleiche Regel wie die Mitteilung „Tabelle“), sonst nur die Klasse; Bambinis mit vollem Platz „📍 Am Ga (Wormeldange, synth.)“ statt nur Ort. Browser: Tabelle hinkt → ohne Platz.
 - **Events des Vereins in „Unsere Woche“** (vom Nutzer, 31.10.2026, Fassung 31.10. neu a; Idee des Jugendkoordinators, Präsident einverstanden —
   der Verein hat die Rechte bei Clubee; Plan in IDEEN.md). `tools/vereins-events.mjs`: Startseite www.fckoeppchen.lu (Clubee) → Menü „Events“
