@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-31T22:32:23.257Z",
+ "stand": "2026-11-01T01:27:46.541Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -20520,9 +20520,9 @@
      "id": 44884,
      "n": "FC Wiltz 71"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 1,
+    "as": 1,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade Prince Henri (Walferdange)"
    },
@@ -23260,6 +23260,18 @@
    },
    {
     "pl": 8,
+    "id": 44598,
+    "n": "Résidence Walferdange",
+    "sp": 12,
+    "s": 5,
+    "u": 2,
+    "nl": 5,
+    "t": 21,
+    "g": 24,
+    "pkt": 17
+   },
+   {
+    "pl": 9,
     "id": 44586,
     "n": "F91 Dudelange",
     "sp": 12,
@@ -23268,18 +23280,6 @@
     "nl": 6,
     "t": 20,
     "g": 18,
-    "pkt": 16
-   },
-   {
-    "pl": 9,
-    "id": 44598,
-    "n": "Résidence Walferdange",
-    "sp": 11,
-    "s": 5,
-    "u": 1,
-    "nl": 5,
-    "t": 20,
-    "g": 23,
     "pkt": 16
    },
    {
@@ -23346,13 +23346,13 @@
     "pl": 15,
     "id": 44884,
     "n": "FC Wiltz 71",
-    "sp": 11,
+    "sp": 12,
     "s": 1,
-    "u": 2,
+    "u": 3,
     "nl": 8,
-    "t": 18,
-    "g": 31,
-    "pkt": 5
+    "t": 19,
+    "g": 32,
+    "pkt": 6
    },
    {
     "pl": 16,
