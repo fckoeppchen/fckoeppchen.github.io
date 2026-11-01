@@ -22,6 +22,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+  /* Kein Zoom bei schnellem Doppeltippen (vom Nutzer, 1.11.2026: 5× aufs Logo zoomte manchmal). Zwei Finger zoomen weiter. */
+  html{touch-action:manipulation}
   :root{
     /* Vereinsfarben: weiss, schwarz, ein bisschen Grün (das Türkis aus dem Logo). */
     --bg:#f3f4f3; --panel:#ffffff; --panel2:#f6f7f6; --line:#e1e4e2;
@@ -746,7 +748,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "31.10.2026 neu h";
+const FASSUNG = "1.11.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action

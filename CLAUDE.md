@@ -421,6 +421,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Seniors 1 zugeordnet (nur unsere Spiele, bei zwei Treffern am Tag keins) → `D.rtl.spiele` (FLF-Id → RTL-Id, 30 Tage). Gefragt beim ersten Mal,
   um 7 Uhr und an Tagen ±1 um ein Spiel der Seniors 1; Fehler → alter Stand. Datenschutz-Hinweis nennt den Knopf. Tests (440) mit Gegenprobe;
   Browser mit gestellter Uhr (vor/nach Anpfiff, Letztes Spiel, Seniors 2 ohne Knopf).
+- **Kein Doppeltipp-Zoom** (vom Nutzer, 1.11.2026, Fassung 1.11. neu a): schnelles 5× aufs Logo zoomte am iPhone manchmal → `html{touch-action:manipulation}`; Zoomen mit zwei Fingern geht weiter.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
 - **Fassung neu j — Durchsicht 22.10.2026** (auf Wunsch des Nutzers, mit zweiter unabhängiger Prüfung): (1) Spiele mit
