@@ -522,7 +522,7 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
   }).join("");
   // Gewählt je Mannschaft und Art, als Anzahl Handys (wer was gewählt hat, steht nirgends).
   const ART_KURZ = { heute: "Spiel steht an", neu: "Neue Phase/Spiel", spieltag: "Spieltag", tabelle: "Tabelle", uhrzeit: "Uhrzeit",
-    ticker: "Ticker", halbzeit: "Halbzeit", ende: "Endstand", woche: "Woche", tor: "Tore", trainer: "Trainer" };
+    ticker: "Ticker", halbzeit: "Halbzeit", ende: "Endstand", woche: "Neue Woche", event: "Neues Event", tor: "Tore", trainer: "Trainer" };
   const zahl = new Map();
   for (const a of abos) {
     let w = null; try { w = JSON.parse(a.wahl); } catch (e) {}
