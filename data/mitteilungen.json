@@ -26,6 +26,17 @@
    },
    "ab": 1793512800000,
    "bis": 1793599200000
+  },
+  {
+   "reiter": [
+    "Woche"
+   ],
+   "id": "woche:2026-11-02",
+   "art": "woche",
+   "titel": "Unsere Woche",
+   "text": "Diese Woche 4 Spiele, davon 3 zu Hause",
+   "ab": 1793610000000,
+   "bis": 1793653200000
   }
  ],
  "live": []
