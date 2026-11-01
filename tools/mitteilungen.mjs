@@ -33,7 +33,7 @@ const hatErgebnis = sp => sp.hs != null && sp.as != null;
 // Welche Arten es für welchen Reiter gibt (Tabelle im Plan). Woche hat nur „woche“.
 export const ARTEN = {
   heute: "Heute Spiel", spieltag: "Spieltag komplett", tabelle: "Tabelle aktualisiert",
-  uhrzeit: "Uhrzeit steht fest", neu: "Neue Phase / neues Spiel", trainer: "Trainer: neu, geändert, abgesagt", ticker: "Liveticker läuft", halbzeit: "Halbzeit", ende: "Endstand", woche: "Neue Woche",
+  uhrzeit: "Uhrzeit steht fest", neu: "Neue Phase / neues Spiel", trainer: "Trainer: neu, geändert, abgesagt", ticker: "Liveticker läuft", halbzeit: "Halbzeit", ende: "Endstand", woche: "Neue Woche", event: "Neues Event des Vereins",
 };
 
 // Spieltag komplett = alle Spiele um den Termin des Spieltags haben ein Ergebnis (vom Nutzer, 25.10.2026). Haupttermin =
@@ -298,6 +298,22 @@ export function ereignisse(alt, neu, vorher, now) {
     dazu({ reiter: ["Woche"], id: "woche:" + mo, art: "woche", titel: "Unsere Woche",
            text: `Diese Woche ${woche.length} ${woche.length === 1 ? "Spiel" : "Spiele"}, davon ${heim} zu Hause`,
            ab: umLux(mo, 10), bis: umLux(mo, 22) });
+  }
+
+  // Neues Event des Vereins (vom Nutzer, 1.11.2026): nur wenn eins dazukommt, nicht wenn eins wegfällt oder sich ändert.
+  // Neu = weder seine Adresse noch sein Tag standen vorher in der Liste (ein Kalender-Event, das später mit einer Seite
+  // zusammengelegt wird, wechselt die Adresse, bleibt aber am selben Tag). Ohne alte Liste (erster Lauf) nichts.
+  const altEv = alt?.events?.liste;
+  if (Array.isArray(altEv)) {
+    const urls = new Set(altEv.map(e => e.url)), tage = new Set(altEv.map(e => e.tag).filter(Boolean));
+    for (const e of neu?.events?.liste || []) {
+      if (urls.has(e.url) || (e.tag && tage.has(e.tag)) || e.abgesagt || (e.tag && e.tag < tagLux(now))) continue;
+      const wann = e.tag ? new Date(e.tag + "T12:00:00Z").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "numeric", year: "numeric", timeZone: "UTC" }) : "";
+      const zeit = e.von ? e.von + (e.bis ? "–" + e.bis : "") : "";
+      dazu({ reiter: ["Woche"], id: "event:" + e.url, art: "event", titel: "Neues Event",
+             text: [e.t, [wann, zeit].filter(Boolean).join(" · "), e.ort ? "📍 " + e.ort : ""].filter(Boolean).join("\n"),
+             ab: tagzeit(now) ? now : naechste7(now), bis: e.tag ? umLux(e.tag, 23) : now + 7 * 24 * H });
+    }
   }
 
   return { ereignisse: [...aus.values()].sort((x, y) => x.ab - y.ab || x.id.localeCompare(y.id)), live };

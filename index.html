@@ -748,7 +748,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "1.11.2026 neu a";
+const FASSUNG = "1.11.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1771,8 +1771,8 @@ async function mittHtml() {
     // Je Mannschaft ein Haken; angehakt klappen darunter ihre Mitteilungen auf, jede einzeln (vom Nutzer).
     const mannschaft = r => {
       const an = !!w.je[r], arten = mArtenFuer(r);
-      const kopf = `<label class="haken team"><input type="checkbox" data-t="${esc(r)}"${an ? " checked" : ""}> ${esc(r === "Woche" ? "Unsere Woche (montags 10 Uhr)" : r)}</label>`;
-      if (!an || r === "Woche") return `<div class="mteam">${kopf}</div>`;
+      const kopf = `<label class="haken team"><input type="checkbox" data-t="${esc(r)}"${an ? " checked" : ""}> ${esc(r === "Woche" ? "Unsere Woche" : r)}</label>`;
+      if (!an) return `<div class="mteam">${kopf}</div>`;
       return `<div class="mteam">${kopf}<div class="marten">${arten.map(k =>
         `<label class="haken"><input type="checkbox" data-t="${esc(r)}" data-a="${k}"${w.je[r].includes(k) ? " checked" : ""}> ${esc(mArtText(r, k))}</label>`).join("")}</div></div>`;
     };
@@ -1824,13 +1824,13 @@ function installHtml() {
 // Auswahl (Stufe 2, je Mannschaft einzeln, vom Nutzer 21.10.2026): { je: { "U13 2": ["tabelle"], … } },
 // gemerkt auf dem Handy und beim Worker (?push=wahl). Jede Mannschaft zeigt nur, was es bei ihr gibt.
 const M_ART_TEXT = { heute: "Heute Spiel (10 Uhr)", spieltag: "Spieltag komplett", tabelle: "Tabelle aktualisiert",
-  uhrzeit: "Uhrzeit steht fest (wenn vorher keine eingetragen war)", neu: "Neue Phase / neues Spiel", ticker: "Liveticker läuft", halbzeit: "Halbzeitstand (nur mit Ticker)", ende: "Endstand", woche: "Neue Woche",
+  uhrzeit: "Uhrzeit steht fest (wenn vorher keine eingetragen war)", neu: "Neue Phase / neues Spiel", ticker: "Liveticker läuft", halbzeit: "Halbzeitstand (nur mit Ticker)", ende: "Endstand", woche: "Neue Woche (montags 10 Uhr)", event: "Neues Event des Vereins",
   tor: "Tore (fast live, nur mit Ticker)", trainer: "Trainer: neu, geändert, abgesagt" };
 const mKat = r => (D?.teams || []).find(t => t.reiter === r || t.gruppe?.name === r)?.kat || r;
 function mArtenFuer(r) {
   if (r.endsWith(LIVE_ZUSATZ)) return mLive() ? LIVE_ARTEN_APP : [];
   const k = mKat(r);
-  if (r === "Woche") return ["woche"];
+  if (r === "Woche") return ["woche", "event"];   // „Neues Event“ seit 1.11.2026 (vom Nutzer)
   if (r === "BGL") return ["spieltag"];
   // Ticker, Halbzeit und Tore gibt es nur über die FuPa-Schnittstelle; der Endstand kommt sonst von der FLF (Roude Léiw: aus den Daten).
   const tor = mTore() ? ["tor"] : [], live = FUPA_API ? ["ticker", "halbzeit", ...tor] : [];

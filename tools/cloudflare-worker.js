@@ -430,7 +430,7 @@ export async function pushAnfrage(req, db, was, env = {}) {
 // noch am selben Abend); was nachts fällig wird, wartet bis 7 Uhr (solange
 // `bis` nicht vorbei ist). Jede id geht nur einmal raus (Tabelle gemeldet).
 const MITT_URL = "https://raw.githubusercontent.com/fckoeppchen/fckoeppchen.github.io/main/data/mitteilungen.json";
-const MITT_ARTEN = ["heute", "spieltag", "tabelle", "uhrzeit", "neu", "ticker", "halbzeit", "ende", "woche", "tor", "trainer"];
+export const MITT_ARTEN = ["heute", "spieltag", "tabelle", "uhrzeit", "neu", "ticker", "halbzeit", "ende", "woche", "event", "tor", "trainer"];   // „event“ seit 1.11.2026
 // Tore als Mitteilung (vom Nutzer, 23.10.2026; in der App vorerst nur mit eigenem Code wählbar): FuPas Tore mit eigener
 // id und Stand nach dem Tor. Nur Tore der letzten 20 min — sonst kämen nach einem Neustart oder spät gefundenem Spiel alle alten.
 export const toreRoh = f => (f.highlights || []).filter(x => x.type === "goal" && x.id != null)

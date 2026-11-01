@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGruppe, natiTabelle, fupaTabelleMitFlfNamen, reserveSlugs, icsGruppe } from "../tools/fussball.mjs";
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
-import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel, ichZaehlen, WAHL_OK } from "../tools/cloudflare-worker.js";
+import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel, ichZaehlen, WAHL_OK, MITT_ARTEN } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux, spieltagStand } from "../tools/mitteilungen.mjs";
 import { FUPA } from "../tools/fupa-modus.mjs";
 // Die Live-Teile werden mit FuPa-Schnittstelle geprüft (Schalter aus 29.10.2026); der Widget-Betrieb hat eigene Prüfungen.
@@ -1398,6 +1398,26 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   gleich(rtlZuordnen(D, [{ id: 1, tag: "2026-10-31" }, { id: 2, tag: "2026-10-31" }], null, jetzt), {}, "RTL: zwei Treffer am selben Tag → lieber keiner");
   ok(rtlFaellig(D, null, jetzt) && rtlFaellig(D, { wettbewerbe: [475] }, jetzt) && !rtlFaellig(D, { wettbewerbe: [475] }, Date.parse("2026-10-28T12:00:00+01:00"))
     && rtlFaellig(D, { wettbewerbe: [475] }, Date.parse("2026-10-28T07:10:00+01:00")), "RTL: erstes Mal, Spieltag ±1 und 7 Uhr — sonst nicht");
+}
+
+// ---- Mitteilung „Neues Event“ (vom Nutzer, 1.11.2026): nur wenn eins dazukommt ----
+{
+  const jetzt = Date.parse("2026-11-02T12:00:00+01:00"), nacht = Date.parse("2026-11-02T23:30:00+01:00");
+  const leer = ev => ({ teams: [], klassen: {}, events: ev && { liste: ev } });
+  const a = { t: "Bamverkaf", url: "u/a", tag: "2026-12-04", von: "17:00", bis: "21:00", ort: "Terrain" };
+  const b = { t: "Dodge", url: "u/b", tag: "2027-06-19" };
+  const evs = (alt, neu, t = jetzt) => mEreignisse(alt, neu, null, t).ereignisse.filter(e => e.art === "event");
+  const m = evs(leer([a]), leer([a, b]));
+  ok(m.length === 1 && m[0].id === "event:u/b" && m[0].titel === "Neues Event" && m[0].reiter.includes("Woche") && m[0].ab === jetzt, "Event: neues Event → eine Mitteilung");
+  ok(evs(leer([]), leer([a]))[0]?.text === "Bamverkaf\nFr., 4.12.2026 · 17:00–21:00\n📍 Terrain", "Event: Text mit Datum, Uhrzeit, Ort — ist " + JSON.stringify(evs(leer([]), leer([a]))[0]?.text));
+  ok(!evs(leer([a, b]), leer([a])).length, "Event: eins fällt weg → nichts");
+  ok(!evs(leer([a]), leer([{ ...a, von: "18:00" }])).length, "Event: geändert → nichts");
+  ok(!evs(leer([a]), leer([{ ...a, url: "u/a2" }])).length, "Event: andere Adresse am selben Tag (zusammengelegt) → nichts");
+  ok(!evs(leer(null), leer([a])).length, "Event: erster Lauf ohne alte Liste → nichts");
+  ok(!evs(leer([]), leer([{ ...b, tag: "2026-10-01" }])).length && !evs(leer([]), leer([{ ...b, abgesagt: true }])).length, "Event: vergangen oder abgesagt → nichts");
+  ok(evs(leer([]), leer([b]), nacht)[0]?.ab === Date.parse("2026-11-03T07:00:00+01:00"), "Event: nachts gefunden → ab 7 Uhr");
+  ok(passtZu({ je: { Woche: ["woche", "event"] } }, { reiter: ["Woche"], art: "event" }) && !passtZu({ je: { Woche: ["woche"] } }, { reiter: ["Woche"], art: "event" }), "Event: nur mit Haken");
+  ok(MITT_ARTEN.includes("event"), "Event: Worker speichert den Haken (sonst fiele er bei ?push=wahl weg)");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);
