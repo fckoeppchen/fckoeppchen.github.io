@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-02T11:01:44.764Z",
+ "stand": "2026-11-02T21:16:51.284Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -5710,9 +5710,9 @@
       "id": 45863,
       "n": "Una Strassen I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 7,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Jos Bloes (Bascharage, synth.)"
     },
