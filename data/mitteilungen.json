@@ -26,26 +26,34 @@
    "text": "Spieltag 11 komplett: Koeppchen 1:4 FC Mondercange · alle Ergebnisse in der App",
    "ab": 1793617316241,
    "bis": 1793703716241
+  },
+  {
+   "reiter": [
+    "Seniors 2"
+   ],
+   "id": "ende:1011072",
+   "art": "ende",
+   "titel": "Seniors 2 · Endstand",
+   "text": "Koeppchen I 8:3 FC Lorentzweiler",
+   "ab": 1793658712236,
+   "bis": 1793723512236
+  },
+  {
+   "reiter": [
+    "Seniors 2"
+   ],
+   "id": "tabelle:18918:45403:7:10:7:2026-11-03",
+   "art": "tabelle",
+   "titel": "Seniors 2 · Tabelle",
+   "text": "Koeppchen I jetzt 7. Platz (vorher 9.) · 10 Punkte aus 7 Spielen",
+   "basis": {
+    "pl": 9,
+    "pkt": 7,
+    "sp": 6
+   },
+   "ab": 1793685600000,
+   "bis": 1793772000000
   }
  ],
- "live": [
-  {
-   "id": 1011072,
-   "reiter": [
-    "Seniors 2 · live"
-   ],
-   "titel": "📡 Seniors 2",
-   "d": "2026-11-02T20:00:00+01:00",
-   "h": "Koeppchen I",
-   "a": "FC Lorentzweiler",
-   "wirHeim": true,
-   "gegner": "FC Lorentzweiler",
-   "anstoss": "2026-11-02T20:00:00+01:00",
-   "fupaTeam": "mr1",
-   "fupaWir": "fc-koeppchen",
-   "ticker": "lticker:1011072",
-   "halbzeit": "lhalbzeit:1011072",
-   "ende": "ende-live:1011072"
-  }
- ]
+ "live": []
 }

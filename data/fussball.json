@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-02T21:16:51.284Z",
+ "stand": "2026-11-02T22:31:42.642Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -4818,35 +4818,35 @@
      "pl": 1,
      "id": 45863,
      "n": "Una Strassen I",
-     "sp": 6,
-     "s": 5,
+     "sp": 7,
+     "s": 6,
      "u": 0,
      "nl": 1,
-     "t": 33,
+     "t": 40,
      "g": 16,
-     "pkt": 15
+     "pkt": 18
     },
     {
      "pl": 2,
-     "id": 45624,
-     "n": "FC Differdange 03",
-     "sp": 6,
-     "s": 4,
+     "id": 44791,
+     "n": "Atert Bissen I",
+     "sp": 7,
+     "s": 5,
      "u": 1,
      "nl": 1,
-     "t": 26,
-     "g": 8,
-     "pkt": 13
+     "t": 31,
+     "g": 14,
+     "pkt": 16
     },
     {
      "pl": 3,
-     "id": 44791,
-     "n": "Atert Bissen I",
-     "sp": 6,
+     "id": 45624,
+     "n": "FC Differdange 03",
+     "sp": 7,
      "s": 4,
      "u": 1,
-     "nl": 1,
-     "t": 26,
+     "nl": 2,
+     "t": 27,
      "g": 13,
      "pkt": 13
     },
@@ -4864,30 +4864,54 @@
     },
     {
      "pl": 5,
-     "id": 44553,
-     "n": "Union Titus Pétange I",
-     "sp": 6,
+     "id": 44750,
+     "n": "Victoria Rosport",
+     "sp": 7,
      "s": 3,
-     "u": 1,
+     "u": 2,
      "nl": 2,
-     "t": 18,
-     "g": 16,
-     "pkt": 10
+     "t": 13,
+     "g": 15,
+     "pkt": 11
     },
     {
      "pl": 6,
-     "id": 45230,
-     "n": "U.N. Käerjeng 97 I",
-     "sp": 6,
+     "id": 44553,
+     "n": "Union Titus Pétange I",
+     "sp": 7,
      "s": 3,
-     "u": 0,
+     "u": 1,
      "nl": 3,
-     "t": 17,
-     "g": 21,
-     "pkt": 9
+     "t": 21,
+     "g": 20,
+     "pkt": 10
     },
     {
      "pl": 7,
+     "id": 45403,
+     "n": "FC Koeppchen Wormeldange I",
+     "sp": 7,
+     "s": 3,
+     "u": 1,
+     "nl": 3,
+     "t": 23,
+     "g": 22,
+     "pkt": 10
+    },
+    {
+     "pl": 8,
+     "id": 45230,
+     "n": "U.N. Käerjeng 97 I",
+     "sp": 7,
+     "s": 3,
+     "u": 0,
+     "nl": 4,
+     "t": 17,
+     "g": 28,
+     "pkt": 9
+    },
+    {
+     "pl": 9,
      "id": 44981,
      "n": "Racing FC Union Luxembourg",
      "sp": 7,
@@ -4897,30 +4921,6 @@
      "t": 22,
      "g": 25,
      "pkt": 8
-    },
-    {
-     "pl": 8,
-     "id": 44750,
-     "n": "Victoria Rosport",
-     "sp": 6,
-     "s": 2,
-     "u": 2,
-     "nl": 2,
-     "t": 9,
-     "g": 12,
-     "pkt": 8
-    },
-    {
-     "pl": 9,
-     "id": 45403,
-     "n": "FC Koeppchen Wormeldange I",
-     "sp": 6,
-     "s": 2,
-     "u": 1,
-     "nl": 3,
-     "t": 15,
-     "g": 19,
-     "pkt": 7
     },
     {
      "pl": 10,
@@ -4950,12 +4950,12 @@
      "pl": 12,
      "id": 46224,
      "n": "FC Lorentzweiler",
-     "sp": 6,
+     "sp": 7,
      "s": 1,
      "u": 0,
-     "nl": 5,
-     "t": 8,
-     "g": 24,
+     "nl": 6,
+     "t": 11,
+     "g": 32,
      "pkt": 3
     }
    ],
@@ -5656,9 +5656,9 @@
       "id": 45624,
       "n": "FC Differdange 03"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 5,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Klengbousbierg 2 (Bissen, synth.)"
     },
@@ -5692,9 +5692,9 @@
       "id": 46224,
       "n": "FC Lorentzweiler"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 8,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
     },
