@@ -427,6 +427,10 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   später mit einer Seite zusammengelegt wird, wechselt die Adresse am selben Tag); weggefallen/geändert/abgesagt/vergangen → nichts, erster Lauf
   ohne alte Liste → nichts. Titel „Neues Event“, Text Titel / „Fr., 4.12.2026 · 17:00–21:00“ / „📍 Ort“, id `event:<url>`, nachts ab 7:00.
   Worker: `event` in `MITT_ARTEN` (sonst fällt der Haken bei `?push=wahl` weg). Tests (450) mit Gegenprobe, Zahnrad im Browser. **Worker neu einfügen nötig.**
+- **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
+  aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
+  bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
+  für sichtbare Mitteilungen; Fokus/Schlafmodus bleiben wirksam). Test prüft den Kopf, Gegenprobe. **Worker neu einfügen nötig.** Beim nächsten 7-Uhr-Versand nachsehen.
 - **Kein Doppeltipp-Zoom** (vom Nutzer, 1.11.2026, Fassung 1.11. neu a): schnelles 5× aufs Logo zoomte am iPhone manchmal → `html{touch-action:manipulation}`; Zoomen mit zwei Fingern geht weiter.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.

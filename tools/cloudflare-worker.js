@@ -360,11 +360,14 @@ async function kopfFuer(z, endpoint, jetzt = Date.now()) {
   KOEPFE.set(her, { kopf, oeff: z.oeffentlich, bis: jetzt + 6 * 3600e3 });
   return kopf;
 }
+// Dringlichkeit „high“ (vom Nutzer, 2.11.2026): mit „normal“ kamen die nachts aufgehobenen 7-Uhr-Mitteilungen auf einem
+// iPhone nie an (Apple nahm sie an, keine Empfangsbestätigung), alle anderen schon. Apple empfiehlt „high“ für sichtbare Mitteilungen.
+export const DRINGLICHKEIT = "high";
 export async function pushSenden(db, abo, nachricht, ttl = 3600) {
   const z = await vapid(db);
   return fetch(abo.endpoint, {
     method: "POST",
-    headers: { authorization: await kopfFuer(z, abo.endpoint), "content-encoding": "aes128gcm", "content-type": "application/octet-stream", ttl: String(ttl), urgency: "normal" },
+    headers: { authorization: await kopfFuer(z, abo.endpoint), "content-encoding": "aes128gcm", "content-type": "application/octet-stream", ttl: String(ttl), urgency: DRINGLICHKEIT },
     body: await verschluesseln(abo, JSON.stringify(nachricht)),
   });
 }

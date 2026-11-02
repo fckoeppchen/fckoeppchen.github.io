@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { aufbereiten, spiel, reiter, ics, eigeneSpiele, CLUB, natiSpiel, natiGruppe, natiTabelle, fupaTabelleMitFlfNamen, reserveSlugs, icsGruppe } from "../tools/fussball.mjs";
 import { liveAus, gleich as liveGleich, spielJetzt, naechstesSpiel, passendesSpiel } from "../tools/fussball-live.mjs";
-import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel, ichZaehlen, WAHL_OK, MITT_ARTEN } from "../tools/cloudflare-worker.js";
+import worker, { kuerzen, passendesSpiel as wPassend, saisonVon, abrufFaellig, zaehlen, zahlenSeite, stundeLux, ansehen, verschluesseln, vapidKopf, mitteilungenSenden, passtZu, liveEreignisse, mittStatus, mitteilungenStand, PAKET, tagzeit, toreRoh, fupaSpiel, ichZaehlen, WAHL_OK, MITT_ARTEN, DRINGLICHKEIT } from "../tools/cloudflare-worker.js";
 import { ereignisse as mEreignisse, umLux, spieltagStand } from "../tools/mitteilungen.mjs";
 import { FUPA } from "../tools/fupa-modus.mjs";
 // Die Live-Teile werden mit FuPa-Schnittstelle geprüft (Schalter aus 29.10.2026); der Widget-Betrieb hat eigene Prüfungen.
@@ -718,7 +718,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const pub = await crypto.subtle.importKey("raw", Buffer.from(k || "", "base64url"), { name: "ECDSA", namedCurve: "P-256" }, false, ["verify"]).catch(() => null);
   const echtSig = pub && await crypto.subtle.verify({ name: "ECDSA", hash: "SHA-256" }, pub, Buffer.from(sig, "base64url"), te.encode(h + "." + c));
   const nutz = JSON.parse((await ent(new Uint8Array(o.body))).text);
-  ok(t1.status === 200 && url === abo.endpoint && o.headers["content-encoding"] === "aes128gcm" && o.headers.ttl && k === s1.schluessel && echtSig
+  ok(t1.status === 200 && url === abo.endpoint && o.headers["content-encoding"] === "aes128gcm" && o.headers.ttl && o.headers.urgency === "high" && k === s1.schluessel && echtSig
      && JSON.parse(Buffer.from(c, "base64url")).aud === "https://web.push.apple.com" && /Test-Mitteilung/.test(nutz.titel) && /So sehen/.test(nutz.text), "Push: Test-Mitteilung mit gültiger Unterschrift an Apple");
   ok((await anfrage("test", { endpoint: abo.endpoint })).status === 429 && gesendet.length === 1, "Push: zweiter Test innerhalb 20 s gebremst");
   // Abo beim Dienst weg (410) → Worker vergisst es.
@@ -1418,6 +1418,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(evs(leer([]), leer([b]), nacht)[0]?.ab === Date.parse("2026-11-03T07:00:00+01:00"), "Event: nachts gefunden → ab 7 Uhr");
   ok(passtZu({ je: { Woche: ["woche", "event"] } }, { reiter: ["Woche"], art: "event" }) && !passtZu({ je: { Woche: ["woche"] } }, { reiter: ["Woche"], art: "event" }), "Event: nur mit Haken");
   ok(MITT_ARTEN.includes("event"), "Event: Worker speichert den Haken (sonst fiele er bei ?push=wahl weg)");
+  ok(DRINGLICHKEIT === "high", "Push: Dringlichkeit high (7-Uhr-Mitteilungen kamen mit normal nicht an)");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);
