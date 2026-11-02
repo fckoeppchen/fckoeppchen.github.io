@@ -748,7 +748,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "1.11.2026 neu b";
+const FASSUNG = "2.11.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1871,12 +1871,32 @@ function mAufraeumen() {
   if (roh && roh !== sauber) { try { localStorage.setItem(KEY + "_mwahl", sauber); } catch (e) {} setTimeout(mWahlSenden, 0); }
   return "";
 }
+// Was der Worker bekommt: die Auswahl, ohne „· live“, wenn der Haupt-Haken aus ist.
+function wahlFuerWorker() {
+  const w = mWahl();
+  if (!liveAn()) for (const r of Object.keys(w.je)) if (r.endsWith(LIVE_ZUSATZ)) delete w.je[r];
+  return w;
+}
+// Täglicher Abgleich (vom Nutzer, 2.11.2026): einmal am Tag beim Öffnen schickt die App ihre Abo-Adresse und Auswahl an den
+// Worker. Kennt er die Adresse nicht mehr (404: z. B. von Apple gewechselt oder gelöscht), meldet sie das Handy still neu an.
+// So hat der Worker immer genau das, was im Zahnrad steht. Kein neues Abo, wenn keins da ist (dann hat sich jemand abgemeldet).
+const ABGLEICH = KEY + "_abgleich";
+async function mAbgleich(now = Date.now()) {
+  if (!mitt() || !WORKER_URL || typeof Notification === "undefined" || Notification.permission !== "granted") return;
+  try { if (localStorage.getItem(ABGLEICH) === tagLux(now)) return; } catch (e) { return; }
+  const reg = await swReg().catch(() => null), abo = reg && await reg.pushManager.getSubscription().catch(() => null);
+  if (!abo) return;
+  let a = await pushPost("wahl", { endpoint: abo.endpoint, ...wahlFuerWorker() }).catch(() => null);
+  if (a?.status === 404 && (await pushPost("anmelden", abo.toJSON()).catch(() => null))?.ok)
+    a = await pushPost("wahl", { endpoint: abo.endpoint, ...wahlFuerWorker() }).catch(() => null);
+  if (a?.ok) try { localStorage.setItem(ABGLEICH, tagLux(now)); } catch (e) {}
+}
+setTimeout(mAbgleich, 8000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) setTimeout(mAbgleich, 3000); });
 async function mWahlSenden() {
   const reg = await swReg(), abo = reg && await reg.pushManager.getSubscription();
   if (!abo) return;
-  const w = mWahl();
-  if (!liveAn()) for (const r of Object.keys(w.je)) if (r.endsWith(LIVE_ZUSATZ)) delete w.je[r];
-  const a = await pushPost("wahl", { endpoint: abo.endpoint, ...w }).catch(() => ({ ok: false }));
+  const a = await pushPost("wahl", { endpoint: abo.endpoint, ...wahlFuerWorker() }).catch(() => ({ ok: false }));
   MITT_STAND = a.ok ? "Gespeichert." : "Speichern ging nicht (" + (a.status || "?") + ").";
   const st = document.getElementById("mStand"); if (st) st.textContent = MITT_STAND;
 }

@@ -431,6 +431,13 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
   für sichtbare Mitteilungen; Fokus/Schlafmodus bleiben wirksam). Test prüft den Kopf, Gegenprobe. **Worker neu einfügen nötig.** Beim nächsten 7-Uhr-Versand nachsehen.
+- **Täglicher Abgleich der Mitteilungen** (vom Nutzer, 2.11.2026, Fassung 2.11. neu a): Anlass — beim Nutzer fehlten einzelne Mitteilungen
+  („an 5 von 5, angekommen auf 4“); vermutlich ein altes Abo nach Neuinstallation mit anderer Auswahl. `mAbgleich()`: einmal am Tag
+  (`fussball_v1_abgleich` = Tag) 8 s nach dem Start bzw. beim Zurückkommen schickt die App `?push=wahl` mit Adresse + Auswahl
+  (`wahlFuerWorker`, gleiche Regel wie `mWahlSenden`); 404 (Worker kennt die Adresse nicht) → still `?push=anmelden` (Höchstzahl gilt) und
+  nochmal `wahl`. Nur mit `mitt()`, Erlaubnis und vorhandenem Abo — legt nie ein neues an. Worker unverändert. Tote Adressen räumt weiter
+  nur Apple weg (410); „zuletzt gesehen“ je Abo bewusst nicht gebaut (vom Nutzer besprochen: verwirrt, App-Öffnen ≠ lebt). Browser-Test
+  mit nachgebautem Worker: normal 1 Aufruf, 404 → wahl/anmelden/wahl, am selben Tag kein zweiter, ohne Code/Erlaubnis/Abo nichts.
 - **Kein Doppeltipp-Zoom** (vom Nutzer, 1.11.2026, Fassung 1.11. neu a): schnelles 5× aufs Logo zoomte am iPhone manchmal → `html{touch-action:manipulation}`; Zoomen mit zwei Fingern geht weiter.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
