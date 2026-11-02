@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-01T06:01:39.142Z",
+ "stand": "2026-11-02T01:48:32.442Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -7383,6 +7383,18 @@
     },
     {
      "pl": 4,
+     "id": 46587,
+     "n": "Olympia Christnach-Waldbillig I",
+     "sp": 7,
+     "s": 4,
+     "u": 1,
+     "nl": 2,
+     "t": 15,
+     "g": 12,
+     "pkt": 13
+    },
+    {
+     "pl": 5,
      "id": 45708,
      "n": "Alisontia Steinsel",
      "sp": 7,
@@ -7394,7 +7406,7 @@
      "pkt": 11
     },
     {
-     "pl": 5,
+     "pl": 6,
      "id": 45404,
      "n": "FC Koeppchen Wormeldange II",
      "sp": 6,
@@ -7403,18 +7415,6 @@
      "nl": 2,
      "t": 15,
      "g": 13,
-     "pkt": 10
-    },
-    {
-     "pl": 6,
-     "id": 46587,
-     "n": "Olympia Christnach-Waldbillig I",
-     "sp": 6,
-     "s": 3,
-     "u": 1,
-     "nl": 2,
-     "t": 12,
-     "g": 12,
      "pkt": 10
     },
     {
@@ -7481,12 +7481,12 @@
      "pl": 12,
      "id": 44559,
      "n": "AS Rupensia Lusitanos Larochette",
-     "sp": 6,
+     "sp": 7,
      "s": 0,
      "u": 0,
-     "nl": 6,
+     "nl": 7,
      "t": 4,
-     "g": 40,
+     "g": 43,
      "pkt": 0
     }
    ],
