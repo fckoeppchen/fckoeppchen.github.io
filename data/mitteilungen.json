@@ -2,22 +2,6 @@
  "ereignisse": [
   {
    "reiter": [
-    "Seniors 1"
-   ],
-   "id": "tabelle:18888:44831:11:11:13:2026-11-01",
-   "art": "tabelle",
-   "titel": "Seniors 1 · Tabelle",
-   "text": "Koeppchen jetzt 13. Platz · 11 Punkte aus 11 Spielen",
-   "basis": {
-    "pl": 13,
-    "pkt": 11,
-    "sp": 10
-   },
-   "ab": 1793512800000,
-   "bis": 1793599200000
-  },
-  {
-   "reiter": [
     "Seniors 3"
    ],
    "id": "tabelle:18936:45404:6:10:6:2026-11-02",
