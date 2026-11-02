@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-02T06:02:04.962Z",
+ "stand": "2026-11-02T11:01:44.764Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -343,12 +343,12 @@
      "pl": 5,
      "id": 44560,
      "n": "Union Titus Pétange",
-     "sp": 10,
+     "sp": 11,
      "s": 5,
      "u": 4,
-     "nl": 1,
-     "t": 29,
-     "g": 23,
+     "nl": 2,
+     "t": 30,
+     "g": 25,
      "pkt": 19
     },
     {
@@ -475,13 +475,13 @@
      "pl": 16,
      "id": 44650,
      "n": "Marisca Mersch",
-     "sp": 10,
-     "s": 0,
+     "sp": 11,
+     "s": 1,
      "u": 1,
      "nl": 9,
-     "t": 6,
-     "g": 25,
-     "pkt": 1
+     "t": 8,
+     "g": 26,
+     "pkt": 4
     }
    ],
    "spiele": [
@@ -2027,9 +2027,9 @@
       "id": 44560,
       "n": "Union Titus Pétange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Schintgespesch (Mersch)"
     },
