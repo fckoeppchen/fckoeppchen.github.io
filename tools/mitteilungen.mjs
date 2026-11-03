@@ -164,7 +164,7 @@ export function ereignisse(alt, neu, vorher, now) {
       const unser = k.spiele.find(sp => sp.tag === tag && ist(sp));
       // Titel kurz (iOS schneidet ihn nach ~20 Zeichen ab, vom Nutzer 25.10.2026: „Seniors 1 · Spieltag 1…“), „komplett“ in den Text.
       dazu({ reiter: [t.reiter], id: `spieltag:${k.id}:${tag}`, art: "spieltag", titel: `${t.reiter} · Spieltag`,
-             text: `Spieltag ${tag} komplett${verlegtText(sn)}: ` + (unser ? (hatErgebnis(unser) ? `${kurz(unser.h.n)} ${unser.hs}:${unser.as} ${kurz(unser.a.n)} · ` : "unser Spiel noch offen · ") : "") + "alle Ergebnisse in der App",
+             text: `Spieltag ${tag} komplett${verlegtText(sn)}: ` + (unser ? (hatErgebnis(unser) ? `${kurz(unser.h.n)} ${unser.hs}:${unser.as} ${kurz(unser.a.n)} · ` : abgebrochen(unser) ? "unser Spiel abgebrochen · " : "unser Spiel noch offen · ") : "") + "alle Ergebnisse in der App",
              ab: now, bis: now + 24 * H });
     }
     // Tabelle (vom Nutzer, 31.10.2026, ersetzt alle früheren Tabellen-Regeln): immer dann, wenn sich in der FLF-Tabelle bei UNS

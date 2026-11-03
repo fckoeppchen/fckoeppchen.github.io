@@ -853,6 +853,12 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     const ek = mEreignisse(fehlt, (() => { const d = neuD(); d.klassen.k1.spiele.push(sp(105, "2026-10-18T15:00:00+02:00", 5, [13, "FC Remich"], [14, "AS Hosingen"], 1, 1));
       d.klassen.k1.tabelle.push({ pl: 3, id: 13, n: "FC Remich", sp: 2, pkt: 2 }, { pl: 4, id: 14, n: "AS Hosingen", sp: 1, pkt: 1 }); return d; })(), null, jetzt).ereignisse;
     ok(ek.some(e => e.id === "spieltag:k1:5"), "Mitteilung: nachgetragenes Spiel → Spieltag komplett");
+    // Unser Spiel abgebrochen ohne Wertung → „unser Spiel abgebrochen“ (vom Nutzer, 3.11.2026).
+    const ab5 = neuD(); ab5.klassen.k1.spiele.push(sp(107, "2026-10-18T15:00:00+02:00", 5, [13, "FC Remich"], [14, "AS Hosingen"], 2, 0));
+    const unser5 = ab5.klassen.k1.spiele.find(x => x.tag === 5 && (x.h.id === 1 || x.a.id === 1));
+    Object.assign(unser5, { hs: 0, as: 0, gespielt: false, bem: "Arrêté" });
+    const ea = mEreignisse(alt, ab5, null, jetzt).ereignisse.find(e => e.id === "spieltag:k1:5");
+    ok(ea?.text.startsWith("Spieltag 5 komplett (1 Spiel abgebrochen): unser Spiel abgebrochen · "), "Mitteilung: unser Spiel abgebrochen — ist " + ea?.text);
     // Verlegtes Spiel mit altem Datum (über 3 Tage her, ohne Ergebnis) hält nicht auf; steht im Titel.
     const vl = neuD(); vl.klassen.k1.spiele.push(sp(106, "2026-10-16T20:00:00+02:00", 5, [13, "FC Remich"], [14, "AS Hosingen"]));
     const ev = mEreignisse(alt, vl, null, jetzt + 2 * 864e5).ereignisse.find(e => e.id === "spieltag:k1:5");

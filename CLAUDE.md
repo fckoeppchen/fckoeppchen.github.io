@@ -455,7 +455,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Neu c** (vom Nutzer): Auswahl beim Spiel: jede Mannschaft einzeln + je Altersklasse „Minimes – alle (MIN 1 + 2)“ (Name aus `gruppe`), keine Teilmengen wie 2+3.
 - **Abgebrochen ohne Wertung** (3.11.2026, Fassung 3.11. neu d; F91 Dudelange – Walferdange am 2.11.: FLF „Arrêté“, 0:0 ohne Endergebnis,
   `isPlayed` false): zählt in `tools/mitteilungen.mjs` nicht als Ergebnis (`abgebrochen`, `hatErgebnis`), hält „Spieltag komplett“ aber nicht auf —
-  Text „Spieltag 7 komplett (1 Spiel abgebrochen): …“ (`verlegtText`). App: in „Alle Spiele der Klasse“ „abgebrochen, Wertung offen“ (`offenMeta`).
+  Text „Spieltag 7 komplett (1 Spiel abgebrochen): …“ (`verlegtText`); ist es unser Spiel: „… unser Spiel abgebrochen · …“ (vom Nutzer). App: in „Alle Spiele der Klasse“ „abgebrochen, Wertung offen“ (`offenMeta`).
   Die schon wartende Mitteilung vom 3.11. (`spieltag:18918:7`) von Hand in data/mitteilungen.json nachgetragen. Tests (464) mit Gegenprobe.
 - **Kein Doppeltipp-Zoom** (vom Nutzer, 1.11.2026, Fassung 1.11. neu a): schnelles 5× aufs Logo zoomte am iPhone manchmal → `html{touch-action:manipulation}`; Zoomen mit zwei Fingern geht weiter.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
