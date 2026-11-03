@@ -755,6 +755,9 @@ export async function coachOeffentlich(db, now = Date.now()) {
   return results.map(r => spielAus(r, false));
 }
 export const coachTeile = reiter => String(reiter || "").split("+").filter(Boolean);
+// Rechte je Altersklasse (vom Nutzer, 3.11.2026): „MIN“ gilt für jede MIN-Mannschaft (MIN 1, MIN 2, später MIN 3 …),
+// „Seniors 1“ (endet auf eine Zahl) nur für sich selbst. Alte Rechte „MIN 1“ gelten weiter genau für MIN 1.
+export const teamPasst = (rechte, r) => (rechte || []).some(g => g === r || (!/\d$/.test(g) && String(r).startsWith(g + " ")));
 const istVerwalter = w => w.rolle === "chef" || w.rolle === "admin";
 // Wer darf diese Person verwalten? Chef alle, Verwalter nur Trainer, sich selbst nie (Chef ist keine Person in der Tabelle).
 const darfPerson = (w, t) => !!t && (w.rolle === "chef" || (w.rolle === "admin" && t.rolle === "trainer"));
@@ -793,7 +796,7 @@ export async function coachAnfrage(req, db, was, env = {}, now = Date.now()) {
     const ab = tagLuxNow(now - 60 * 864e5);
     // Trainer sehen alle Spiele ihrer Mannschaften, egal wer sie eingetragen hat (vom Nutzer, 27.10.2026: sonst doppelt).
     const { results } = await db.prepare("SELECT * FROM coach_spiel WHERE datum >= ?1 ORDER BY datum, zeit, id").bind(ab).all();
-    const aus = { ...coachIch(w), spiele: results.filter(r => verw || coachTeile(r.reiter).some(t => w.teams.includes(t))).map(r => spielAus(r, true)) };
+    const aus = { ...coachIch(w), spiele: results.filter(r => verw || coachTeile(r.reiter).some(t => teamPasst(w.teams, t))).map(r => spielAus(r, true)) };
     if (verw) {
       const codes = (await db.prepare("SELECT id, trainer_id, eingeloest, seit FROM coach_code ORDER BY id").all()).results;
       const geraete = (await db.prepare("SELECT trainer_id, COUNT(*) AS n FROM coach_geraet GROUP BY trainer_id").all()).results;
@@ -808,7 +811,7 @@ export async function coachAnfrage(req, db, was, env = {}, now = Date.now()) {
   // Trainer: alle Spiele seiner Mannschaften (auch von anderen eingetragene, vom Nutzer); Chef und Verwalter alles.
   const darf = async id => {
     const r = await db.prepare("SELECT * FROM coach_spiel WHERE id = ?1").bind(Number(id) || 0).first();
-    return r && (verw || coachTeile(r.reiter).some(t => w.teams.includes(t))) ? r : null;
+    return r && (verw || coachTeile(r.reiter).some(t => teamPasst(w.teams, t))) ? r : null;
   };
   if (was === "speichern") {
     const s = coachSpielPruefen(x.spiel, now);
@@ -816,8 +819,8 @@ export async function coachAnfrage(req, db, was, env = {}, now = Date.now()) {
     let id;
     // Neue Mannschaften nur eigene; was schon dabei war (z. B. MIN 2 bei einem Spiel MIN 1+2 vom Koordinator), darf bleiben.
     const alt0 = x.spiel.id ? await darf(x.spiel.id) : null;
-    const erlaubt = new Set([...w.teams, ...coachTeile(alt0?.reiter)]);
-    if (!verw && !coachTeile(s.reiter).every(t => erlaubt.has(t))) return antwort('{"fehler":"nicht deine Mannschaft"}', 403);
+    const vorher = coachTeile(alt0?.reiter);
+    if (!verw && !coachTeile(s.reiter).every(t => teamPasst(w.teams, t) || vorher.includes(t))) return antwort('{"fehler":"nicht deine Mannschaft"}', 403);
     if (x.spiel.id) {
       const alt = alt0;
       if (!alt) return antwort('{"fehler":"nicht dein Spiel"}', 403);

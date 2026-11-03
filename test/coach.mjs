@@ -1,7 +1,7 @@
 // Coach (27.10.2026): Worker-Teil mit echter SQLite-Datenbank statt D1 (node:sqlite, ab Node 22.5).
 // node test/coach.mjs — Rückgabewert 1 bei Fehler.
 import { DatabaseSync } from "node:sqlite";
-import worker, { coachSpielPruefen, coachTabellenNeu, codeNorm, neuerCode } from "../tools/cloudflare-worker.js";
+import worker, { coachSpielPruefen, coachTabellenNeu, codeNorm, neuerCode, teamPasst } from "../tools/cloudflare-worker.js";
 
 let n = 0, fehler = 0;
 const ok = (b, was) => { n++; if (!b) { fehler++; console.log("✗", was); } };
@@ -108,6 +108,22 @@ const sm = await post("speichern", { schluessel: praesi.schluessel, spiel: { ...
 ok(sm.ok && (await post("liste", { schluessel: tomPC.schluessel })).spiele.some(s => s.id === sm.id), "Spiel MIN 1+2: Trainer von MIN 1 sieht es");
 ok((await post("speichern", { schluessel: tomPC.schluessel, spiel: { ...gut, id: sm.id, reiter: "MIN 1+MIN 2", zeit: "12:00", gegner: "Grevenmacher" } })).ok, "… darf es ändern, MIN 2 bleibt dabei");
 ok((await post("speichern", { schluessel: tomPC.schluessel, spiel: { ...gut, id: sm.id, reiter: "MIN 1+SCO", gegner: "Grevenmacher" } })).status === 403, "… darf aber keine fremde Mannschaft dazunehmen");
+// Rechte je Altersklasse (vom Nutzer, 3.11.2026): „MIN“ = alle MIN-Mannschaften, auch eine später dazugekommene MIN 3.
+ok(teamPasst(["MIN"], "MIN 3") && teamPasst(["MIN"], "MIN 1") && !teamPasst(["MIN"], "SCO") && !teamPasst(["MIN"], "MINI 1"), "Recht MIN: jede MIN-Mannschaft");
+ok(teamPasst(["Seniors 1"], "Seniors 1") && !teamPasst(["Seniors 1"], "Seniors 2") && !teamPasst(["Seniors 1"], "Seniors 10"), "Seniors einzeln");
+ok(teamPasst(["MIN 1"], "MIN 1") && !teamPasst(["MIN 1"], "MIN 2"), "Altes Recht MIN 1 gilt weiter nur für MIN 1");
+{
+  const tk = await post("person_neu", { schluessel: chef, name: "Kai", teams: ["MIN"] });
+  const kai = await post("einloesen", { code: tk.code });
+  const k3 = await post("speichern", { schluessel: kai.schluessel, spiel: { ...gut, reiter: "MIN 3", gegner: "Remich" } });
+  const k12 = await post("speichern", { schluessel: kai.schluessel, spiel: { ...gut, reiter: "MIN 1+MIN 2", gegner: "Remich" } });
+  ok(k3.ok && k12.ok, "Trainer mit MIN: speichert für MIN 3 und MIN 1+2");
+  ok((await post("speichern", { schluessel: kai.schluessel, spiel: { ...gut, reiter: "SCO", gegner: "Remich" } })).status === 403, "… nicht für SCO");
+  const lk = await post("liste", { schluessel: kai.schluessel });
+  ok(lk.spiele.some(s => s.id === s1.id) && lk.spiele.some(s => s.id === k3.id) && !lk.spiele.some(s => s.reiter === "SCO"), "… sieht alle MIN-Spiele, keine SCO");
+  ok((await post("loeschen", { schluessel: kai.schluessel, id: k3.id })).ok && (await post("loeschen", { schluessel: kai.schluessel, id: k12.id })).ok, "… darf sie löschen");
+  await post("person_weg", { schluessel: chef, id: tk.id });
+}
 ok((await post("speichern", { schluessel: tomPC.schluessel, spiel: { ...gut, reiter: "MIN 1+MIN 2" } })).status === 403, "Neues Spiel MIN 1+2: nur, wenn beide seine sind");
 await post("loeschen", { schluessel: chef, id: sm.id });
 const la = await post("liste", { schluessel: praesi.schluessel });

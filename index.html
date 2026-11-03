@@ -755,7 +755,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "3.11.2026 neu a";
+const FASSUNG = "3.11.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -2028,7 +2028,12 @@ async function coachPruefen() {
 const coachAdmin = () => ["chef", "admin"].includes(coachDa()?.rolle);
 // Welche Mannschaften darf ich? Verwalter alle Reiter-Mannschaften, Trainer seine.
 const alleMannschaften = () => (D?.teams || []).filter(t => t.reiter).map(t => t.reiter);
-const coachTeams = () => coachAdmin() ? alleMannschaften() : (coachDa()?.teams || []);
+// Rechte je Altersklasse (vom Nutzer, 3.11.2026): Kinder als „MIN“, „SCO“ … (gilt für alle Mannschaften der Klasse, auch später
+// dazugekommene), Seniors einzeln. Gleiche Regel wie teamPasst im Worker; alte Rechte „MIN 1“ gelten weiter nur für MIN 1.
+const teamPasst = (rechte, r) => (rechte || []).some(g => g === r || (!/\d$/.test(g) && String(r).startsWith(g + " ")));
+const rechtGruppe = r => (D?.teams || []).find(t => t.reiter === r)?.kurz || r;
+const rechteGruppen = () => [...new Set(alleMannschaften().map(rechtGruppe))];
+const coachTeams = () => coachAdmin() ? alleMannschaften() : alleMannschaften().filter(r => teamPasst(coachDa()?.teams, r));
 const heuteLux = () => tagLux(Date.now());
 const datumText = s => new Date(s.datum + "T12:00:00Z").toLocaleDateString("de-DE", { timeZone: "UTC", weekday: "short", day: "numeric", month: "numeric" });
 function coachZeile(s) {
@@ -2102,7 +2107,7 @@ function personFormHtml(f) {
   return `<div class="cform" id="cPerson"><h3 class="mh">${f.id ? esc(f.name) + " ändern" : "Neue Person"}</h3>
     <label>Name<input type="text" id="ctName" maxlength="40" value="${esc(f.name || "")}" placeholder="z. B. Tom"></label>
     ${chef && !f.id ? `<label>Rolle<select id="ctRolle"><option value="trainer">Trainer (nur seine Mannschaften)</option><option value="admin">Verwalter (alles, außer Verwalter anlegen)</option></select></label>` : ""}
-    <div id="ctTeams"${admin ? " hidden" : ""}><div class="klein" style="margin-top:8px">Mannschaften:</div>${alleMannschaften().map(r => `<label class="haken"><input type="checkbox" class="ctTeam" value="${esc(r)}"${(f.teams || []).includes(r) ? " checked" : ""}> ${esc(r)}</label>`).join("")}</div>
+    <div id="ctTeams"${admin ? " hidden" : ""}><div class="klein" style="margin-top:8px">Mannschaften:</div>${rechteGruppen().map(g => `<label class="haken"><input type="checkbox" class="ctTeam" value="${esc(g)}"${(f.teams || []).some(x => x === g || rechtGruppe(x) === g) ? " checked" : ""}> ${esc(g)}${((l) => l.length && l.join() !== g ? ` <span class="muted">(${esc(l.join(", "))})</span>` : "")(alleMannschaften().filter(r => rechtGruppe(r) === g))}</label>`).join("")}</div>
     <button class="knopf" data-c="person_speichern">${f.id ? "Speichern" : "Anlegen und Code zeigen"}</button><button class="knopf zweit" data-c="person_abbrechen">Abbrechen</button></div>`;
 }
 function personenHtml(l, chefGeraete) {

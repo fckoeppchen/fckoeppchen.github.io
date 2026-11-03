@@ -446,6 +446,12 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   derselben Altersklasse hat eine Ligaklasse, die nach unserem letzten Spiel beginnt): Reiter bleibt (Phase 3 vielleicht wieder gemeldet),
   oben Kasten „… ist beendet. Platz n. Für MIN 2 ist im Moment keine neue Phase vorgesehen.“ + Motto, Kinder mit ruhigem Koeppi; kein
   Auf-/Abstieg. Kommt sie wieder, verschwindet der Kasten von selbst. Tests (461) beide Fälle, Gegenproben; Browser bei 390 px.
+- **Trainer-Rechte je Altersklasse** (vom Nutzer, 3.11.2026, Fassung 3.11. neu b): ein Trainerteam je Altersklasse — Rechte „MIN“, „SCO“, „POU“,
+  „PUP“, „BAM“ gelten für **alle** Mannschaften der Klasse, auch später dazugekommene (MIN 3) und solche ohne neue Phase (Reiter MIN 2 bleibt
+  auswählbar, solange es ihn gibt). Seniors 1/2/3 einzeln. `teamPasst(rechte, reiter)` im Worker und in der App gleich (Recht ohne Zahl am Ende =
+  Gruppe). Formular „Mannschaften ändern“/„Neuer Trainer“ zeigt die Gruppen mit ihren Mannschaften in Klammern (`rechteGruppen`, `rechtGruppe` = `kurz`
+  aus D.teams); alte Rechte „MIN 1“ gelten weiter nur für MIN 1, im Formular ist dann „MIN“ angehakt → einmal Speichern macht daraus „MIN“.
+  Tests coach.mjs 67 (Gegenprobe), Browser: Formular und gespeicherte Rechte. **Worker neu einfügen nötig.**
 - **Kein Doppeltipp-Zoom** (vom Nutzer, 1.11.2026, Fassung 1.11. neu a): schnelles 5× aufs Logo zoomte am iPhone manchmal → `html{touch-action:manipulation}`; Zoomen mit zwei Fingern geht weiter.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
