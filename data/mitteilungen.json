@@ -2,22 +2,6 @@
  "ereignisse": [
   {
    "reiter": [
-    "Seniors 3"
-   ],
-   "id": "tabelle:18936:45404:6:10:6:2026-11-02",
-   "art": "tabelle",
-   "titel": "Seniors 3 · Tabelle",
-   "text": "Koeppchen II jetzt 6. Platz (vorher 5.) · 10 Punkte aus 6 Spielen",
-   "basis": {
-    "pl": 5,
-    "pkt": 10,
-    "sp": 6
-   },
-   "ab": 1793599200000,
-   "bis": 1793685600000
-  },
-  {
-   "reiter": [
     "Seniors 1"
    ],
    "id": "spieltag:18888:11",
