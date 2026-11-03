@@ -2,17 +2,6 @@
  "ereignisse": [
   {
    "reiter": [
-    "Seniors 1"
-   ],
-   "id": "spieltag:18888:11",
-   "art": "spieltag",
-   "titel": "Seniors 1 · Spieltag",
-   "text": "Spieltag 11 komplett: Koeppchen 1:4 FC Mondercange · alle Ergebnisse in der App",
-   "ab": 1793617316241,
-   "bis": 1793703716241
-  },
-  {
-   "reiter": [
     "Seniors 2"
    ],
    "id": "ende:1011072",
