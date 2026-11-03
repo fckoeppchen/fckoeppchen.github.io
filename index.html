@@ -341,7 +341,14 @@ function sicht(D, tid, now) {
       else if (zeile && regelnVon(D.saison.id, aktuell.n)) was = { art: "", txt: `Platz ${zeile.pl}. Für diese Klasse hängen Auf- und Abstieg von den Anmeldungen ab.` };
       else if (zeile) was = { art: "", txt: `Platz ${zeile.pl}.` };
       const neuFehlt = !kommend.some(sp => sp.typ === "CC");
-      status = { fertig, was, neuFehlt };
+      // Keine neue Phase für diese Mannschaft (vom Nutzer, 3.11.2026): eine andere derselben Altersklasse hat schon eine
+      // neuere Ligaklasse begonnen, diese nicht. Reiter bleibt (in Phase 3 kann sie wieder gemeldet sein), mit Kasten.
+      // „Neuer“ = beginnt nach dem letzten Spiel unserer Klasse (Phase 1 der beiden fängt nicht am selben Tag an).
+      const ende = aktuell.spiele.reduce((m, sp) => sp.d > m ? sp.d : m, "");
+      const keinePhase = neuFehlt && D.teams.some(o => o !== team && o.reiter && o.kat === team.kat &&
+        o.klassen.map(id => D.klassen[id]).some(k => k && istLiga(k) && Date.parse(k.start) > Date.parse(ende)));
+      if (keinePhase && zeile) was = { art: "", txt: `Platz ${zeile.pl}.` };
+      status = { fertig, was, neuFehlt, keinePhase };
     }
   }
   return { team, ids, eigen, aktuell, frueher: liga.slice(0, -1).reverse(), kommend, gespielt, status };
@@ -748,7 +755,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "2.11.2026 neu a";
+const FASSUNG = "3.11.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1094,7 +1101,11 @@ function renderInnen() {
   const art = sp => (sp.abgesagt ? "ABGESAGT · " : "") + artText(sp);
   let h = "";
   // Phase beendet (Platz, Auf-/Abstieg) ganz oben, über allen anderen Kästen (vom Nutzer, 30.10.2026, neu w).
-  if (v.status && v.status.was) {
+  if (v.status && v.status.keinePhase) {
+    const k = istKinder(v);
+    h += `<div class="note${k ? " mitk" : ""}"><div><b>${esc(v.aktuell.n)} ist beendet.</b> ${esc(v.status.was.txt || "")}` +
+      `<br>Für ${esc(v.team.reiter)} ist im Moment keine neue Phase vorgesehen. Die bisherigen Spiele stehen weiter unten.${MOTTO}</div>${k ? koeppiBild("ruhig") : ""}</div>`;
+  } else if (v.status && v.status.was) {
     // Kinder: wartet die neue Klasse noch, steht der ruhige Koeppi rechts im Kasten.
     const ruhig = istKinder(v) && v.status.neuFehlt;
     h += `<div class="note ${v.status.was.art}${ruhig ? " mitk" : ""}">${ruhig ? "<div>" : ""}<b>${esc(v.aktuell.n)} ist beendet.</b> ${esc(v.status.was.txt)}` +

@@ -201,6 +201,33 @@ ok(v4.aktuell.id === 20001, "neue Klasse ist die aktuelle");
 gleich(v4.frueher.map(k => k.id), [19189], "alte Klasse unter „früher“");
 ok(v4.status === null, "laufende Phase: kein Abschlusshinweis");
 
+// Phase 2 nur noch mit einer Mannschaft (vom Nutzer, 3.11.2026).
+ok(!v1.status.keinePhase && !v2.status.keinePhase, "ohne neue Phase bei irgendwem: kein „keine neue Phase“");
+{
+  // (a) „I“ bleibt „I“: MIN 2 bekommt den Kasten, MIN 1 läuft normal.
+  const v = M.sicht(D2, 45397, jetzt);
+  ok(v.status?.keinePhase, "I bleibt: MIN 2 „keine neue Phase“");
+  ok(M.sicht(D2, 45396, jetzt).status === null, "I bleibt: MIN 1 ohne Abschlusshinweis");
+  gleich(D2.teams.filter(t => t.reiter).map(t => t.reiter), ["MIN 1", "MIN 2"], "I bleibt: Reiter unverändert");
+  // (b) FLF lässt das „I“ weg: dieselbe Mannschaft, geht im Reiter MIN 1 auf (auch der Pokal ohne I/II, gleicher Name).
+  const KN = team(46000, "FC Koeppchen Wormeldange", CLUB);
+  const p2 = roh(DIV3, "CC", "2026-11-07T14:00:00+01:00", KN, G(8), null, null, { tag: 1 });
+  const DB = aufbereiten({ saison: { id: "20262027", name: "Saison 2026-2027" }, vereinsSpiele: [s1, s2, s4, s5, p2],
+    klassen: { 19189: { spiele: [s1, s2], tabelle: [rank(2, K1, 11)] }, 19233: { spiele: [s4], tabelle: [rank(5, K2, 0)] },
+               19615: { spiele: [s5], tabelle: null }, 20001: { spiele: [p2], tabelle: [rank(1, KN, 0)] } } });
+  gleich(DB.teams.filter(t => t.reiter).map(t => [t.id, t.reiter, t.datei]), [[45396, "MIN 1", "u13-1.ics"], [45397, "MIN 2", "u13-2.ics"]],
+    "I fällt weg: kein dritter Reiter, MIN 1 behält Nummer, Name und Kalender");
+  gleich(DB.teams.find(t => t.id === 45396).klassen, [19189, 19615, 20001], "I fällt weg: Phase 1, Pokal und Phase 2 bei MIN 1");
+  ok(!DB.teams.some(t => t.ids.includes(46000) && t.id !== 45396), "I fällt weg: keine eigene Mannschaft ohne I mehr");
+  const vb1 = M.sicht(DB, 45396, jetzt);
+  ok(vb1.aktuell.id === 20001 && vb1.frueher[0].id === 19189 && vb1.kommend.some(s => s.klasse === DIV3.name) && vb1.status === null,
+    "I fällt weg: MIN 1 zeigt Phase 2, Phase 1 unter früher");
+  const vb2 = M.sicht(DB, 45397, jetzt);
+  ok(vb2.status?.keinePhase && vb2.status.was.txt === "Platz 5.", "I fällt weg: MIN 2 „keine neue Phase“, nur Platz (kein Auf-/Abstieg)");
+  // Nur Pokal ohne I/II (heute): hängt sich weiter an, nichts verschmolzen.
+  ok(D.teams.some(t => t.id === 45398 && !t.reiter), "reiner Pokal ohne I/II bleibt eigene Vereinsmannschaft");
+}
+
 // U9/U11: auch Freundschaftsspiele (Klasse „Amicaux“ mit showResult true) ohne Ergebnis, „gespielt“ statt „–“.
 {
   const P1 = team(45500, "FC Koeppchen Wormeldange I", CLUB);

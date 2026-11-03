@@ -410,9 +410,23 @@ export function aufbereiten({ saison, vereinsSpiele, klassen }) {
   // ohne Liga hängen sich an (`mit`): ohne I/II an alle derselben Altersklasse (U13-Pokal), mit
   // I/II nur an die gleichnamige (Réserves-Pokal). Steht hier, damit App und Kalender dieselbe
   // Regel haben.
-  const alle = [...teams.values()];
   const liga = t => t.klassen.some(id => div[id].typ === "CC");
   const zusatz = t => t.n.replace(VEREIN, "").trim();
+  // Nur noch eine Mannschaft je Altersklasse (vom Nutzer, 3.11.2026): nennt die FLF sie in einer neuen Phase ohne
+  // „I“ („FC Koeppchen Wormeldange“ statt „… I“, so 2025-26 bei der U13), ist es dieselbe Mannschaft — sie geht im
+  // Reiter der „I“ auf (Name, Nummer, Kalender, Auswahl bleiben), statt einen neuen Reiter „MIN“ zu bekommen.
+  // Nur wenn sie selbst ein Ligaspiel hat; als reine Pokalmannschaft hängt sie sich weiter an (`mit`).
+  for (const t of [...teams.values()]) {
+    if (zusatz(t) || !liga(t)) continue;
+    const eins = [...teams.values()].find(o => o.ak === t.ak && zusatz(o) === "I");
+    if (!eins) continue;
+    eins.ids.push(...t.ids);
+    eins.klassen.push(...t.klassen.filter(id => !eins.klassen.includes(id)));
+    for (const id of t.ids) nachId.set(id, eins);
+    teams.delete(t.ak + "|" + t.n);
+  }
+  for (const t of teams.values()) t.klassen.sort((a, b) => div[a].start.localeCompare(div[b].start));
+  const alle = [...teams.values()];
   for (const t of alle.filter(liga)) {
     t.reiter = reiter(t);
     t.datei = reiter(t, true).toLowerCase().replace(/\s+/g, "-") + ".ics";   // alter Name: bestehende Abos

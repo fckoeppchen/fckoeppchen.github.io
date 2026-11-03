@@ -438,6 +438,14 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   nochmal `wahl`. Nur mit `mitt()`, Erlaubnis und vorhandenem Abo — legt nie ein neues an. Worker unverändert. Tote Adressen räumt weiter
   nur Apple weg (410); „zuletzt gesehen“ je Abo bewusst nicht gebaut (vom Nutzer besprochen: verwirrt, App-Öffnen ≠ lebt). Browser-Test
   mit nachgebautem Worker: normal 1 Aufruf, 404 → wahl/anmelden/wahl, am selben Tag kein zweiter, ohne Code/Erlaubnis/Abo nichts.
+- **Nur noch eine Mannschaft je Altersklasse** (vom Nutzer, 3.11.2026, Fassung 3.11. neu a; gilt bis Saisonende, 2027-28 bauen sich die
+  Reiter aus den neuen Daten von selbst neu): (1) neue Mannschaft → neuer Reiter (wie immer). (2) Nennt die FLF in einer neuen Phase die
+  Mannschaft ohne „I“ („FC Koeppchen Wormeldange“, so 2025-26), geht sie in `aufbereiten` im Reiter der „I“ auf (ids, Klassen; Nummer,
+  Name „MIN 1“, Kalender `u13-1.ics` bleiben — Trainer-Spiele und -Rechte hängen am Namen). Nur mit eigenem Ligaspiel; reiner Pokal ohne I/II
+  hängt sich weiter an (`mit`). (3) Mannschaft ohne neue Phase (`status.keinePhase` in `sicht`: Klasse fertig, keine neue, und eine andere
+  derselben Altersklasse hat eine Ligaklasse, die nach unserem letzten Spiel beginnt): Reiter bleibt (Phase 3 vielleicht wieder gemeldet),
+  oben Kasten „… ist beendet. Platz n. Für MIN 2 ist im Moment keine neue Phase vorgesehen.“ + Motto, Kinder mit ruhigem Koeppi; kein
+  Auf-/Abstieg. Kommt sie wieder, verschwindet der Kasten von selbst. Tests (461) beide Fälle, Gegenproben; Browser bei 390 px.
 - **Kein Doppeltipp-Zoom** (vom Nutzer, 1.11.2026, Fassung 1.11. neu a): schnelles 5× aufs Logo zoomte am iPhone manchmal → `html{touch-action:manipulation}`; Zoomen mit zwei Fingern geht weiter.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
