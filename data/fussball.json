@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-02T22:31:42.642Z",
+ "stand": "2026-11-03T01:37:50.889Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -5638,9 +5638,9 @@
       "id": 44553,
       "n": "Union Titus Pétange I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 4,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Ralingen (synth.)"
     },
@@ -5674,10 +5674,11 @@
       "id": 45383,
       "n": "Résidence Walferdange I"
      },
-     "hs": null,
-     "as": null,
+     "hs": 0,
+     "as": 0,
      "gespielt": false,
      "forfait": false,
+     "bem": "Arrêté",
      "ort": "Stade Aloyse Meyer (Dudelange, synth.)"
     },
     {
