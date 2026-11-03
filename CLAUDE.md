@@ -452,6 +452,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Gruppe). Formular „Mannschaften ändern“/„Neuer Trainer“ zeigt die Gruppen mit ihren Mannschaften in Klammern (`rechteGruppen`, `rechtGruppe` = `kurz`
   aus D.teams); alte Rechte „MIN 1“ gelten weiter nur für MIN 1, im Formular ist dann „MIN“ angehakt → einmal Speichern macht daraus „MIN“.
   Tests coach.mjs 67 (Gegenprobe), Browser: Formular und gespeicherte Rechte. **Worker neu einfügen nötig.**
+  **Neu c** (vom Nutzer): Auswahl beim Spiel: jede Mannschaft einzeln + je Altersklasse „Minimes – alle (MIN 1 + 2)“ (Name aus `gruppe`), keine Teilmengen wie 2+3.
 - **Kein Doppeltipp-Zoom** (vom Nutzer, 1.11.2026, Fassung 1.11. neu a): schnelles 5× aufs Logo zoomte am iPhone manchmal → `html{touch-action:manipulation}`; Zoomen mit zwei Fingern geht weiter.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.

@@ -755,7 +755,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "3.11.2026 neu b";
+const FASSUNG = "3.11.2026 neu c";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -2065,7 +2065,10 @@ function mannschaftOptionen(teams, wahl) {
   const werte = [...teams, ...[...gruppen.values()].filter(l => l.length > 1).map(l => l.join("+"))];
   if (wahl && !werte.includes(wahl)) werte.push(wahl);
   const w = wahl || werte[0];
-  return werte.map(x => `<option value="${esc(x)}"${x === w ? " selected" : ""}>${esc(x.includes("+") ? coachName(x).replace(/(\d)\+/g, "$1 + ") + (coachTeile(x).length > 2 ? " (alle)" : " (beide)") : x)}</option>`).join("");
+  // Alle Mannschaften einer Altersklasse zusammen heißen „Minimes – alle“ (vom Nutzer, 3.11.2026), Name aus dem Gruppen-Kalender.
+  const alleName = x => { const g = (D?.teams || []).find(t => t.reiter === coachTeile(x)[0])?.gruppe?.name;
+    return g ? g.split(" ")[0] + " – alle (" + coachName(x).replace(/(\d)\+/g, "$1 + ") + ")" : coachName(x).replace(/(\d)\+/g, "$1 + ") + " (alle)"; };
+  return werte.map(x => `<option value="${esc(x)}"${x === w ? " selected" : ""}>${esc(x.includes("+") ? alleName(x) : x)}</option>`).join("");
 }
 // Steht für eine dieser Mannschaften am selben Tag schon ein Spiel (Trainer oder FLF)? Für die Nachfrage beim Speichern.
 function gleicherTag(f) {
