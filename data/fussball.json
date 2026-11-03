@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-03T06:01:51.883Z",
+ "stand": "2026-11-03T21:16:50.461Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -5663,25 +5663,6 @@
      "ort": "Stade Klengbousbierg 2 (Bissen, synth.)"
     },
     {
-     "id": 1011073,
-     "d": "2026-11-02T20:00:00+01:00",
-     "tag": 7,
-     "h": {
-      "id": 44588,
-      "n": "F91 Dudelange"
-     },
-     "a": {
-      "id": 45383,
-      "n": "Résidence Walferdange I"
-     },
-     "hs": 0,
-     "as": 0,
-     "gespielt": false,
-     "forfait": false,
-     "bem": "Arrêté",
-     "ort": "Stade Aloyse Meyer (Dudelange, synth.)"
-    },
-    {
      "id": 1011072,
      "d": "2026-11-02T20:00:00+01:00",
      "tag": 7,
@@ -5716,6 +5697,24 @@
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Jos Bloes (Bascharage, synth.)"
+    },
+    {
+     "id": 1011073,
+     "d": "2026-11-16T20:00:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 44588,
+      "n": "F91 Dudelange"
+     },
+     "a": {
+      "id": 45383,
+      "n": "Résidence Walferdange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Aloyse Meyer (Dudelange, synth.)"
     },
     {
      "id": 1011084,
