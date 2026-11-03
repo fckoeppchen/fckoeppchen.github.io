@@ -755,7 +755,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "3.11.2026 neu c";
+const FASSUNG = "3.11.2026 neu d";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -949,6 +949,7 @@ function tabelleHtml(k, eigen) {
 // Dienstag; bei „offen“ sah man nicht, ob heute oder in ein paar Tagen). Kopf = mittlerer Termin des Spieltags. Liegt der
 // Termin eines Spiels ohne Ergebnis über 3 Tage zurück, hat die FLF meist nur das alte Datum stehen lassen (verlegt).
 function offenMeta(s, kopfTag, now) {
+  if (s.bem === "Arrêté" && !s.gespielt) return "abgebrochen, Wertung offen";
   if (s.hs != null || s.gespielt) return tagLux(Date.parse(s.d)) !== kopfTag ? esc(wann(s.d, false)) : "";
   if (Date.parse(s.d) < now - 3 * 864e5) return "noch nicht gespielt (verlegt)";
   // Am Tag des Spieltags reicht die Uhrzeit, sonst Tag und Uhrzeit.

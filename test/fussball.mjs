@@ -866,6 +866,12 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     const st = spieltagStand([sp(1, "2026-10-23T20:00:00+02:00", 6, [1, "a"], [2, "b"], 1, 0), sp(2, "2026-10-24T18:30:00+02:00", 6, [3, "c"], [4, "d"], 2, 2),
       sp(3, "2026-10-27T20:00:00+01:00", 6, [5, "e"], [6, "f"])], 6, Date.parse("2026-10-25T21:00:00+01:00"));
     ok(st && !st.komplett && st.verlegt === 0, "Spieltag: Dienstagsspiel wird abgewartet");
+    // Abgebrochen ohne Wertung (3.11.2026, F91 – Walferdange: „Arrêté“, 0:0, nicht gespielt): kein Ergebnis, hält nicht auf, steht im Text.
+    const abg = [sp(1, "2026-11-02T20:00:00+01:00", 7, [1, "a"], [2, "b"], 8, 3), { ...sp(2, "2026-11-02T20:00:00+01:00", 7, [3, "c"], [4, "d"], 0, 0), gespielt: false, bem: "Arrêté" }];
+    const sa = spieltagStand(abg, 7, Date.parse("2026-11-02T23:00:00+01:00"));
+    ok(sa?.komplett && sa.abgebrochen === 1 && sa.verlegt === 0, "Spieltag: abgebrochenes Spiel ohne Wertung hält nicht auf, zählt als abgebrochen");
+    ok(!spieltagStand([{ ...abg[1] }], 7, Date.parse("2026-11-02T23:00:00+01:00")).komplett, "… ist aber selbst kein Ergebnis");
+    ok(spieltagStand([abg[0], { ...abg[1], gespielt: true }], 7, Date.parse("2026-11-02T23:00:00+01:00")).abgebrochen === 0, "abgebrochen und gewertet = normales Ergebnis");
   }
   ok(id("ende:201")?.text === "Koeppchen I 2:1 FC Titus" && id("ende:201").reiter[0] === "Seniors 2", "Mitteilung: Endstand Seniors von der FLF");
   ok(id("zeit:301")?.text === "Uhrzeit steht fest: Sa., 31.10. um 10:00 gegen US Berdorf" && !id("zeit:503"), "Mitteilung: Uhrzeit steht fest nur bei U9/U11, nie bei den Seniors");

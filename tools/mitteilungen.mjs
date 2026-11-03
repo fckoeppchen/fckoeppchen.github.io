@@ -28,7 +28,9 @@ const stundeLux = ms => +new Date(ms).toLocaleString("en-GB", { timeZone: TZ, ho
 const tagzeit = ms => { const h = stundeLux(ms); return h >= 7 && h < 23; };
 const naechste7 = ms => { const t = umLux(tagLux(ms), 7); return t > ms ? t : umLux(tagLux(ms + 12 * H), 7); };
 const kurz = n => String(n).replace(VEREIN, "Koeppchen");
-const hatErgebnis = sp => sp.hs != null && sp.as != null;
+// Abgebrochen ohne Wertung (3.11.2026, F91 Dudelange – Walferdange: FLF „Arrêté“, 0:0 ohne Endergebnis, isPlayed false) ist kein Ergebnis.
+const abgebrochen = sp => sp.bem === "Arrêté" && !sp.gespielt;
+const hatErgebnis = sp => sp.hs != null && sp.as != null && !abgebrochen(sp);
 
 // Welche Arten es für welchen Reiter gibt (Tabelle im Plan). Woche hat nur „woche“.
 export const ARTEN = {
@@ -41,14 +43,17 @@ export const ARTEN = {
 // ohne Ergebnis — die FLF lässt beim Verlegen oft das alte Datum stehen (Koeppchen II – Syra, 3.10.). Ein Spiel am Dienstag
 // nach einem Freitag-Spieltag (Syra spielt zu Hause dienstags) gehört dazu und wird abgewartet.
 const TAG_MS = 24 * H;
-const verlegtText = sn => sn.verlegt ? ` (${sn.verlegt} ${sn.verlegt === 1 ? "Spiel" : "Spiele"} verlegt)` : "";
+const anz = n => n + (n === 1 ? " Spiel" : " Spiele");
+const verlegtText = sn => [sn.verlegt && anz(sn.verlegt) + " verlegt", sn.abgebrochen && anz(sn.abgebrochen) + " abgebrochen"].filter(Boolean).map(t => ` (${t})`).join("");
 export function spieltagStand(spiele, tag, now) {
   const s = spiele.filter(sp => sp.tag === tag);
   if (!s.length) return null;
   const ds = s.map(sp => Date.parse(sp.d)).sort((a, b) => a - b), haupt = ds[Math.floor((ds.length - 1) / 2)];
-  const verlegt = s.filter(sp => !hatErgebnis(sp) && (Math.abs(Date.parse(sp.d) - haupt) > 7 * TAG_MS || Date.parse(sp.d) < now - 3 * TAG_MS));
-  const fehlt = s.filter(sp => !hatErgebnis(sp) && !verlegt.includes(sp));
-  return { haupt, komplett: !fehlt.length && s.some(hatErgebnis), verlegt: verlegt.length };
+  // Abgebrochen ohne Wertung hält den Spieltag nicht auf (die Wertung kann Wochen dauern), steht aber im Text.
+  const ab = s.filter(abgebrochen);
+  const verlegt = s.filter(sp => !hatErgebnis(sp) && !ab.includes(sp) && (Math.abs(Date.parse(sp.d) - haupt) > 7 * TAG_MS || Date.parse(sp.d) < now - 3 * TAG_MS));
+  const fehlt = s.filter(sp => !hatErgebnis(sp) && !verlegt.includes(sp) && !ab.includes(sp));
+  return { haupt, komplett: !fehlt.length && s.some(hatErgebnis), verlegt: verlegt.length, abgebrochen: ab.length };
 }
 
 export function ereignisse(alt, neu, vorher, now) {
