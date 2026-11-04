@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-04T21:17:05.495Z",
+ "stand": "2026-11-04T22:31:51.271Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -72,8 +72,8 @@
     19617,
     19961
    ],
-   "reiter": "MIN",
-   "datei": "u13.ics",
+   "reiter": "MIN 1",
+   "datei": "u13-1.ics",
    "mit": [],
    "gruppe": {
     "name": "Minimes U13",
