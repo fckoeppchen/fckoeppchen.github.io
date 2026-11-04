@@ -1,4 +1,53 @@
 {
- "ereignisse": [],
+ "ereignisse": [
+  {
+   "reiter": [
+    "POU 1",
+    "Poussins U11"
+   ],
+   "id": "zeit:6685062:2026-11-15T10:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "POU 1 · Uhrzeit",
+   "text": "Uhrzeit steht fest: So., 15.11. um 10:30 gegen Union Mertert-Wasserbillig · 📍 Terrain au Parc (Mertert, synth.)",
+   "ab": 1793790142409,
+   "bis": 1794735000000
+  },
+  {
+   "reiter": [
+    "POU 2",
+    "Poussins U11"
+   ],
+   "id": "zeit:6687062:2026-11-15T10:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "POU 2 · Uhrzeit",
+   "text": "Uhrzeit steht fest: So., 15.11. um 10:30 gegen US Berdorf-Consdorf 01 II · 📍 Terrain Maartbësch (Berdorf)",
+   "ab": 1793790142409,
+   "bis": 1794735000000
+  },
+  {
+   "reiter": [
+    "PUP 1",
+    "Pupilles U9"
+   ],
+   "id": "zeit:6716063:2026-11-14T16:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "PUP 1 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 14.11. um 16:30 gegen ENT Biwer/Berbourg I · 📍 Terrain 2 (Berbourg, synth.)",
+   "ab": 1793790142409,
+   "bis": 1794670200000
+  },
+  {
+   "reiter": [
+    "PUP 2",
+    "Pupilles U9"
+   ],
+   "id": "zeit:6717063:2026-11-14T15:00:00+01:00",
+   "art": "uhrzeit",
+   "titel": "PUP 2 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 14.11. um 15:00 gegen ENT Biwer/Berbourg II · 📍 Terrain 2 (Berbourg, synth.)",
+   "ab": 1793790142409,
+   "bis": 1794664800000
+  }
+ ],
  "live": []
 }
