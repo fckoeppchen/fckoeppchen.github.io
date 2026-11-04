@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-03T21:16:50.461Z",
+ "stand": "2026-11-04T02:41:38.916Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -55,8 +55,9 @@
    }
   },
   {
-   "id": 45398,
+   "id": 45396,
    "ids": [
+    45396,
     45398
    ],
    "n": "FC Koeppchen Wormeldange",
@@ -65,28 +66,13 @@
    "alter": "U13 Minimes",
    "kurz": "MIN",
    "klassen": [
+    19189,
     19615,
     19617
-   ]
-  },
-  {
-   "id": 45396,
-   "ids": [
-    45396
    ],
-   "n": "FC Koeppchen Wormeldange I",
-   "ak": 1,
-   "kat": "U13",
-   "alter": "U13 Minimes",
-   "kurz": "MIN",
-   "klassen": [
-    19189
-   ],
-   "reiter": "MIN 1",
-   "datei": "u13-1.ics",
-   "mit": [
-    45398
-   ],
+   "reiter": "MIN",
+   "datei": "u13.ics",
+   "mit": [],
    "gruppe": {
     "name": "Minimes U13",
     "datei": "minimes-u13.ics"
@@ -107,9 +93,7 @@
    ],
    "reiter": "MIN 2",
    "datei": "u13-2.ics",
-   "mit": [
-    45398
-   ],
+   "mit": [],
    "gruppe": {
     "name": "Minimes U13",
     "datei": "minimes-u13.ics"
@@ -10262,7 +10246,7 @@
     {
      "pl": 2,
      "id": 45396,
-     "n": "FC Koeppchen Wormeldange I",
+     "n": "FC Koeppchen Wormeldange",
      "sp": 5,
      "s": 3,
      "u": 2,
@@ -10350,7 +10334,7 @@
      },
      "a": {
       "id": 45396,
-      "n": "FC Koeppchen Wormeldange I"
+      "n": "FC Koeppchen Wormeldange"
      },
      "hs": 2,
      "as": 2,
@@ -10418,7 +10402,7 @@
      "tag": 2,
      "h": {
       "id": 45396,
-      "n": "FC Koeppchen Wormeldange I"
+      "n": "FC Koeppchen Wormeldange"
      },
      "a": {
       "id": 45146,
@@ -10476,7 +10460,7 @@
      },
      "a": {
       "id": 45396,
-      "n": "FC Koeppchen Wormeldange I"
+      "n": "FC Koeppchen Wormeldange"
      },
      "hs": 2,
      "as": 5,
@@ -10508,7 +10492,7 @@
      "tag": 4,
      "h": {
       "id": 45396,
-      "n": "FC Koeppchen Wormeldange I"
+      "n": "FC Koeppchen Wormeldange"
      },
      "a": {
       "id": 46169,
@@ -10562,7 +10546,7 @@
      "tag": 5,
      "h": {
       "id": 45396,
-      "n": "FC Koeppchen Wormeldange I"
+      "n": "FC Koeppchen Wormeldange"
      },
      "a": {
       "id": 46201,
