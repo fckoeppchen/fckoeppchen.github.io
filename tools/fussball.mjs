@@ -420,7 +420,11 @@ export function aufbereiten({ saison, vereinsSpiele, klassen }) {
     if (zusatz(t) || !liga(t)) continue;
     const eins = [...teams.values()].find(o => o.ak === t.ak && zusatz(o) === "I");
     if (!eins) continue;
-    eins.ids.push(...t.ids);
+    // Wer zuerst da war, gibt die Nummer (Reiter-Id): Phase 3 mit neuer „… I“ nach einer „ohne I“ (so seit 4.11.2026) darf den
+    // Reiter nicht wechseln — sonst wären gemerkter Reiter, Auswahl und Statistik weg.
+    const keys = [...teams.keys()];
+    if (keys.indexOf(t.ak + "|" + t.n) < keys.indexOf(eins.ak + "|" + eins.n)) { eins.id = t.id; eins.ids.unshift(...t.ids); }
+    else eins.ids.push(...t.ids);
     eins.klassen.push(...t.klassen.filter(id => !eins.klassen.includes(id)));
     for (const id of t.ids) nachId.set(id, eins);
     teams.delete(t.ak + "|" + t.n);

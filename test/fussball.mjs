@@ -238,6 +238,15 @@ ok(!v1.status.keinePhase && !v2.status.keinePhase, "ohne neue Phase bei irgendwe
   ok(M.sicht(DC, 45397, jetzt).status?.keinePhase, "I umbenannt: MIN 2 „keine neue Phase“");
   ok(/SUMMARY:⚽ Koeppchen MIN 1 – /.test(icsGruppe(DC, DC.teams.find(t => t.id === 45396).gruppe)) && !/Koeppchen MIN – /.test(icsGruppe(DC, DC.teams.find(t => t.id === 45396).gruppe)),
     "I umbenannt: im Kalender „Koeppchen MIN 1“ wie der Reiter");
+  // (d) Phase 3: wieder „… I“ (neue Nummer) und „… II“ — Reiter MIN 1 behält seine Nummer, MIN 2 bekommt Phase 3, kein Kasten mehr.
+  const P3 = { id: 20003, name: "U13 Minimes Cl3 S1 Phase 3", showResult: true, showRanking: true };
+  const KI = team(47000, "FC Koeppchen Wormeldange I", CLUB);
+  const q1 = roh(P3, "CC", "2027-03-06T14:00:00+01:00", KI, G(20), null, null, { tag: 1 }), q2 = roh(P3, "CC", "2027-03-06T16:00:00+01:00", K2, G(21), null, null, { tag: 1 });
+  const DD = aufbereiten({ saison: { id: "20262027", name: "Saison 2026-2027" }, vereinsSpiele: [u1, s4, u2, q1, q2],
+    klassen: { 19189: { spiele: [u1], tabelle: [] }, 19233: { spiele: [s4], tabelle: [] }, 20001: { spiele: [u2], tabelle: [] }, 20003: { spiele: [q1, q2], tabelle: [] } } });
+  gleich(DD.teams.filter(t => t.reiter).map(t => [t.id, t.reiter, t.klassen.length]), [[45396, "MIN 1", 3], [45397, "MIN 2", 2]],
+    "Phase 3 mit neuer „I“: Reiter MIN 1 behält Nummer 45396 und alle drei Phasen, MIN 2 bekommt Phase 3");
+  ok(!M.sicht(DD, 45397, Date.parse("2027-03-01T12:00:00+01:00")).status?.keinePhase, "Phase 3: MIN 2 wieder dabei → kein Kasten");
   // Nur Pokal ohne I/II (heute): hängt sich weiter an, nichts verschmolzen.
   ok(D.teams.some(t => t.id === 45398 && !t.reiter), "reiner Pokal ohne I/II bleibt eigene Vereinsmannschaft");
 }
