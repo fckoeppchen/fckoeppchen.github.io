@@ -377,13 +377,27 @@ const zuletztGetestet = new Map(); // endpoint → Zeit, höchstens ein Test je 
 // Höchstzahl der angemeldeten Handys (vom Nutzer, 23.10.2026: schrittweise freigeben). Ändern ohne neuen Code:
 // bei Cloudflare unter Settings → Variables eine Variable MAX_ABOS anlegen (z. B. 100). Ohne sie gilt 50.
 export const MAX_ABOS = 50;
+// Empfang je Handy, nur eine Woche zum Test (vom Nutzer, 5.11.2026: fehlt immer dasselbe Handy oder mal dieses, mal jenes?).
+// Jedes Abo bekommt eine Kurznummer aus seiner Push-Adresse (keine Namen, nicht im Zahnrad, nicht im Datenschutz-Hinweis —
+// die Adresse speichert der Worker ohnehin). Die Quittung trägt „<id>~<nummer>“. Nach DIAG_BIS zählt nichts mehr, die Tabelle
+// wird gelöscht und der Abschnitt auf ?zahlen verschwindet; danach den Code wieder ausbauen.
+export const DIAG_BIS = Date.parse("2026-11-12T23:00:00+01:00");
+export const handyNr = ep => { let h = 0x811c9dc5; for (const c of String(ep)) h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0; return h.toString(16).padStart(8, "0").slice(0, 4); };
+const TAB_DIAG = "CREATE TABLE IF NOT EXISTS diag (handy TEXT NOT NULL, mid TEXT NOT NULL, gesendet INTEGER, angekommen INTEGER, PRIMARY KEY (handy, mid))";
+async function diagGesendet(db, ep, mid, now) {
+  if (now > DIAG_BIS) return;
+  try { await db.prepare(TAB_DIAG).run(); await db.prepare("INSERT OR REPLACE INTO diag (handy, mid, gesendet, angekommen) VALUES (?1, ?2, ?3, NULL)").bind(handyNr(ep), mid, now).run(); } catch (e) {}
+}
+const mitNr = (n, ep, now) => now > DIAG_BIS ? n : { ...n, q: (n.q || "test") + "~" + handyNr(ep) };
 export async function pushAnfrage(req, db, was, env = {}) {
   if (was === "schluessel") return antwort(JSON.stringify({ schluessel: (await vapid(db)).oeffentlich }));
   // Empfangsbestätigung (vom Nutzer, 23.10.2026): der Service Worker meldet „angekommen“, ohne Kennung des
   // Handys. Gezählt wird nur bei Mitteilungen, die es wirklich gab.
   if (was === "angekommen") {
-    const id = new URL(req.url).searchParams.get("id") || "";
-    if (id && id.length < 200) try { await gemeldetSpalten(db); await db.prepare("UPDATE gemeldet SET angekommen = COALESCE(angekommen, 0) + 1 WHERE id = ?1").bind(id).run(); } catch (e) {}
+    const roh = new URL(req.url).searchParams.get("id") || "", [id, nr] = roh.split("~");
+    if (id && id !== "test" && roh.length < 220) try { await gemeldetSpalten(db); await db.prepare("UPDATE gemeldet SET angekommen = COALESCE(angekommen, 0) + 1 WHERE id = ?1").bind(id).run(); } catch (e) {}
+    if (nr && /^[0-9a-f]{4}$/.test(nr) && Date.now() <= DIAG_BIS + 864e5)
+      try { await db.prepare("UPDATE diag SET angekommen = ?3 WHERE handy = ?1 AND mid = ?2 AND angekommen IS NULL").bind(nr, id, Date.now()).run(); } catch (e) {}
     return new Response(null, { status: 204, headers: CORS });
   }
   if (req.method !== "POST") return antwort('{"fehler":"post"}', 405);
@@ -407,7 +421,8 @@ export async function pushAnfrage(req, db, was, env = {}) {
     if (!z) return antwort('{"fehler":"nicht angemeldet"}', 404);
     if (Date.now() - (zuletztGetestet.get(x.endpoint) || 0) < 20e3) return antwort('{"fehler":"zu schnell"}', 429);
     zuletztGetestet.set(x.endpoint, Date.now());
-    const r = await pushSenden(db, JSON.parse(z.abo), { titel: "Test-Mitteilung ✓", text: "So sehen Mitteilungen der App aus.", url: "./" });
+    const r = await pushSenden(db, JSON.parse(z.abo), mitNr({ titel: "Test-Mitteilung ✓", text: "So sehen Mitteilungen der App aus.", url: "./" }, x.endpoint, Date.now()));
+    if (r.status < 300) await diagGesendet(db, x.endpoint, "test", Date.now());
     // 404/410: Abo gibt es beim Push-Dienst nicht mehr (abgemeldet, App gelöscht) → vergessen.
     if (r.status === 404 || r.status === 410) await db.prepare("DELETE FROM abos WHERE endpoint = ?1").bind(x.endpoint).run();
     if (r.status >= 300) console.log("Push:", r.status, await r.text());
@@ -537,7 +552,30 @@ export async function mitteilungenStand(db, datei, now = Date.now()) {
   return `<h2>Mitteilungen</h2><p>${abos.length} ${abos.length === 1 ? "Handy" : "Handys"} angemeldet, davon ${abos.filter(a => a.wahl).length} mit Auswahl. Gesendet wird 7–23 Uhr.</p>
 <h3>Gewählt${abos.length > 1 ? " (Zahl = so viele Handys)" : ""}</h3><table class="mitt">${gewaehlt || "<tr><td>noch nichts</td></tr>"}</table>
 ${live ? `<h3>Heute mit Liveticker</h3><ul>${live}</ul>` : ""}
-<h3>Geplant und verschickt (7 Tage)</h3>${zeilen || "<p>noch nichts geplant</p>"}`;
+<h3>Geplant und verschickt (7 Tage)</h3>${zeilen || "<p>noch nichts geplant</p>"}${await diagHtml(db, now)}`;
+}
+// Test „Empfang je Handy“ (bis DIAG_BIS): je Abo verschickt / bestätigt, wann zuletzt, was fehlt, ob es spät kam.
+async function diagHtml(db, now) {
+  if (now > DIAG_BIS) { try { await db.prepare("DROP TABLE IF EXISTS diag").run(); } catch (e) {} return ""; }
+  let rows = [], abos = [], titel = new Map();
+  try { await db.prepare(TAB_DIAG).run(); rows = (await db.prepare("SELECT * FROM diag").all()).results || []; } catch (e) {}
+  try { abos = (await db.prepare("SELECT endpoint, seit FROM abos").all()).results || []; } catch (e) {}
+  try { titel = new Map(((await db.prepare("SELECT id, titel FROM gemeldet").all()).results || []).map(g => [g.id, g.titel])); } catch (e) {}
+  const je = new Map(abos.map(a => [handyNr(a.endpoint), { seit: a.seit, l: [] }]));
+  for (const r of rows) (je.get(r.handy) || je.set(r.handy, { seit: null, weg: true, l: [] }).get(r.handy)).l.push(r);
+  const uhr = ms => ms ? zeitLux(ms) : "–";
+  const zeilen = [...je].map(([nr, h]) => {
+    const echt = h.l.filter(r => r.mid !== "test"), da = echt.filter(r => r.angekommen), test = h.l.find(r => r.mid === "test");
+    const spaet = da.filter(r => r.angekommen - r.gesendet > 10 * 60e3).length;
+    const fehlt = echt.filter(r => !r.angekommen && now - r.gesendet > 10 * 60e3).sort((a, b) => b.gesendet - a.gesendet);
+    const letzte = Math.max(0, ...h.l.map(r => r.angekommen || 0));
+    return `<tr><td><b>${nr}</b>${h.weg ? " (abgemeldet)" : ""}</td><td>${da.length} von ${echt.length}${spaet ? ` · ${spaet} spät` : ""}</td><td>${uhr(letzte || 0)}</td>
+      <td>${test ? `Test ${uhr(test.gesendet)}${test.angekommen ? " ✓" : " –"}` : ""}</td>
+      <td class="st">${fehlt.slice(0, 6).map(r => esc(titel.get(r.mid) || r.mid) + " (" + uhr(r.gesendet) + ")").join("<br>")}</td></tr>`;
+  }).join("");
+  return `<h3>Test: Empfang je Handy (bis ${uhr(DIAG_BIS)})</h3><p>Nummer = Kurzzeichen der Push-Adresse, keine Namen. Dein Handy: in der App
+„Test-Mitteilung senden“ tippen, dann steht bei ihm die Uhrzeit. „spät“ = Bestätigung über 10 min nach dem Versand.</p>
+<table class="mitt"><tr><th>Handy</th><th>bestätigt</th><th>zuletzt</th><th>Test</th><th>fehlt</th></tr>${zeilen || "<tr><td>noch nichts</td></tr>"}</table>`;
 }
 const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 // Handys je Minute (vom Nutzer: lieber klein und sicher). Erst nach Messung im Cloudflare-Dashboard erhöhen.
@@ -617,7 +655,8 @@ export async function mitteilungenSenden(db, now = Date.now()) {
       if (!abo) fehler = "Handy abgemeldet";
       else if (p.bis <= now) fehler = "abgelaufen";
       else try {
-        const r = await pushSenden(db, JSON.parse(abo), JSON.parse(p.nachricht), Math.max(60, Math.round((p.bis - now) / 1000)));
+        const r = await pushSenden(db, JSON.parse(abo), mitNr(JSON.parse(p.nachricht), p.endpoint, now), Math.max(60, Math.round((p.bis - now) / 1000)));
+        if (r.status < 300) await diagGesendet(db, p.endpoint, p.id, now);
         if (r.status === 404 || r.status === 410) {
           fehler = "Handy abgemeldet (" + r.status + ")";
           await db.prepare("DELETE FROM abos WHERE endpoint = ?1").bind(p.endpoint).run();

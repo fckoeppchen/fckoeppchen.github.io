@@ -466,6 +466,13 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   („Minimes – alle (MIN + MIN 2)“). **Auf-/Abstieg nach Phase 2 U13** in `REGELN` (`PHASE2_2026_U13`, PDF „Répartition U13 Minimes … Phase 2“
   vom Nutzer): I 5./6. runter, II/III 1. hoch 5./6. runter, IV 1./2. hoch 5./6. runter, V 1./2. hoch 4.–6. runter, VI nicht markiert. **U15 Phase 2**
   (PDF vom Nutzer, neu b): I–IV gleich, V = letzte Klasse, nicht markiert. Tests (470) mit Gegenprobe; Browser mit echten Daten (MIN, MIN 2 mit Kasten, Coach-Auswahl).
+- **Test „Empfang je Handy“, nur bis 12.11.2026** (vom Nutzer, 5.11.2026: fehlt immer dasselbe Handy oder mal dieses, mal jenes? Bewusst
+  **nicht** im Zahnrad und **nicht** im Datenschutz-Hinweis — eine Woche Test unter den 7 Test-Handys, danach wieder anonym wie vorher). Worker:
+  `handyNr(endpoint)` (4 Zeichen FNV aus der Push-Adresse), Quittung trägt `<id>~<nr>` (`mitNr`, sw.js unverändert), Tabelle `diag` (handy, mid,
+  gesendet, angekommen), auch die Test-Mitteilung (mid „test“: so erkennt der Nutzer sein Handy). `?zahlen`: Abschnitt „Test: Empfang je Handy“
+  (bestätigt n von m, spät > 10 min, zuletzt, Test, was fehlt). Nach `DIAG_BIS` merkt er nichts mehr, löscht die Tabelle, Abschnitt weg —
+  **danach den Code wieder ausbauen** (`DIAG_BIS`, `handyNr`, `TAB_DIAG`, `diagGesendet`, `mitNr`, `diagHtml`, Quittung-Split, Test in fussball.mjs).
+  Tests (474) mit Gegenproben. **Worker neu einfügen nötig.**
 - **Kein Doppeltipp-Zoom** (vom Nutzer, 1.11.2026, Fassung 1.11. neu a): schnelles 5× aufs Logo zoomte am iPhone manchmal → `html{touch-action:manipulation}`; Zoomen mit zwei Fingern geht weiter.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
