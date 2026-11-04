@@ -256,7 +256,8 @@ const PHASE1_2026 = {
 };
 // Nach Phase 2 2026-2027, U13 („Répartition U13 Minimes … Phase 2“ der FLF, vom Nutzer als PDF, 4.11.2026): I 5./6. runter;
 // II und III 1. hoch, 5./6. runter; IV 1./2. hoch, 5./6. runter; V 1./2. hoch, 4.–6. runter. VI (letzte Klasse) hängt laut FLF
-// wieder von den Anmeldungen ab → nicht markiert. U15 Phase 2: noch kein Rundschreiben.
+// wieder von den Anmeldungen ab → nicht markiert. U15 („Répartition U15 Scolaires … Phase 2“, 4.11.2026): I–IV gleich, V ist dort
+// die letzte Klasse → nicht markiert (die FLF schreibt „1. jeder Serie und der beste 2.“, aber mit demselben Vorbehalt).
 const PHASE2_2026_U13 = {
   1: { auf: [], ab: [5, 6] },
   2: { auf: [1], ab: [5, 6] },
@@ -268,6 +269,7 @@ const REGELN = {
   "20262027 U13 Phase 1": PHASE1_2026,
   "20262027 U15 Phase 1": PHASE1_2026,
   "20262027 U13 Phase 2": PHASE2_2026_U13,
+  "20262027 U15 Phase 2": { 1: PHASE2_2026_U13[1], 2: PHASE2_2026_U13[2], 3: PHASE2_2026_U13[3], 4: PHASE2_2026_U13[4] },
 };
 
 function klasseVon(name) {
@@ -767,7 +769,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "4.11.2026 neu a";
+const FASSUNG = "4.11.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action

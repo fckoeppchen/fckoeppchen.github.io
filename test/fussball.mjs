@@ -154,7 +154,8 @@ ok(M.zonen("20262027", "U13 Minimes Cl6 S5 Phase 1") === null, "letzte Klasse: k
 gleich(M.zonen("20262027", "U13 Minimes Cl3 S2 Phase 2"), { auf: [1], ab: [5, 6] }, "U13 Phase 2, Klasse III: 1. hoch, 5./6. runter");
 gleich(M.zonen("20262027", "U13 Minimes Cl5 S1 Phase 2"), { auf: [1, 2], ab: [4, 5, 6] }, "U13 Phase 2, Klasse V: 1./2. hoch, 4.–6. runter");
 ok(M.zonen("20262027", "U13 Minimes Cl6 S5 Phase 2") === null, "U13 Phase 2, letzte Klasse: keine Regel");
-ok(M.zonen("20262027", "U15 Scolaires Cl4 S3 Phase 2") === null, "U15 Phase 2: (noch) keine Regel");
+gleich(M.zonen("20262027", "U15 Scolaires Cl4 S3 Phase 2"), { auf: [1, 2], ab: [5, 6] }, "U15 Phase 2, Klasse IV: 1./2. hoch, 5./6. runter");
+ok(M.zonen("20262027", "U15 Scolaires Cl5 S1 Phase 2") === null, "U15 Phase 2, letzte Klasse V: keine Regel");
 ok(M.zonen("20272028", "U13 Minimes Cl4 S2 Phase 1") === null, "andere Saison: keine Regel");
 ok(M.zonen("20262027", "Coupe U13 Minimes - 1/32 de Finale") === null, "Pokal: keine Regel");
 gleich(M.zonen("20262027", "U15 Scolaires Cl4 S2 Phase 1"), { auf: [1, 2], ab: [5, 6] }, "U15: dieselben Regeln wie U13");

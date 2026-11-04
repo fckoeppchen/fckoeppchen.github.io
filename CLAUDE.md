@@ -463,8 +463,8 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Kalender bleibt `u13-1.ics` (`erste` in `aufbereiten`: ohne I/II neben einer II = erste Mannschaft; sonst wurde daraus u13.ics und u13-1.ics
   verschwand — der Kalender-Spiegel im alten Repo hing daran). Spruch-Reihenfolge: „MIN“ = Platz von MIN 1. Coach-Auswahl gruppiert nach `kurz`
   („Minimes – alle (MIN + MIN 2)“). **Auf-/Abstieg nach Phase 2 U13** in `REGELN` (`PHASE2_2026_U13`, PDF „Répartition U13 Minimes … Phase 2“
-  vom Nutzer): I 5./6. runter, II/III 1. hoch 5./6. runter, IV 1./2. hoch 5./6. runter, V 1./2. hoch 4.–6. runter, VI nicht markiert. U15 Phase 2
-  fehlt noch. Tests (470) mit Gegenprobe; Browser mit echten Daten (MIN, MIN 2 mit Kasten, Coach-Auswahl).
+  vom Nutzer): I 5./6. runter, II/III 1. hoch 5./6. runter, IV 1./2. hoch 5./6. runter, V 1./2. hoch 4.–6. runter, VI nicht markiert. **U15 Phase 2**
+  (PDF vom Nutzer, neu b): I–IV gleich, V = letzte Klasse, nicht markiert. Tests (470) mit Gegenprobe; Browser mit echten Daten (MIN, MIN 2 mit Kasten, Coach-Auswahl).
 - **Kein Doppeltipp-Zoom** (vom Nutzer, 1.11.2026, Fassung 1.11. neu a): schnelles 5× aufs Logo zoomte am iPhone manchmal → `html{touch-action:manipulation}`; Zoomen mit zwei Fingern geht weiter.
 - **Pokal bei den Kindern: keine Ergebnis-Mitteilung** (vom Nutzer, 22.10.2026, „so lassen“): „Spieltag komplett“
   und „Tabelle“ gibt es nur für Ligaklassen (CC), Pokal/Freundschaft lösen nur „Morgen/Heute Spiel“ aus.
