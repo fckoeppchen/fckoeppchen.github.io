@@ -1,21 +1,4 @@
 {
- "ereignisse": [
-  {
-   "reiter": [
-    "Seniors 2"
-   ],
-   "id": "tabelle:18918:45403:7:10:7:2026-11-03",
-   "art": "tabelle",
-   "titel": "Seniors 2 · Tabelle",
-   "text": "Koeppchen I jetzt 7. Platz (vorher 9.) · 10 Punkte aus 7 Spielen",
-   "basis": {
-    "pl": 9,
-    "pkt": 7,
-    "sp": 6
-   },
-   "ab": 1793685600000,
-   "bis": 1793772000000
-  }
- ],
+ "ereignisse": [],
  "live": []
 }
