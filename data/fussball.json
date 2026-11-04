@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-04T11:02:09.566Z",
+ "stand": "2026-11-04T13:50:42.532Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -111,7 +111,8 @@
    "kurz": "POU",
    "klassen": [
     19563,
-    19361
+    19361,
+    "coach-45395"
    ],
    "reiter": "POU 1",
    "datei": "u11-1.ics",
@@ -11199,24 +11200,6 @@
      "ort": "Terrain Breil (Echternach)"
     },
     {
-     "id": 6685061,
-     "d": "2026-11-15T00:00:01+01:00",
-     "tag": 6,
-     "h": {
-      "id": 45934,
-      "n": "FC Munsbach I"
-     },
-     "a": {
-      "id": 45317,
-      "n": "Victoria Rosport I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Munsbach (synth.)"
-    },
-    {
      "id": 6685065,
      "d": "2026-11-15T09:30:00+01:00",
      "tag": 6,
@@ -11269,6 +11252,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
+     "id": 6685061,
+     "d": "2026-11-15T11:00:00+01:00",
+     "tag": 6,
+     "h": {
+      "id": 45934,
+      "n": "FC Munsbach I"
+     },
+     "a": {
+      "id": 45317,
+      "n": "Victoria Rosport I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Munsbach (synth.)"
     },
     {
      "id": 6685071,
@@ -11876,7 +11877,7 @@
     },
     {
      "id": 6687061,
-     "d": "2026-11-15T00:00:01+01:00",
+     "d": "2026-11-15T09:00:00+01:00",
      "tag": 6,
      "h": {
       "id": 45935,
@@ -11891,24 +11892,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Munsbach (synth.)"
-    },
-    {
-     "id": 6687064,
-     "d": "2026-11-15T00:00:01+01:00",
-     "tag": 6,
-     "h": {
-      "id": 46204,
-      "n": "US Moutfort-Medingen"
-     },
-     "a": {
-      "id": 46381,
-      "n": "Olympia Christnach-Waldbillig"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Am Brill (Moutfort, synth.)"
     },
     {
      "id": 6687063,
@@ -11963,6 +11946,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Maartbësch (Berdorf)"
+    },
+    {
+     "id": 6687064,
+     "d": "2026-11-15T10:30:00+01:00",
+     "tag": 6,
+     "h": {
+      "id": 46204,
+      "n": "US Moutfort-Medingen"
+     },
+     "a": {
+      "id": 46381,
+      "n": "Olympia Christnach-Waldbillig"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Am Brill (Moutfort, synth.)"
     },
     {
      "id": 6687073,
@@ -12605,42 +12606,6 @@
      "ort": "Terrain Ralingen (synth.)"
     },
     {
-     "id": 6716062,
-     "d": "2026-11-14T00:00:01+01:00",
-     "tag": 6,
-     "h": {
-      "id": 45931,
-      "n": "FC Munsbach I"
-     },
-     "a": {
-      "id": 46205,
-      "n": "US Moutfort-Medingen I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Munsbach (synth.)"
-    },
-    {
-     "id": 6716061,
-     "d": "2026-11-14T00:00:01+01:00",
-     "tag": 6,
-     "h": {
-      "id": 46278,
-      "n": "Union Mertert-Wasserbillig I"
-     },
-     "a": {
-      "id": 45319,
-      "n": "Victoria Rosport I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain au Parc (Mertert, synth.)"
-    },
-    {
      "id": 6716064,
      "d": "2026-11-14T11:00:00+01:00",
      "tag": 6,
@@ -12677,6 +12642,24 @@
      "ort": "Terrain 2 (Junglinster, synth.)"
     },
     {
+     "id": 6716062,
+     "d": "2026-11-14T15:00:00+01:00",
+     "tag": 6,
+     "h": {
+      "id": 45931,
+      "n": "FC Munsbach I"
+     },
+     "a": {
+      "id": 46205,
+      "n": "US Moutfort-Medingen I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Munsbach (synth.)"
+    },
+    {
      "id": 6716063,
      "d": "2026-11-14T16:30:00+01:00",
      "tag": 6,
@@ -12693,6 +12676,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
+     "id": 6716061,
+     "d": "2026-11-14T16:30:00+01:00",
+     "tag": 6,
+     "h": {
+      "id": 46278,
+      "n": "Union Mertert-Wasserbillig I"
+     },
+     "a": {
+      "id": 45319,
+      "n": "Victoria Rosport I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain au Parc (Mertert, synth.)"
     },
     {
      "id": 6716074,
@@ -18831,6 +18832,38 @@
     }
    ],
    "start": "2026-10-31"
+  },
+  "coach-45395": {
+   "id": "coach-45395",
+   "n": "Vom Trainer eingetragen",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 8000000005,
+     "d": "2026-11-08T10:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 45395,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "a": {
+      "id": 0,
+      "n": "URB"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)",
+     "coach": {
+      "art": "Freundschaftsspiel",
+      "gegner": "URB"
+     }
+    }
+   ],
+   "start": "2026-11-08"
   }
  },
  "bgl": {
@@ -23805,6 +23838,20 @@
    "bem": null,
    "abgesagt": false,
    "geaendert": "2026-10-28T07:24:13.424Z"
+  },
+  {
+   "id": 5,
+   "reiter": "POU 1",
+   "art": "Freundschaftsspiel",
+   "datum": "2026-11-08",
+   "zeit": "10:00",
+   "ende": null,
+   "gegner": "URB",
+   "heim": true,
+   "ort": "Am Ga (Wormeldange, synth.)",
+   "bem": null,
+   "abgesagt": false,
+   "geaendert": "2026-11-04T13:49:12.219Z"
   }
  ],
  "coachDoppelt": [],

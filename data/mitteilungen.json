@@ -47,6 +47,19 @@
    "text": "Uhrzeit steht fest: Sa., 14.11. um 15:00 gegen ENT Biwer/Berbourg II · 📍 Terrain 2 (Berbourg, synth.)",
    "ab": 1793790142409,
    "bis": 1794664800000
+  },
+  {
+   "reiter": [
+    "POU 1",
+    "Poussins U11"
+   ],
+   "art": "trainer",
+   "spiel": 5,
+   "ab": 1793800752219,
+   "bis": 1793973552219,
+   "id": "trainer:5:2026-11-04T13:49:12.219Z",
+   "titel": "POU 1 · Neues Spiel",
+   "text": "So., 8.11. um 10:00 · gegen URB · 📍 Am Ga (Wormeldange, synth.)"
   }
  ],
  "live": []
