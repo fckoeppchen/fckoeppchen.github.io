@@ -60,6 +60,54 @@
    "id": "trainer:5:2026-11-04T13:49:12.219Z",
    "titel": "POU 1 · Neues Spiel",
    "text": "So., 8.11. um 10:00 · gegen URB · 📍 Am Ga (Wormeldange, synth.)"
+  },
+  {
+   "reiter": [
+    "SCO",
+    "Scolaires U15"
+   ],
+   "id": "phase:19905:45399",
+   "art": "neu",
+   "titel": "SCO · Neue Phase",
+   "text": "Spielplan Cl4 S3 Phase 2 ist da: 5 Spiele, erstes Sa., 14.11. um 15:00 gegen US Moutfort-Medingen",
+   "ab": 1793827039587,
+   "bis": 1793999839587
+  },
+  {
+   "reiter": [
+    "MIN",
+    "Minimes U13"
+   ],
+   "id": "phase:19961:45396",
+   "art": "neu",
+   "titel": "MIN · Neue Phase",
+   "text": "Spielplan Cl3 S2 Phase 2 ist da: 5 Spiele, erstes Sa., 14.11. um 16:00 gegen Victoria Rosport I",
+   "ab": 1793827039587,
+   "bis": 1793999839587
+  },
+  {
+   "reiter": [
+    "BAM 1",
+    "Bambinis U7"
+   ],
+   "id": "zeit:9202611141:2026-11-14T10:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "BAM 1 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 14.11. um 10:30 · Mini-Spieltag · 📍 Terrain Breil (Echternach, synth.)",
+   "ab": 1793827039587,
+   "bis": 1794648600000
+  },
+  {
+   "reiter": [
+    "BAM 2",
+    "Bambinis U7"
+   ],
+   "id": "zeit:9202611142:2026-11-14T09:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "BAM 2 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 14.11. um 09:30 · Mini-Spieltag · 📍 Terrain 2 (Grevenmacher, synth.)",
+   "ab": 1793827039587,
+   "bis": 1794645000000
   }
  ],
  "live": []

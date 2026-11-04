@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-04T13:50:42.532Z",
+ "stand": "2026-11-04T21:17:05.495Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -44,7 +44,8 @@
     19563,
     19115,
     19599,
-    19601
+    19601,
+    19905
    ],
    "reiter": "SCO",
    "datei": "u15.ics",
@@ -68,7 +69,8 @@
    "klassen": [
     19189,
     19615,
-    19617
+    19617,
+    19961
    ],
    "reiter": "MIN",
    "datei": "u13.ics",
@@ -11218,6 +11220,24 @@
      "ort": "Terrain 2 (Junglinster, synth.)"
     },
     {
+     "id": 6685063,
+     "d": "2026-11-15T10:30:00+01:00",
+     "tag": 6,
+     "h": {
+      "id": 46352,
+      "n": "ENT Biwer/Berbourg I"
+     },
+     "a": {
+      "id": 46194,
+      "n": "CS Grevenmacher I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
      "id": 6685062,
      "d": "2026-11-15T10:30:00+01:00",
      "tag": 6,
@@ -11234,24 +11254,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain au Parc (Mertert, synth.)"
-    },
-    {
-     "id": 6685063,
-     "d": "2026-11-15T11:00:00+01:00",
-     "tag": 6,
-     "h": {
-      "id": 46352,
-      "n": "ENT Biwer/Berbourg I"
-     },
-     "a": {
-      "id": 46194,
-      "n": "CS Grevenmacher I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Berbourg, synth.)"
     },
     {
      "id": 6685061,
@@ -11894,24 +11896,6 @@
      "ort": "Terrain Munsbach (synth.)"
     },
     {
-     "id": 6687063,
-     "d": "2026-11-15T09:30:00+01:00",
-     "tag": 6,
-     "h": {
-      "id": 46351,
-      "n": "ENT Biwer/Berbourg II"
-     },
-     "a": {
-      "id": 45872,
-      "n": "Daring Echternach II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Berbourg, synth.)"
-    },
-    {
      "id": 6687065,
      "d": "2026-11-15T10:30:00+01:00",
      "tag": 6,
@@ -11928,6 +11912,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Grevenmacher, synth.)"
+    },
+    {
+     "id": 6687063,
+     "d": "2026-11-15T10:30:00+01:00",
+     "tag": 6,
+     "h": {
+      "id": 46351,
+      "n": "ENT Biwer/Berbourg II"
+     },
+     "a": {
+      "id": 45872,
+      "n": "Daring Echternach II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
     },
     {
      "id": 6687062,
@@ -12607,7 +12609,7 @@
     },
     {
      "id": 6716064,
-     "d": "2026-11-14T11:00:00+01:00",
+     "d": "2026-11-14T14:00:00+01:00",
      "tag": 6,
      "h": {
       "id": 46196,
@@ -12642,6 +12644,24 @@
      "ort": "Terrain 2 (Junglinster, synth.)"
     },
     {
+     "id": 6716063,
+     "d": "2026-11-14T15:00:00+01:00",
+     "tag": 6,
+     "h": {
+      "id": 46350,
+      "n": "ENT Biwer/Berbourg I"
+     },
+     "a": {
+      "id": 45392,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
      "id": 6716062,
      "d": "2026-11-14T15:00:00+01:00",
      "tag": 6,
@@ -12660,26 +12680,8 @@
      "ort": "Terrain Munsbach (synth.)"
     },
     {
-     "id": 6716063,
-     "d": "2026-11-14T16:30:00+01:00",
-     "tag": 6,
-     "h": {
-      "id": 46350,
-      "n": "ENT Biwer/Berbourg I"
-     },
-     "a": {
-      "id": 45392,
-      "n": "FC Koeppchen Wormeldange I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Berbourg, synth.)"
-    },
-    {
      "id": 6716061,
-     "d": "2026-11-14T16:30:00+01:00",
+     "d": "2026-11-14T16:00:00+01:00",
      "tag": 6,
      "h": {
       "id": 46278,
@@ -13337,7 +13339,7 @@
     },
     {
      "id": 6717062,
-     "d": "2026-11-14T10:00:00+01:00",
+     "d": "2026-11-14T12:30:00+01:00",
      "tag": 6,
      "h": {
       "id": 46197,
@@ -18375,6 +18377,711 @@
    ],
    "start": "2026-11-07T14:30:00+01:00"
   },
+  "19905": {
+   "id": 19905,
+   "n": "U15 Scolaires Cl4 S3 Phase 2",
+   "typ": "CC",
+   "ergebnisse": true,
+   "tabelle": [
+    {
+     "pl": 1,
+     "id": 45928,
+     "n": "ENT Munsbach/Mensdorf/Canach I",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
+     "pl": 2,
+     "id": 45958,
+     "n": "Swift Hesperange I",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
+     "pl": 3,
+     "id": 46200,
+     "n": "US Moutfort-Medingen",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
+     "pl": 4,
+     "id": 46329,
+     "n": "SC Bettembourg II",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
+     "pl": 5,
+     "id": 45399,
+     "n": "FC Koeppchen Wormeldange",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
+     "pl": 6,
+     "id": 45746,
+     "n": "Tricolore Gasperich",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    }
+   ],
+   "spiele": [
+    {
+     "id": 6320013,
+     "d": "2026-11-14T15:00:00+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45399,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "a": {
+      "id": 46200,
+      "n": "US Moutfort-Medingen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)"
+    },
+    {
+     "id": 6320012,
+     "d": "2026-11-14T16:30:00+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45928,
+      "n": "ENT Munsbach/Mensdorf/Canach I"
+     },
+     "a": {
+      "id": 46329,
+      "n": "SC Bettembourg II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Munsbach (synth.)"
+    },
+    {
+     "id": 6320011,
+     "d": "2026-11-14T16:30:00+01:00",
+     "tag": 1,
+     "h": {
+      "id": 45746,
+      "n": "Tricolore Gasperich"
+     },
+     "a": {
+      "id": 45958,
+      "n": "Swift Hesperange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Emile Bintner (Luxembourg, synth.)"
+    },
+    {
+     "id": 6320021,
+     "d": "2026-11-21T01:00:00+01:00",
+     "tag": 2,
+     "h": {
+      "id": 45746,
+      "n": "Tricolore Gasperich"
+     },
+     "a": {
+      "id": 45399,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Emile Bintner (Luxembourg, synth.)"
+    },
+    {
+     "id": 6320022,
+     "d": "2026-11-21T01:00:00+01:00",
+     "tag": 2,
+     "h": {
+      "id": 46200,
+      "n": "US Moutfort-Medingen"
+     },
+     "a": {
+      "id": 45928,
+      "n": "ENT Munsbach/Mensdorf/Canach I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Am Brill (Moutfort, synth.)"
+    },
+    {
+     "id": 6320023,
+     "d": "2026-11-21T01:30:00+01:00",
+     "tag": 2,
+     "h": {
+      "id": 46329,
+      "n": "SC Bettembourg II"
+     },
+     "a": {
+      "id": 45958,
+      "n": "Swift Hesperange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Municipal (Bettembourg, synth.)"
+    },
+    {
+     "id": 6320032,
+     "d": "2026-11-28T00:00:01+01:00",
+     "tag": 3,
+     "h": {
+      "id": 45958,
+      "n": "Swift Hesperange I"
+     },
+     "a": {
+      "id": 46200,
+      "n": "US Moutfort-Medingen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain synthétique (Hesperange, synth.)"
+    },
+    {
+     "id": 6320033,
+     "d": "2026-11-28T01:00:00+01:00",
+     "tag": 3,
+     "h": {
+      "id": 45928,
+      "n": "ENT Munsbach/Mensdorf/Canach I"
+     },
+     "a": {
+      "id": 45399,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Munsbach (synth.)"
+    },
+    {
+     "id": 6320031,
+     "d": "2026-11-28T01:00:00+01:00",
+     "tag": 3,
+     "h": {
+      "id": 46329,
+      "n": "SC Bettembourg II"
+     },
+     "a": {
+      "id": 45746,
+      "n": "Tricolore Gasperich"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Bettembourg, synth.)"
+    },
+    {
+     "id": 6320042,
+     "d": "2026-12-05T00:00:01+01:00",
+     "tag": 4,
+     "h": {
+      "id": 45399,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "a": {
+      "id": 45958,
+      "n": "Swift Hesperange I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)"
+    },
+    {
+     "id": 6320041,
+     "d": "2026-12-05T00:00:01+01:00",
+     "tag": 4,
+     "h": {
+      "id": 45746,
+      "n": "Tricolore Gasperich"
+     },
+     "a": {
+      "id": 45928,
+      "n": "ENT Munsbach/Mensdorf/Canach I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Gérard Pündel (Luxembourg, synth.)"
+    },
+    {
+     "id": 6320043,
+     "d": "2026-12-05T00:00:01+01:00",
+     "tag": 4,
+     "h": {
+      "id": 46200,
+      "n": "US Moutfort-Medingen"
+     },
+     "a": {
+      "id": 46329,
+      "n": "SC Bettembourg II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Am Brill (Moutfort, synth.)"
+    },
+    {
+     "id": 6320053,
+     "d": "2026-12-12T00:00:01+01:00",
+     "tag": 5,
+     "h": {
+      "id": 45958,
+      "n": "Swift Hesperange I"
+     },
+     "a": {
+      "id": 45928,
+      "n": "ENT Munsbach/Mensdorf/Canach I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain synthétique (Hesperange, synth.)"
+    },
+    {
+     "id": 6320051,
+     "d": "2026-12-12T00:00:01+01:00",
+     "tag": 5,
+     "h": {
+      "id": 46200,
+      "n": "US Moutfort-Medingen"
+     },
+     "a": {
+      "id": 45746,
+      "n": "Tricolore Gasperich"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Am Brill (Moutfort, synth.)"
+    },
+    {
+     "id": 6320052,
+     "d": "2026-12-12T01:30:00+01:00",
+     "tag": 5,
+     "h": {
+      "id": 46329,
+      "n": "SC Bettembourg II"
+     },
+     "a": {
+      "id": 45399,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Municipal (Bettembourg, synth.)"
+    }
+   ],
+   "start": "2026-11-14T15:00:00+01:00"
+  },
+  "19961": {
+   "id": 19961,
+   "n": "U13 Minimes Cl3 S2 Phase 2",
+   "typ": "CC",
+   "ergebnisse": true,
+   "tabelle": [
+    {
+     "pl": 1,
+     "id": 45396,
+     "n": "FC Koeppchen Wormeldange",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
+     "pl": 2,
+     "id": 46022,
+     "n": "Union Remich/Bous I",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
+     "pl": 3,
+     "id": 46192,
+     "n": "CS Grevenmacher I",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
+     "pl": 4,
+     "id": 46353,
+     "n": "ENT Biwer/Berbourg/UMW I",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
+     "pl": 5,
+     "id": 44738,
+     "n": "Jeunesse Junglinster I",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
+     "pl": 6,
+     "id": 44755,
+     "n": "Victoria Rosport I",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    }
+   ],
+   "spiele": [
+    {
+     "id": 6345011,
+     "d": "2026-11-14T15:00:00+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46022,
+      "n": "Union Remich/Bous I"
+     },
+     "a": {
+      "id": 44738,
+      "n": "Jeunesse Junglinster I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain um Gréin (Remich, synth.)"
+    },
+    {
+     "id": 6345013,
+     "d": "2026-11-14T15:30:00+01:00",
+     "tag": 1,
+     "h": {
+      "id": 46192,
+      "n": "CS Grevenmacher I"
+     },
+     "a": {
+      "id": 46353,
+      "n": "ENT Biwer/Berbourg/UMW I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Grevenmacher, synth.)"
+    },
+    {
+     "id": 6345012,
+     "d": "2026-11-14T16:00:00+01:00",
+     "tag": 1,
+     "h": {
+      "id": 44755,
+      "n": "Victoria Rosport I"
+     },
+     "a": {
+      "id": 45396,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Ralingen (synth.)"
+    },
+    {
+     "id": 6345022,
+     "d": "2026-11-21T00:00:01+01:00",
+     "tag": 2,
+     "h": {
+      "id": 46353,
+      "n": "ENT Biwer/Berbourg/UMW I"
+     },
+     "a": {
+      "id": 44755,
+      "n": "Victoria Rosport I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
+     "id": 6345023,
+     "d": "2026-11-21T00:00:01+01:00",
+     "tag": 2,
+     "h": {
+      "id": 45396,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "a": {
+      "id": 44738,
+      "n": "Jeunesse Junglinster I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)"
+    },
+    {
+     "id": 6345021,
+     "d": "2026-11-21T00:00:01+01:00",
+     "tag": 2,
+     "h": {
+      "id": 46022,
+      "n": "Union Remich/Bous I"
+     },
+     "a": {
+      "id": 46192,
+      "n": "CS Grevenmacher I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain um Gréin (Remich, synth.)"
+    },
+    {
+     "id": 6345031,
+     "d": "2026-11-28T00:00:01+01:00",
+     "tag": 3,
+     "h": {
+      "id": 45396,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "a": {
+      "id": 46022,
+      "n": "Union Remich/Bous I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)"
+    },
+    {
+     "id": 6345033,
+     "d": "2026-11-28T00:00:01+01:00",
+     "tag": 3,
+     "h": {
+      "id": 44755,
+      "n": "Victoria Rosport I"
+     },
+     "a": {
+      "id": 46192,
+      "n": "CS Grevenmacher I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Ralingen (synth.)"
+    },
+    {
+     "id": 6345032,
+     "d": "2026-11-28T01:30:00+01:00",
+     "tag": 3,
+     "h": {
+      "id": 44738,
+      "n": "Jeunesse Junglinster I"
+     },
+     "a": {
+      "id": 46353,
+      "n": "ENT Biwer/Berbourg/UMW I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Junglinster, synth.)"
+    },
+    {
+     "id": 6345042,
+     "d": "2026-12-05T00:00:01+01:00",
+     "tag": 4,
+     "h": {
+      "id": 46192,
+      "n": "CS Grevenmacher I"
+     },
+     "a": {
+      "id": 44738,
+      "n": "Jeunesse Junglinster I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false
+    },
+    {
+     "id": 6345043,
+     "d": "2026-12-05T00:00:01+01:00",
+     "tag": 4,
+     "h": {
+      "id": 46353,
+      "n": "ENT Biwer/Berbourg/UMW I"
+     },
+     "a": {
+      "id": 45396,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Streetwheels Arena (Berbourg)"
+    },
+    {
+     "id": 6345041,
+     "d": "2026-12-05T00:00:01+01:00",
+     "tag": 4,
+     "h": {
+      "id": 46022,
+      "n": "Union Remich/Bous I"
+     },
+     "a": {
+      "id": 44755,
+      "n": "Victoria Rosport I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain um Gréin (Remich, synth.)"
+    },
+    {
+     "id": 6345052,
+     "d": "2026-12-12T00:00:01+01:00",
+     "tag": 5,
+     "h": {
+      "id": 45396,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "a": {
+      "id": 46192,
+      "n": "CS Grevenmacher I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)"
+    },
+    {
+     "id": 6345051,
+     "d": "2026-12-12T01:30:00+01:00",
+     "tag": 5,
+     "h": {
+      "id": 46353,
+      "n": "ENT Biwer/Berbourg/UMW I"
+     },
+     "a": {
+      "id": 46022,
+      "n": "Union Remich/Bous I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
+     "id": 6345053,
+     "d": "2026-12-12T01:30:00+01:00",
+     "tag": 5,
+     "h": {
+      "id": 44738,
+      "n": "Jeunesse Junglinster I"
+     },
+     "a": {
+      "id": 44755,
+      "n": "Victoria Rosport I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Junglinster, synth.)"
+    }
+   ],
+   "start": "2026-11-14T16:00:00+01:00"
+  },
   "bam-6": {
    "id": "bam-6",
    "n": "Bambinis série 6",
@@ -18665,12 +19372,12 @@
        "ENT Biwer/Berbourg I",
        "US Sandweiler II"
       ],
-      "zeitSicher": false
+      "zeitSicher": true
      }
     },
     {
      "id": 9202611142,
-     "d": "2026-11-14T10:30:00+01:00",
+     "d": "2026-11-14T09:30:00+01:00",
      "tag": 6,
      "h": {
       "id": 0,
@@ -18691,7 +19398,7 @@
        "US Berdorf-Consdorf 01",
        "ENT Biwer/Berbourg II"
       ],
-      "zeitSicher": false
+      "zeitSicher": true
      }
     },
     {

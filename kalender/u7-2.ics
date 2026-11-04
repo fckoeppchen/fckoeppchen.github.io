@@ -65,13 +65,12 @@ END:VEVENT
 BEGIN:VEVENT
 UID:flf-9202611142@fc-koeppchen
 DTSTAMP:20260701T000000Z
-DTSTART:20261114T093000Z
-DTEND:20261114T110000Z
+DTSTART:20261114T083000Z
+DTEND:20261114T100000Z
 SUMMARY:⚽ Koeppchen BAM 2 · Mini-Spieltag in Grevenmacher
 LOCATION:Terrain 2 (Grevenmacher\, synth.)
 DESCRIPTION:Bambinis série 6\, Spieltag 6\nMit CS Grevenmacher II\, US Ber
- dorf-Consdorf 01\, ENT Biwer/Berbourg II\nUhrzeit laut FLF meist 10:30 (sa
- uf changement)
+ dorf-Consdorf 01\, ENT Biwer/Berbourg II
 END:VEVENT
 BEGIN:VEVENT
 UID:flf-9202611212@fc-koeppchen
