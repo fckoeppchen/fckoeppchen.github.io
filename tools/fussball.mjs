@@ -429,7 +429,10 @@ export function aufbereiten({ saison, vereinsSpiele, klassen }) {
   const alle = [...teams.values()];
   for (const t of alle.filter(liga)) {
     t.reiter = reiter(t);
-    t.datei = reiter(t, true).toLowerCase().replace(/\s+/g, "-") + ".ics";   // alter Name: bestehende Abos
+    // Ohne I/II neben einer II derselben Altersklasse ist es die erste Mannschaft (4.11.2026: die FLF nannte MIN 1 ab Phase 2
+    // „FC Koeppchen Wormeldange“, gleiche Nummer) — der Kalender bleibt u13-1.ics, sonst liefen alte Abos und der Spiegel ins Leere.
+    const erste = !zusatz(t) && alle.some(o => o !== t && liga(o) && o.ak === t.ak && zusatz(o));
+    t.datei = (erste ? t.kat + " 1" : reiter(t, true)).toLowerCase().replace(/\s+/g, "-") + ".ics";   // alter Name: bestehende Abos
     t.mit = alle.filter(o => !liga(o) && o.ak === t.ak && (!zusatz(o) || zusatz(o) === zusatz(t))).map(o => o.id);
   }
   // Kalender je Kinder-Altersklasse (vom Nutzer, 23.10.2026) — auch bei nur einer Mannschaft, damit das Abo

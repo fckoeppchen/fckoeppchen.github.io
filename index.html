@@ -243,7 +243,7 @@
 // Klasse I: 5./6. runter. II und III: 1. hoch, 5./6. runter. IV: 1./2. hoch, 5./6. runter.
 // V: 1. jeder Serie und der beste 2. hoch. Die letzte Klasse (bei U13 Klasse VI) hängt von
 // den Anmeldungen ab — dort wird nichts markiert, statt etwas zu behaupten.
-// Für Phase 2 gibt es noch keine Regeln: neue Phase → neue Zeilen hier.
+// Neue Phase → neue Zeilen hier (Phase 2 U13 siehe unten).
 // Gilt für U13 und U15 (U15: derselbe Wortlaut, vom Nutzer als Text nachgereicht). Für die
 // anderen Altersklassen liegt kein Rundschreiben vor, dort wird nichts markiert.
 // Schlüssel: Saison, Altersklasse, Phase.
@@ -254,9 +254,20 @@ const PHASE1_2026 = {
   4: { auf: [1, 2], ab: [5, 6] },
   5: { auf: [1], ab: [], extra: "dazu der beste Zweite aller Serien" },
 };
+// Nach Phase 2 2026-2027, U13 („Répartition U13 Minimes … Phase 2“ der FLF, vom Nutzer als PDF, 4.11.2026): I 5./6. runter;
+// II und III 1. hoch, 5./6. runter; IV 1./2. hoch, 5./6. runter; V 1./2. hoch, 4.–6. runter. VI (letzte Klasse) hängt laut FLF
+// wieder von den Anmeldungen ab → nicht markiert. U15 Phase 2: noch kein Rundschreiben.
+const PHASE2_2026_U13 = {
+  1: { auf: [], ab: [5, 6] },
+  2: { auf: [1], ab: [5, 6] },
+  3: { auf: [1], ab: [5, 6] },
+  4: { auf: [1, 2], ab: [5, 6] },
+  5: { auf: [1, 2], ab: [4, 5, 6] },
+};
 const REGELN = {
   "20262027 U13 Phase 1": PHASE1_2026,
   "20262027 U15 Phase 1": PHASE1_2026,
+  "20262027 U13 Phase 2": PHASE2_2026_U13,
 };
 
 function klasseVon(name) {
@@ -469,7 +480,8 @@ function nachDemSpiel(v, now) {
   // Versatz und ein Spiel mehr (Pokal) auf, und MIN 1 und MIN 2 hatten denselben Spruch. 8 Sprüche, 7 Teams:
   // am selben Wochenende nie zwei gleiche, jede Woche der nächste.
   const nr = Math.floor((Date.parse(tagLux(Date.parse(sp.d)) + "T12:00:00Z") / 864e5 + 3) / 7);
-  const fest = ["MIN 1", "MIN 2", "SCO", "POU 1", "POU 2", "PUP 1", "PUP 2", "BAM 1", "BAM 2"].indexOf(v.team.reiter);   // Namen vom Verein, Reihenfolge wie vorher (U13 1, U13 2, U15 …)
+  // „MIN“ (seit Phase 2 ohne I, 4.11.2026) behält den Platz von MIN 1.
+  const fest = ["MIN 1", "MIN 2", "SCO", "POU 1", "POU 2", "PUP 1", "PUP 2", "BAM 1", "BAM 2"].indexOf(v.team.reiter === "MIN" ? "MIN 1" : v.team.reiter);   // Namen vom Verein, Reihenfolge wie vorher (U13 1, U13 2, U15 …)
   const versatz = fest >= 0 ? fest : [...v.team.reiter].reduce((x, c) => x + c.charCodeAt(0), 0);
   return { sp, spruch: SPRUECHE[(nr + versatz) % SPRUECHE.length] };
 }
@@ -755,7 +767,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "3.11.2026 neu d";
+const FASSUNG = "4.11.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -2062,7 +2074,8 @@ const zeitLesen = id => { const h = cWert(id + "H"); return h ? h + ":" + cWert(
 // 27.10.2026: „wir nehmen einfach mehr Auswechselspieler mit“). Steht schon eine Auswahl im Spiel, die es so nicht gibt, bleibt sie wählbar.
 function mannschaftOptionen(teams, wahl) {
   const gruppen = new Map();
-  for (const t of teams) { const m = t.match(/^(.*?) (\d+)$/); if (m) (gruppen.get(m[1]) || gruppen.set(m[1], []).get(m[1])).push(t); }
+  // Nach Altersklasse (kurz), nicht nach der Zahl im Namen: „MIN“ (ohne Zahl, seit Phase 2) gehört mit MIN 2 zusammen.
+  for (const t of teams) { const g = (D?.teams || []).find(x => x.reiter === t)?.kurz || (t.match(/^(.*?) (\d+)$/) || [])[1]; if (g) (gruppen.get(g) || gruppen.set(g, []).get(g)).push(t); }
   const werte = [...teams, ...[...gruppen.values()].filter(l => l.length > 1).map(l => l.join("+"))];
   if (wahl && !werte.includes(wahl)) werte.push(wahl);
   const w = wahl || werte[0];

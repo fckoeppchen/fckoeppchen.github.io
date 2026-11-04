@@ -151,7 +151,10 @@ gleich(M.klasseVon("U13 Minimes Cl4 S2 Phase 1"), { nr: 4, phase: 1, kat: "U13" 
 gleich(M.zonen("20262027", "U13 Minimes Cl4 S2 Phase 1"), { auf: [1, 2], ab: [5, 6] }, "Klasse IV: 1./2. hoch, 5./6. runter");
 gleich(M.zonen("20262027", "U13 Minimes Cl1 S1 Phase 1").auf, [], "Klasse I: niemand steigt auf");
 ok(M.zonen("20262027", "U13 Minimes Cl6 S5 Phase 1") === null, "letzte Klasse: keine Regel");
-ok(M.zonen("20262027", "U13 Minimes Cl4 S2 Phase 2") === null, "Phase 2: (noch) keine Regel");
+gleich(M.zonen("20262027", "U13 Minimes Cl3 S2 Phase 2"), { auf: [1], ab: [5, 6] }, "U13 Phase 2, Klasse III: 1. hoch, 5./6. runter");
+gleich(M.zonen("20262027", "U13 Minimes Cl5 S1 Phase 2"), { auf: [1, 2], ab: [4, 5, 6] }, "U13 Phase 2, Klasse V: 1./2. hoch, 4.–6. runter");
+ok(M.zonen("20262027", "U13 Minimes Cl6 S5 Phase 2") === null, "U13 Phase 2, letzte Klasse: keine Regel");
+ok(M.zonen("20262027", "U15 Scolaires Cl4 S3 Phase 2") === null, "U15 Phase 2: (noch) keine Regel");
 ok(M.zonen("20272028", "U13 Minimes Cl4 S2 Phase 1") === null, "andere Saison: keine Regel");
 ok(M.zonen("20262027", "Coupe U13 Minimes - 1/32 de Finale") === null, "Pokal: keine Regel");
 gleich(M.zonen("20262027", "U15 Scolaires Cl4 S2 Phase 1"), { auf: [1, 2], ab: [5, 6] }, "U15: dieselben Regeln wie U13");
@@ -224,6 +227,14 @@ ok(!v1.status.keinePhase && !v2.status.keinePhase, "ohne neue Phase bei irgendwe
     "I fällt weg: MIN 1 zeigt Phase 2, Phase 1 unter früher");
   const vb2 = M.sicht(DB, 45397, jetzt);
   ok(vb2.status?.keinePhase && vb2.status.was.txt === "Platz 5.", "I fällt weg: MIN 2 „keine neue Phase“, nur Platz (kein Auf-/Abstieg)");
+  // (c) So kam es am 4.11.2026: die FLF benennt die I selbst um (gleiche Nummer, „FC Koeppchen Wormeldange“), MIN 2 bleibt.
+  const KU = team(45396, "FC Koeppchen Wormeldange", CLUB);
+  const u1 = roh(DIV4, "CC", "2026-09-19T14:30:00+02:00", G(1), KU, 2, 2, { tag: 1 }), u2 = roh(DIV3, "CC", "2026-11-14T16:00:00+01:00", KU, G(8), null, null, { tag: 1 });
+  const DC = aufbereiten({ saison: { id: "20262027", name: "Saison 2026-2027" }, vereinsSpiele: [u1, s4, u2],
+    klassen: { 19189: { spiele: [u1], tabelle: [rank(2, KU, 11)] }, 19233: { spiele: [s4], tabelle: [rank(5, K2, 0)] }, 20001: { spiele: [u2], tabelle: [] } } });
+  gleich(DC.teams.filter(t => t.reiter).map(t => [t.id, t.reiter, t.datei]), [[45396, "MIN", "u13-1.ics"], [45397, "MIN 2", "u13-2.ics"]],
+    "I umbenannt: Reiter MIN (gleiche Nummer), Kalender bleibt u13-1.ics");
+  ok(M.sicht(DC, 45397, jetzt).status?.keinePhase, "I umbenannt: MIN 2 „keine neue Phase“");
   // Nur Pokal ohne I/II (heute): hängt sich weiter an, nichts verschmolzen.
   ok(D.teams.some(t => t.id === 45398 && !t.reiter), "reiner Pokal ohne I/II bleibt eigene Vereinsmannschaft");
 }
