@@ -458,8 +458,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Text „Spieltag 7 komplett (1 Spiel abgebrochen): …“ (`verlegtText`); ist es unser Spiel: „… unser Spiel abgebrochen · …“ (vom Nutzer). App: in „Alle Spiele der Klasse“ „abgebrochen, Wertung offen“ (`offenMeta`).
   Die schon wartende Mitteilung vom 3.11. (`spieltag:18918:7`) von Hand in data/mitteilungen.json nachgetragen. Tests (464) mit Gegenprobe.
 - **Phase 2 U13 kam so** (4.11.2026, Fassung 4.11. neu a): die FLF hat die I selbst umbenannt (gleiche Nummer 45396, jetzt „FC Koeppchen
-  Wormeldange“ ohne I, auch in Phase-1-Spielen) — also kein Zusammenlegen nötig, Reiter heißt jetzt **„MIN“** (so vom Nutzer gewünscht, gleiche id →
-  gemerkter Reiter bleibt), Mitteilungen „MIN · …“. MIN 2 (nicht in Phase 2) zeigt „keine neue Phase“; der Pokal (gleicher Name) gehört jetzt nur zu MIN.
+  Wormeldange“ ohne I, auch in Phase-1-Spielen) — das Zusammenlegen griff darum nicht, und der Reiter hieß kurz „MIN“ (Fehler von Claude, Nutzer:
+  „abgemacht war MIN 1“). **Seit neu c:** ohne I/II neben einer II derselben Altersklasse (`erste`) heißt sie **„MIN 1“** (Reiter, Mitteilungen,
+  Coach, Statistik), Kopfzeile „U13 Minimes 1“. Ohne II (neue Saison) „MIN“. Die Mitteilung „MIN · Neue Phase“ vom 4.11. ging noch unter „MIN“ raus. MIN 2 (nicht in Phase 2) zeigt „keine neue Phase“; der Pokal (gleicher Name) gehört jetzt nur zu MIN.
   Kalender bleibt `u13-1.ics` (`erste` in `aufbereiten`: ohne I/II neben einer II = erste Mannschaft; sonst wurde daraus u13.ics und u13-1.ics
   verschwand — der Kalender-Spiegel im alten Repo hing daran). Spruch-Reihenfolge: „MIN“ = Platz von MIN 1. Coach-Auswahl gruppiert nach `kurz`
   („Minimes – alle (MIN + MIN 2)“). **Auf-/Abstieg nach Phase 2 U13** in `REGELN` (`PHASE2_2026_U13`, PDF „Répartition U13 Minimes … Phase 2“

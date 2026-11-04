@@ -233,8 +233,8 @@ ok(!v1.status.keinePhase && !v2.status.keinePhase, "ohne neue Phase bei irgendwe
   const u1 = roh(DIV4, "CC", "2026-09-19T14:30:00+02:00", G(1), KU, 2, 2, { tag: 1 }), u2 = roh(DIV3, "CC", "2026-11-14T16:00:00+01:00", KU, G(8), null, null, { tag: 1 });
   const DC = aufbereiten({ saison: { id: "20262027", name: "Saison 2026-2027" }, vereinsSpiele: [u1, s4, u2],
     klassen: { 19189: { spiele: [u1], tabelle: [rank(2, KU, 11)] }, 19233: { spiele: [s4], tabelle: [rank(5, K2, 0)] }, 20001: { spiele: [u2], tabelle: [] } } });
-  gleich(DC.teams.filter(t => t.reiter).map(t => [t.id, t.reiter, t.datei]), [[45396, "MIN", "u13-1.ics"], [45397, "MIN 2", "u13-2.ics"]],
-    "I umbenannt: Reiter MIN (gleiche Nummer), Kalender bleibt u13-1.ics");
+  gleich(DC.teams.filter(t => t.reiter).map(t => [t.id, t.reiter, t.datei]), [[45396, "MIN 1", "u13-1.ics"], [45397, "MIN 2", "u13-2.ics"]],
+    "I umbenannt: Reiter bleibt MIN 1 (gleiche Nummer), Kalender bleibt u13-1.ics");
   ok(M.sicht(DC, 45397, jetzt).status?.keinePhase, "I umbenannt: MIN 2 „keine neue Phase“");
   // Nur Pokal ohne I/II (heute): hängt sich weiter an, nichts verschmolzen.
   ok(D.teams.some(t => t.id === 45398 && !t.reiter), "reiner Pokal ohne I/II bleibt eigene Vereinsmannschaft");
