@@ -12,7 +12,7 @@ UID:flf-6509013@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20260919T123000Z
 DTEND:20260919T141500Z
-SUMMARY:⚽ ENT Biwer/Berbourg/UMW I – Koeppchen MIN 2:2
+SUMMARY:⚽ ENT Biwer/Berbourg/UMW I – Koeppchen MIN 1 2:2
 LOCATION:Terrain 2 (Berbourg\, synth.)
 DESCRIPTION:U13 Minimes Cl4 S2 Phase 1\, Spieltag 1
 END:VEVENT
@@ -21,7 +21,7 @@ UID:flf-6509022@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20260926T133000Z
 DTEND:20260926T151500Z
-SUMMARY:⚽ Koeppchen MIN – US Sandweiler 4:4
+SUMMARY:⚽ Koeppchen MIN 1 – US Sandweiler 4:4
 LOCATION:Am Ga (Wormeldange\, synth.)
 DESCRIPTION:U13 Minimes Cl4 S2 Phase 1\, Spieltag 2
 END:VEVENT
@@ -30,7 +30,7 @@ UID:flf-6509032@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20261003T143000Z
 DTEND:20261003T161500Z
-SUMMARY:⚽ ENT Mensdorf/Canach/Munsbach I – Koeppchen MIN 2:5
+SUMMARY:⚽ ENT Mensdorf/Canach/Munsbach I – Koeppchen MIN 1 2:5
 LOCATION:Terrain 2 (Mensdorf\, synth.)
 DESCRIPTION:U13 Minimes Cl4 S2 Phase 1\, Spieltag 3
 END:VEVENT
@@ -39,7 +39,7 @@ UID:flf-6509043@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20261010T123000Z
 DTEND:20261010T141500Z
-SUMMARY:⚽ Koeppchen MIN – Alisontia Steinsel II 7:1
+SUMMARY:⚽ Koeppchen MIN 1 – Alisontia Steinsel II 7:1
 LOCATION:Am Ga (Wormeldange\, synth.)
 DESCRIPTION:U13 Minimes Cl4 S2 Phase 1\, Spieltag 4
 END:VEVENT
@@ -48,7 +48,7 @@ UID:flf-6509051@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20261017T123000Z
 DTEND:20261017T141500Z
-SUMMARY:⚽ Koeppchen MIN – US Moutfort-Medingen 9:0
+SUMMARY:⚽ Koeppchen MIN 1 – US Moutfort-Medingen 9:0
 LOCATION:Am Ga (Wormeldange\, synth.)
 DESCRIPTION:U13 Minimes Cl4 S2 Phase 1\, Spieltag 5
 END:VEVENT
@@ -57,7 +57,7 @@ UID:flf-13833@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20261024T120000Z
 DTEND:20261024T134500Z
-SUMMARY:⚽ Koeppchen MIN – AS Hosingen 5:2 (Pokal)
+SUMMARY:⚽ Koeppchen MIN 1 – AS Hosingen 5:2 (Pokal)
 LOCATION:Am Ga (Wormeldange\, synth.)
 DESCRIPTION:Coupe U13 Minimes - 1/32 de Finale\, Spieltag 1
 END:VEVENT
@@ -66,7 +66,7 @@ UID:flf-13875@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20261107T133000Z
 DTEND:20261107T151500Z
-SUMMARY:⚽ Koeppchen MIN – Jeunesse Junglinster (Pokal)
+SUMMARY:⚽ Koeppchen MIN 1 – Jeunesse Junglinster (Pokal)
 LOCATION:Am Ga (Wormeldange\, synth.)
 DESCRIPTION:Coupe U13 Minimes - 1/16 de Finale\, Spieltag 1
 END:VEVENT
@@ -75,7 +75,7 @@ UID:flf-6345012@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20261114T150000Z
 DTEND:20261114T164500Z
-SUMMARY:⚽ Victoria Rosport I – Koeppchen MIN
+SUMMARY:⚽ Victoria Rosport I – Koeppchen MIN 1
 LOCATION:Terrain Ralingen (synth.)
 DESCRIPTION:U13 Minimes Cl3 S2 Phase 2\, Spieltag 1
 END:VEVENT
@@ -84,7 +84,7 @@ UID:flf-6345023@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20261120T230001Z
 DTEND:20261121T004501Z
-SUMMARY:⚽ Koeppchen MIN – Jeunesse Junglinster I · Uhrzeit offen
+SUMMARY:⚽ Koeppchen MIN 1 – Jeunesse Junglinster I · Uhrzeit offen
 LOCATION:Am Ga (Wormeldange\, synth.)
 DESCRIPTION:U13 Minimes Cl3 S2 Phase 2\, Spieltag 2
 END:VEVENT
@@ -93,7 +93,7 @@ UID:flf-6345031@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20261127T230001Z
 DTEND:20261128T004501Z
-SUMMARY:⚽ Koeppchen MIN – Union Remich/Bous I · Uhrzeit offen
+SUMMARY:⚽ Koeppchen MIN 1 – Union Remich/Bous I · Uhrzeit offen
 LOCATION:Am Ga (Wormeldange\, synth.)
 DESCRIPTION:U13 Minimes Cl3 S2 Phase 2\, Spieltag 3
 END:VEVENT
@@ -102,7 +102,7 @@ UID:flf-6345043@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20261204T230001Z
 DTEND:20261205T004501Z
-SUMMARY:⚽ ENT Biwer/Berbourg/UMW I – Koeppchen MIN · Uhrzeit offen
+SUMMARY:⚽ ENT Biwer/Berbourg/UMW I – Koeppchen MIN 1 · Uhrzeit offen
 LOCATION:Streetwheels Arena (Berbourg)
 DESCRIPTION:U13 Minimes Cl3 S2 Phase 2\, Spieltag 4
 END:VEVENT
@@ -111,7 +111,7 @@ UID:flf-6345052@fc-koeppchen
 DTSTAMP:20260701T000000Z
 DTSTART:20261211T230001Z
 DTEND:20261212T004501Z
-SUMMARY:⚽ Koeppchen MIN – CS Grevenmacher I · Uhrzeit offen
+SUMMARY:⚽ Koeppchen MIN 1 – CS Grevenmacher I · Uhrzeit offen
 LOCATION:Am Ga (Wormeldange\, synth.)
 DESCRIPTION:U13 Minimes Cl3 S2 Phase 2\, Spieltag 5
 END:VEVENT
