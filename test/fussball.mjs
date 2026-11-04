@@ -236,6 +236,8 @@ ok(!v1.status.keinePhase && !v2.status.keinePhase, "ohne neue Phase bei irgendwe
   gleich(DC.teams.filter(t => t.reiter).map(t => [t.id, t.reiter, t.datei]), [[45396, "MIN 1", "u13-1.ics"], [45397, "MIN 2", "u13-2.ics"]],
     "I umbenannt: Reiter bleibt MIN 1 (gleiche Nummer), Kalender bleibt u13-1.ics");
   ok(M.sicht(DC, 45397, jetzt).status?.keinePhase, "I umbenannt: MIN 2 „keine neue Phase“");
+  ok(/SUMMARY:⚽ Koeppchen MIN 1 – /.test(icsGruppe(DC, DC.teams.find(t => t.id === 45396).gruppe)) && !/Koeppchen MIN – /.test(icsGruppe(DC, DC.teams.find(t => t.id === 45396).gruppe)),
+    "I umbenannt: im Kalender „Koeppchen MIN 1“ wie der Reiter");
   // Nur Pokal ohne I/II (heute): hängt sich weiter an, nichts verschmolzen.
   ok(D.teams.some(t => t.id === 45398 && !t.reiter), "reiner Pokal ohne I/II bleibt eigene Vereinsmannschaft");
 }

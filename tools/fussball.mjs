@@ -163,7 +163,7 @@ function icsAus(D, liste, titel) {
   // sind U13 1 und U11 1 im Kalender nicht zu unterscheiden (vom Nutzer gemeldet). Pokal ohne
   // I/II: „Koeppchen U13“.
   const unsere = new Map(D.teams.filter(o => liste.some(t => o.id === t.id || (t.mit || []).includes(o.id)))
-    .flatMap(o => nummern(o).map(id => [id, "Koeppchen " + reiter(o)])));
+    .flatMap(o => nummern(o).map(id => [id, "Koeppchen " + (o.reiter || reiter(o))])));
   const name = s => unsere.get(s.id) || s.n;
   const kat = liste[0].kat, dauerMin = kat === "Seniors" ? 120 : KEINE_ERG.includes(kat) ? 90 : 105;
   const z = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//FC Koeppchen//fussball.html//DE", "CALSCALE:GREGORIAN",
