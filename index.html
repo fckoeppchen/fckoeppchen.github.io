@@ -771,7 +771,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "5.11.2026 neu d";
+const FASSUNG = "5.11.2026 neu e";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1789,6 +1789,9 @@ async function swAufraeumen() {
 }
 const pushPost = (was, daten) => fetch(WORKER_URL + "?push=" + was, { method: "POST", body: JSON.stringify(daten) })
   .then(async r => ({ ok: r.ok, status: r.status, ...(await r.json().catch(() => ({}))) }));
+// Steht vor dem Einschalten und, wenn sie an sind, unter „✓ Mitteilungen sind … erlaubt“ (vom Nutzer, 5.11.2026: immer sichtbar).
+const M_GUT_ZU_WISSEN = `<p class="klein">Gut zu wissen: Unsere App ist eine Web-App, keine App aus dem App Store. Die Mitteilungen laufen über den Browser des Handys,
+  und der stellt sie nicht ganz so zuverlässig zu. Fehlt mal eine, schau einfach in die App, dort ist alles aktuell.</p>`;
 async function mittHtml() {
   const box = document.getElementById("mitt");
   if (!box || !MITT_OFFEN) return;
@@ -1813,15 +1816,14 @@ async function mittHtml() {
         `<label class="haken"><input type="checkbox" data-t="${esc(r)}" data-a="${k}"${w.je[r].includes(k) ? " checked" : ""}> ${esc(mArtText(r, k))}</label>`).join("")}</div></div>`;
     };
     h = abo && Notification.permission === "granted"
-      ? `<p>✓ Mitteilungen sind auf diesem Gerät erlaubt. Nachts (23–7 Uhr) kommt nichts, das wartet bis morgens.</p>
+      ? `<p>✓ Mitteilungen sind auf diesem Gerät erlaubt. Nachts (23–7 Uhr) kommt nichts, das wartet bis morgens.</p>${M_GUT_ZU_WISSEN}
          ${mAufraeumen()}<h3 class="mh">Meine Mannschaften</h3><p class="klein">Mannschaft anhaken, dann darunter wählen, was von ihr kommen soll.</p>
          ${mReiter().map(mannschaft).join("")}
          ${mLive() ? liveKasten(w) : ""}
          <button class="knopf" id="mTest">Test-Mitteilung senden</button>
          <button class="knopf zweit" id="mAus">Abmelden</button>`
       : `<p>Dein Handy fragt einmal, ob die App Mitteilungen schicken darf. Danach wählst du Mannschaften und Arten aus.</p>
-         <p class="klein">Gut zu wissen: Unsere App ist eine Web-App, keine App aus dem App Store. Die Mitteilungen laufen über den Browser des Handys,
-         und der stellt sie nicht ganz so zuverlässig zu. Fehlt mal eine, schau einfach in die App, dort ist alles aktuell.</p>
+         ${M_GUT_ZU_WISSEN}
          <button class="knopf" id="mAn">Mitteilungen erlauben</button>`;
   }
   box.innerHTML = `<section class="card"><div class="chead"><h2>Mitteilungen</h2></div><div class="cbody">${h}
