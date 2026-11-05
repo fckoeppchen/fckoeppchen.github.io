@@ -100,6 +100,8 @@
   .heute .zusatz{text-align:center;font-size:13px;margin-top:8px}
   /* Koeppi (Maskottchen): daumengroß, neben einem kurzen Satz */
   .koeppi{width:64px;height:72px;object-fit:contain;flex:none}
+  .keinephase .kp{display:flex;align-items:center;gap:14px}.keinephase .kp>div{flex:1}.keinephase p{margin:0 0 6px}
+  .keinephase .kpgross{font-size:18px;font-weight:700;line-height:1.3}.koeppi.gross{width:96px;height:108px}
   .kzeile{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;font-size:14px;font-weight:600}
   .motto{text-align:center;margin-top:8px;font-size:13px;font-weight:700;color:var(--accentT);letter-spacing:.3px}
   .kzeile .motto{display:block;text-align:left;margin-top:4px}
@@ -769,7 +771,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "4.11.2026 neu c";
+const FASSUNG = "5.11.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1119,8 +1121,10 @@ function renderInnen() {
   // Phase beendet (Platz, Auf-/Abstieg) ganz oben, über allen anderen Kästen (vom Nutzer, 30.10.2026, neu w).
   if (v.status && v.status.keinePhase) {
     const k = istKinder(v);
-    h += `<div class="note${k ? " mitk" : ""}"><div><b>${esc(v.aktuell.n)} ist beendet.</b> ${esc(v.status.was.txt || "")}` +
-      `<br>Für ${esc(v.team.reiter)} ist im Moment keine neue Phase vorgesehen. Die bisherigen Spiele stehen weiter unten.${MOTTO}</div>${k ? koeppiBild("ruhig") : ""}</div>`;
+    // Größer und eigener Kasten (vom Nutzer, 5.11.2026): die Mannschaft spielt nicht mehr, die alte Phase steht unten unter „Früher“.
+    h += `<section class="card keinephase"><div class="chead"><h2>Keine neue Phase</h2></div><div class="cbody"><div class="kp">${k ? `<img class="koeppi gross" alt="Koeppi" src="bilder/k-ruhig.png">` : ""}<div>` +
+      `<p class="kpgross">Für ${esc(v.team.reiter)} ist im Moment keine neue Phase vorgesehen.</p>` +
+      `<p>${esc(v.aktuell.n)} ist beendet.${v.status.was.txt ? " " + esc(v.status.was.txt) : ""} Die Spiele stehen unten unter „Früher“.</p>${MOTTO}</div></div></div></section>`;
   } else if (v.status && v.status.was) {
     // Kinder: wartet die neue Klasse noch, steht der ruhige Koeppi rechts im Kasten.
     const ruhig = istKinder(v) && v.status.neuFehlt;
@@ -1148,7 +1152,7 @@ function renderInnen() {
 
 
   h += `<section class="card"><div class="chead"><h2>Nächste Spiele</h2></div><div class="cbody">`;
-  if (!v.kommend.length) h += kinder ? koeppiZeile("ruhig", "Noch keine Termine eingetragen.", "links") : `<div class="muted">Noch keine Termine eingetragen.</div>`;
+  if (!v.kommend.length) h += kinder && !v.status?.keinePhase ? koeppiZeile("ruhig", "Noch keine Termine eingetragen.", "links") : `<div class="muted">Noch keine Termine eingetragen.</div>`;
   // Höchstens fünf — bei den Seniors stünde sonst die halbe Saison hier.
   const ZEIG = 5;
   v.kommend.slice(0, ZEIG).forEach((sp, i) => {
@@ -1168,13 +1172,16 @@ function renderInnen() {
   }
   h += `</div></section>`;
 
-  if (v.aktuell && !v.aktuell.ergebnisse && !v.aktuell.tabelle) {
+  const keinePhase = !!v.status?.keinePhase;
+  if (keinePhase) {}
+  else if (v.aktuell && !v.aktuell.ergebnisse && !v.aktuell.tabelle) {
     h += `<div class="note">In der ${esc(v.team.kat)} veröffentlicht die FLF keine Ergebnisse und keine Tabelle — hier stehen darum nur die Termine.${v.team.kat === "U7" ? ` Die Mini-Spieltage stehen nicht im Extranet, sondern als PDF auf <a href="https://www.flf.lu/generaux-92804v4" target="_blank" rel="noopener">flf.lu</a>. Anstoß meist 10:30 (sauf changement), die genaue Uhrzeit kommt mit dem Wochenprogramm.` : ""}</div>`;
   } else if (v.aktuell) {
     h += `<section class="card"><div class="chead"><h2>Tabelle</h2><div class="hint">${esc(v.aktuell.n)}</div></div>
       <div class="cbody">${tabelleHtml(v.aktuell, v.eigen)}</div></section>`;
   }
 
+  if (!keinePhase) {
   h += `<section class="card"><div class="chead"><h2>${v.aktuell && !v.aktuell.ergebnisse ? "Bisherige Spiele" : "Unsere Ergebnisse"}</h2></div><div class="cbody">`;
   if (!v.gespielt.length) h += `<div class="muted">Noch nichts gespielt.</div>`;
   const ergZeile = sp => {
@@ -1187,12 +1194,13 @@ function renderInnen() {
 
   for (const sp of v.gespielt) h += ergZeile(sp);
   h += `</div></section>`;
+  }
 
-  if (v.aktuell) {
+  if (v.aktuell && !keinePhase) {
     h += `<details class="card"><summary><h2>Alle Spiele der Klasse</h2><span class="hint">${v.aktuell.spiele.length} Spiele</span></summary>
       <div class="cbody">${alleSpieleHtml(v.aktuell, ids)}</div></details>`;
   }
-  for (const k of v.frueher) {
+  for (const k of keinePhase ? [v.aktuell, ...v.frueher] : v.frueher) {
     h += `<details class="card"><summary><h2>Früher: ${esc(k.n.replace(alter, "").trim() || k.n)}</h2></summary>
       <div class="cbody">${tabelleHtml(k, v.eigen)}<div style="margin-top:10px">${alleSpieleHtml(k, ids)}</div></div></details>`;
   }

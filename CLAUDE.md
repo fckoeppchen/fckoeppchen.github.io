@@ -446,6 +446,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   derselben Altersklasse hat eine Ligaklasse, die nach unserem letzten Spiel beginnt): Reiter bleibt (Phase 3 vielleicht wieder gemeldet),
   oben Kasten „… ist beendet. Platz n. Für MIN 2 ist im Moment keine neue Phase vorgesehen.“ + Motto, Kinder mit ruhigem Koeppi; kein
   Auf-/Abstieg. Kommt sie wieder, verschwindet der Kasten von selbst. Tests (461) beide Fälle, Gegenproben; Browser bei 390 px.
+  **Neu (5.11.2026, Fassung 5.11. neu a, vom Nutzer: „ist ja eine frühere Phase“):** eigener größerer Kasten „Keine neue Phase“ (`.keinephase`,
+  großer ruhiger Koeppi 96×108, Satz fett 18 px, Motto); Tabelle, „Unsere Ergebnisse“ und „Alle Spiele der Klasse“ entfallen, die Phase steht
+  zugeklappt unter „Früher“; „Nächste Spiele“ mit Kalender-Knopf bleibt (ohne zweiten Koeppi). Browser mit echten Daten (MIN 2) bei 390 px.
 - **Trainer-Rechte je Altersklasse** (vom Nutzer, 3.11.2026, Fassung 3.11. neu b): ein Trainerteam je Altersklasse — Rechte „MIN“, „SCO“, „POU“,
   „PUP“, „BAM“ gelten für **alle** Mannschaften der Klasse, auch später dazugekommene (MIN 3) und solche ohne neue Phase (Reiter MIN 2 bleibt
   auswählbar, solange es ihn gibt). Seniors 1/2/3 einzeln. `teamPasst(rechte, reiter)` im Worker und in der App gleich (Recht ohne Zahl am Ende =
