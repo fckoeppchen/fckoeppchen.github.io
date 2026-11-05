@@ -321,7 +321,8 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   raus): `FUPA.bgl` in `tools/fupa-modus.mjs` = false. Hinkt die FLF-Tabelle nach, rechnet die App selbst (`bglTabelle`, Punktabzug aus der
   FLF-Tabelle). FuPas Begründungstext zum Abzug entfällt. Roude Léiw bleibt bei FuPa (FLF fragen: vom Nutzer nicht gewollt, sonst stünde
   auch das Extranet zur Frage; die FLF-Webseite lädt die Länderspiele von Clubee nach — gleiche Lage wie FuPa, nicht genutzt).
-- **Mitteilungen für alle — weiter aus** (5.11.2026: in Fassung neu b kurz eingeschaltet, vom Nutzer sofort zurück — neu c wieder `false`). **Neu d** (vom Nutzer): Hinweis oben
+- **Mitteilungen für alle — seit 5.11.2026 an** (vom Nutzer, Fassung 5.11. neu f; in neu b kurz eingeschaltet, sofort zurück, Texte erst abgestimmt). `MAX_ABOS` 30, 7 Handys waren schon angemeldet.
+  Zurück = `MITT_FUER_ALLE` false: Handys ohne Code melden sich beim nächsten Öffnen selbst ab; Code-Geräte bleiben. **Neu d** (vom Nutzer): Hinweis oben
   zusätzlich „Kleiner Hinweis: Die Mitteilungen kommen über den Browser … ab und zu … nicht ankommt. In der App steht aber immer alles.“; im Zahnrad vor
   „Mitteilungen erlauben“ und (neu e, vom Nutzer) auch unter „✓ Mitteilungen sind … erlaubt“ „Gut zu wissen: Unsere App ist eine Web-App … dort ist alles aktuell.“ (`M_GUT_ZU_WISSEN`). Freischalten erst auf sein Go. Vorbereitet 30.10.2026 (Fassung 30.10. neu a): `MITT_FUER_ALLE` in `index.html`
   (war false). Auf sein Go → true: alle sehen das Zahnrad (`mitt()` statt `mtest()` in `zahnradZeigen` und beim Start-Aufräumen — sonst

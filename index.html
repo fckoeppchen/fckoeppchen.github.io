@@ -771,7 +771,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "5.11.2026 neu e";
+const FASSUNG = "5.11.2026 neu f";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1763,7 +1763,7 @@ const mtest = () => { try { return ["1", "pro", "test", "familie"].includes(loca
 // Mitteilungen für alle (vom Nutzer, 30.10.2026: vorbereitet, eingeschaltet erst auf sein Go): true = alle sehen das Zahnrad
 // und einmal den Hinweis „Neu: Mitteilungen“; Tore und Coach bleiben beim eigenen Code. Wie viele Handys sich anmelden können,
 // regelt der Worker (`MAX_ABOS` bei Cloudflare, ohne sie 50) — phasenweise hochsetzen.
-const MITT_FUER_ALLE = false;
+const MITT_FUER_ALLE = true;
 const mitt = () => MITT_FUER_ALLE || mtest();
 const mTore = () => { try { return localStorage.getItem(KEY + "_mtest") === "pro"; } catch (e) { return false; } };
 // „📡 Live von FuPa“ (vom Nutzer, 30.10.2026): Ticker, Halbzeit, Tor, Endstand von FuPa — nur mit eigenem oder Familien-Code. Die App
