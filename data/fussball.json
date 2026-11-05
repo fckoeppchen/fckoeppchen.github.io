@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-05T11:02:04.482Z",
+ "stand": "2026-11-05T21:17:08.149Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -4736,7 +4736,7 @@
      "as": null,
      "gespielt": false,
      "forfait": false,
-     "ort": "Stade Schintgespesch (Mersch)"
+     "ort": "Terrain 1 (Lorentzweiler)"
     },
     {
      "id": 1002306,
@@ -18549,7 +18549,7 @@
     },
     {
      "id": 6320023,
-     "d": "2026-11-21T01:30:00+01:00",
+     "d": "2026-11-21T14:30:00+01:00",
      "tag": 2,
      "h": {
       "id": 46329,
@@ -18865,24 +18865,6 @@
      "ort": "Terrain Ralingen (synth.)"
     },
     {
-     "id": 6345022,
-     "d": "2026-11-21T00:00:01+01:00",
-     "tag": 2,
-     "h": {
-      "id": 46353,
-      "n": "ENT Biwer/Berbourg/UMW I"
-     },
-     "a": {
-      "id": 44755,
-      "n": "Victoria Rosport I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Berbourg, synth.)"
-    },
-    {
      "id": 6345023,
      "d": "2026-11-21T00:00:01+01:00",
      "tag": 2,
@@ -18917,6 +18899,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain um Gréin (Remich, synth.)"
+    },
+    {
+     "id": 6345022,
+     "d": "2026-11-21T15:00:00+01:00",
+     "tag": 2,
+     "h": {
+      "id": 46353,
+      "n": "ENT Biwer/Berbourg/UMW I"
+     },
+     "a": {
+      "id": 44755,
+      "n": "Victoria Rosport I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
     },
     {
      "id": 6345031,
