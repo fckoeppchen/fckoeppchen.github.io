@@ -321,8 +321,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   raus): `FUPA.bgl` in `tools/fupa-modus.mjs` = false. Hinkt die FLF-Tabelle nach, rechnet die App selbst (`bglTabelle`, Punktabzug aus der
   FLF-Tabelle). FuPas Begründungstext zum Abzug entfällt. Roude Léiw bleibt bei FuPa (FLF fragen: vom Nutzer nicht gewollt, sonst stünde
   auch das Extranet zur Frage; die FLF-Webseite lädt die Länderspiele von Clubee nach — gleiche Lage wie FuPa, nicht genutzt).
-- **Mitteilungen für alle — vorbereitet, noch aus** (vom Nutzer, 30.10.2026, Fassung 30.10. neu a): `MITT_FUER_ALLE` in `index.html`
-  (false). Auf sein Go → true: alle sehen das Zahnrad (`mitt()` statt `mtest()` in `zahnradZeigen` und beim Start-Aufräumen — sonst
+- **Mitteilungen für alle — seit 5.11.2026 an** (vom Nutzer, Fassung 5.11. neu b: „über die App freischalten“ statt Codes für 23 Leute; `MAX_ABOS` = 30,
+  7 Handys waren schon angemeldet). Vorbereitet 30.10.2026 (Fassung 30.10. neu a): `MITT_FUER_ALLE` in `index.html`
+  (war false). Auf sein Go → true: alle sehen das Zahnrad (`mitt()` statt `mtest()` in `zahnradZeigen` und beim Start-Aufräumen — sonst
   räumte `swAufraeumen` die Abos normaler Nutzer weg; leerer Code beim 5×-Logo schaltet dann nur Test/Coach aus, nicht das Abo), Tore und
   Coach bleiben beim eigenen Code (`mTore`, `coachDa`). Einmaliger Hinweis oben „🔔 Neu: Mitteilungen … nach und nach frei …“ mit ✕
   (`mittHinweis`, `fussball_v1_mhinweis`; Text vom Nutzer abgenommen), im Browser mit Link „so installierst du sie“ → Zahnrad mit
