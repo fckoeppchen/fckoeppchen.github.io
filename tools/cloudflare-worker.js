@@ -382,6 +382,7 @@ export const MAX_ABOS = 50;
 // die Adresse speichert der Worker ohnehin). Die Quittung trägt „<id>~<nummer>“. Nach DIAG_BIS zählt nichts mehr, die Tabelle
 // wird gelöscht und der Abschnitt auf ?zahlen verschwindet; danach den Code wieder ausbauen.
 export const DIAG_BIS = Date.parse("2026-11-19T23:00:00+01:00");
+export const MEIN_HANDY = "1707";   // Laurents Handy (von ihm am 5.11.2026 per Test-Mitteilung erkannt), auf ?zahlen markiert
 export const handyNr = ep => { let h = 0x811c9dc5; for (const c of String(ep)) h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0; return h.toString(16).padStart(8, "0").slice(0, 4); };
 const TAB_DIAG = "CREATE TABLE IF NOT EXISTS diag (handy TEXT NOT NULL, mid TEXT NOT NULL, gesendet INTEGER, angekommen INTEGER, PRIMARY KEY (handy, mid))";
 async function diagGesendet(db, ep, mid, now) {
@@ -569,7 +570,7 @@ async function diagHtml(db, now) {
     const spaet = da.filter(r => r.angekommen - r.gesendet > 10 * 60e3).length;
     const fehlt = echt.filter(r => !r.angekommen && now - r.gesendet > 10 * 60e3).sort((a, b) => b.gesendet - a.gesendet);
     const letzte = Math.max(0, ...h.l.map(r => r.angekommen || 0));
-    return `<tr><td><b>${nr}</b>${h.weg ? " (abgemeldet)" : ""}</td><td>${da.length} von ${echt.length}${spaet ? ` · ${spaet} spät` : ""}</td><td>${uhr(letzte || 0)}</td>
+    return `<tr><td><b>${nr}</b>${nr === MEIN_HANDY ? " 📱 dein Handy" : ""}${h.weg ? " (abgemeldet)" : ""}</td><td>${da.length} von ${echt.length}${spaet ? ` · ${spaet} spät` : ""}</td><td>${uhr(letzte || 0)}</td>
       <td>${test ? `Test ${uhr(test.gesendet)}${test.angekommen ? " ✓" : " –"}` : ""}</td>
       <td class="st">${fehlt.slice(0, 6).map(r => esc(titel.get(r.mid) || r.mid) + " (" + uhr(r.gesendet) + ")").join("<br>")}</td></tr>`;
   }).join("");
