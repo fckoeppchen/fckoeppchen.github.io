@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-05T06:01:50.452Z",
+ "stand": "2026-11-05T11:02:04.482Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -8239,6 +8239,24 @@
      "ort": "Terrain Op Birkelt (Larochette, synth.)"
     },
     {
+     "id": 1015086,
+     "d": "2026-11-18T20:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46587,
+      "n": "Olympia Christnach-Waldbillig I"
+     },
+     "a": {
+      "id": 45335,
+      "n": "Blo-Wäiss Medernach"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Am Lahr (Christnach)"
+    },
+    {
      "id": 1015085,
      "d": "2026-11-20T00:00:01+01:00",
      "tag": 8,
@@ -8274,24 +8292,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Stade Henri Bausch (Steinsel, synth.)"
-    },
-    {
-     "id": 1015086,
-     "d": "2026-11-20T20:00:00+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46587,
-      "n": "Olympia Christnach-Waldbillig I"
-     },
-     "a": {
-      "id": 45335,
-      "n": "Blo-Wäiss Medernach"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Am Lahr (Christnach)"
     },
     {
      "id": 1015083,
