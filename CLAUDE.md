@@ -474,7 +474,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (PDF vom Nutzer, neu b): I–IV gleich, V = letzte Klasse, nicht markiert. **Pokal** heißt seit der Umbenennung „MIN 1“ und steht nur dort (gleicher Name wie die
   Pokalmannschaft → eine Mannschaft; vom Nutzer: so lassen). **Phase 3 mit neuer „… I“** (andere Nummer): sie geht in den bestehenden Reiter, der
   seine Nummer 45396 behält (wer zuerst da war, gibt die Id); MIN 2 mit Phase 3 → Kasten weg. Test mit Gegenprobe. Tests (470) mit Gegenprobe; Browser mit echten Daten (MIN, MIN 2 mit Kasten, Coach-Auswahl).
-- **Test „Empfang je Handy“, nur bis 12.11.2026** (vom Nutzer, 5.11.2026: fehlt immer dasselbe Handy oder mal dieses, mal jenes? Bewusst
+- **Test „Empfang je Handy“, nur bis 19.11.2026** (vom Nutzer am 5.11. von 12.11. verlängert) (vom Nutzer, 5.11.2026: fehlt immer dasselbe Handy oder mal dieses, mal jenes? Bewusst
   **nicht** im Zahnrad und **nicht** im Datenschutz-Hinweis — eine Woche Test unter den 7 Test-Handys, danach wieder anonym wie vorher). Worker:
   `handyNr(endpoint)` (4 Zeichen FNV aus der Push-Adresse), Quittung trägt `<id>~<nr>` (`mitNr`, sw.js unverändert), Tabelle `diag` (handy, mid,
   gesendet, angekommen), auch die Test-Mitteilung (mid „test“: so erkennt der Nutzer sein Handy). `?zahlen`: Abschnitt „Test: Empfang je Handy“

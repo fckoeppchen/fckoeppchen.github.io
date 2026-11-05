@@ -381,7 +381,7 @@ export const MAX_ABOS = 50;
 // Jedes Abo bekommt eine Kurznummer aus seiner Push-Adresse (keine Namen, nicht im Zahnrad, nicht im Datenschutz-Hinweis —
 // die Adresse speichert der Worker ohnehin). Die Quittung trägt „<id>~<nummer>“. Nach DIAG_BIS zählt nichts mehr, die Tabelle
 // wird gelöscht und der Abschnitt auf ?zahlen verschwindet; danach den Code wieder ausbauen.
-export const DIAG_BIS = Date.parse("2026-11-12T23:00:00+01:00");
+export const DIAG_BIS = Date.parse("2026-11-19T23:00:00+01:00");
 export const handyNr = ep => { let h = 0x811c9dc5; for (const c of String(ep)) h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0; return h.toString(16).padStart(8, "0").slice(0, 4); };
 const TAB_DIAG = "CREATE TABLE IF NOT EXISTS diag (handy TEXT NOT NULL, mid TEXT NOT NULL, gesendet INTEGER, angekommen INTEGER, PRIMARY KEY (handy, mid))";
 async function diagGesendet(db, ep, mid, now) {
