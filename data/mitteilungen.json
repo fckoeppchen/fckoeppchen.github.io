@@ -108,6 +108,30 @@
    "text": "Uhrzeit steht fest: Sa., 14.11. um 09:30 · Mini-Spieltag · 📍 Terrain 2 (Grevenmacher, synth.)",
    "ab": 1793827039587,
    "bis": 1794645000000
+  },
+  {
+   "reiter": [
+    "SCO",
+    "Scolaires U15"
+   ],
+   "id": "heute:13806",
+   "art": "heute",
+   "titel": "SCO · Morgen Spiel",
+   "text": "16:30 gegen ENT Bastendorf/Vianden · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1793988000000,
+   "bis": 1794065400000
+  },
+  {
+   "reiter": [
+    "MIN 1",
+    "Minimes U13"
+   ],
+   "id": "heute:13875",
+   "art": "heute",
+   "titel": "MIN 1 · Morgen Spiel",
+   "text": "14:30 gegen Jeunesse Junglinster · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1793988000000,
+   "bis": 1794058200000
   }
  ],
  "live": []
