@@ -1496,6 +1496,11 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(!evs(leer([a]), leer([{ ...a, von: "18:00" }])).length, "Event: geändert → nichts");
   ok(!evs(leer([a]), leer([{ ...a, url: "u/a2" }])).length, "Event: andere Adresse am selben Tag (zusammengelegt) → nichts");
   ok(!evs(leer(null), leer([a])).length, "Event: erster Lauf ohne alte Liste → nichts");
+  const okt = { t: "Oktoberfest", url: "u/okt", tag: "2026-10-24" };
+  const m2 = evs(leer([a, okt]), leer([a, { ...okt, tag: "2027-10-02" }]));
+  ok(m2.length === 1 && m2[0].id === "event:u/okt:2027-10-02" && /2\.10\.2027/.test(m2[0].text), "Event: vergangenes Event, Seite auf nächstes Jahr umgeschrieben → neue Ausgabe, eine Mitteilung — ist " + JSON.stringify(m2));
+  ok(!evs(leer([a, { ...okt, tag: "2026-11-20" }]), leer([a, { ...okt, tag: "2026-11-27" }])).length, "Event: noch kommendes Event verschoben → nichts");
+  ok(!evs(leer([a, { ...okt, tag: "2027-10-02" }]), leer([a, { ...okt, tag: "2027-10-02", von: "18:00" }])).length, "Event: neue Ausgabe danach geändert → nichts");
   ok(!evs(leer([]), leer([{ ...b, tag: "2026-10-01" }])).length && !evs(leer([]), leer([{ ...b, abgesagt: true }])).length, "Event: vergangen oder abgesagt → nichts");
   ok(evs(leer([]), leer([b]), nacht)[0]?.ab === Date.parse("2026-11-03T07:00:00+01:00"), "Event: nachts gefunden → ab 7 Uhr");
   ok(passtZu({ je: { Woche: ["woche", "event"] } }, { reiter: ["Woche"], art: "event" }) && !passtZu({ je: { Woche: ["woche"] } }, { reiter: ["Woche"], art: "event" }), "Event: nur mit Haken");

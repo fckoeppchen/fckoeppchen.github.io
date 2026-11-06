@@ -430,6 +430,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   später mit einer Seite zusammengelegt wird, wechselt die Adresse am selben Tag); weggefallen/geändert/abgesagt/vergangen → nichts, erster Lauf
   ohne alte Liste → nichts. Titel „Neues Event“, Text Titel / „Fr., 4.12.2026 · 17:00–21:00“ / „📍 Ort“, id `event:<url>`, nachts ab 7:00.
   Worker: `event` in `MITT_ARTEN` (sonst fällt der Haken bei `?push=wahl` weg). Tests (450) mit Gegenprobe, Zahnrad im Browser. **Worker neu einfügen nötig.**
+  **Nächste Ausgabe** (vom Nutzer, 6.11.2026; Oktoberfest: 8. Ausgabe 24.10.2026, dieselbe Seite danach auf den 2.10.2027 umgeschrieben —
+  kam nicht als neu): stand die Adresse vorher nur mit vergangenem Tag in der Liste und hat jetzt einen späteren, ist es ein neues Event,
+  id `event:<url>:<Tag>`. Ein noch kommendes Event, das verschoben wird, bleibt „geändert“ (nichts). Tests (480) mit Gegenprobe.
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es

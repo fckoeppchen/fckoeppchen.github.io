@@ -310,12 +310,18 @@ export function ereignisse(alt, neu, vorher, now) {
   // zusammengelegt wird, wechselt die Adresse, bleibt aber am selben Tag). Ohne alte Liste (erster Lauf) nichts.
   const altEv = alt?.events?.liste;
   if (Array.isArray(altEv)) {
-    const urls = new Set(altEv.map(e => e.url)), tage = new Set(altEv.map(e => e.tag).filter(Boolean));
+    // Nächste Ausgabe (vom Nutzer, 6.11.2026: Oktoberfest 24.10.2026 → Seite auf 2.10.2027 umgeschrieben): stand die Adresse
+    // vorher nur mit einem vergangenen Tag drin und hat jetzt einen späteren, ist es ein neues Event (eigene id mit Tag).
+    const heute = tagLux(now), tage = new Set(altEv.map(e => e.tag).filter(Boolean));
+    const vorbei = e => e.tag && e.tag < heute;
     for (const e of neu?.events?.liste || []) {
-      if (urls.has(e.url) || (e.tag && tage.has(e.tag)) || e.abgesagt || (e.tag && e.tag < tagLux(now))) continue;
+      if ((e.tag && tage.has(e.tag)) || e.abgesagt || vorbei(e)) continue;
+      const gleich = altEv.filter(x => x.url === e.url);
+      const naechste = gleich.length && e.tag && gleich.every(x => vorbei(x) && x.tag < e.tag);
+      if (gleich.length && !naechste) continue;
       const wann = e.tag ? new Date(e.tag + "T12:00:00Z").toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "numeric", year: "numeric", timeZone: "UTC" }) : "";
       const zeit = e.von ? e.von + (e.bis ? "–" + e.bis : "") : "";
-      dazu({ reiter: ["Woche"], id: "event:" + e.url, art: "event", titel: "Neues Event",
+      dazu({ reiter: ["Woche"], id: "event:" + e.url + (naechste ? ":" + e.tag : ""), art: "event", titel: "Neues Event",
              text: [e.t, [wann, zeit].filter(Boolean).join(" · "), e.ort ? "📍 " + e.ort : ""].filter(Boolean).join("\n"),
              ab: tagzeit(now) ? now : naechste7(now), bis: e.tag ? umLux(e.tag, 23) : now + 7 * 24 * H });
     }
