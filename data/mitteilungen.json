@@ -50,43 +50,6 @@
   },
   {
    "reiter": [
-    "POU 1",
-    "Poussins U11"
-   ],
-   "art": "trainer",
-   "spiel": 5,
-   "ab": 1793800752219,
-   "bis": 1793973552219,
-   "id": "trainer:5:2026-11-04T13:49:12.219Z",
-   "titel": "POU 1 · Neues Spiel",
-   "text": "So., 8.11. um 10:00 · gegen URB · 📍 Am Ga (Wormeldange, synth.)"
-  },
-  {
-   "reiter": [
-    "SCO",
-    "Scolaires U15"
-   ],
-   "id": "phase:19905:45399",
-   "art": "neu",
-   "titel": "SCO · Neue Phase",
-   "text": "Spielplan Cl4 S3 Phase 2 ist da: 5 Spiele, erstes Sa., 14.11. um 15:00 gegen US Moutfort-Medingen",
-   "ab": 1793827039587,
-   "bis": 1793999839587
-  },
-  {
-   "reiter": [
-    "MIN",
-    "Minimes U13"
-   ],
-   "id": "phase:19961:45396",
-   "art": "neu",
-   "titel": "MIN · Neue Phase",
-   "text": "Spielplan Cl3 S2 Phase 2 ist da: 5 Spiele, erstes Sa., 14.11. um 16:00 gegen Victoria Rosport I",
-   "ab": 1793827039587,
-   "bis": 1793999839587
-  },
-  {
-   "reiter": [
     "BAM 1",
     "Bambinis U7"
    ],
@@ -111,6 +74,17 @@
   },
   {
    "reiter": [
+    "Woche"
+   ],
+   "id": "event:https://www.fckoeppchen.lu/oktoberfest-86045v4:2027-10-02",
+   "art": "event",
+   "titel": "Neues Event",
+   "text": "Oktoberfest\nSa., 2.10.2027",
+   "ab": 1793985781263,
+   "bis": 1794072181263
+  },
+  {
+   "reiter": [
     "SCO",
     "Scolaires U15"
    ],
@@ -132,17 +106,6 @@
    "text": "14:30 gegen Jeunesse Junglinster · 📍 Am Ga (Wormeldange, synth.)",
    "ab": 1793988000000,
    "bis": 1794058200000
-  },
-  {
-   "reiter": [
-    "Woche"
-   ],
-   "id": "event:https://www.fckoeppchen.lu/oktoberfest-86045v4:2027-10-02",
-   "art": "event",
-   "titel": "Neues Event",
-   "text": "Oktoberfest\nSa., 2.10.2027",
-   "ab": 1793985781263,
-   "bis": 1794072181263
   }
  ],
  "live": []

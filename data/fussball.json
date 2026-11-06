@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-05T21:17:08.149Z",
+ "stand": "2026-11-06T21:20:13.998Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -11274,24 +11274,6 @@
      "ort": "Terrain Munsbach (synth.)"
     },
     {
-     "id": 6685071,
-     "d": "2026-11-22T00:00:01+01:00",
-     "tag": 7,
-     "h": {
-      "id": 45524,
-      "n": "Daring Echternach I"
-     },
-     "a": {
-      "id": 46269,
-      "n": "ENT Canach/Mensdorf I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Breil (Echternach, synth.)"
-    },
-    {
      "id": 6685072,
      "d": "2026-11-22T00:00:01+01:00",
      "tag": 7,
@@ -11310,24 +11292,6 @@
      "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
-     "id": 6685073,
-     "d": "2026-11-22T00:00:01+01:00",
-     "tag": 7,
-     "h": {
-      "id": 44904,
-      "n": "Jeunesse Junglinster I"
-     },
-     "a": {
-      "id": 46352,
-      "n": "ENT Biwer/Berbourg I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Junglinster, synth.)"
-    },
-    {
      "id": 6685075,
      "d": "2026-11-22T00:00:01+01:00",
      "tag": 7,
@@ -11344,6 +11308,42 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Ralingen (synth.)"
+    },
+    {
+     "id": 6685073,
+     "d": "2026-11-22T09:30:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 44904,
+      "n": "Jeunesse Junglinster I"
+     },
+     "a": {
+      "id": 46352,
+      "n": "ENT Biwer/Berbourg I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Junglinster, synth.)"
+    },
+    {
+     "id": 6685071,
+     "d": "2026-11-22T10:30:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 45524,
+      "n": "Daring Echternach I"
+     },
+     "a": {
+      "id": 46269,
+      "n": "ENT Canach/Mensdorf I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Breil (Echternach, synth.)"
     },
     {
      "id": 6685085,
@@ -11968,24 +11968,6 @@
      "ort": "Terrain Am Brill (Moutfort, synth.)"
     },
     {
-     "id": 6687073,
-     "d": "2026-11-22T00:00:01+01:00",
-     "tag": 7,
-     "h": {
-      "id": 46195,
-      "n": "CS Grevenmacher II"
-     },
-     "a": {
-      "id": 46351,
-      "n": "ENT Biwer/Berbourg II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Grevenmacher, synth.)"
-    },
-    {
      "id": 6687071,
      "d": "2026-11-22T00:00:01+01:00",
      "tag": 7,
@@ -12022,24 +12004,6 @@
      "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
-     "id": 6687074,
-     "d": "2026-11-22T00:00:01+01:00",
-     "tag": 7,
-     "h": {
-      "id": 46381,
-      "n": "Olympia Christnach-Waldbillig"
-     },
-     "a": {
-      "id": 44705,
-      "n": "US Berdorf-Consdorf 01 II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Christnach, synth)"
-    },
-    {
      "id": 6687075,
      "d": "2026-11-22T00:00:01+01:00",
      "tag": 7,
@@ -12056,6 +12020,42 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Ralingen (synth.)"
+    },
+    {
+     "id": 6687073,
+     "d": "2026-11-22T10:30:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 46195,
+      "n": "CS Grevenmacher II"
+     },
+     "a": {
+      "id": 46351,
+      "n": "ENT Biwer/Berbourg II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Grevenmacher, synth.)"
+    },
+    {
+     "id": 6687074,
+     "d": "2026-11-22T10:30:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 46381,
+      "n": "Olympia Christnach-Waldbillig"
+     },
+     "a": {
+      "id": 44705,
+      "n": "US Berdorf-Consdorf 01 II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Christnach, synth)"
     },
     {
      "id": 6687085,
@@ -12698,60 +12698,6 @@
      "ort": "Terrain au Parc (Mertert, synth.)"
     },
     {
-     "id": 6716074,
-     "d": "2026-11-21T00:00:01+01:00",
-     "tag": 7,
-     "h": {
-      "id": 45523,
-      "n": "Daring Echternach I"
-     },
-     "a": {
-      "id": 45931,
-      "n": "FC Munsbach I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Breil (Echternach, synth.)"
-    },
-    {
-     "id": 6716071,
-     "d": "2026-11-21T00:00:01+01:00",
-     "tag": 7,
-     "h": {
-      "id": 46271,
-      "n": "ENT Canach/Mensdorf I"
-     },
-     "a": {
-      "id": 46196,
-      "n": "CS Grevenmacher I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Canach, synth.)"
-    },
-    {
-     "id": 6716073,
-     "d": "2026-11-21T00:00:01+01:00",
-     "tag": 7,
-     "h": {
-      "id": 44902,
-      "n": "Jeunesse Junglinster I"
-     },
-     "a": {
-      "id": 46350,
-      "n": "ENT Biwer/Berbourg I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Junglinster, synth.)"
-    },
-    {
      "id": 6716072,
      "d": "2026-11-21T00:00:01+01:00",
      "tag": 7,
@@ -12786,6 +12732,60 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Ralingen (synth.)"
+    },
+    {
+     "id": 6716074,
+     "d": "2026-11-21T11:00:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 45523,
+      "n": "Daring Echternach I"
+     },
+     "a": {
+      "id": 45931,
+      "n": "FC Munsbach I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Breil (Echternach, synth.)"
+    },
+    {
+     "id": 6716073,
+     "d": "2026-11-21T11:00:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 44902,
+      "n": "Jeunesse Junglinster I"
+     },
+     "a": {
+      "id": 46350,
+      "n": "ENT Biwer/Berbourg I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Junglinster, synth.)"
+    },
+    {
+     "id": 6716071,
+     "d": "2026-11-21T15:00:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 46271,
+      "n": "ENT Canach/Mensdorf I"
+     },
+     "a": {
+      "id": 46196,
+      "n": "CS Grevenmacher I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Canach, synth.)"
     },
     {
      "id": 6716084,
@@ -18512,24 +18512,6 @@
      "ort": "Stade Emile Bintner (Luxembourg, synth.)"
     },
     {
-     "id": 6320021,
-     "d": "2026-11-21T01:00:00+01:00",
-     "tag": 2,
-     "h": {
-      "id": 45746,
-      "n": "Tricolore Gasperich"
-     },
-     "a": {
-      "id": 45399,
-      "n": "FC Koeppchen Wormeldange"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Emile Bintner (Luxembourg, synth.)"
-    },
-    {
      "id": 6320022,
      "d": "2026-11-21T01:00:00+01:00",
      "tag": 2,
@@ -18564,6 +18546,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Stade Municipal (Bettembourg, synth.)"
+    },
+    {
+     "id": 6320021,
+     "d": "2026-11-21T16:30:00+01:00",
+     "tag": 2,
+     "h": {
+      "id": 45746,
+      "n": "Tricolore Gasperich"
+     },
+     "a": {
+      "id": 45399,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Emile Bintner (Luxembourg, synth.)"
     },
     {
      "id": 6320032,
