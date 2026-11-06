@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-06T21:20:13.998Z",
+ "stand": "2026-11-06T22:32:01.630Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -15089,10 +15089,11 @@
       "id": 44723,
       "n": "Jeunesse Junglinster"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 3 - 4",
      "ort": "Terrain 2 (Hobscheid)"
     },
     {
@@ -15107,9 +15108,9 @@
       "id": 44589,
       "n": "F91 Dudelange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Biwer)"
     },
@@ -15125,9 +15126,9 @@
       "id": 45865,
       "n": "Una Strassen I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Emile Bintner (Luxembourg, synth.)"
     },
@@ -15143,10 +15144,11 @@
       "id": 44595,
       "n": "Yellow Boys Weiler-la-Tour I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 4,
+     "as": 5,
+     "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 4 - 5",
      "ort": "Heiligen Wiese (Bastendorf, synth)"
     },
     {
