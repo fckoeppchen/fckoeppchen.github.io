@@ -132,6 +132,17 @@
    "text": "14:30 gegen Jeunesse Junglinster · 📍 Am Ga (Wormeldange, synth.)",
    "ab": 1793988000000,
    "bis": 1794058200000
+  },
+  {
+   "reiter": [
+    "Woche"
+   ],
+   "id": "event:https://www.fckoeppchen.lu/oktoberfest-86045v4:2027-10-02",
+   "art": "event",
+   "titel": "Neues Event",
+   "text": "Oktoberfest\nSa., 2.10.2027",
+   "ab": 1793985781263,
+   "bis": 1794072181263
   }
  ],
  "live": []
