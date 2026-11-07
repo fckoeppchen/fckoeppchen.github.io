@@ -658,7 +658,8 @@ async function main() {
     const alte = alt.adressen || {};
     const stunde = +new Date().toLocaleString("en-GB", { timeZone: "Europe/Luxembourg", hour: "2-digit", hourCycle: "h23" });
     neu.adressen = Object.fromEntries([...orte].filter(o => alte[o]).map(o => [o, alte[o]]));
-    if ([...orte].some(o => !(o in alte)) || stunde === 7) {
+    // Auch neu holen, wenn eine gemerkte Adresse noch keine Postleitzahl hat (alte Form vor dem 7.11.2026).
+    if ([...orte].some(o => !(o in alte) || !/\b[A-Z]-\d{4,5}\b/.test(alte[o])) || stunde === 7) {
       try {
         const { sportFields, sportComplexes, cities } = await gq(`{ sportFields{ id name sportComplex{ id } } sportComplexes{ id houseNumber street cityId } cities{ id name postalCode } }`);
         neu.adressen = adressenAus(sportFields, sportComplexes, orte, cities);
