@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-07T15:16:51.228Z",
+ "stand": "2026-11-07T15:46:47.041Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -17228,10 +17228,11 @@
       "id": 45462,
       "n": "FC Mamer 32"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 9,
+     "as": 8,
+     "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 9 - 8",
      "ort": "Terrain Jos Bloes (Bascharage, synth.)"
     },
     {
@@ -18136,9 +18137,9 @@
       "id": 46547,
       "n": "FC The Belval Belvaux"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 17,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Lorentzweiler, synth.)"
     },
@@ -18190,9 +18191,9 @@
       "id": 46573,
       "n": "Etzella Ettelbruck"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Plaine des Jeux André Wolff (Bertrange, synth.)"
     },
