@@ -123,6 +123,12 @@
   .live .quelle{font-size:11.5px;color:var(--muted);text-align:center;margin-top:8px}
   .live .quelle a{color:var(--accentT)}
   .fupatext a{color:var(--accentT)}
+  .form{margin:8px 0 2px}
+  .form .ft{font-size:12px;color:var(--muted);margin-bottom:3px}
+  .form .fz{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:2px 0}
+  .form .fn{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .form .fb{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:4px;color:#fff;font-size:12px;font-weight:700;margin-left:3px}
+  .form .fb.s{background:#2e9e5b}.form .fb.u{background:#9aa0a6}.form .fb.n{background:#d9534f}
   .adresse{font-size:13px;color:var(--muted);margin:1px 0 0 22px}
   .mhtitel{font-weight:700;font-size:17px;margin-bottom:6px}
   .willkommen{border:2px solid var(--accentT)}
@@ -779,7 +785,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "7.11.2026 neu f";
+const FASSUNG = "7.11.2026 neu g";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1129,7 +1135,7 @@ function renderInnen() {
   // Ohne FuPa-Schnittstelle: am Spieltag das FuPa-Widget unter dem Kasten (Seniors 1–3, nicht bei Trainer-Spielen).
   const fw = !FUPA_API && heute && !heute.sp.coach && FUPA_WIDGET[v.team.reiter];
   if (heute) h += heuteHtml(heute, v.ids, { live: FUPA_API && !heute.sp.coach && (v.team.reiter === LIVE_REITER || !!(D.fupa || {})[heute.sp.id]), widget: !!fw, pill: sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "",
-    ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder, motto: true,
+    ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder, motto: true, form: v.team.kat === "Seniors" && !heute.sp.coach,
     fupaUrl: (D.fupa || {})[heute.sp.id] ? "https://www.fupa.net/match/" + D.fupa[heute.sp.id]
       : L && L.flfId === heute.sp.id && L.url ? L.url : "https://www.fupa.net/club/fc-koeppchen" });
   if (fw) h += fupaWidgetHtml(fw, v.team.reiter, heute.sp.d);
@@ -1263,7 +1269,23 @@ function adresseZeile(sp, ids) {
   const a = sp.ort && (D?.adressen || {})[sp.ort];
   return a && !ids.has(sp.h.id) ? `<div class="adresse">${esc(a)}</div>` : "";
 }
-function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, motto, fupaUrl }) {
+// Form der letzten 5 Spiele beider Mannschaften (vom Nutzer, 7.11.2026, nach urb.lu): nur Seniors (Verein: bei Kindern keine
+// Ergebnisse hervorheben), nur im Heute-Kasten. Aus allen Spielen in unseren Daten (Ligaklasse, Pokal), Gegner über den Namen
+// (im Pokal hat er eine andere FLF-Nummer). Ältestes links, neuestes rechts. Unter 2 Spielen keine Zeile.
+function formHtml(sp, ids) {
+  const alle = new Map();
+  for (const k of Object.values(D?.klassen || {})) for (const x of k.spiele || []) if (!alle.has(x.id)) alle.set(x.id, { ...x, typ: k.typ });
+  const vor = [...alle.values()].filter(x => x.id !== sp.id && Date.parse(x.d) < Date.parse(sp.d) && !x.coach && x.hs != null && x.as != null
+    && !(x.bem === "Arrêté" && !x.gespielt) && !pokalOffen(x)).sort((a, b) => a.d.localeCompare(b.d));
+  const reihe = (istEr) => vor.filter(x => istEr(x.h) || istEr(x.a)).slice(-5).map(x => {
+    const d = istEr(x.h) ? x.hs - x.as : x.as - x.hs; return d > 0 ? "s" : d < 0 ? "n" : "u"; });
+  const zeile = (t, istEr) => { const r = reihe(istEr); return r.length < 2 ? "" :
+    `<div class="fz"><span class="fn">${esc(anzeige(t.n))}</span><span>${r.map(x => `<span class="fb ${x}">${{ s: "S", u: "U", n: "N" }[x]}</span>`).join("")}</span></div>`; };
+  const wir = t => ids.has(t.id), er = n => t => t.n === n;
+  const h = zeile(sp.h, ids.has(sp.h.id) ? wir : er(sp.h.n)), a = zeile(sp.a, ids.has(sp.a.id) ? wir : er(sp.a.n));
+  return h || a ? `<div class="form"><div class="ft">Form · letzte 5 Spiele, das neueste rechts</div>${h}${a}</div>` : "";
+}
+function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, motto, fupaUrl, form }) {
   const sp = heute.sp, zeit = wann(sp).split(" · ")[1];
   const min = !heute.begonnen && minutenBisAnpfiff(sp, Date.now());
   // Nächster Wechsel des Kastens (Countdown an, Anpfiff) — der Takt unten baut dann neu.
@@ -1296,6 +1318,7 @@ function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, mot
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}${adresseZeile(sp, ids)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
+    ${form ? formHtml(sp, ids) : ""}
     ${unten ? `<div class="zusatz">${fupaLink(esc(unten), (live || link) && fupaUrl)}</div>` : ""}${rtlKnopf(sp, heute.begonnen ? "🔴 Live-Video · RTL" : "📺 Live-Video ab Anpfiff · RTL")}${kz}${motto && !koeppi ? MOTTO : ""}
     </div></section>`;
 }
