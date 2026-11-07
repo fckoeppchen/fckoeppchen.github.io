@@ -489,6 +489,14 @@ function nachDemSpiel(v, now) {
 // Seniors 1–3: Ergebnis groß, dazu Klasse und Platz (kein „Sieg/Niederlage“, sieht man am Ergebnis). Jugend: Koeppi und Spruch
 // vorne, Ergebnis klein wie in der Liste (Vereinswunsch), U7/U9/U11 „gespielt“, Bambinis ohne Gegner-Zeile. Das Spiel steht
 // außerdem normal unten in den Ergebnissen (der grüne Koeppi-Streifen dort ist dafür weg).
+// Pokal (vom Nutzer, 7.11.2026): die FLF trägt zuerst den Stand nach 90 Minuten ein und reicht das Endergebnis nach
+// („a.p.“ nach Verlängerung, „t.a.b.“ mit Elfmeterschießen, Elfmeter mitgezählt). Gleichstand ohne Bemerkung = noch offen.
+const pokalOffen = sp => sp.typ === "CUP" && sp.hs != null && sp.hs === sp.as && !sp.bem;
+const pokalArt = sp => sp.typ !== "CUP" || !sp.bem ? "" : /^a\.?p/i.test(sp.bem) ? "nach Verlängerung" : /^t\.?a\.?b/i.test(sp.bem) ? "nach Elfmeterschießen (Elfmeter mitgezählt)" : "";
+function pokalHinweis(sp) {
+  if (pokalOffen(sp)) return `<div class="zusatz"><b>Stand nach 90 Minuten.</b> Das Spiel ging in die Verlängerung. Der Endstand wird nachgereicht, sobald die FLF ihn einträgt.</div>`;
+  return pokalArt(sp) ? `<div class="zusatz">${pokalArt(sp)}</div>` : "";
+}
 function letztesHtml(v, now) {
   // Am Vortag nur bei den Kindern weg (dort kommt „Morgen Spieltag!“), die Seniors haben keinen Morgen-Kasten.
   if (spieltagHeute(v, now) || (istKinder(v) && spieltagMorgen(v, now))) return "";
@@ -508,11 +516,11 @@ function letztesHtml(v, now) {
     // renderInnen, der Reiter Seniors 1 brach nach dem Pokalspiel in Rodange (7.11.2026) ganz ab.
     const kl = liga ? null : Object.values(D.klassen || {}).find(k => (k.spiele || []).some(x => x.id === sp.id));
     const unten = [liga ? esc(v.aktuell.n) : kl ? esc(kl.n) : artText(sp) ? esc(artText(sp)) : "", zeile ? `jetzt <b>${zeile.pl}. Platz</b>` : ""].filter(Boolean).join(" · ");
-    return `<section class="card heute letztes"><div class="chead"><h2>Letztes Spiel</h2><span class="pill">${erg ? "Endstand" : "Ergebnis folgt"}</span></div><div class="cbody">
+    return `<section class="card heute letztes"><div class="chead"><h2>Letztes Spiel</h2><span class="pill">${!erg ? "Ergebnis folgt" : pokalOffen(sp) ? "nach 90 Minuten" : "Endstand"}</span></div><div class="cbody">
       <div class="wann klein">${datum(sp)}${liga && sp.tag ? ` · Spieltag ${sp.tag}` : ""}</div>
       <div class="m" style="border:0"><div class="t h${v.ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
       <div class="gross">${erg ? `${sp.hs}:${sp.as}` : "–:–"}</div><div class="t${v.ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
-      ${erg ? "" : `<div class="zusatz">Ergebnis kommt, sobald die FLF es einträgt.</div>`}${unten ? `<div class="zusatz">${unten}</div>` : ""}${rtlKnopf(sp, "▶ Ganzes Spiel ansehen · RTL")}${MOTTO}</div></section>`;
+      ${erg ? pokalHinweis(sp) : `<div class="zusatz">Ergebnis kommt, sobald die FLF es einträgt.</div>`}${unten ? `<div class="zusatz">${unten}</div>` : ""}${rtlKnopf(sp, "▶ Ganzes Spiel ansehen · RTL")}${MOTTO}</div></section>`;
   }
   const nach = nachDemSpiel(v, now);
   if (!nach) return "";
@@ -770,7 +778,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "7.11.2026 neu b";
+const FASSUNG = "7.11.2026 neu c";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1166,7 +1174,7 @@ function renderInnen() {
   const ergZeile = sp => {
     const pokal = art(sp) ? " · " + art(sp) : "";
     const fehlt = !sp.gespielt && sp.erg !== false ? " · Ergebnis noch nicht eingetragen" : "";
-    return spielZeile(sp, ids, `${coachZeichen(sp)}${esc(wann(sp.d, false))}${pokal}${sp.forfait ? (Date.parse(sp.d) > now ? " · Forfait, im Voraus gewertet" : " · Forfait") : ""}${sp.bem === "Arrêté" ? " · abgebrochen, gewertet" : ""}${fehlt}`);
+    return spielZeile(sp, ids, `${coachZeichen(sp)}${esc(wann(sp.d, false))}${pokal}${sp.forfait ? (Date.parse(sp.d) > now ? " · Forfait, im Voraus gewertet" : " · Forfait") : ""}${sp.bem === "Arrêté" ? " · abgebrochen, gewertet" : ""}${pokalOffen(sp) ? " · nach 90 Min., Endstand folgt" : pokalArt(sp) ? " · " + pokalArt(sp) : ""}${fehlt}`);
   };
   // Solange Koeppi lobt, steht das Spiel mit im Kasten (vom Nutzer, 25.10.2026) — gleich dargestellt wie in der
   // Liste (Wunsch des Vereins: Ergebnis nicht hervorheben), danach wieder normal unten in der Liste.

@@ -454,6 +454,7 @@ export const MITT_ARTEN = ["heute", "spieltag", "tabelle", "uhrzeit", "neu", "ti
 // id und Stand nach dem Tor. Nur Tore der letzten 20 min — sonst kämen nach einem Neustart oder spät gefundenem Spiel alle alten.
 export const toreRoh = f => (f.highlights || []).filter(x => x.type === "goal" && x.id != null)
   .map(x => ({ id: x.id, min: x.minute, plus: x.additionalMinute || 0, hs: x.homeGoal, as: x.awayGoal, zeit: Date.parse(x.date) || 0,
+               elf: x.subtype === "penalty_shootout" || x.minute > 120,   // Elfmeterschießen (am 7.11.2026 kamen sie als „121.“)
                name: [x.primaryRole?.firstName, x.primaryRole?.lastName].filter(Boolean).join(" ") || null }));
 async function abosSpalte(db) {
   await db.prepare(TAB_ABOS).run();
@@ -492,8 +493,23 @@ export function liveEreignisse(c, k, now, endeText) {
   // Halbzeit (vom Nutzer, 21.10.2026): nur mit Stand, also nur wenn wirklich getickert wird.
   if (k.section === "LIVE" && k.period === "halftime" && k.hs != null && k.as != null)
     aus.push({ id: c.halbzeit || "halbzeit:" + c.id, reiter: c.reiter, art: "halbzeit", titel: `${c.titel} · Halbzeit`, text: stand(), ab: now, bis: d + 180 * 60e3 });
+  // Pokal (vom Nutzer, 7.11.2026): FuPa meldet nach 90 und nach 120 Minuten bei Gleichstand schon „Spiel aus“ (POST). Dann kein
+  // Endstand, sondern „Verlängerung“ bzw. „Elfmeterschießen“ (je eine eigene id, also nur einmal). Der Endstand kommt nach dem
+  // Elfmeterschießen, mit Stand nach Verlängerung und Elfmetern getrennt (FuPa zählt die Elfmeter zum Stand dazu).
+  const roh = k.toreRoh || [];
+  if (c.pokal && k.section === "POST" && k.hs != null && k.hs === k.as && !roh.some(t => t.elf)) {
+    const nachNV = roh.some(t => t.min > 90) || (k.minute || 0) > 100;
+    aus.push(nachNV
+      ? { id: c.ende + ":elfer", reiter: c.reiter, art: "ende", titel: `${c.titel} · Elfmeter`, text: `${stand()} nach Verlängerung – es geht ins Elfmeterschießen`, ab: now, bis: d + 180 * 60e3 }
+      : { id: c.ende + ":nv", reiter: c.reiter, art: "ende", titel: `${c.titel} · Verlängerung`, text: `${stand()} nach 90 Minuten – es geht in die Verlängerung`, ab: now, bis: d + 180 * 60e3 });
+    return aus;
+  }
   if (k.section === "POST" && k.hs != null && k.as != null) {
-    const t = stand();
+    let t = stand();
+    if (roh.some(x => x.elf)) {
+      const r = roh.filter(x => !x.elf && x.hs != null).pop() || { hs: 0, as: 0 };
+      t = `${stand(r.hs, r.as)} nach Verlängerung · im Elfmeterschießen ${gleich ? `${k.hs - r.hs}:${k.as - r.as}` : `${k.as - r.as}:${k.hs - r.hs}`}`;
+    }
     if (endeText == null) aus.push({ id: c.ende, reiter: c.reiter, art: "ende", titel: `${c.titel} · Endstand`, text: t, ab: now, bis: now + 18 * 3600e3 });
     else if (endeText !== t) aus.push({ id: `${c.ende}:${k.hs}-${k.as}`, reiter: c.reiter, art: "ende", titel: `${c.titel} · Endstand`, text: t, ab: now, bis: now + 18 * 3600e3 });
   }

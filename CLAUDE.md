@@ -433,6 +433,19 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Reiter Seniors 1 brach ab** (7.11.2026, Fassung 7.11. neu b, vom Nutzer gemeldet): `letztesHtml` rief bei einem Pokalspiel `art(sp)` auf,
   das es nur in `renderInnen` gibt → ReferenceError, ganzer Reiter leer. Jetzt steht dort der Klassenname („Coupe de Luxembourg - 1/16 de Finale“).
   Browser: alle Reiter durchgeklickt, keine Fehler. Die FLF hat für Verlängerung/Elfmeterschießen kein Feld (am 7.11. geprüft: 1:1 als Endstand).
+- **Pokal: Verlängerung und Elfmeterschießen** (vom Nutzer, 7.11.2026, Fassung 7.11. neu c; Rodange – Koeppchen 3:3 n. V., 5:4 i. E.):
+  Die FLF trägt im Pokal zuerst den **Stand nach 90 Minuten** ein (`homeScore`, hier 1:1) und reicht das Endergebnis später nach
+  (`finalHomeScore` + `finalScoreComment` „a.p. 2 - 0“ = nach Verlängerung, „t.a.b. 8 - 7“ = Elfmeter **mitgezählt**). 2025-26 und 2026-27: kein
+  einziges Pokal-Unentschieden als Endergebnis, 24 Spiele mit a.p./t.a.b. **FLF-Mitteilung** (`tools/mitteilungen.mjs`, `pokalOffen`, `fertig`):
+  Pokal + Gleichstand ohne Bemerkung = noch nicht fertig → kein Endstand; mit Endergebnis Endstand id `ende:<id>:final` (eigene id, kommt also auch,
+  wenn der 90-min-Stand schon raus war — so bei 13611) und Zusatz „· nach Verlängerung“ / „· nach Elfmeterschießen (Elfmeter mitgezählt)“. Liga
+  unverändert. Live-Kandidat bleibt, solange `!fertig` (FLF-1:1 während der Verlängerung beendet den Ticker nicht), mit `pokal: true`.
+  **FuPa (📡, Worker `liveEreignisse`):** Pokal + POST bei Gleichstand ohne Elfmetertor → statt Endstand „· Verlängerung“ („1:1 nach 90 Minuten – es geht
+  in die Verlängerung“, id `<ende>:nv`) bzw. nach einem Tor nach der 90. / Minute > 100 „· Elfmeter“ (id `<ende>:elfer`); Endstand nach dem
+  Elfmeterschießen getrennt: „3:3 nach Verlängerung · im Elfmeterschießen 5:4“ (`toreRoh.elf` = subtype `penalty_shootout` oder Minute > 120).
+  Tore im Elfmeterschießen kommen weiter einzeln (vom Nutzer gewollt). **App:** „Letztes Spiel“ bei offenem Pokal-Gleichstand Schild „nach 90 Minuten“
+  und „Stand nach 90 Minuten. Das Spiel ging in die Verlängerung. Der Endstand wird nachgereicht, sobald die FLF ihn einträgt.“; mit Endergebnis
+  „nach Verlängerung“/„nach Elfmeterschießen (Elfmeter mitgezählt)“, auch in „Unsere Ergebnisse“. Tests (495) mit Gegenprobe (8 rot). **Worker neu einfügen nötig.**
 - **Mitteilung „Neues Event“** (vom Nutzer, 1.11.2026, Fassung 1.11. neu b): Art `event` unter „Unsere Woche“ im Zahnrad (Woche hat jetzt zwei
   Haken: „Neue Woche (montags 10 Uhr)“, „Neues Event des Vereins“; beim Anhaken beide an, bestehende Woche-Auswahl muss ihn selbst anhaken).
   `tools/mitteilungen.mjs`: nur wenn ein Event **dazukommt** — neu = weder Adresse noch Tag standen in `alt.events.liste` (Kalender-Event, das

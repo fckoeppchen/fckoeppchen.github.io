@@ -31,6 +31,13 @@ const kurz = n => String(n).replace(VEREIN, "Koeppchen");
 // Abgebrochen ohne Wertung (3.11.2026, F91 Dudelange – Walferdange: FLF „Arrêté“, 0:0 ohne Endergebnis, isPlayed false) ist kein Ergebnis.
 const abgebrochen = sp => sp.bem === "Arrêté" && !sp.gespielt;
 const hatErgebnis = sp => sp.hs != null && sp.as != null && !abgebrochen(sp);
+// Pokal (vom Nutzer, 7.11.2026, Rodange – Koeppchen): die FLF trägt zuerst den Stand nach 90 Minuten ein (1:1) und reicht das
+// Endergebnis später nach (Bemerkung „a.p.“ = nach Verlängerung, „t.a.b.“ = mit Elfmeterschießen, Elfmeter mitgezählt). Gleichstand
+// ohne Bemerkung im Pokal ist darum noch nicht fertig. `typ` kommt vom neuen Stand (das alte Spiel aus alt.klassen hat keins).
+const pokalOffen = (sp, typ) => typ === "CUP" && hatErgebnis(sp) && sp.hs === sp.as && !sp.bem;
+const fertig = (sp, typ) => hatErgebnis(sp) && !pokalOffen(sp, typ);
+const pokalZusatz = (sp, typ) => typ !== "CUP" || !sp.bem ? "" : /^a\.?p/i.test(sp.bem) ? " · nach Verlängerung"
+  : /^t\.?a\.?b/i.test(sp.bem) ? " · nach Elfmeterschießen (Elfmeter mitgezählt)" : "";
 
 // Welche Arten es für welchen Reiter gibt (Tabelle im Plan). Woche hat nur „woche“.
 export const ARTEN = {
@@ -129,21 +136,22 @@ export function ereignisse(alt, neu, vorher, now) {
              text: `Uhrzeit steht fest: ${datum(sp.d)} um ${uhr(sp.d)} · Mini-Spieltag${wo}`, ab: now, bis: d });
     if (kat === "Seniors" && !sp.coach) {   // Coach-Spiele: kein Ergebnis, kein Ticker
       // Endstand von der FLF (wenn niemand getickert hat; vom Ticker kommt er über den Worker, gleiche id).
-      if (a && !hatErgebnis(a) && hatErgebnis(sp) && d > now - 48 * H)
-        dazu({ ...basis, id: "ende:" + sp.id, art: "ende", titel: `${name} · Endstand`,
-               text: `${kurz(sp.h.n)} ${sp.hs}:${sp.as} ${kurz(sp.a.n)}`, ab: now, bis: now + 18 * H });
+      // Pokal mit Endergebnis der FLF: eigene id, damit es auch kommt, wenn vorher schon ein Endstand (z. B. der 90-Minuten-Stand) raus ist.
+      if (a && !fertig(a, sp.typ) && fertig(sp, sp.typ) && d > now - 48 * H)
+        dazu({ ...basis, id: "ende:" + sp.id + (sp.typ === "CUP" && sp.bem ? ":final" : ""), art: "ende", titel: `${name} · Endstand`,
+               text: `${kurz(sp.h.n)} ${sp.hs}:${sp.as} ${kurz(sp.a.n)}${pokalZusatz(sp, sp.typ)}`, ab: now, bis: now + 18 * H });
       // Ohne FuPa-Schnittstelle (tools/fupa-modus.mjs) keine Live-Spiele für den Worker: kein Ticker/Halbzeit/Tor/Endstand von FuPa,
       // der Endstand kommt dann oben aus den FLF-Daten.
-      if (FUPA.api && tag === heute && !hatErgebnis(sp))
+      if (FUPA.api && tag === heute && !fertig(sp, sp.typ))
         live.push({ id: sp.id, reiter, titel: name, d: sp.d, h: kurz(sp.h.n), a: kurz(sp.a.n), wirHeim: wirH, gegner,
                     slug: neu.fupa?.[sp.id] || undefined, anstoss: reiter.includes("Seniors 1") ? sp.d : undefined,
-                    fupaWir: "fc-koeppchen", ticker: "ticker:" + sp.id, halbzeit: "halbzeit:" + sp.id, ende: "ende:" + sp.id });
+                    fupaWir: "fc-koeppchen", ticker: "ticker:" + sp.id, halbzeit: "halbzeit:" + sp.id, ende: "ende:" + sp.id, pokal: sp.typ === "CUP" || undefined });
       // „📡 Live von FuPa“ nur für Geräte mit eigenem oder Familien-Code (vom Nutzer, 30.10.2026): eigener Reiter-Name „… · live“,
       // den kein normales Abo hat, eigene ids (der FLF-Endstand oben bleibt für alle), Spiel sucht der Worker selbst per Anstoß.
-      else if (tag === heute && !hatErgebnis(sp) && LIVE_TEAM[name])
+      else if (tag === heute && !fertig(sp, sp.typ) && LIVE_TEAM[name])
         live.push({ id: sp.id, reiter: [name + " · live"], titel: "📡 " + name, d: sp.d, h: kurz(sp.h.n), a: kurz(sp.a.n), wirHeim: wirH, gegner,
                     anstoss: sp.d, fupaTeam: LIVE_TEAM[name], fupaWir: "fc-koeppchen",
-                    ticker: "lticker:" + sp.id, halbzeit: "lhalbzeit:" + sp.id, ende: "ende-live:" + sp.id });
+                    ticker: "lticker:" + sp.id, halbzeit: "lhalbzeit:" + sp.id, ende: "ende-live:" + sp.id, pokal: sp.typ === "CUP" || undefined });
     }
   }
 

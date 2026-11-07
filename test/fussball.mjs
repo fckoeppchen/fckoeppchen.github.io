@@ -1528,5 +1528,38 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(MITT_ARTEN.includes("event"), "Event: Worker speichert den Haken (sonst fiele er bei ?push=wahl weg)");
   ok(DRINGLICHKEIT === "high", "Push: Dringlichkeit high (7-Uhr-Mitteilungen kamen mit normal nicht an)");
 }
+// ---- Pokal mit Verlängerung/Elfmeterschießen (vom Nutzer, 7.11.2026, Rodange – Koeppchen) ----
+{
+  const jetzt = Date.parse("2026-11-07T22:00:00+01:00");
+  const D = (hs, as, bem, typ = "CUP") => ({ teams: [{ id: 1, ids: [1], reiter: "Seniors 1", kat: "Seniors", klassen: ["p"] }],
+    klassen: { p: { id: "p", n: "Coupe", typ, ergebnisse: true, spiele: [{ id: 9, d: "2026-11-07T18:30:00+01:00", tag: 1, h: { id: 2, n: "FC Rodange 91" },
+      a: { id: 1, n: "FC Koeppchen Wormeldange" }, hs, as, gespielt: hs != null, bem }] } } });
+  const ende = (alt, neu) => mEreignisse(alt, neu, null, jetzt).ereignisse.filter(e => e.art === "ende");
+  ok(!ende(D(null, null), D(1, 1)).length, "Pokal: 1:1 nach 90 min ohne Endergebnis → kein Endstand");
+  const nv = ende(D(1, 1), D(8, 7, "t.a.b. 8 - 7"));
+  ok(nv.length === 1 && nv[0].id === "ende:9:final" && nv[0].text === "FC Rodange 91 8:7 Koeppchen · nach Elfmeterschießen (Elfmeter mitgezählt)",
+    "Pokal: Endergebnis nachgereicht → Endstand mit eigener id — ist " + JSON.stringify(nv));
+  ok(ende(D(0, 0), D(2, 0, "a.p. 2 - 0"))[0]?.text.endsWith("· nach Verlängerung"), "Pokal: nach Verlängerung");
+  ok(ende(D(null, null), D(2, 1))[0]?.id === "ende:9", "Pokal ohne Verlängerung: Endstand wie immer");
+  ok(ende(D(null, null), D(1, 1, undefined, "CC"))[0]?.id === "ende:9", "Liga: Unentschieden = Endstand wie immer");
+  const lv = mEreignisse(null, D(1, 1), null, Date.parse("2026-11-07T20:30:00+01:00")).live;
+  ok(lv.length === 1 && lv[0].pokal, "Pokal: 1:1 von der FLF während der Verlängerung → bleibt Live-Kandidat, mit pokal");
+  // Worker: FuPa meldet POST bei Gleichstand → Verlängerung / Elfmeterschießen statt Endstand; danach Endstand getrennt.
+  const c = { id: 9, reiter: ["Seniors 1 · live"], titel: "📡 Seniors 1", d: "2026-11-07T18:30:00+01:00", h: "FC Rodange 91", a: "Koeppchen", wirHeim: false,
+    fupaWir: "fc-koeppchen", ticker: "lticker:9", halbzeit: "lhalbzeit:9", ende: "ende-live:9", pokal: true };
+  const t0 = Date.parse("2026-11-07T20:30:00+01:00");
+  const T = (id, min, hs, as, elf) => ({ id, min, plus: 0, hs, as, zeit: 0, elf: !!elf });
+  const k = (hs, as, tore, minute) => ({ section: "POST", slug: "fc-rodange-91-m1-fc-koeppchen-m1-x", hs, as, tore: [], toreRoh: tore, minute });
+  const e1 = liveEreignisse(c, k(1, 1, [T(1, 55, 0, 1), T(2, 72, 1, 1)], 90), t0).filter(e => e.art === "ende");
+  ok(e1.length === 1 && e1[0].id === "ende-live:9:nv" && e1[0].text === "FC Rodange 91 1:1 Koeppchen nach 90 Minuten – es geht in die Verlängerung", "FuPa Pokal: 1:1 nach 90 → Verlängerung — ist " + JSON.stringify(e1));
+  const e2 = liveEreignisse(c, k(3, 3, [T(1, 55, 0, 1), T(2, 72, 1, 1), T(3, 94, 2, 1), T(4, 110, 2, 2), T(5, 115, 3, 2), T(6, 118, 3, 3)], 120), t0).filter(e => e.art === "ende");
+  ok(e2.length === 1 && e2[0].id === "ende-live:9:elfer", "FuPa Pokal: 3:3 nach Verlängerung → Elfmeterschießen");
+  const tore = [T(1, 55, 0, 1), T(2, 72, 1, 1), T(3, 94, 2, 1), T(4, 110, 2, 2), T(5, 115, 3, 2), T(6, 118, 3, 3), T(7, 121, 4, 3, 1), T(8, 121, 8, 7, 1)];
+  const e3 = liveEreignisse(c, k(8, 7, tore, 121), t0).filter(e => e.art === "ende");
+  ok(e3.length === 1 && e3[0].id === "ende-live:9" && e3[0].text === "FC Rodange 91 3:3 Koeppchen nach Verlängerung · im Elfmeterschießen 5:4",
+    "FuPa Pokal: Endstand mit Verlängerung und Elfmeterschießen getrennt — ist " + JSON.stringify(e3));
+  ok(liveEreignisse({ ...c, pokal: undefined }, k(1, 1, [T(1, 55, 0, 1), T(2, 72, 1, 1)], 90), t0).filter(e => e.art === "ende")[0]?.id === "ende-live:9", "FuPa Liga: 1:1 = Endstand wie immer");
+  ok(toreRoh({ highlights: [{ id: 1, type: "goal", minute: 121, subtype: "penalty_shootout", homeGoal: 4, awayGoal: 3 }, { id: 2, type: "goal", minute: 95, homeGoal: 2, awayGoal: 1 }] }).map(t => t.elf).join() === "true,false", "toreRoh: Elfmeterschießen erkannt");
+}
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);
