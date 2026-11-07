@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-07T16:46:49.531Z",
+ "stand": "2026-11-07T17:16:48.805Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -17319,9 +17319,9 @@
       "id": 44762,
       "n": "CS Sanem"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Um Quatre-Vents (Eschdorf, synth.)"
     },
@@ -17391,9 +17391,9 @@
       "id": 45579,
       "n": "AS Hosingen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 13,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Hollerich (synth.)"
     },
@@ -18227,9 +18227,9 @@
       "id": 45558,
       "n": "FC 72 Erpeldange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Stegen, synth.)"
     },
@@ -18317,9 +18317,9 @@
       "id": 45248,
       "n": "U.N. Käerjeng 97"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Fr. Trausch (synth.)"
     },
