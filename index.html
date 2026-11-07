@@ -1266,12 +1266,12 @@ document.addEventListener("toggle", e => { if (e.target.id === "datenschutz") DS
 // „Heute Spieltag“ (Mannschaften und Roude Léiw).
 // Straße des Platzes (vom Nutzer, 7.11.2026): nur im Heute-/Morgen-Kasten und nur auswärts, klein und grau unter dem Stadion.
 // Kommt von der FLF (D.adressen, je Platzname), siehe adressenAus in tools/fussball.mjs.
-// Knopf „Weg zum Platz“ (vom Nutzer, 7.11.2026): Google Maps mit Platzname, Straße und Ort aus der Klammer des Platznamens
-// („Stade Municipal (Pétange)“ → „Stade Municipal, Rue d'Athus, Pétange“). Öffnet die Google-Maps-App, sonst die Webseite.
+// Knopf „Weg zum Platz“ (vom Nutzer, 7.11.2026): Google Maps mit Platzname und Adresse („Stade Municipal, Rue d'Athus, L-4711 Pétange“).
+// Öffnet die Google-Maps-App, sonst die Webseite.
 function wegUrl(ort, adresse) {
-  // In der Klammer steht der Ort, manchmal nur „synth.“ (Kunstrasen) — das ist kein Ort.
-  const name = ort.replace(/\s*\(.*\)\s*/, "").trim(), stadt = ((ort.match(/\(([^)]*)\)/) || [])[1] || "").split(",").map(x => x.trim()).find(x => x && !/^synth\.?$/i.test(x));
-  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent([name, adresse, stadt].filter(Boolean).join(", "));
+  // Die Adresse hat seit dem 7.11.2026 Postleitzahl und Ort (FLF-Ortsliste): Platzname ohne Klammer + Adresse reicht.
+  const name = ort.replace(/\s*\(.*\)\s*/, "").trim();
+  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent([name, adresse].filter(Boolean).join(", "));
 }
 function adresseZeile(sp, ids) {
   const a = sp.ort && (D?.adressen || {})[sp.ort];

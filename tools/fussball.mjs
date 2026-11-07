@@ -135,15 +135,20 @@ export function strasse(s) {
       return w[0].toUpperCase() + w.slice(1);
     });
 }
-export function adressenAus(felder, anlagen, orte) {
+// staedte = FLF-Ortsliste (cities{ id name postalCode }): Postleitzahl und Ort der Anlage (cityId), z. B. „L-5499 Dreiborn“.
+export function adressenAus(felder, anlagen, orte, staedte = []) {
   const anl = new Map((anlagen || []).map(a => [a.id, a]));
+  const stadt = new Map((staedte || []).map(c => [c.id, c]));
+  const plzOrt = a => { const c = stadt.get(a.cityId); if (!c?.name) return "";
+    const plz = (c.postalCode || "").trim(), p = /^\d+$/.test(plz) ? "L-" + plz : plz;
+    return [p, c.name.trim()].filter(Boolean).join(" "); };
   const je = new Map();
   for (const f of felder || []) {
     const a = anl.get(f.sportComplex?.id);
     if (!a || !a.street) continue;
     // Manche Anlagen haben die Hausnummer auch vorn in der Straße („33, RUE D'UEBERSYREN“) — dann nicht doppelt.
     const nr = (a.houseNumber || "").trim(), str = strasse(a.street);
-    const t = nr && !str.startsWith(nr) ? nr + ", " + str : str;
+    const t = [nr && !str.startsWith(nr) ? nr + ", " + str : str, plzOrt(a)].filter(Boolean).join(", ");
     (je.get(f.name) || je.set(f.name, new Set()).get(f.name)).add(t);
   }
   const aus = {};
@@ -646,8 +651,8 @@ async function main() {
     neu.adressen = Object.fromEntries([...orte].filter(o => alte[o]).map(o => [o, alte[o]]));
     if ([...orte].some(o => !(o in alte)) || stunde === 7) {
       try {
-        const { sportFields, sportComplexes } = await gq(`{ sportFields{ id name sportComplex{ id } } sportComplexes{ id houseNumber street } }`);
-        neu.adressen = adressenAus(sportFields, sportComplexes, orte);
+        const { sportFields, sportComplexes, cities } = await gq(`{ sportFields{ id name sportComplex{ id } } sportComplexes{ id houseNumber street cityId } cities{ id name postalCode } }`);
+        neu.adressen = adressenAus(sportFields, sportComplexes, orte, cities);
         console.log("Adressen:", Object.keys(neu.adressen).length, "von", orte.size);
       } catch (e) { console.error("Adressen:", e.message); }
     }
