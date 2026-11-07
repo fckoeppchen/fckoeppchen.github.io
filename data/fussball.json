@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-07T06:01:58.727Z",
+ "stand": "2026-11-07T15:16:51.228Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -18100,9 +18100,9 @@
       "id": 46531,
       "n": "Jeunesse Useldange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 16,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Hollerich (synth.)"
     },
@@ -18118,9 +18118,9 @@
       "id": 44740,
       "n": "Jeunesse Junglinster"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 5,
+     "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
     },
