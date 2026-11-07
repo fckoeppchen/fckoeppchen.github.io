@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-07T17:16:48.805Z",
+ "stand": "2026-11-07T17:46:46.865Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -17265,9 +17265,9 @@
       "id": 46260,
       "n": "FC Luxembourg City"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Klengbousbierg 2 (Bissen, synth.)"
     },
@@ -17427,9 +17427,9 @@
       "id": 45952,
       "n": "ENT Ënnersauer-Mëllerdall"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 6,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 3 (Weidingen, synth.)"
     },
@@ -17463,9 +17463,9 @@
       "id": 45499,
       "n": "ENT Mondorf/Schengen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 8,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Carrière (Senningerberg, synth.)"
     },
@@ -18173,9 +18173,9 @@
       "id": 46443,
       "n": "F91 Dudelange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 7,
+     "as": 8,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 3 (Weidingen, synth.)"
     },
@@ -18335,10 +18335,11 @@
       "id": 46065,
       "n": "FC Rodange 91"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 6,
+     "as": 7,
+     "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 6 - 7",
      "ort": "Stade Municipal (Bettembourg, synth.)"
     },
     {
@@ -18371,9 +18372,9 @@
       "id": 45646,
       "n": "FC Differdange 03"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Parc des Sports (Diekirch, synth.)"
     }
