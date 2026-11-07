@@ -129,6 +129,7 @@
   .form .fn{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .form .fb{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:4px;color:#fff;font-size:12px;font-weight:700;margin-left:3px}
   .form .fb.s{background:#2e9e5b}.form .fb.u{background:#9aa0a6}.form .fb.n{background:#d9534f}
+  .weg{display:inline-block;margin:6px 0 0 22px;padding:6px 12px;border-radius:999px;background:var(--accentT);color:#fff;font-weight:700;font-size:13.5px;text-decoration:none}
   .adresse{font-size:13px;color:var(--muted);margin:1px 0 0 22px}
   .mhtitel{font-weight:700;font-size:17px;margin-bottom:6px}
   .willkommen{border:2px solid var(--accentT)}
@@ -785,7 +786,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "7.11.2026 neu g";
+const FASSUNG = "7.11.2026 neu h";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1253,7 +1254,7 @@ function fuss() {
       Die App zählt anonym, wie oft sie geöffnet und welche Reiter angesehen werden — ohne Namen, Telefonnummern oder Standorte.
       Wer Mitteilungen einschaltet, für den wird nur die Push-Adresse des Handys und die Auswahl der Mannschaften gespeichert; Abmelden löscht beides.
       Was die App sich merkt (gewählter Reiter, letzter Stand), bleibt auf dem Handy. Keine Werbung, kein Tracking.
-      Spielpläne und Ergebnisse kommen von der FLF und von FuPa.${!FUPA_API ? ` Den Liveticker der Seniors lädt die App erst, wenn man „Liveticker anzeigen“ tippt, direkt von FuPa (fupa.net); FuPa sieht dabei die Internet-Adresse des Handys.${fupaOk() ? ` <button class="kal" data-fupa="nein" style="margin:4px 0">FuPa-Liveticker nicht mehr laden</button>` : ""}` : ""} Die Events kommen von der Vereins-Homepage fckoeppchen.lu. Der Knopf „Live-Video · RTL“ öffnet die Seite von RTL. Das Video im Reiter der Jugendkommission wird von YouTube geladen.
+      Spielpläne und Ergebnisse kommen von der FLF und von FuPa.${!FUPA_API ? ` Den Liveticker der Seniors lädt die App erst, wenn man „Liveticker anzeigen“ tippt, direkt von FuPa (fupa.net); FuPa sieht dabei die Internet-Adresse des Handys.${fupaOk() ? ` <button class="kal" data-fupa="nein" style="margin:4px 0">FuPa-Liveticker nicht mehr laden</button>` : ""}` : ""} Die Events kommen von der Vereins-Homepage fckoeppchen.lu. Der Knopf „Live-Video · RTL“ öffnet die Seite von RTL. Der Knopf „Weg zum Platz“ öffnet Google Maps mit der Adresse des Platzes. Das Video im Reiter der Jugendkommission wird von YouTube geladen.
       Fragen: <a href="mailto:koeppchenapp@hotmail.com">koeppchenapp@hotmail.com</a>
     </details>
     <div style="margin-top:6px;font-size:11px">Fassung ${FASSUNG}</div></footer>`;
@@ -1265,9 +1266,16 @@ document.addEventListener("toggle", e => { if (e.target.id === "datenschutz") DS
 // „Heute Spieltag“ (Mannschaften und Roude Léiw).
 // Straße des Platzes (vom Nutzer, 7.11.2026): nur im Heute-/Morgen-Kasten und nur auswärts, klein und grau unter dem Stadion.
 // Kommt von der FLF (D.adressen, je Platzname), siehe adressenAus in tools/fussball.mjs.
+// Knopf „Weg zum Platz“ (vom Nutzer, 7.11.2026): Google Maps mit Platzname, Straße und Ort aus der Klammer des Platznamens
+// („Stade Municipal (Pétange)“ → „Stade Municipal, Rue d'Athus, Pétange“). Öffnet die Google-Maps-App, sonst die Webseite.
+function wegUrl(ort, adresse) {
+  // In der Klammer steht der Ort, manchmal nur „synth.“ (Kunstrasen) — das ist kein Ort.
+  const name = ort.replace(/\s*\(.*\)\s*/, "").trim(), stadt = ((ort.match(/\(([^)]*)\)/) || [])[1] || "").split(",").map(x => x.trim()).find(x => x && !/^synth\.?$/i.test(x));
+  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent([name, adresse, stadt].filter(Boolean).join(", "));
+}
 function adresseZeile(sp, ids) {
   const a = sp.ort && (D?.adressen || {})[sp.ort];
-  return a && !ids.has(sp.h.id) ? `<div class="adresse">${esc(a)}</div>` : "";
+  return a && !ids.has(sp.h.id) ? `<div class="adresse">${esc(a)}</div><a class="weg" href="${esc(wegUrl(sp.ort, a))}" target="_blank" rel="noopener">🧭 Weg zum Platz</a>` : "";
 }
 // Form der letzten 5 Spiele beider Mannschaften (vom Nutzer, 7.11.2026, nach urb.lu): nur Seniors (Verein: bei Kindern keine
 // Ergebnisse hervorheben), nur im Heute-Kasten. Aus allen Spielen in unseren Daten (Ligaklasse, Pokal), Gegner über den Namen

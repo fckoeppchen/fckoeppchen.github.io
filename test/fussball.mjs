@@ -1572,9 +1572,11 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const felder = [{ id: 1, name: "Stade Jos Philippart (Rodange)", sportComplex: { id: 10 } }, { id: 2, name: "Terrain 2", sportComplex: { id: 11 } },
     { id: 3, name: "Terrain 2", sportComplex: { id: 12 } }, { id: 4, name: "Am Ga (Wormeldange, synth.)", sportComplex: { id: 13 } }];
   const anlagen = [{ id: 10, houseNumber: "9", street: "RUE JOS. MOSCARDO" }, { id: 11, houseNumber: "", street: "A" }, { id: 12, houseNumber: "", street: "B" },
-    { id: 13, houseNumber: "", street: "DREIBORN" }];
-  gleich(adressenAus(felder, anlagen, new Set(["Stade Jos Philippart (Rodange)", "Terrain 2", "Am Ga (Wormeldange, synth.)", "Unbekannt"])),
-    { "Stade Jos Philippart (Rodange)": "9, Rue Jos. Moscardo", "Am Ga (Wormeldange, synth.)": "Dreiborn" }, "Adresse: je Platzname, mehrdeutige und unbekannte weg");
+    { id: 13, houseNumber: "", street: "DREIBORN" }, { id: 14, houseNumber: "33", street: "33, RUE D'UEBERSYREN" }];
+  felder.push({ id: 5, name: "Terrain 2 (Mensdorf, synth.)", sportComplex: { id: 14 } });
+  gleich(adressenAus(felder, anlagen, new Set(["Stade Jos Philippart (Rodange)", "Terrain 2", "Am Ga (Wormeldange, synth.)", "Unbekannt", "Terrain 2 (Mensdorf, synth.)"])),
+    { "Stade Jos Philippart (Rodange)": "9, Rue Jos. Moscardo", "Am Ga (Wormeldange, synth.)": "Dreiborn", "Terrain 2 (Mensdorf, synth.)": "33, Rue d'Uebersyren" },
+    "Adresse: je Platzname, mehrdeutige und unbekannte weg, Hausnummer nicht doppelt");
 }
 // ---- Form des Gegners im Pokal aus den Spielen seines Vereins (vom Nutzer, 7.11.2026) ----
 {

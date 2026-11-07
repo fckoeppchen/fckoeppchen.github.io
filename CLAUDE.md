@@ -453,6 +453,11 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (de/du/la/l'… klein). Abfrage nur, wenn ein Platz noch keine Adresse hat, und um 7 Uhr; Fehler → alter Stand. Am 7.11.: 52 von 52 Plätzen.
   App: `adresseZeile` klein und grau unter dem 📍 **nur im Heute-/Morgen-Kasten und nur auswärts** (vom Nutzer: nicht zu viel Text, Listen unverändert).
   Ort/Postleitzahl liefert die FLF so nicht (steht meist im Platznamen). Tests (498) mit Gegenprobe; Browser mit gestellter Uhr (Pétange, Rosport, Heimspiel ohne).
+- **Knopf „🧭 Weg zum Platz“** (vom Nutzer, 7.11.2026, Fassung 7.11. neu h; Entwurf auf Branch `entwurf-weg`): unter der Straße im Heute-/Morgen-Kasten
+  (nur auswärts, nur mit Adresse) ein grüner Knopf → Google Maps (`wegUrl`: `google.com/maps/search/?api=1&query=` Platzname ohne Klammer, Straße, Ort aus
+  der Klammer ohne „synth.“). Öffnet die Google-Maps-App, sonst die Webseite. Datenschutz-Hinweis nennt den Knopf. Abruf: Hausnummer nicht doppelt, wenn die
+  FLF sie schon in der Straße hat (Mensdorf „33, 33, …“). 5 von 52 Plätzen ohne Ort in der Klammer (Cents, Fr. Trausch, Munsbach, Ralingen, Hollerich) —
+  Suche über Name + Straße. Früher (20.10.) als „Gimmick“ verworfen, weil es nur den Platznamen gab.
 - **Form im Heute-Kasten der Seniors** (vom Nutzer, 7.11.2026, Fassung 7.11. neu g; nach urb.lu; Entwurf auf Branch `entwurf-form`, Go vom Nutzer am selben Abend → main):
   `formHtml` — beide Mannschaften, letzte 5 Spiele mit Ergebnis vor diesem Spiel (S grün, U grau, N rot, neuestes rechts), aus allen Klassen in
   unseren Daten außer Freundschaftsspielen, Gegner über den Namen (Pokal-Nummer weicht ab); Pokal-Gleichstand ohne Endergebnis zählt nicht; unter 2

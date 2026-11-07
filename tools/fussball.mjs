@@ -141,7 +141,9 @@ export function adressenAus(felder, anlagen, orte) {
   for (const f of felder || []) {
     const a = anl.get(f.sportComplex?.id);
     if (!a || !a.street) continue;
-    const t = (a.houseNumber ? a.houseNumber.trim() + ", " : "") + strasse(a.street);
+    // Manche Anlagen haben die Hausnummer auch vorn in der Straße („33, RUE D'UEBERSYREN“) — dann nicht doppelt.
+    const nr = (a.houseNumber || "").trim(), str = strasse(a.street);
+    const t = nr && !str.startsWith(nr) ? nr + ", " + str : str;
     (je.get(f.name) || je.set(f.name, new Set()).get(f.name)).add(t);
   }
   const aus = {};
