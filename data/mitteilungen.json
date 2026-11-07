@@ -74,28 +74,6 @@
   },
   {
    "reiter": [
-    "Woche"
-   ],
-   "id": "event:https://www.fckoeppchen.lu/oktoberfest-86045v4:2027-10-02",
-   "art": "event",
-   "titel": "Neues Event",
-   "text": "Oktoberfest\nSa., 2.10.2027",
-   "ab": 1793985781263,
-   "bis": 1794072181263
-  },
-  {
-   "reiter": [
-    "Seniors 1"
-   ],
-   "id": "heute:13611",
-   "art": "heute",
-   "titel": "Seniors 1 · Heute Spiel",
-   "text": "18:30 gegen FC Rodange 91 · 📍 Stade Jos Philippart (Rodange)",
-   "ab": 1794042000000,
-   "bis": 1794072600000
-  },
-  {
-   "reiter": [
     "POU 1",
     "Poussins U11"
    ],
