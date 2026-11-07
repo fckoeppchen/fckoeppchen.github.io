@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-07T16:17:00.508Z",
+ "stand": "2026-11-07T16:46:49.531Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -17283,9 +17283,9 @@
       "id": 45515,
       "n": "Red Star Merl-Belair"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain synth. Lallange (Esch, synth.)"
     },
@@ -18209,9 +18209,9 @@
       "id": 45373,
       "n": "Résidence Walferdange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 4,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Carrière (Senningerberg, synth.)"
     },
@@ -18245,9 +18245,9 @@
       "id": 45776,
       "n": "FC Blo-Wäiss Izeg"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 6,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Mondorf, synth.)"
     },
