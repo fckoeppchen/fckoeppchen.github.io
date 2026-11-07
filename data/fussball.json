@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-07T18:16:57.147Z",
+ "stand": "2026-11-07T18:46:56.338Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -17247,10 +17247,11 @@
       "id": 45885,
       "n": "ENT FF Norden/Wincrange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 4,
+     "as": 5,
+     "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 4 - 5",
      "ort": "Stade Gaston Diderich (Luxembourg, synth.)"
     },
     {
@@ -17409,9 +17410,9 @@
       "id": 46156,
       "n": "ENT Bastendorf/Vianden"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
     },
@@ -18354,9 +18355,9 @@
       "id": 46300,
       "n": "FC Kehlen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 6,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Rumelange, synth.)"
     },
