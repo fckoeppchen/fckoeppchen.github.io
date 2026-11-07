@@ -441,7 +441,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   wenn der 90-min-Stand schon raus war — so bei 13611) und Zusatz „· nach Verlängerung“ / „· nach Elfmeterschießen (Elfmeter mitgezählt)“. Liga
   unverändert. Live-Kandidat bleibt, solange `!fertig` (FLF-1:1 während der Verlängerung beendet den Ticker nicht), mit `pokal: true`.
   **FuPa (📡, Worker `liveEreignisse`):** Pokal + POST bei Gleichstand ohne Elfmetertor → statt Endstand „· Verlängerung“ („1:1 nach 90 Minuten – es geht
-  in die Verlängerung“, id `<ende>:nv`) bzw. nach einem Tor nach der 90. / Minute > 100 „· Elfmeter“ (id `<ende>:elfer`); Endstand nach dem
+  in die Verlängerung“, id `<ende>:nv`) bzw. nach einem Tor nach der 90. oder > 2 h 10 nach Anpfiff „· Elfmeter“ (Minute geht nicht: nach POST schickt FuPa keinen live-Block, am 7.11. nachgesehen) (id `<ende>:elfer`); Endstand nach dem
   Elfmeterschießen getrennt: „3:3 nach Verlängerung · im Elfmeterschießen 5:4“ (`toreRoh.elf` = subtype `penalty_shootout` oder Minute > 120).
   Tore im Elfmeterschießen kommen weiter einzeln (vom Nutzer gewollt). **App:** „Letztes Spiel“ bei offenem Pokal-Gleichstand Schild „nach 90 Minuten“
   und „Stand nach 90 Minuten. Das Spiel ging in die Verlängerung. Der Endstand wird nachgereicht, sobald die FLF ihn einträgt.“; mit Endergebnis

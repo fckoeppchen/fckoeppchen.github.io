@@ -498,7 +498,9 @@ export function liveEreignisse(c, k, now, endeText) {
   // Elfmeterschießen, mit Stand nach Verlängerung und Elfmetern getrennt (FuPa zählt die Elfmeter zum Stand dazu).
   const roh = k.toreRoh || [];
   if (c.pokal && k.section === "POST" && k.hs != null && k.hs === k.as && !roh.some(t => t.elf)) {
-    const nachNV = roh.some(t => t.min > 90) || (k.minute || 0) > 100;
+    // Ende der Verlängerung: ein Tor nach der 90. Minute oder mehr als 2 h 10 seit Anpfiff (nach 90 Minuten ~1 h 50, nach 120 ~2 h 25).
+    // Die Spielminute hilft hier nicht: nach „Spiel aus“ schickt FuPa keinen live-Block mehr (am 7.11.2026 nachgesehen).
+    const nachNV = roh.some(t => t.min > 90) || now - d > 130 * 60e3;
     aus.push(nachNV
       ? { id: c.ende + ":elfer", reiter: c.reiter, art: "ende", titel: `${c.titel} · Elfmeter`, text: `${stand()} nach Verlängerung – es geht ins Elfmeterschießen`, ab: now, bis: d + 180 * 60e3 }
       : { id: c.ende + ":nv", reiter: c.reiter, art: "ende", titel: `${c.titel} · Verlängerung`, text: `${stand()} nach 90 Minuten – es geht in die Verlängerung`, ab: now, bis: d + 180 * 60e3 });

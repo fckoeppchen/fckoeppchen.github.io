@@ -1547,13 +1547,16 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   // Worker: FuPa meldet POST bei Gleichstand → Verlängerung / Elfmeterschießen statt Endstand; danach Endstand getrennt.
   const c = { id: 9, reiter: ["Seniors 1 · live"], titel: "📡 Seniors 1", d: "2026-11-07T18:30:00+01:00", h: "FC Rodange 91", a: "Koeppchen", wirHeim: false,
     fupaWir: "fc-koeppchen", ticker: "lticker:9", halbzeit: "lhalbzeit:9", ende: "ende-live:9", pokal: true };
-  const t0 = Date.parse("2026-11-07T20:30:00+01:00");
+  const t0 = Date.parse("2026-11-07T20:20:00+01:00");
   const T = (id, min, hs, as, elf) => ({ id, min, plus: 0, hs, as, zeit: 0, elf: !!elf });
   const k = (hs, as, tore, minute) => ({ section: "POST", slug: "fc-rodange-91-m1-fc-koeppchen-m1-x", hs, as, tore: [], toreRoh: tore, minute });
   const e1 = liveEreignisse(c, k(1, 1, [T(1, 55, 0, 1), T(2, 72, 1, 1)], 90), t0).filter(e => e.art === "ende");
   ok(e1.length === 1 && e1[0].id === "ende-live:9:nv" && e1[0].text === "FC Rodange 91 1:1 Koeppchen nach 90 Minuten – es geht in die Verlängerung", "FuPa Pokal: 1:1 nach 90 → Verlängerung — ist " + JSON.stringify(e1));
   const e2 = liveEreignisse(c, k(3, 3, [T(1, 55, 0, 1), T(2, 72, 1, 1), T(3, 94, 2, 1), T(4, 110, 2, 2), T(5, 115, 3, 2), T(6, 118, 3, 3)], 120), t0).filter(e => e.art === "ende");
   ok(e2.length === 1 && e2[0].id === "ende-live:9:elfer", "FuPa Pokal: 3:3 nach Verlängerung → Elfmeterschießen");
+  const anp = Date.parse(c.d);
+  const e0 = (min) => liveEreignisse(c, k(1, 1, [T(1, 55, 0, 1), T(2, 72, 1, 1)], null), anp + min * 60e3).filter(e => e.art === "ende")[0]?.id;
+  ok(e0(112) === "ende-live:9:nv" && e0(145) === "ende-live:9:elfer", "FuPa Pokal: torlose Verlängerung über die Zeit seit Anpfiff erkannt (1 h 52 → Verlängerung, 2 h 25 → Elfmeter)");
   const tore = [T(1, 55, 0, 1), T(2, 72, 1, 1), T(3, 94, 2, 1), T(4, 110, 2, 2), T(5, 115, 3, 2), T(6, 118, 3, 3), T(7, 121, 4, 3, 1), T(8, 121, 8, 7, 1)];
   const e3 = liveEreignisse(c, k(8, 7, tore, 121), t0).filter(e => e.art === "ende");
   ok(e3.length === 1 && e3[0].id === "ende-live:9" && e3[0].text === "FC Rodange 91 3:3 Koeppchen nach Verlängerung · im Elfmeterschießen 5:4",
