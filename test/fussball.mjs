@@ -16,7 +16,7 @@ import { FUPA } from "../tools/fupa-modus.mjs";
 const FUPA_STAND = FUPA.api;
 FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
-import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus, gegnerForm } from "../tools/fussball.mjs";
+import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus, gegnerForm, ortName } from "../tools/fussball.mjs";
 import { unsereRtlSpiele, rtlZuordnen, rtlFaellig, rtlHolen } from "../tools/rtl.mjs";
 import { eventMenue, eventDatum, seitenText, seitenBilder, bildBreite, eventsFaellig, kalenderAdresse, kalenderIds, kalenderEvent, textGleich, titelGleich, zusammenfuehren } from "../tools/vereins-events.mjs";
 
@@ -1579,6 +1579,11 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     { "Stade Jos Philippart (Rodange)": "9, Rue Jos. Moscardo, L-4840 Rodange", "Am Ga (Wormeldange, synth.)": "Dreiborn", "Terrain 2 (Mensdorf, synth.)": "33, Rue d'Uebersyren" },
     "Adresse: je Platzname, mehrdeutige und unbekannte weg, Hausnummer nicht doppelt");
 }
+ok(ortName("Esch-sur-alzette") === "Esch-sur-Alzette" && ortName("Brouch (boevange-sur-attert)") === "Brouch" && ortName("Luxembourg") === "Luxembourg"
+  && ortName("Mondorf-les-bains") === "Mondorf-les-Bains" && ortName("Weiler-la-tour") === "Weiler-la-Tour", "Adresse: Ortsnamen der FLF lesbar");
+gleich(adressenAus([{ id: 1, name: "P", sportComplex: { id: 2 } }, { id: 4, name: "Q", sportComplex: { id: 5 } }],
+  [{ id: 2, houseNumber: "", street: "B.P., RUE AUGUSTE LUMIERE", cityId: 3 }, { id: 5, houseNumber: "B.P.", street: "RUE AUGUSTE LUMIERE", cityId: 3 }], new Set(["P", "Q"]),
+  [{ id: 3, name: "Luxembourg", postalCode: "L-1950" }]), { P: "Rue Auguste Lumiere, L-1950 Luxembourg", Q: "Rue Auguste Lumiere, L-1950 Luxembourg" }, "Adresse: „B.P.“ (Postfach) weg, in Straße oder Hausnummer");
 // ---- Form des Gegners im Pokal aus den Spielen seines Vereins (vom Nutzer, 7.11.2026) ----
 {
   const g = { id: 7, name: "FC Rodange 91" };

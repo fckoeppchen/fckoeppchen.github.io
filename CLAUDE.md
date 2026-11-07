@@ -457,7 +457,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (nur auswärts, nur mit Adresse) ein grüner Knopf → Google Maps (`wegUrl`: `google.com/maps/search/?api=1&query=` Platzname ohne Klammer, Straße, Ort aus
   der Klammer ohne „synth.“). Öffnet die Google-Maps-App, sonst die Webseite. Datenschutz-Hinweis nennt den Knopf. Abruf: Hausnummer nicht doppelt, wenn die
   FLF sie schon in der Straße hat (Mensdorf „33, 33, …“). 5 von 52 Plätzen ohne Ort in der Klammer (Cents, Fr. Trausch, Munsbach, Ralingen, Hollerich) —
-  Suche über Name + Straße. Früher (20.10.) als „Gimmick“ verworfen, weil es nur den Platznamen gab.
+  Suche über Name + Straße. Ortsnamen lesbar (`ortName`: „Esch-sur-alzette“ → „Esch-sur-Alzette“, Klammer weg), „B.P.“ (Postfach) in Hausnummer/Straße weg. OSM-Prüfung (Nominatim, 155 Adressen): 142 im richtigen Ort, 4 Nachbarort, 9 nicht gefunden (FLF-Abkürzungen wie „Rue Jos. Moscardo“). Früher (20.10.) als „Gimmick“ verworfen, weil es nur den Platznamen gab.
 - **Form im Heute-Kasten der Seniors** (vom Nutzer, 7.11.2026, Fassung 7.11. neu g; nach urb.lu; Entwurf auf Branch `entwurf-form`, Go vom Nutzer am selben Abend → main):
   `formHtml` — beide Mannschaften, letzte 5 Spiele mit Ergebnis vor diesem Spiel (S grün, U grau, N rot, neuestes rechts), aus allen Klassen in
   unseren Daten außer Freundschaftsspielen, Gegner über den Namen (Pokal-Nummer weicht ab); Pokal-Gleichstand ohne Endergebnis zählt nicht; unter 2

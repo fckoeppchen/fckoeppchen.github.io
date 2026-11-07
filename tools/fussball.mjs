@@ -136,18 +136,27 @@ export function strasse(s) {
     });
 }
 // staedte = FLF-Ortsliste (cities{ id name postalCode }): Postleitzahl und Ort der Anlage (cityId), z. B. „L-5499 Dreiborn“.
+// Ortsname der FLF lesbar: „Esch-sur-alzette“ → „Esch-sur-Alzette“, „Brouch (boevange-sur-attert)“ → „Brouch“ (Klammer weg).
+const ORT_KLEIN = new Set(["sur", "les", "la", "le", "de", "du", "des", "en", "am", "an", "der", "op", "um"]);
+export function ortName(n) {
+  return (n || "").replace(/\s*\(.*\)\s*/, "").trim().toLowerCase()
+    .replace(/[a-zà-ÿ]+/g, (w, i) => i > 0 && ORT_KLEIN.has(w) ? w : w[0].toUpperCase() + w.slice(1));
+}
 export function adressenAus(felder, anlagen, orte, staedte = []) {
   const anl = new Map((anlagen || []).map(a => [a.id, a]));
   const stadt = new Map((staedte || []).map(c => [c.id, c]));
   const plzOrt = a => { const c = stadt.get(a.cityId); if (!c?.name) return "";
     const plz = (c.postalCode || "").trim(), p = /^\d+$/.test(plz) ? "L-" + plz : plz;
-    return [p, c.name.trim()].filter(Boolean).join(" "); };
+    return [p, ortName(c.name)].filter(Boolean).join(" "); };
   const je = new Map();
   for (const f of felder || []) {
     const a = anl.get(f.sportComplex?.id);
     if (!a || !a.street) continue;
     // Manche Anlagen haben die Hausnummer auch vorn in der Straße („33, RUE D'UEBERSYREN“) — dann nicht doppelt.
-    const nr = (a.houseNumber || "").trim(), str = strasse(a.street);
+    // „B.P.“ (boîte postale, Postfach) vor der Straße weglassen.
+    // „B.P.“ (boîte postale, Postfach) ist keine Hausnummer — steht mal im Feld Hausnummer, mal vor der Straße.
+    const bp = /^\s*B\.?\s*P\.?\s*,?\s*/i;
+    const nr = (a.houseNumber || "").replace(bp, "").trim(), str = strasse(a.street.replace(bp, ""));
     const t = [nr && !str.startsWith(nr) ? nr + ", " + str : str, plzOrt(a)].filter(Boolean).join(", ");
     (je.get(f.name) || je.set(f.name, new Set()).get(f.name)).add(t);
   }
