@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-07T17:46:46.865Z",
+ "stand": "2026-11-07T18:16:57.147Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -17210,9 +17210,9 @@
       "id": 45747,
       "n": "Tricolore Gasperich"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 7,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Itzig, synth.)"
     },
