@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-07T15:46:47.041Z",
+ "stand": "2026-11-07T16:17:00.508Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -17301,9 +17301,9 @@
       "id": 45689,
       "n": "Una Strassen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 14,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Am Lahr (Christnach)"
     },
@@ -17337,9 +17337,9 @@
       "id": 46234,
       "n": "Avenir Beggen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 13,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Ettelbrück)"
     },
@@ -17355,9 +17355,9 @@
       "id": 45594,
       "n": "Marisca Mersch"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 7,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade FC The Belval (Belvaux, synth.)"
     },
@@ -17373,9 +17373,9 @@
       "id": 46207,
       "n": "US Moutfort-Medingen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 4,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Am Dieltchen (Weiler, synth.)"
     },
@@ -18155,9 +18155,9 @@
       "id": 45692,
       "n": "Una Strassen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Mondercange, synth.)"
     },
@@ -18263,9 +18263,9 @@
       "id": 45985,
       "n": "Atert Bissen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 5,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Rue du Parc (Schifflange, synth.)"
     },
@@ -18281,9 +18281,9 @@
       "id": 45422,
       "n": "CS Fola Esch-Alzette"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Mersch, synth.)"
     },
@@ -18299,9 +18299,9 @@
       "id": 46404,
       "n": "AS Red Black Luxembourg"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 8,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Emile Bintner (Luxembourg, synth.)"
     },
