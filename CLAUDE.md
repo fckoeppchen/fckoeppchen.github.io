@@ -453,13 +453,13 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (de/du/la/l'… klein). Abfrage nur, wenn ein Platz noch keine Adresse hat, und um 7 Uhr; Fehler → alter Stand. Am 7.11.: 52 von 52 Plätzen.
   App: `adresseZeile` klein und grau unter dem 📍 **nur im Heute-/Morgen-Kasten und nur auswärts** (vom Nutzer: nicht zu viel Text, Listen unverändert).
   Ort/Postleitzahl liefert die FLF so nicht (steht meist im Platznamen). Tests (498) mit Gegenprobe; Browser mit gestellter Uhr (Pétange, Rosport, Heimspiel ohne).
-- **Form im Heute-Kasten der Seniors** (vom Nutzer, 7.11.2026, Fassung 7.11. neu g; nach urb.lu; **Entwurf auf Branch `entwurf-form`, erst nach Go auf main**):
+- **Form im Heute-Kasten der Seniors** (vom Nutzer, 7.11.2026, Fassung 7.11. neu g; nach urb.lu; Entwurf auf Branch `entwurf-form`, Go vom Nutzer am selben Abend → main):
   `formHtml` — beide Mannschaften, letzte 5 Spiele mit Ergebnis vor diesem Spiel (S grün, U grau, N rot, neuestes rechts), aus allen Klassen in
   unseren Daten außer Freundschaftsspielen, Gegner über den Namen (Pokal-Nummer weicht ab); Pokal-Gleichstand ohne Endergebnis zählt nicht; unter 2
   Spielen keine Zeile. Nur Seniors (Verein: bei Kindern keine Ergebnisse hervorheben), nicht bei Trainer- und Freundschaftsspielen. **Pokalgegner aus
   anderer Liga** (`tools/fussball.mjs`, `gegnerForm`): für Pokalspiele der Seniors in den nächsten 3 Tagen, deren Gegner in keiner unserer Ligaklassen
   steht (Name), holt der Abruf einmal die Spiele seines Vereins (`clubId1`, gleiche Altersklasse) → `D.gegnerForm[Spiel-Id]`, gemerkt, um 7 Uhr neu.
-  Offen beim Nutzer: Elfmeterschießen zählt als S/N (FLF-Endergebnis mit Elfmetern), nicht als U. Tests (499) mit Gegenproben; Browser mit gestellter Uhr.
+  Elfmeterschießen zählt als S/N (FLF-Endergebnis mit Elfmetern; vom Nutzer so bestätigt). Tests (499) mit Gegenproben; Browser mit gestellter Uhr.
 - **Mitteilung „Neues Event“** (vom Nutzer, 1.11.2026, Fassung 1.11. neu b): Art `event` unter „Unsere Woche“ im Zahnrad (Woche hat jetzt zwei
   Haken: „Neue Woche (montags 10 Uhr)“, „Neues Event des Vereins“; beim Anhaken beide an, bestehende Woche-Auswahl muss ihn selbst anhaken).
   `tools/mitteilungen.mjs`: nur wenn ein Event **dazukommt** — neu = weder Adresse noch Tag standen in `alt.events.liste` (Kalender-Event, das
