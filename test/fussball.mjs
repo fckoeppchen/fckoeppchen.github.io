@@ -1537,7 +1537,7 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const ende = (alt, neu) => mEreignisse(alt, neu, null, jetzt).ereignisse.filter(e => e.art === "ende");
   ok(!ende(D(null, null), D(1, 1)).length, "Pokal: 1:1 nach 90 min ohne Endergebnis → kein Endstand");
   const nv = ende(D(1, 1), D(8, 7, "t.a.b. 8 - 7"));
-  ok(nv.length === 1 && nv[0].id === "ende:9:final" && nv[0].text === "FC Rodange 91 8:7 Koeppchen · nach Elfmeterschießen (Elfmeter mitgezählt)",
+  ok(nv.length === 1 && nv[0].id === "ende:9:final" && nv[0].text === "FC Rodange 91 8:7 Koeppchen · nach Elfmeterschießen",
     "Pokal: Endergebnis nachgereicht → Endstand mit eigener id — ist " + JSON.stringify(nv));
   ok(ende(D(0, 0), D(2, 0, "a.p. 2 - 0"))[0]?.text.endsWith("· nach Verlängerung"), "Pokal: nach Verlängerung");
   ok(ende(D(null, null), D(2, 1))[0]?.id === "ende:9", "Pokal ohne Verlängerung: Endstand wie immer");

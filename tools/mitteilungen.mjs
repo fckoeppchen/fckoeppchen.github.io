@@ -37,7 +37,7 @@ const hatErgebnis = sp => sp.hs != null && sp.as != null && !abgebrochen(sp);
 const pokalOffen = (sp, typ) => typ === "CUP" && hatErgebnis(sp) && sp.hs === sp.as && !sp.bem;
 const fertig = (sp, typ) => hatErgebnis(sp) && !pokalOffen(sp, typ);
 const pokalZusatz = (sp, typ) => typ !== "CUP" || !sp.bem ? "" : /^a\.?p/i.test(sp.bem) ? " · nach Verlängerung"
-  : /^t\.?a\.?b/i.test(sp.bem) ? " · nach Elfmeterschießen (Elfmeter mitgezählt)" : "";
+  : /^t\.?a\.?b/i.test(sp.bem) ? " · nach Elfmeterschießen" : "";
 
 // Welche Arten es für welchen Reiter gibt (Tabelle im Plan). Woche hat nur „woche“.
 export const ARTEN = {

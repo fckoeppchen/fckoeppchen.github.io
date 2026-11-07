@@ -445,7 +445,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Elfmeterschießen getrennt: „3:3 nach Verlängerung · im Elfmeterschießen 5:4“ (`toreRoh.elf` = subtype `penalty_shootout` oder Minute > 120).
   Tore im Elfmeterschießen kommen weiter einzeln (vom Nutzer gewollt). **App:** „Letztes Spiel“ bei offenem Pokal-Gleichstand Schild „nach 90 Minuten“
   und „Stand nach 90 Minuten. Das Spiel ging in die Verlängerung. Der Endstand wird nachgereicht, sobald die FLF ihn einträgt.“; mit Endergebnis
-  „nach Verlängerung“/„nach Elfmeterschießen (Elfmeter mitgezählt)“, auch in „Unsere Ergebnisse“ und (neu d) in „Unsere Woche“ („nach 90 Min., Endstand folgt“ fett). Tests (495) mit Gegenprobe (8 rot). **Worker neu einfügen nötig.**
+  „nach Verlängerung“/„nach Elfmeterschießen“ (neu e, vom Nutzer: ohne „Elfmeter mitgezählt“), auch in „Unsere Ergebnisse“ und (neu d) in „Unsere Woche“ („nach 90 Min., Endstand folgt“ fett). Tests (495) mit Gegenprobe (8 rot). **Worker neu einfügen nötig.**
 - **Mitteilung „Neues Event“** (vom Nutzer, 1.11.2026, Fassung 1.11. neu b): Art `event` unter „Unsere Woche“ im Zahnrad (Woche hat jetzt zwei
   Haken: „Neue Woche (montags 10 Uhr)“, „Neues Event des Vereins“; beim Anhaken beide an, bestehende Woche-Auswahl muss ihn selbst anhaken).
   `tools/mitteilungen.mjs`: nur wenn ein Event **dazukommt** — neu = weder Adresse noch Tag standen in `alt.events.liste` (Kalender-Event, das
