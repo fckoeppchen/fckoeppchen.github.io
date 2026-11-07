@@ -424,6 +424,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Seniors 1 zugeordnet (nur unsere Spiele, bei zwei Treffern am Tag keins) → `D.rtl.spiele` (FLF-Id → RTL-Id, 30 Tage). Gefragt beim ersten Mal,
   um 7 Uhr und an Tagen ±1 um ein Spiel der Seniors 1; Fehler → alter Stand. Datenschutz-Hinweis nennt den Knopf. Tests (440) mit Gegenprobe;
   Browser mit gestellter Uhr (vor/nach Anpfiff, Letztes Spiel, Seniors 2 ohne Knopf).
+  **Pokal immer mitsuchen** (7.11.2026, vom Nutzer bemerkt: Rodange – Koeppchen im Pokal ohne Knopf, RTL hatte das Video): gemerkt war nur
+  die Liga, und weil die immer etwas fand, wurde der Pokal nie durchsucht. Jetzt merkt `D.rtl` auch `saison` und `pokal` (Id der Coupe de
+  Luxembourg) und fragt den Pokal bei jedem Lauf mit (2 Abfragen mehr); neue RTL-Saison → alles neu suchen. Test mit nachgebauter RTL, Gegenprobe.
 - **Mitteilung „Neues Event“** (vom Nutzer, 1.11.2026, Fassung 1.11. neu b): Art `event` unter „Unsere Woche“ im Zahnrad (Woche hat jetzt zwei
   Haken: „Neue Woche (montags 10 Uhr)“, „Neues Event des Vereins“; beim Anhaken beide an, bestehende Woche-Auswahl muss ihn selbst anhaken).
   `tools/mitteilungen.mjs`: nur wenn ein Event **dazukommt** — neu = weder Adresse noch Tag standen in `alt.events.liste` (Kalender-Event, das

@@ -9,6 +9,7 @@ const tagLux = ms => new Date(ms).toLocaleDateString("sv-SE", { timeZone: TZ });
 const WIR = /Koeppchen/i;
 // Wettbewerbe der Männer, in denen Seniors 1 spielen kann (Liga je nach Auf-/Abstieg, dazu der Pokal).
 const PASST = /BGL|Éierepromotioun|Ehrenpromotion|Divisioun|Coupe de Luxembourg/i;
+const POKAL = /Coupe de Luxembourg/i;
 
 const holen = async pfad => { const r = await fetch(API + pfad); if (!r.ok) throw new Error("RTL " + pfad + ": HTTP " + r.status); return r.json(); };
 
@@ -51,24 +52,32 @@ export function rtlFaellig(D, alt, now) {
   return !!team && unsereSpiele(D, team).some(sp => tage.has(tagLux(Date.parse(sp.d))));
 }
 
-// {wettbewerbe: [RTL-Ids, in denen Koeppchen gefunden wurde], spiele: {FLF-Spiel-Id: RTL-Spiel-Id}}.
-// Gemerkte Wettbewerbe zuerst (2 Abfragen je Wettbewerb: aktuelle und vorige Runde); nur ohne Treffer alle Wettbewerbe der Saison.
-export async function rtlHolen(D, alt, now = Date.now()) {
+// {saison, wettbewerbe: [Liga-Ids, in denen Koeppchen gefunden wurde], pokal: Id der Coupe de Luxembourg, spiele: {FLF-Spiel-Id: RTL-Spiel-Id}}.
+// Gemerkte Liga zuerst (2 Abfragen je Wettbewerb: aktuelle und vorige Runde); nur ohne Treffer alle Wettbewerbe der Saison.
+// Den Pokal immer dazu (7.11.2026: Rodange – Koeppchen hatte ein Video, aber die gemerkte Liga fand immer etwas, also wurde
+// der Pokal nie durchsucht). Neue Saison bei RTL → alles neu suchen. `hol` nur für den Test.
+export async function rtlHolen(D, alt, now = Date.now(), hol = holen) {
   const runden = async c => {
-    const akt = await holen(`competitions/${c}/results/current?lang=lu`);
+    const akt = await hol(`competitions/${c}/results/current?lang=lu`);
     const r = akt.rounds || [], i = r.findIndex(x => x.id === akt.round?.id);
-    const vor = i > 0 ? await holen(`competitions/${c}/results/${r[i - 1].id}?lang=lu`) : null;
+    const vor = i > 0 ? await hol(`competitions/${c}/results/${r[i - 1].id}?lang=lu`) : null;
     return [...unsereRtlSpiele(akt), ...unsereRtlSpiele(vor)];
   };
-  let wettbewerbe = alt?.wettbewerbe || [], gefunden = [];
+  const saison = (await hol("sports/1")).current_season_id;
+  const gleich = alt?.saison === saison || (alt && alt.saison === undefined);   // alter Stand ohne Saison: Liga gilt weiter
+  let wettbewerbe = gleich ? (alt.wettbewerbe || []).filter(c => c !== alt.pokal) : [], pokal = alt?.saison === saison ? alt.pokal : undefined;
+  let liste = null;
+  const alle = async () => liste ??= (await hol(`seasons/${saison}/competitions`)).filter(c => PASST.test(c.name));
+  if (pokal == null) pokal = (await alle()).find(c => POKAL.test(c.name))?.id ?? 0;
+  const gefunden = [];
   for (const c of wettbewerbe) gefunden.push(...await runden(c));
   if (!gefunden.length) {
-    const saison = (await holen("sports/1")).current_season_id;
     wettbewerbe = [];
-    for (const c of (await holen(`seasons/${saison}/competitions`)).filter(c => PASST.test(c.name))) {
+    for (const c of (await alle()).filter(c => c.id !== pokal)) {
       const s = await runden(c.id);
       if (s.length) { wettbewerbe.push(c.id); gefunden.push(...s); }
     }
   }
-  return { wettbewerbe, spiele: rtlZuordnen(D, gefunden, alt?.spiele, now) };
+  if (pokal) gefunden.push(...await runden(pokal));
+  return { saison, wettbewerbe, pokal, spiele: rtlZuordnen(D, gefunden, alt?.spiele, now) };
 }

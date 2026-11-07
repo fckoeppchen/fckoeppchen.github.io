@@ -17,7 +17,7 @@ const FUPA_STAND = FUPA.api;
 FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
 import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst } from "../tools/fussball.mjs";
-import { unsereRtlSpiele, rtlZuordnen, rtlFaellig } from "../tools/rtl.mjs";
+import { unsereRtlSpiele, rtlZuordnen, rtlFaellig, rtlHolen } from "../tools/rtl.mjs";
 import { eventMenue, eventDatum, seitenText, seitenBilder, bildBreite, eventsFaellig, kalenderAdresse, kalenderIds, kalenderEvent, textGleich, titelGleich, zusammenfuehren } from "../tools/vereins-events.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
@@ -1480,6 +1480,22 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   gleich(rtlZuordnen(D, [{ id: 1, tag: "2026-10-31" }, { id: 2, tag: "2026-10-31" }], null, jetzt), {}, "RTL: zwei Treffer am selben Tag → lieber keiner");
   ok(rtlFaellig(D, null, jetzt) && rtlFaellig(D, { wettbewerbe: [475] }, jetzt) && !rtlFaellig(D, { wettbewerbe: [475] }, Date.parse("2026-10-28T12:00:00+01:00"))
     && rtlFaellig(D, { wettbewerbe: [475] }, Date.parse("2026-10-28T07:10:00+01:00")), "RTL: erstes Mal, Spieltag ±1 und 7 Uhr — sonst nicht");
+  // Pokal immer mitsuchen (7.11.2026: gemerkte Liga fand immer etwas, Pokalspiel mit Video blieb ohne Knopf).
+  const Dp = { teams: [{ id: 1, ids: [1], reiter: "Seniors 1", klassen: ["k", "p"] }], klassen: { k: { spiele: [sp(10, "2026-10-31T18:00:00+01:00", 1, 2)] },
+    p: { spiele: [sp(20, "2026-11-07T18:30:00+01:00", 8, 1)] } } };
+  const rtlM = (id, date) => ({ id, date, has_video: true, home_team: { name: "FC Koeppchen" }, visitor_team: { name: "X" } });
+  const RTL = { "sports/1": { current_season_id: 9 }, "seasons/9/competitions": [{ id: 475, name: "Éierepromotioun" }, { id: 487, name: "Coupe de Luxembourg" }, { id: 488, name: "Coupe des Dames" }],
+    "competitions/475/results/current?lang=lu": { matches: [rtlM(13932, "2026-10-31")] },
+    "competitions/487/results/current?lang=lu": { matches: [rtlM(15800, "2026-11-07")] } };
+  const abfragen = [];
+  const hol = async p => { abfragen.push(p); if (!(p in RTL)) throw new Error("unbekannt " + p); return RTL[p]; };
+  const jetzt2 = Date.parse("2026-11-07T21:00:00+01:00");
+  const r1 = await rtlHolen(Dp, { wettbewerbe: [475], spiele: {} }, jetzt2, hol);
+  gleich(r1, { saison: 9, wettbewerbe: [475], pokal: 487, spiele: { 10: 13932, 20: 15800 } }, "RTL: alter Stand nur mit Liga → Pokal wird gefunden und mitgesucht");
+  abfragen.length = 0;
+  const r2 = await rtlHolen(Dp, r1, jetzt2, hol);
+  ok(r2.spiele[20] === 15800 && !abfragen.includes("seasons/9/competitions") && abfragen.includes("competitions/487/results/current?lang=lu"),
+    "RTL: danach Pokal ohne Saisonliste — Abfragen " + JSON.stringify(abfragen));
 }
 
 // ---- Mitteilung „Neues Event“ (vom Nutzer, 1.11.2026): nur wenn eins dazukommt ----
