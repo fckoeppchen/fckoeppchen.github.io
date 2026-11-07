@@ -129,7 +129,7 @@
   .form .fn{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .form .fb{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:4px;color:#fff;font-size:12px;font-weight:700;margin-left:3px}
   .form .fb.s{background:#2e9e5b}.form .fb.u{background:#9aa0a6}.form .fb.n{background:#d9534f}
-  .weg{display:inline-block;margin:6px 0 0 22px;padding:6px 12px;border-radius:999px;background:var(--accentT);color:#fff;font-weight:700;font-size:13.5px;text-decoration:none}
+  .wegk{display:inline-block;margin:6px 0 0 22px;padding:6px 12px;border-radius:999px;background:var(--accentT);color:#fff;font-weight:700;font-size:13.5px;text-decoration:none}
   .adresse{font-size:13px;color:var(--muted);margin:1px 0 0 22px}
   .mhtitel{font-weight:700;font-size:17px;margin-bottom:6px}
   .willkommen{border:2px solid var(--accentT)}
@@ -786,7 +786,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "7.11.2026 neu h";
+const FASSUNG = "7.11.2026 neu i";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1275,7 +1275,7 @@ function wegUrl(ort, adresse) {
 }
 function adresseZeile(sp, ids) {
   const a = sp.ort && (D?.adressen || {})[sp.ort];
-  return a && !ids.has(sp.h.id) ? `<div class="adresse">${esc(a)}</div><a class="weg" href="${esc(wegUrl(sp.ort, a))}" target="_blank" rel="noopener">🧭 Weg zum Platz</a>` : "";
+  return a && !ids.has(sp.h.id) ? `<div class="adresse">${esc(a)}</div><a class="wegk" href="${esc(wegUrl(sp.ort, a))}" target="_blank" rel="noopener">🧭 Weg zum Platz</a>` : "";
 }
 // Form der letzten 5 Spiele beider Mannschaften (vom Nutzer, 7.11.2026, nach urb.lu): nur Seniors (Verein: bei Kindern keine
 // Ergebnisse hervorheben), nur im Heute-Kasten. Aus allen Spielen in unseren Daten (Ligaklasse, Pokal), Gegner über den Namen
