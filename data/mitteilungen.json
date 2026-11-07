@@ -96,5 +96,25 @@
    "bis": 1794149220480
   }
  ],
- "live": []
+ "live": [
+  {
+   "id": 13611,
+   "reiter": [
+    "Seniors 1 · live"
+   ],
+   "titel": "📡 Seniors 1",
+   "d": "2026-11-07T18:30:00+01:00",
+   "h": "FC Rodange 91",
+   "a": "Koeppchen",
+   "wirHeim": false,
+   "gegner": "FC Rodange 91",
+   "anstoss": "2026-11-07T18:30:00+01:00",
+   "fupaTeam": "m1",
+   "fupaWir": "fc-koeppchen",
+   "ticker": "lticker:13611",
+   "halbzeit": "lhalbzeit:13611",
+   "ende": "ende-live:13611",
+   "pokal": true
+  }
+ ]
 }
