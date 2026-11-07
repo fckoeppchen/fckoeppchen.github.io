@@ -430,6 +430,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Pokal immer mitsuchen** (7.11.2026, vom Nutzer bemerkt: Rodange – Koeppchen im Pokal ohne Knopf, RTL hatte das Video): gemerkt war nur
   die Liga, und weil die immer etwas fand, wurde der Pokal nie durchsucht. Jetzt merkt `D.rtl` auch `saison` und `pokal` (Id der Coupe de
   Luxembourg) und fragt den Pokal bei jedem Lauf mit (2 Abfragen mehr); neue RTL-Saison → alles neu suchen. Test mit nachgebauter RTL, Gegenprobe.
+- **Reiter Seniors 1 brach ab** (7.11.2026, Fassung 7.11. neu b, vom Nutzer gemeldet): `letztesHtml` rief bei einem Pokalspiel `art(sp)` auf,
+  das es nur in `renderInnen` gibt → ReferenceError, ganzer Reiter leer. Jetzt steht dort der Klassenname („Coupe de Luxembourg - 1/16 de Finale“).
+  Browser: alle Reiter durchgeklickt, keine Fehler. Die FLF hat für Verlängerung/Elfmeterschießen kein Feld (am 7.11. geprüft: 1:1 als Endstand).
 - **Mitteilung „Neues Event“** (vom Nutzer, 1.11.2026, Fassung 1.11. neu b): Art `event` unter „Unsere Woche“ im Zahnrad (Woche hat jetzt zwei
   Haken: „Neue Woche (montags 10 Uhr)“, „Neues Event des Vereins“; beim Anhaken beide an, bestehende Woche-Auswahl muss ihn selbst anhaken).
   `tools/mitteilungen.mjs`: nur wenn ein Event **dazukommt** — neu = weder Adresse noch Tag standen in `alt.events.liste` (Kalender-Event, das

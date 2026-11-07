@@ -504,7 +504,10 @@ function letztesHtml(v, now) {
     const liga = v.aktuell && v.aktuell.spiele.some(x => x.id === sp.id);
     // Platz = aktueller Stand der FLF-Tabelle, ohne weitere Prüfung (vom Nutzer, 31.10.2026: wie die Mitteilung „Tabelle“).
     const zeile = erg && liga && (v.aktuell.tabelle || []).find(r => v.eigen.has(r.id));
-    const unten = [liga ? esc(v.aktuell.n) : art(sp) ? esc(art(sp)) : "", zeile ? `jetzt <b>${zeile.pl}. Platz</b>` : ""].filter(Boolean).join(" · ");
+    // Pokal o. ä.: Name der Klasse („Coupe de Luxembourg – 1/16 de Finale“). Vorher stand hier art(sp) — die gibt es nur in
+    // renderInnen, der Reiter Seniors 1 brach nach dem Pokalspiel in Rodange (7.11.2026) ganz ab.
+    const kl = liga ? null : Object.values(D.klassen || {}).find(k => (k.spiele || []).some(x => x.id === sp.id));
+    const unten = [liga ? esc(v.aktuell.n) : kl ? esc(kl.n) : artText(sp) ? esc(artText(sp)) : "", zeile ? `jetzt <b>${zeile.pl}. Platz</b>` : ""].filter(Boolean).join(" · ");
     return `<section class="card heute letztes"><div class="chead"><h2>Letztes Spiel</h2><span class="pill">${erg ? "Endstand" : "Ergebnis folgt"}</span></div><div class="cbody">
       <div class="wann klein">${datum(sp)}${liga && sp.tag ? ` · Spieltag ${sp.tag}` : ""}</div>
       <div class="m" style="border:0"><div class="t h${v.ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
@@ -767,7 +770,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "7.11.2026 neu a";
+const FASSUNG = "7.11.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
