@@ -1005,6 +1005,11 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   const en = liveEreignisse({ ...c, wirHeim: true, h: "Koeppchen I", a: "Avenir Beggen" }, { section: "POST", slug: c.slug, hs: 3, as: 1, tore: [] }, t0)[0];
   ok(en?.text === "Koeppchen I 1:3 Avenir Beggen", "Live: Endstand dreht FuPas Zahlen, wenn FuPa Heim/Gast vertauscht");
   ok(liveEreignisse(c, { section: "POST", slug: c.slug, hs: 3, as: 1, tore: [] }, t0)[0].text === "Avenir Beggen 3:1 Koeppchen I", "Live: Endstand ohne Vertauschen");
+  // Verlängerung (7.11.2026): FuPa meldete nach 90 min schon POST 1:1 — ein späterer anderer Endstand kommt mit eigener id.
+  const endeL = (hs, as, alt) => liveEreignisse(c, { section: "POST", slug: c.slug, hs, as, tore: [] }, t0, alt).filter(e => e.art === "ende");
+  ok(!endeL(1, 1, "Avenir Beggen 1:1 Koeppchen I").length, "Live: gleicher Endstand schon verschickt → nichts");
+  const nv = endeL(1, 2, "Avenir Beggen 1:1 Koeppchen I");
+  ok(nv.length === 1 && nv[0].id === c.ende + ":1-2" && nv[0].text === "Avenir Beggen 1:2 Koeppchen I", "Live: anderer Endstand nach Verlängerung → eigene Mitteilung — ist " + JSON.stringify(nv));
   // Tore als Mitteilung (vom Nutzer, 23.10.2026): je Tor eine, Stand nach dem Tor in FLF-Reihenfolge, nur frische Tore, keine Karten.
   const hl = [{ id: 11, type: "goal", minute: 42, homeGoal: 1, awayGoal: 0, date: new Date(t0 - 30 * 60e3).toISOString(), primaryRole: { firstName: "Alt", lastName: "Tor" } },
               { id: 12, type: "goal", minute: 50, additionalMinute: 2, homeGoal: 1, awayGoal: 1, date: new Date(t0 - 5 * 60e3).toISOString(), primaryRole: { firstName: "Dario", lastName: "Russo" } },

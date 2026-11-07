@@ -474,7 +474,10 @@ export function liveGewollt(abos, c) {
 }
 export const tagzeit = ms => { const h = stundeLux(ms); return h >= 7 && h < 23; };
 // Liveticker und Endstand für ein Spiel des Tages (Kandidat aus mitteilungen.json → live).
-export function liveEreignisse(c, k, now) {
+export const NACH_ENDE_MS = 75 * 60e3;
+// endeText = Text eines schon verschickten Endstands: steht danach ein anderer Endstand da (Verlängerung, Elfmeterschießen,
+// Korrektur), geht er mit eigener id noch einmal raus.
+export function liveEreignisse(c, k, now, endeText) {
   const aus = [], d = Date.parse(c.d);
   if (k.section === "LIVE" && (k.hs != null || k.ticker || k.tore.length))
     aus.push({ id: c.ticker, reiter: c.reiter, art: "ticker", titel: `${c.titel} · Liveticker`,
@@ -489,8 +492,11 @@ export function liveEreignisse(c, k, now) {
   // Halbzeit (vom Nutzer, 21.10.2026): nur mit Stand, also nur wenn wirklich getickert wird.
   if (k.section === "LIVE" && k.period === "halftime" && k.hs != null && k.as != null)
     aus.push({ id: c.halbzeit || "halbzeit:" + c.id, reiter: c.reiter, art: "halbzeit", titel: `${c.titel} · Halbzeit`, text: stand(), ab: now, bis: d + 180 * 60e3 });
-  if (k.section === "POST" && k.hs != null && k.as != null)
-    aus.push({ id: c.ende, reiter: c.reiter, art: "ende", titel: `${c.titel} · Endstand`, text: stand(), ab: now, bis: now + 18 * 3600e3 });
+  if (k.section === "POST" && k.hs != null && k.as != null) {
+    const t = stand();
+    if (endeText == null) aus.push({ id: c.ende, reiter: c.reiter, art: "ende", titel: `${c.titel} · Endstand`, text: t, ab: now, bis: now + 18 * 3600e3 });
+    else if (endeText !== t) aus.push({ id: `${c.ende}:${k.hs}-${k.as}`, reiter: c.reiter, art: "ende", titel: `${c.titel} · Endstand`, text: t, ab: now, bis: now + 18 * 3600e3 });
+  }
   return aus;
 }
 async function gemeldetSpalten(db) {
@@ -602,7 +608,10 @@ export async function mitteilungenSenden(db, now = Date.now()) {
   for (const c of datei.live || []) {
     const d = Date.parse(c.d);
     if (now < d || now > d + 180 * 60e3) continue;
-    if ((await schon(c.ende))) continue;
+    // Nach dem Endstand noch 75 min weiterfragen (7.11.2026, Pokal Rodange – Koeppchen: FuPa meldete nach 90 min „Endstand 1:1“,
+    // dann ging es in die Verlängerung — Tore und der wirkliche Endstand kamen nicht mehr).
+    const endeSchon = await db.prepare("SELECT zeit, text FROM gemeldet WHERE id = ?1").bind(c.ende).first();
+    if (endeSchon && now > endeSchon.zeit + NACH_ENDE_MS) continue;
     // FuPa nur fragen, wenn ein Handy für dieses Spiel Live-Mitteilungen gewählt hat (30.10.2026: „📡 Live von FuPa“ hat nur,
     // wer den eigenen oder den Familien-Code hat) — sonst keine einzige Anfrage.
     if (!liveGewollt(abos, c)) continue;
@@ -618,7 +627,7 @@ export async function mitteilungenSenden(db, now = Date.now()) {
       if (!sp) continue;
       const f = sp.f;
       // Schon Verschicktes nicht jede Minute neu in die Warteschlange legen (sparte nur Schreibzugriffe).
-      for (const e of liveEreignisse(c, { ...kuerzen(f), toreRoh: toreRoh(f) }, now))
+      for (const e of liveEreignisse(c, { ...kuerzen(f), toreRoh: toreRoh(f) }, now, endeSchon?.text))
         if (!(await schon(e.id))) await db.prepare("INSERT OR IGNORE INTO offen (id, ereignis) VALUES (?1, ?2)").bind(e.id, JSON.stringify(e)).run();
     } catch (e) { console.log("Live", c.id, e.message); }
   }

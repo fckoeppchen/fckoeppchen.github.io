@@ -436,6 +436,10 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Nächste Ausgabe** (vom Nutzer, 6.11.2026; Oktoberfest: 8. Ausgabe 24.10.2026, dieselbe Seite danach auf den 2.10.2027 umgeschrieben —
   kam nicht als neu): stand die Adresse vorher nur mit vergangenem Tag in der Liste und hat jetzt einen späteren, ist es ein neues Event,
   id `event:<url>:<Tag>`. Ein noch kommendes Event, das verschoben wird, bleibt „geändert“ (nichts). Tests (480) mit Gegenprobe.
+- **Verlängerung im Pokal** (7.11.2026, Rodange – Koeppchen): FuPa meldete nach 90 min POST 1:1, der Worker schickte „Endstand“ und fragte
+  danach nie mehr — Tore der Verlängerung und der wirkliche Endstand fehlten. Jetzt fragt er nach dem Endstand noch 75 min weiter (`NACH_ENDE_MS`,
+  im 180-min-Fenster), ein anderer Endstand geht mit id `<ende>:<h>-<a>` noch einmal raus (`liveEreignisse(…, endeText)` mit dem Text aus
+  `gemeldet`). Test mit Gegenprobe. **Worker neu einfügen nötig.**
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
