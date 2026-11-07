@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-07T20:31:46.927Z",
+ "stand": "2026-11-07T20:46:46.039Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -15998,9 +15998,9 @@
       "id": 44831,
       "n": "FC Koeppchen Wormeldange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Jos Philippart (Rodange)"
     },

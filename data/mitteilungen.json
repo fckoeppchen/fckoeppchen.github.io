@@ -83,26 +83,18 @@
    "text": "10:00 gegen URB · 📍 Am Ga (Wormeldange, synth.)",
    "ab": 1794074400000,
    "bis": 1794128400000
+  },
+  {
+   "reiter": [
+    "Seniors 1"
+   ],
+   "id": "ende:13611",
+   "art": "ende",
+   "titel": "Seniors 1 · Endstand",
+   "text": "FC Rodange 91 1:1 Koeppchen",
+   "ab": 1794084420480,
+   "bis": 1794149220480
   }
  ],
- "live": [
-  {
-   "id": 13611,
-   "reiter": [
-    "Seniors 1 · live"
-   ],
-   "titel": "📡 Seniors 1",
-   "d": "2026-11-07T18:30:00+01:00",
-   "h": "FC Rodange 91",
-   "a": "Koeppchen",
-   "wirHeim": false,
-   "gegner": "FC Rodange 91",
-   "anstoss": "2026-11-07T18:30:00+01:00",
-   "fupaTeam": "m1",
-   "fupaWir": "fc-koeppchen",
-   "ticker": "lticker:13611",
-   "halbzeit": "lhalbzeit:13611",
-   "ende": "ende-live:13611"
-  }
- ]
+ "live": []
 }
