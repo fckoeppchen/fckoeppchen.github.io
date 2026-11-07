@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-07T19:18:43.598Z",
+ "stand": "2026-11-07T19:46:54.159Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -15980,9 +15980,9 @@
       "id": 44884,
       "n": "FC Wiltz 71"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 5,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Jos Haupert (Niederkorn)"
     },
