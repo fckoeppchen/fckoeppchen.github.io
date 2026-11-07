@@ -778,7 +778,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "7.11.2026 neu c";
+const FASSUNG = "7.11.2026 neu d";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1453,6 +1453,7 @@ function wocheHtml(tage, alle, now) {
         !s0.gespielt && s.ort ? "📍 " + esc(s.ort) : "",
         s.abgesagt ? "<b>abgesagt</b>" : "", s.coach ? esc(s.coach.art) : s.typ === "CUP" ? "Pokal" : s.typ === "FM" ? "Test" : "",
         s.forfait ? "Forfait" : "",
+        !lv && pokalOffen(s) ? "<b>nach 90 Min., Endstand folgt</b>" : !lv && pokalArt(s) ? esc(pokalArt(s)) : "",
         s.zugleich.length ? `<span class="wzugleich">gleichzeitig mit ${esc(s.zugleich.join(", "))}</span>` : "",
         tickerHinweis ? `<b>Liveticker von FuPa im Reiter</b>, falls jemand tickt` : ""];
       h += `<div class="wzeile${lv?.laeuft ? " wlive" : ""}" data-gehe="${s.tab}">${spielZeile(s, ids, teile.filter(Boolean).join(" · "))}</div>`;
