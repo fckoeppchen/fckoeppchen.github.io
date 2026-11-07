@@ -148,6 +148,18 @@ export function adressenAus(felder, anlagen, orte) {
   for (const o of orte) { const l = je.get(o); if (l && l.size === 1) aus[o] = [...l][0]; }
   return aus;
 }
+// Form des Gegners im Pokal (vom Nutzer, 7.11.2026): spielt er nicht in unserer Liga, kennen wir seine Spiele nicht. Aus den
+// Spielen seines Vereins (gleiche Altersklasse, ohne Freundschaftsspiele) die letzten 5 mit Ergebnis vor unserem Spiel, nur
+// die seiner Mannschaft (gleiche Nummer oder gleicher Name). Pokal-Gleichstand ohne Endergebnis zählt nicht (wie in der App).
+export function gegnerForm(spiele, team, vor) {
+  const er = t => t && (t.id === team.id || t.name === team.name);
+  return spiele.filter(m => (m.matchType?.id || "") !== "FM" && (er(m.homeTeam) || er(m.awayTeam)) && m.match.matchDate < vor)
+    .map(m => { const x = m.match, f = x.finalHomeScore != null;
+      return { d: x.matchDate, h: er(m.homeTeam), hs: f ? x.finalHomeScore : x.homeScore, as: f ? x.finalAwayScore : x.awayScore,
+               offen: (m.matchType?.id === "CUP") && !f && x.homeScore === x.awayScore }; })
+    .filter(x => x.hs != null && x.as != null && !x.offen).sort((a, b) => a.d.localeCompare(b.d)).slice(-5)
+    .map(x => { const d = x.h ? x.hs - x.as : x.as - x.hs; return d > 0 ? "s" : d < 0 ? "n" : "u"; });
+}
 export function eigeneSpiele(D, t) {
   const wir = D.teams.filter(o => o.id === t.id || (t.mit || []).includes(o.id));
   const ids = new Set(wir.flatMap(nummern));
@@ -598,6 +610,29 @@ async function main() {
   if (rtl.rtlFaellig(neu, alt.rtl, Date.now())) {
     try { neu.rtl = await rtl.rtlHolen(neu, alt.rtl); console.log("RTL:", JSON.stringify(neu.rtl.spiele)); }
     catch (e) { console.error("RTL:", e.message); }
+  }
+  // Form des Gegners bei Pokalspielen der Seniors in den nächsten 3 Tagen, wenn er nicht in unseren Klassen spielt (ein Abruf je Spiel,
+  // gemerkt; um 7 Uhr neu). Fehler → alter Stand.
+  {
+    const altF = alt.gegnerForm || {}, jetzt = Date.now(), gf = {};
+    const stunde = +new Date().toLocaleString("en-GB", { timeZone: "Europe/Luxembourg", hour: "2-digit", hourCycle: "h23" });
+    // Bekannt = spielt in einer unserer Ligaklassen (über den Namen: im Pokal hat dieselbe Mannschaft oft eine andere Nummer).
+    const bekannt = new Set(Object.values(neu.klassen).filter(k => k.typ === "CC").flatMap(k => k.spiele.flatMap(x => [x.h.n, x.a.n])));
+    for (const m of vereinsSpiele) {
+      const d = Date.parse(m.match.matchDate);
+      if (m.matchType?.id !== "CUP" || AGES[m.ak].kat !== "Seniors" || d < jetzt - 6 * 3600e3 || d > jetzt + 3 * 864e5) continue;
+      const geg = istVerein(m.homeTeam) ? m.awayTeam : m.homeTeam;
+      if (!geg || bekannt.has(geg.name)) continue;
+      const vorher = altF[m.match.id];
+      if (vorher && stunde !== 7) { gf[m.match.id] = vorher; continue; }
+      try {
+        await pause(1000);
+        const { matches } = await gq(Q_MATCHES, { c: { ...zeit, clubId: geg.clubId1, ageCategoryId: AGES[m.ak].id, matchTypeId: "ALL" } });
+        gf[m.match.id] = gegnerForm(matches, geg, m.match.matchDate);
+        console.log("Form", geg.name + ":", gf[m.match.id].join(""));
+      } catch (e) { console.error("Form", geg.name + ":", e.message); if (vorher) gf[m.match.id] = vorher; }
+    }
+    neu.gegnerForm = gf;
   }
   // Adressen der Plätze unserer Spiele (für den Heute-/Morgen-Kasten bei Auswärtsspielen). Nur abfragen, wenn ein Platz noch
   // keine hat oder um 7 Uhr (Anlagen ändern sich selten). Fehler → alter Stand.

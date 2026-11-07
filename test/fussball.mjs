@@ -16,7 +16,7 @@ import { FUPA } from "../tools/fupa-modus.mjs";
 const FUPA_STAND = FUPA.api;
 FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
-import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus } from "../tools/fussball.mjs";
+import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus, gegnerForm } from "../tools/fussball.mjs";
 import { unsereRtlSpiele, rtlZuordnen, rtlFaellig, rtlHolen } from "../tools/rtl.mjs";
 import { eventMenue, eventDatum, seitenText, seitenBilder, bildBreite, eventsFaellig, kalenderAdresse, kalenderIds, kalenderEvent, textGleich, titelGleich, zusammenfuehren } from "../tools/vereins-events.mjs";
 
@@ -1575,6 +1575,18 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     { id: 13, houseNumber: "", street: "DREIBORN" }];
   gleich(adressenAus(felder, anlagen, new Set(["Stade Jos Philippart (Rodange)", "Terrain 2", "Am Ga (Wormeldange, synth.)", "Unbekannt"])),
     { "Stade Jos Philippart (Rodange)": "9, Rue Jos. Moscardo", "Am Ga (Wormeldange, synth.)": "Dreiborn" }, "Adresse: je Platzname, mehrdeutige und unbekannte weg");
+}
+// ---- Form des Gegners im Pokal aus den Spielen seines Vereins (vom Nutzer, 7.11.2026) ----
+{
+  const g = { id: 7, name: "FC Rodange 91" };
+  const M = (d, h, a, hs, as, typ = "CC", f) => ({ match: { matchDate: d, homeScore: hs, awayScore: as, finalHomeScore: f?.[0] ?? null, finalAwayScore: f?.[1] ?? null },
+    matchType: { id: typ }, homeTeam: h, awayTeam: a });
+  const x = { id: 9, name: "X" }, zwei = { id: 8, name: "FC Rodange 91 II" }, pok = { id: 77, name: "FC Rodange 91" };
+  const l = [M("2026-10-04", g, x, 2, 3), M("2026-10-11", x, g, 2, 0), M("2026-10-18", g, x, 2, 2), M("2026-10-20", x, g, 0, 0, "FM"),
+    M("2026-10-25", x, g, 1, 5), M("2026-10-26", zwei, x, 9, 0), M("2026-10-28", pok, x, 1, 1, "CUP"), M("2026-10-31", g, x, 4, 0),
+    M("2026-11-01", pok, x, 2, 2, "CUP", [3, 2]), M("2026-11-09", g, x, 1, 0)];
+  gleich(gegnerForm(l, g, "2026-11-07"), ["n", "u", "s", "s", "s"],
+    "Form Gegner: letzte 5 vor dem Spiel, ohne Freundschaft, ohne zweite Mannschaft, Pokal-Gleichstand ohne Endergebnis nicht, Endergebnis zählt, Pokal-Nummer über den Namen");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);

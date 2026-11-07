@@ -1135,7 +1135,7 @@ function renderInnen() {
   // Ohne FuPa-Schnittstelle: am Spieltag das FuPa-Widget unter dem Kasten (Seniors 1–3, nicht bei Trainer-Spielen).
   const fw = !FUPA_API && heute && !heute.sp.coach && FUPA_WIDGET[v.team.reiter];
   if (heute) h += heuteHtml(heute, v.ids, { live: FUPA_API && !heute.sp.coach && (v.team.reiter === LIVE_REITER || !!(D.fupa || {})[heute.sp.id]), widget: !!fw, pill: sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "",
-    ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder, motto: true, form: v.team.kat === "Seniors" && !heute.sp.coach,
+    ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder, motto: true, form: v.team.kat === "Seniors" && !heute.sp.coach && heute.sp.typ !== "FM",
     fupaUrl: (D.fupa || {})[heute.sp.id] ? "https://www.fupa.net/match/" + D.fupa[heute.sp.id]
       : L && L.flfId === heute.sp.id && L.url ? L.url : "https://www.fupa.net/club/fc-koeppchen" });
   if (fw) h += fupaWidgetHtml(fw, v.team.reiter, heute.sp.d);
@@ -1274,7 +1274,7 @@ function adresseZeile(sp, ids) {
 // (im Pokal hat er eine andere FLF-Nummer). Ältestes links, neuestes rechts. Unter 2 Spielen keine Zeile.
 function formHtml(sp, ids) {
   const alle = new Map();
-  for (const k of Object.values(D?.klassen || {})) for (const x of k.spiele || []) if (!alle.has(x.id)) alle.set(x.id, { ...x, typ: k.typ });
+  for (const k of Object.values(D?.klassen || {})) if (k.typ !== "FM") for (const x of k.spiele || []) if (!alle.has(x.id)) alle.set(x.id, { ...x, typ: k.typ });
   const vor = [...alle.values()].filter(x => x.id !== sp.id && Date.parse(x.d) < Date.parse(sp.d) && !x.coach && x.hs != null && x.as != null
     && !(x.bem === "Arrêté" && !x.gespielt) && !pokalOffen(x)).sort((a, b) => a.d.localeCompare(b.d));
   const reihe = (istEr) => vor.filter(x => istEr(x.h) || istEr(x.a)).slice(-5).map(x => {
@@ -1282,7 +1282,12 @@ function formHtml(sp, ids) {
   const zeile = (t, istEr) => { const r = reihe(istEr); return r.length < 2 ? "" :
     `<div class="fz"><span class="fn">${esc(anzeige(t.n))}</span><span>${r.map(x => `<span class="fb ${x}">${{ s: "S", u: "U", n: "N" }[x]}</span>`).join("")}</span></div>`; };
   const wir = t => ids.has(t.id), er = n => t => t.n === n;
-  const h = zeile(sp.h, ids.has(sp.h.id) ? wir : er(sp.h.n)), a = zeile(sp.a, ids.has(sp.a.id) ? wir : er(sp.a.n));
+  // Gegner im Pokal aus einer anderen Liga: Form vom Abruf (D.gegnerForm, aus den Spielen seines Vereins).
+  const fertig = (D?.gegnerForm || {})[sp.id];
+  const zeile2 = (t, istEr) => fertig && !ids.has(t.id) && fertig.length >= 2
+    ? `<div class="fz"><span class="fn">${esc(anzeige(t.n))}</span><span>${fertig.map(x => `<span class="fb ${x}">${{ s: "S", u: "U", n: "N" }[x]}</span>`).join("")}</span></div>`
+    : zeile(t, istEr);
+  const h = zeile2(sp.h, ids.has(sp.h.id) ? wir : er(sp.h.n)), a = zeile2(sp.a, ids.has(sp.a.id) ? wir : er(sp.a.n));
   return h || a ? `<div class="form"><div class="ft">Form · letzte 5 Spiele, das neueste rechts</div>${h}${a}</div>` : "";
 }
 function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, motto, fupaUrl, form }) {
