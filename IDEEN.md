@@ -441,3 +441,11 @@ Vom Nutzer gewünscht: nur nachsehen, damit man RTL fragen kann. Ergebnis:
   ob das Spiel wirklich bei RTL läuft (Freundschaftsspiel ohne Übertragung → normales Programm); Livestream evtl. nur in Luxemburg;
   kein „Ganzes Spiel ansehen“ (keine feste Adresse).
 - **Vorher ansehen:** beim nächsten Länderspiel (13.11. gegen Estland) prüfen, ob RTL es zeigt und wie die Seite aussieht.
+
+## Bilanz gegen den Gegner (geprüft 7.11.2026, vom Nutzer zurückgestellt: „lass Bilanz sein“)
+Idee nach urb.lu („Bilanz géint …“, „Éischt Duell“). Quellen für frühere Spiele:
+- **FLF-Extranet**: alle Mannschaften, aber erst **ab 2024-25** (alle Saisons bis 2010 abgefragt, davor leer).
+- **RTL** (`api-gate.rtl.lu/sport/v4/`, Fußball-Saisons 1, 9, 14, 19, 24, 30 = 2021-22 … 2026-27): alle Divisionen + Pokal, **nur erste
+  Mannschaften** → Seniors 1 ab 2021 (~32 Spiele/Saison). Namen luxemburgisch („Koeppchen Wuermer“, „CS Uewerkuer“), Zuordnung über RTL-Teamnummer nötig.
+- **FuPa**: Seniors 1 ab 2014-15, Réserves I ab 2019-20, Réserves II ab 2024-25 (25 je Seite, also blättern). Nur mit FuPas Okay (Schnittstelle ruht).
+Plan war: Gegner über Vereinsnummer, Liga + Pokal, keine Freundschaftsspiele, Anzeige im Heute-Kasten unter der Form.
