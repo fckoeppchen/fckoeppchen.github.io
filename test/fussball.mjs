@@ -16,7 +16,7 @@ import { FUPA } from "../tools/fupa-modus.mjs";
 const FUPA_STAND = FUPA.api;
 FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
-import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst } from "../tools/fussball.mjs";
+import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus } from "../tools/fussball.mjs";
 import { unsereRtlSpiele, rtlZuordnen, rtlFaellig, rtlHolen } from "../tools/rtl.mjs";
 import { eventMenue, eventDatum, seitenText, seitenBilder, bildBreite, eventsFaellig, kalenderAdresse, kalenderIds, kalenderEvent, textGleich, titelGleich, zusammenfuehren } from "../tools/vereins-events.mjs";
 
@@ -1563,6 +1563,18 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     "FuPa Pokal: Endstand mit Verlängerung und Elfmeterschießen getrennt — ist " + JSON.stringify(e3));
   ok(liveEreignisse({ ...c, pokal: undefined }, k(1, 1, [T(1, 55, 0, 1), T(2, 72, 1, 1)], 90), t0).filter(e => e.art === "ende")[0]?.id === "ende-live:9", "FuPa Liga: 1:1 = Endstand wie immer");
   ok(toreRoh({ highlights: [{ id: 1, type: "goal", minute: 121, subtype: "penalty_shootout", homeGoal: 4, awayGoal: 3 }, { id: 2, type: "goal", minute: 95, homeGoal: 2, awayGoal: 1 }] }).map(t => t.elf).join() === "true,false", "toreRoh: Elfmeterschießen erkannt");
+}
+// ---- Adressen der Plätze (vom Nutzer, 7.11.2026) ----
+{
+  ok(strasse("RUE JOS. MOSCARDO") === "Rue Jos. Moscardo" && strasse("RUE DE L'ECOLE") === "Rue de l'Ecole" && strasse("NEIE WEE") === "Neie Wee"
+    && strasse("RUE JEAN-PIERRE BAUSCH") === "Rue Jean-Pierre Bausch" && strasse("D'GENNERWISS") === "D'Gennerwiss" && strasse("RUE DE LA GARE") === "Rue de la Gare",
+    "Adresse: Großbuchstaben der FLF lesbar");
+  const felder = [{ id: 1, name: "Stade Jos Philippart (Rodange)", sportComplex: { id: 10 } }, { id: 2, name: "Terrain 2", sportComplex: { id: 11 } },
+    { id: 3, name: "Terrain 2", sportComplex: { id: 12 } }, { id: 4, name: "Am Ga (Wormeldange, synth.)", sportComplex: { id: 13 } }];
+  const anlagen = [{ id: 10, houseNumber: "9", street: "RUE JOS. MOSCARDO" }, { id: 11, houseNumber: "", street: "A" }, { id: 12, houseNumber: "", street: "B" },
+    { id: 13, houseNumber: "", street: "DREIBORN" }];
+  gleich(adressenAus(felder, anlagen, new Set(["Stade Jos Philippart (Rodange)", "Terrain 2", "Am Ga (Wormeldange, synth.)", "Unbekannt"])),
+    { "Stade Jos Philippart (Rodange)": "9, Rue Jos. Moscardo", "Am Ga (Wormeldange, synth.)": "Dreiborn" }, "Adresse: je Platzname, mehrdeutige und unbekannte weg");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);

@@ -446,6 +446,13 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Tore im Elfmeterschießen kommen weiter einzeln (vom Nutzer gewollt). **App:** „Letztes Spiel“ bei offenem Pokal-Gleichstand Schild „nach 90 Minuten“
   und „Stand nach 90 Minuten. Das Spiel ging in die Verlängerung. Der Endstand wird nachgereicht, sobald die FLF ihn einträgt.“; mit Endergebnis
   „nach Verlängerung“/„nach Elfmeterschießen“ (neu e, vom Nutzer: ohne „Elfmeter mitgezählt“), auch in „Unsere Ergebnisse“ und (neu d) in „Unsere Woche“ („nach 90 Min., Endstand folgt“ fett). Tests (495) mit Gegenprobe (8 rot). **Worker neu einfügen nötig.**
+- **Straße des Platzes bei Auswärtsspielen** (vom Nutzer, 7.11.2026, Fassung 7.11. neu f; Anlass urb.lu): die FLF führt öffentlich alle
+  Sportanlagen mit Straße/Hausnummer (`sportComplexes{ id houseNumber street }`, `sportFields{ id name sportComplex{ id } }`; Schiedsrichter
+  `refereeInformation` und Trainer `coaches` gibt es nur angemeldet → UNAUTHORIZED, am 7.11. geprüft). `tools/fussball.mjs`: `adressenAus` → `D.adressen`
+  = {Platzname (= sp.ort): „9, Rue Jos. Moscardo“} nur für Plätze unserer Spiele, mehrdeutige Namen weg; `strasse()` macht die Großbuchstaben lesbar
+  (de/du/la/l'… klein). Abfrage nur, wenn ein Platz noch keine Adresse hat, und um 7 Uhr; Fehler → alter Stand. Am 7.11.: 52 von 52 Plätzen.
+  App: `adresseZeile` klein und grau unter dem 📍 **nur im Heute-/Morgen-Kasten und nur auswärts** (vom Nutzer: nicht zu viel Text, Listen unverändert).
+  Ort/Postleitzahl liefert die FLF so nicht (steht meist im Platznamen). Tests (498) mit Gegenprobe; Browser mit gestellter Uhr (Pétange, Rosport, Heimspiel ohne).
 - **Mitteilung „Neues Event“** (vom Nutzer, 1.11.2026, Fassung 1.11. neu b): Art `event` unter „Unsere Woche“ im Zahnrad (Woche hat jetzt zwei
   Haken: „Neue Woche (montags 10 Uhr)“, „Neues Event des Vereins“; beim Anhaken beide an, bestehende Woche-Auswahl muss ihn selbst anhaken).
   `tools/mitteilungen.mjs`: nur wenn ein Event **dazukommt** — neu = weder Adresse noch Tag standen in `alt.events.liste` (Kalender-Event, das

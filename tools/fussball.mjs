@@ -121,6 +121,33 @@ export function reiter(t, lang = false) {
 export const nummern = t => t.ids || [t.id];
 // Altersklassen ohne Ergebnisse (FLF: showResult false; auch Freundschaftsspiele, vom Nutzer 25.10.2026).
 export const KEINE_ERG = ["U7", "U9", "U11"];
+// Adresse des Platzes (vom Nutzer, 7.11.2026): die FLF führt alle Sportanlagen öffentlich mit Straße und Hausnummer
+// (sportComplexes), jeder Platz (sportFields) gehört zu einer Anlage. Gespeichert wird je Platzname (= sp.ort) nur für Plätze
+// unserer Spiele. Mehrdeutige Namen bekommen keine Adresse (lieber keine als eine falsche). Die FLF schreibt in Großbuchstaben.
+const KLEIN = new Set(["de", "du", "des", "la", "le", "les", "et", "sur", "um", "am", "an", "der", "den", "dem", "op", "a", "bei", "beim", "zum", "zur", "von", "an", "en", "aux", "au"]);
+export function strasse(s) {
+  return (s || "").trim().toLowerCase().replace(/\s+/g, " ")
+    .replace(/[a-zà-ÿ]+/g, (w, i, ganz) => {
+      const vor = ganz[i - 1];
+      if (vor === "'" ) return w[0].toUpperCase() + w.slice(1);               // l'Ecole, d'Esch
+      if (i > 0 && KLEIN.has(w) && vor === " ") return w;
+      if ((w === "l" || w === "d") && ganz[i + 1] === "'") return i === 0 ? w.toUpperCase() : w;
+      return w[0].toUpperCase() + w.slice(1);
+    });
+}
+export function adressenAus(felder, anlagen, orte) {
+  const anl = new Map((anlagen || []).map(a => [a.id, a]));
+  const je = new Map();
+  for (const f of felder || []) {
+    const a = anl.get(f.sportComplex?.id);
+    if (!a || !a.street) continue;
+    const t = (a.houseNumber ? a.houseNumber.trim() + ", " : "") + strasse(a.street);
+    (je.get(f.name) || je.set(f.name, new Set()).get(f.name)).add(t);
+  }
+  const aus = {};
+  for (const o of orte) { const l = je.get(o); if (l && l.size === 1) aus[o] = [...l][0]; }
+  return aus;
+}
 export function eigeneSpiele(D, t) {
   const wir = D.teams.filter(o => o.id === t.id || (t.mit || []).includes(o.id));
   const ids = new Set(wir.flatMap(nummern));
@@ -571,6 +598,22 @@ async function main() {
   if (rtl.rtlFaellig(neu, alt.rtl, Date.now())) {
     try { neu.rtl = await rtl.rtlHolen(neu, alt.rtl); console.log("RTL:", JSON.stringify(neu.rtl.spiele)); }
     catch (e) { console.error("RTL:", e.message); }
+  }
+  // Adressen der Plätze unserer Spiele (für den Heute-/Morgen-Kasten bei Auswärtsspielen). Nur abfragen, wenn ein Platz noch
+  // keine hat oder um 7 Uhr (Anlagen ändern sich selten). Fehler → alter Stand.
+  {
+    const orte = new Set();
+    for (const t of neu.teams) for (const sp of eigeneSpiele(neu, t)) if (sp.ort) orte.add(sp.ort);
+    const alte = alt.adressen || {};
+    const stunde = +new Date().toLocaleString("en-GB", { timeZone: "Europe/Luxembourg", hour: "2-digit", hourCycle: "h23" });
+    neu.adressen = Object.fromEntries([...orte].filter(o => alte[o]).map(o => [o, alte[o]]));
+    if ([...orte].some(o => !(o in alte)) || stunde === 7) {
+      try {
+        const { sportFields, sportComplexes } = await gq(`{ sportFields{ id name sportComplex{ id } } sportComplexes{ id houseNumber street } }`);
+        neu.adressen = adressenAus(sportFields, sportComplexes, orte);
+        console.log("Adressen:", Object.keys(neu.adressen).length, "von", orte.size);
+      } catch (e) { console.error("Adressen:", e.message); }
+    }
   }
   // Events von der Vereins-Homepage (tools/vereins-events.mjs), einmal am Tag um 7 Uhr. Fehler → alter Stand.
   neu.events = alt.events || null;
