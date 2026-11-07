@@ -458,6 +458,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   der Klammer ohne „synth.“). Öffnet die Google-Maps-App, sonst die Webseite. Datenschutz-Hinweis nennt den Knopf. **Klasse `wegk`, nicht `weg`**: `#leiste.weg` ist die weggeschobene Reiterleiste, `.weg` machte sie in neu h zur runden Pille (neu i behoben). Abruf: Hausnummer nicht doppelt, wenn die
   FLF sie schon in der Straße hat (Mensdorf „33, 33, …“). 5 von 52 Plätzen ohne Ort in der Klammer (Cents, Fr. Trausch, Munsbach, Ralingen, Hollerich) —
   Suche über Name + Straße. Ortsnamen lesbar (`ortName`: „Esch-sur-alzette“ → „Esch-sur-Alzette“, Klammer weg), „B.P.“ (Postfach) in Hausnummer/Straße weg. OSM-Prüfung (Nominatim, 155 Adressen): 142 im richtigen Ort, 4 Nachbarort, 9 nicht gefunden (FLF-Abkürzungen wie „Rue Jos. Moscardo“). Früher (20.10.) als „Gimmick“ verworfen, weil es nur den Platznamen gab.
+- **Zwei Karten-Knöpfe** (vom Nutzer, 7.11.2026, Fassung 7.11. neu j; Entwurf auf Branch `entwurf-karten`): statt „Weg zum Platz“ „🗺️ Google Maps“ und
+  „🧭 Apple Karten“ (`maps.apple.com/?q=…`, öffnet auf dem iPhone immer die Karten-App) nebeneinander (`.wege`); Apple Karten nicht auf Android
+  (`navigator.userAgent`). Bildschirmfotos als iPhone 13 und Pixel 7.
 - **Form im Heute-Kasten der Seniors** (vom Nutzer, 7.11.2026, Fassung 7.11. neu g; nach urb.lu; Entwurf auf Branch `entwurf-form`, Go vom Nutzer am selben Abend → main):
   `formHtml` — beide Mannschaften, letzte 5 Spiele mit Ergebnis vor diesem Spiel (S grün, U grau, N rot, neuestes rechts), aus allen Klassen in
   unseren Daten außer Freundschaftsspielen, Gegner über den Namen (Pokal-Nummer weicht ab); Pokal-Gleichstand ohne Endergebnis zählt nicht; unter 2
