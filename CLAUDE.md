@@ -1,7 +1,9 @@
 # fckoeppchen.github.io — App „FC Koeppchen“
 
 Nutzer: Laurent (Luxemburg). Deutsch, Du-Form, einfache Sprache, Widerspruch erwünscht. Änderungen
-direkt auf `main`, keine Pull Requests. Alles zur App steht in dieser Datei und in `IDEEN.md`.
+direkt auf `main`, keine Pull Requests. **Entwürfe, die der Nutzer erst sehen will** (Bildschirmfoto vor dem Live-Gang), liegen auf einem eigenen Branch
+`entwurf-<name>` (gespeichert, nicht live); auf sein „live“ nach `main` holen (vom Nutzer, 8.11.2026: „mach weiter so mit den Branches“).
+Kleine Korrekturen gleich auf `main`. Branches auf GitHub löschen kann Claude von hier nicht (403) — der Nutzer räumt sie selbst auf. Alles zur App steht in dieser Datei und in `IDEEN.md`.
 
 ## Umzug (22.10.2026, vom Nutzer)
 
