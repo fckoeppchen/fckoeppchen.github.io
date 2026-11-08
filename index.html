@@ -508,8 +508,8 @@ function pokalHinweis(sp) {
   return pokalArt(sp) ? `<div class="zusatz">${pokalArt(sp)}</div>` : "";
 }
 function letztesHtml(v, now) {
-  // Am Vortag nur bei den Kindern weg (dort kommt „Morgen Spieltag!“), die Seniors haben keinen Morgen-Kasten.
-  if (spieltagHeute(v, now) || (istKinder(v) && spieltagMorgen(v, now))) return "";
+  // Am Vortag weg, dort steht „Morgen Spieltag!“ (seit 8.11.2026 auch bei den Seniors).
+  if (spieltagHeute(v, now) || spieltagMorgen(v, now)) return "";
   const datum = sp => esc(wann(sp.d, false).split(" · ")[0]);
   if (v.team.kat === "Seniors") {
     // Das zuletzt gespielte Spiel, auch wenn die FLF noch kein Ergebnis hat (vom Nutzer, 31.10.2026: sonst stand nach dem
@@ -788,7 +788,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "8.11.2026 neu c";
+const FASSUNG = "8.11.2026 neu d";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1142,8 +1142,9 @@ function renderInnen() {
     fupaUrl: (D.fupa || {})[heute.sp.id] ? "https://www.fupa.net/match/" + D.fupa[heute.sp.id]
       : L && L.flfId === heute.sp.id && L.url ? L.url : "https://www.fupa.net/club/fc-koeppchen" });
   if (fw) h += fupaWidgetHtml(fw, v.team.reiter, heute.sp.d);
-  const morgen = kinder && !heute && !lv && spieltagMorgen(v, now);
-  if (morgen) h += morgenHtml(morgen, v.ids, sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "");
+  // Morgen-Kasten für alle Mannschaften (Seniors seit 8.11.2026, vom Nutzer), Koeppi nur bei den Kindern.
+  const morgen = !heute && !lv && spieltagMorgen(v, now);
+  if (morgen) h += morgenHtml(morgen, v.ids, sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "", kinder);
   h += letztesHtml(v, now);
   if (lv) h += liveHtml(lv, n => anzeige(n).startsWith("Koeppchen"), "offiziell zählt die FLF");
 
@@ -1377,14 +1378,14 @@ function wetterZeile(sp) {
   const t = wetterText((D?.wetter || {})[sp.id], sp.d);
   return t ? `<div class="wetter">${esc(t)}</div>` : "";
 }
-function morgenHtml(m, ids, pill) {
+function morgenHtml(m, ids, pill, koeppi = true) {
   const sp = m.sp, zeit = wann(sp).split(" · ")[1], p = pill(sp);
   return `<section class="card heute"><div class="chead"><h2>Morgen Spieltag! ⚽</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}${coachZeichen(sp)}</div><div class="cbody">
     <div class="wann">${esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen")}</div>${wetterZeile(sp)}
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}${adresseZeile(sp, ids)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
-    ${koeppiZeile("trinkflasche", "Trinkflasche nicht vergessen! 😉", "", true)}
+    ${koeppi ? koeppiZeile("trinkflasche", "Trinkflasche nicht vergessen! 😉", "", true) : MOTTO}
     </div></section>`;
 }
 
