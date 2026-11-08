@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-07T23:17:04.128Z",
+ "stand": "2026-11-08T08:27:25.716Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -24635,6 +24635,30 @@
   "Terrain 2 (Stegen, synth.)": "Dikricherstroos - um Bloen Eck, L-9186 Stegen",
   "Terrain 2 (Lintgen, synth.)": "Rue de la Gare, L-7448 Lintgen",
   "Terrain Op Birkelt (Larochette, synth.)": "Plateau Birkelt, L-7620 Larochette"
+ },
+ "wetter": {
+  "13501": {
+   "c": 3,
+   "t": 3,
+   "r": 0,
+   "w": 5
+  },
+  "8000000005": {
+   "c": 3,
+   "t": 6,
+   "r": 10,
+   "w": 0
+  }
+ },
+ "wetterOrte": {
+  "LU-5499 Dreiborn": [
+   49.617,
+   6.394
+  ],
+  "LU-7795 Bissen": [
+   49.787,
+   6.065
+  ]
  },
  "events": {
   "liste": [
