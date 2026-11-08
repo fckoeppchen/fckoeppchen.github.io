@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-08T17:46:52.431Z",
+ "stand": "2026-11-08T18:16:47.367Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -16053,10 +16053,11 @@
       "id": 44695,
       "n": "AS La Jeunesse d'Esch/Alzette"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 1 - 1",
      "ort": "Streetwheels Arena (Berbourg)"
     },
     {
@@ -16071,10 +16072,11 @@
       "id": 44812,
       "n": "CS Grevenmacher"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 6,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 6 - 3",
      "ort": "Terrain Breil (Echternach)"
     },
     {
@@ -16143,9 +16145,9 @@
       "id": 44586,
       "n": "F91 Dudelange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 1 (Mondercange)"
     },
@@ -16197,9 +16199,9 @@
       "id": 45017,
       "n": "US Hostert"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Plaine des Jeux André Wolff (Bertrange, synth.)"
     },
@@ -16215,9 +16217,9 @@
       "id": 44810,
       "n": "Union Remich/Bous"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Municipal (Pétange)"
     },
