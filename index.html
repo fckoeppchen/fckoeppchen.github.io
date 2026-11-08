@@ -130,6 +130,7 @@
   .form .fb{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:4px;color:#fff;font-size:12px;font-weight:700;margin-left:3px}
   .form .fb.s{background:#2e9e5b}.form .fb.u{background:#9aa0a6}.form .fb.n{background:#d9534f}
   .wegk{display:inline-block;margin:6px 0 0 22px;padding:6px 12px;border-radius:999px;background:var(--accentT);color:#fff;font-weight:700;font-size:13.5px;text-decoration:none}
+  .heute .wetter{text-align:center;font-size:14px;margin:2px 0 6px}
   .adresse{font-size:13px;color:var(--muted);margin:1px 0 0 22px}
   .mhtitel{font-weight:700;font-size:17px;margin-bottom:6px}
   .willkommen{border:2px solid var(--accentT)}
@@ -786,7 +787,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "7.11.2026 neu i";
+const FASSUNG = "8.11.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1254,7 +1255,7 @@ function fuss() {
       Die App zählt anonym, wie oft sie geöffnet und welche Reiter angesehen werden — ohne Namen, Telefonnummern oder Standorte.
       Wer Mitteilungen einschaltet, für den wird nur die Push-Adresse des Handys und die Auswahl der Mannschaften gespeichert; Abmelden löscht beides.
       Was die App sich merkt (gewählter Reiter, letzter Stand), bleibt auf dem Handy. Keine Werbung, kein Tracking.
-      Spielpläne und Ergebnisse kommen von der FLF und von FuPa.${!FUPA_API ? ` Den Liveticker der Seniors lädt die App erst, wenn man „Liveticker anzeigen“ tippt, direkt von FuPa (fupa.net); FuPa sieht dabei die Internet-Adresse des Handys.${fupaOk() ? ` <button class="kal" data-fupa="nein" style="margin:4px 0">FuPa-Liveticker nicht mehr laden</button>` : ""}` : ""} Die Events kommen von der Vereins-Homepage fckoeppchen.lu. Der Knopf „Live-Video · RTL“ öffnet die Seite von RTL. Der Knopf „Weg zum Platz“ öffnet Google Maps mit der Adresse des Platzes. Das Video im Reiter der Jugendkommission wird von YouTube geladen.
+      Spielpläne und Ergebnisse kommen von der FLF und von FuPa.${!FUPA_API ? ` Den Liveticker der Seniors lädt die App erst, wenn man „Liveticker anzeigen“ tippt, direkt von FuPa (fupa.net); FuPa sieht dabei die Internet-Adresse des Handys.${fupaOk() ? ` <button class="kal" data-fupa="nein" style="margin:4px 0">FuPa-Liveticker nicht mehr laden</button>` : ""}` : ""} Die Events kommen von der Vereins-Homepage fckoeppchen.lu. Das Wetter kommt von Open-Meteo (open-meteo.com). Der Knopf „Live-Video · RTL“ öffnet die Seite von RTL. Der Knopf „Weg zum Platz“ öffnet Google Maps mit der Adresse des Platzes. Das Video im Reiter der Jugendkommission wird von YouTube geladen.
       Fragen: <a href="mailto:koeppchenapp@hotmail.com">koeppchenapp@hotmail.com</a>
     </details>
     <div style="margin-top:6px;font-size:11px">Fassung ${FASSUNG}</div></footer>`;
@@ -1327,7 +1328,7 @@ function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, mot
     ? koeppiZeile("fuss-auf-ball", "Trinkflasche nicht vergessen! 😉", "", motto)
     : koeppiZeile("ball-faust", heute.begonnen ? "Daumen drücken! 🤞" : "Viel Spaß und viel Glück! 💪", "", motto);
   return `<section class="card heute"><div class="chead"><h2>${titel}</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}${coachZeichen(sp)}</div><div class="cbody">
-    <div class="wann">${oben}</div>
+    <div class="wann">${oben}</div>${wetterZeile(sp)}
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}${adresseZeile(sp, ids)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
@@ -1348,10 +1349,31 @@ const MOTTO = `<div class="motto">#mirvunderkoeppchen</div>`;
 const koeppiBild = n => `<img class="koeppi" alt="Koeppi" src="bilder/k-${n}.png">`;
 const koeppiZeile = (n, txt, cls = "", motto = false) => `<div class="kzeile${cls ? " " + cls : ""}">${koeppiBild(n)}<span>${esc(txt)}${motto ? `<span class="motto">#mirvunderkoeppchen</span>` : ""}</span></div>`;
 // „Morgen Spieltag!“ (nur Kinder-Reiter, Vortag).
+// Wetter zum Anpfiff (vom Nutzer, 8.11.2026, Variante A mittig): klein unter der Anstoßzeit im Heute-/Morgen-Kasten. Daten von
+// Open-Meteo über den Abruf (D.wetter, tools/wetter.mjs), nicht vom Handy. Wind erst ab 20 km/h, Regen/Schnee ab 30 %.
+const WETTER = [[[0], "☀️", "sonnig", "🌙", "klar"], [[1, 2], "🌤️", "leicht bewölkt", "☁️", "leicht bewölkt"], [[3], "☁️", "bewölkt"],
+  [[45, 48], "🌫️", "Nebel"], [[51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82], "🌧️", "Regen"], [[71, 73, 75, 77, 85, 86], "🌨️", "Schnee"],
+  [[95, 96, 99], "⛈️", "Gewitter"]];
+function wetterText(w, d) {
+  if (!w || w.t == null) return "";
+  const e = WETTER.find(x => x[0].includes(w.c)) || [[], "🌡️", ""];
+  const std = +new Date(Date.parse(d)).toLocaleString("en-GB", { timeZone: "Europe/Luxembourg", hour: "2-digit", hourCycle: "h23" });
+  const mon = +new Date(Date.parse(d)).toLocaleString("en-GB", { timeZone: "Europe/Luxembourg", month: "numeric" });
+  const nacht = std >= (mon >= 4 && mon <= 9 ? 21 : 18) || std < 7;
+  const schnee = [71, 73, 75, 77, 85, 86].includes(w.c);
+  const nass = w.r >= 30 ? `${schnee ? "Schnee" : "Regen"} ${w.r >= 60 ? "wahrscheinlich" : "möglich"}` : "";
+  const symbol = nass && !e[2].match(/Regen|Schnee|Gewitter/) ? (schnee ? "🌨️" : "🌦️") : (nacht && e[3]) || e[1];
+  const text = nass || (nacht && e[4]) || e[2];
+  return [`${symbol} ${w.t} °C`, text, w.w >= 20 ? `💨 Wind ${w.w} km/h` : ""].filter(Boolean).join(" · ");
+}
+function wetterZeile(sp) {
+  const t = wetterText((D?.wetter || {})[sp.id], sp.d);
+  return t ? `<div class="wetter">${esc(t)}</div>` : "";
+}
 function morgenHtml(m, ids, pill) {
   const sp = m.sp, zeit = wann(sp).split(" · ")[1], p = pill(sp);
   return `<section class="card heute"><div class="chead"><h2>Morgen Spieltag! ⚽</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}${coachZeichen(sp)}</div><div class="cbody">
-    <div class="wann">${esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen")}</div>
+    <div class="wann">${esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen")}</div>${wetterZeile(sp)}
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}${adresseZeile(sp, ids)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}

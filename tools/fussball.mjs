@@ -667,6 +667,13 @@ async function main() {
       } catch (e) { console.error("Adressen:", e.message); }
     }
   }
+  // Wetter zum Anpfiff für Spiele von heute und morgen (tools/wetter.mjs, Open-Meteo). Fehler → alter Stand.
+  try {
+    const sp = new Map(); for (const t of neu.teams) for (const x of eigeneSpiele(neu, t)) sp.set(x.id, x);
+    const w = await (await import("./wetter.mjs")).wetterHolen([...sp.values()], neu.adressen, alt.wetterOrte || {});
+    neu.wetter = w.wetter; neu.wetterOrte = w.orte;
+    console.log("Wetter:", Object.keys(neu.wetter).length, "Spiele");
+  } catch (e) { console.error("Wetter:", e.message); neu.wetter = alt.wetter || {}; neu.wetterOrte = alt.wetterOrte || {}; }
   // Events von der Vereins-Homepage (tools/vereins-events.mjs), einmal am Tag um 7 Uhr. Fehler → alter Stand.
   neu.events = alt.events || null;
   const ev = await import("./vereins-events.mjs");

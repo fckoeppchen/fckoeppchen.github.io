@@ -18,6 +18,7 @@ FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
 import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus, gegnerForm, ortName } from "../tools/fussball.mjs";
 import { unsereRtlSpiele, rtlZuordnen, rtlFaellig, rtlHolen } from "../tools/rtl.mjs";
+import { ortAus, wetterSpiele, wetterZu, wetterHolen } from "../tools/wetter.mjs";
 import { eventMenue, eventDatum, seitenText, seitenBilder, bildBreite, eventsFaellig, kalenderAdresse, kalenderIds, kalenderEvent, textGleich, titelGleich, zusammenfuehren } from "../tools/vereins-events.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
@@ -1595,6 +1596,30 @@ gleich(adressenAus([{ id: 1, name: "P", sportComplex: { id: 2 } }, { id: 4, name
     M("2026-11-01", pok, x, 2, 2, "CUP", [3, 2]), M("2026-11-09", g, x, 1, 0)];
   gleich(gegnerForm(l, g, "2026-11-07"), ["n", "u", "s", "s", "s"],
     "Form Gegner: letzte 5 vor dem Spiel, ohne Freundschaft, ohne zweite Mannschaft, Pokal-Gleichstand ohne Endergebnis nicht, Endergebnis zählt, Pokal-Nummer über den Namen");
+}
+// ---- Wetter zum Anpfiff (vom Nutzer, 8.11.2026) ----
+{
+  gleich(ortAus("Rue d'Athus, L-4711 Petange"), { land: "LU", plz: "4711", name: "Petange" }, "Wetter: Ort aus der Adresse");
+  gleich(ortAus("Camping Ralingen, D-54310 Ralingen"), { land: "DE", plz: "54310", name: "Ralingen" }, "Wetter: Ort in Deutschland");
+  const jetzt = Date.parse("2026-11-13T19:00:00+01:00");
+  const adr = { "Stade Municipal (Pétange)": "Rue d'Athus, L-4711 Petange", "Ohne": "Rue X" };
+  const S = (id, d, ort, x = {}) => ({ id, d, ort, h: { id: 1 }, a: { id: 2 }, ...x });
+  const spiele = [S(1, "2026-11-14T19:30:00+01:00", "Stade Municipal (Pétange)"), S(2, "2026-11-14T00:00:01+01:00", "Stade Municipal (Pétange)"),
+    S(3, "2026-11-16T15:00:00+01:00", "Stade Municipal (Pétange)"), S(4, "2026-11-14T15:00:00+01:00", "Ohne"),
+    S(5, "2026-11-13T20:00:00+01:00", "Stade Municipal (Pétange)", { abgesagt: true }), S(6, "2026-11-13T20:00:00+01:00", "Stade Municipal (Pétange)")];
+  gleich(wetterSpiele(spiele, adr, jetzt).map(x => x.id), [1, 6], "Wetter: nur heute/morgen, Uhrzeit fest, mit Adresse, nicht abgesagt");
+  const std = { time: ["2026-11-14T19:00", "2026-11-14T20:00"], temperature_2m: [8.6, 7.4], precipitation_probability: [57, 64], weather_code: [61, 63], wind_speed_10m: [18.9, 23] };
+  gleich(wetterZu(std, "2026-11-14T19:30:00+01:00"), { c: 63, t: 7, r: 60, w: 25 }, "Wetter: Anstoß 19:30 → Stunde 20:00, gerundet");
+  gleich(wetterZu(std, "2026-11-14T19:20:00+01:00"), { c: 61, t: 9, r: 60, w: 20 }, "Wetter: Anstoß 19:20 → Stunde 19:00");
+  const abfragen = [];
+  const hol = async u => { abfragen.push(u.split("?")[0]); return u.includes("geocoding") ? { results: [{ latitude: 49.5, longitude: 5.9, postcodes: ["4711"] }] }
+    : { hourly: { time: ["2026-11-13T20:00", "2026-11-14T19:00", "2026-11-14T20:00"], temperature_2m: [5, 8.6, 7.4], precipitation_probability: [0, 57, 64], weather_code: [3, 61, 63], wind_speed_10m: [5, 18.9, 23] } }; };
+  const r = await wetterHolen(spiele, adr, {}, jetzt, hol);
+  ok(r.wetter[1]?.t === 7 && r.wetter[6]?.t === 5 && !r.wetter[2] && r.orte["LU-4711 Petange"]?.[0] === 49.5 && abfragen.length === 2,
+    "Wetter: ein Ort = eine Ortssuche + eine Vorhersage für beide Spiele — ist " + JSON.stringify([r, abfragen]));
+  abfragen.length = 0;
+  await wetterHolen(spiele, adr, r.orte, jetzt, hol);
+  ok(abfragen.length === 1 && abfragen[0].includes("forecast"), "Wetter: gemerkter Ort ohne neue Ortssuche");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);
