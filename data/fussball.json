@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-08T18:46:48.326Z",
+ "stand": "2026-11-08T19:46:48.567Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -16182,9 +16182,9 @@
       "id": 45002,
       "n": "SC Bettembourg"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Jean Donnersbach (Lintgen)"
     },
@@ -24641,8 +24641,8 @@
  },
  "wetter": {
   "13501": {
-   "c": 0,
-   "t": 3,
+   "c": 3,
+   "t": 6,
    "r": 0,
    "w": 5
   },
