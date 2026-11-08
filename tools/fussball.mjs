@@ -6,6 +6,7 @@
 // erscheint die neue Klasse mit ihrem ersten Spiel von selbst.
 
 import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, unlinkSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { isoLux } from "./bambini.mjs";
 import { FUPA as FUPA_MODUS } from "./fupa-modus.mjs";
 
@@ -243,6 +244,31 @@ function icsAus(D, liste, titel) {
     z.push(`SUMMARY:${icsText((sp.abgesagt ? "ABGESAGT: " : "") + (bamWir ? `⚽ ${name(bamWir)} · Mini-Spieltag${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : `⚽ ${nm(sp.h)} – ${nm(sp.a)}${erg}${art}`) + (offen ? " · Uhrzeit offen" : ""))}`);
     if (sp.ort) z.push(`LOCATION:${icsText(sp.ort)}`);
     z.push(`DESCRIPTION:${icsText(sp.klasse + (sp.tag ? `, Spieltag ${sp.tag}` : "") + (sp.coach ? (sp.coach.ende ? `\nbis ca. ${sp.coach.ende}` : "") + (sp.coach.bem ? "\n" + sp.coach.bem : "") : "") + (sp.bam ? `\nMit ${sp.bam.mit.join(", ")}${sp.bam.zeitSicher ? "" : "\nUhrzeit laut FLF meist 10:30 (sauf changement)"}` : ""))}`, "END:VEVENT");
+  }
+  z.push("END:VCALENDAR");
+  return z.map(falten).join("\r\n") + "\r\n";
+}
+
+// Kalender „Events des Vereins“ (vom Nutzer, 8.11.2026): die Events aus D.events (Homepage/Clubee-Kalender). Mit Uhrzeit
+// als Termin, ohne als Ganztagstermin; ohne Datum nicht. UID aus Adresse + Tag (die nächste Ausgabe auf derselben Seite ist ein
+// neuer Termin). Abgesagt → STATUS:CANCELLED.
+export function icsEvents(D) {
+  const z = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//FC Koeppchen//fussball.html//DE", "CALSCALE:GREGORIAN",
+             "METHOD:PUBLISH", `X-WR-CALNAME:${icsText("FC Koeppchen Events")}`, "X-WR-TIMEZONE:Europe/Luxembourg",
+             "REFRESH-INTERVAL;VALUE=DURATION:PT3H", "X-PUBLISHED-TTL:PT3H"];
+  const plus1 = t => new Date(Date.parse(t + "T12:00:00Z") + 864e5).toISOString().slice(0, 10).replace(/-/g, "");
+  for (const e of (D.events?.liste || []).filter(e => e.tag).sort((a, b) => a.tag.localeCompare(b.tag))) {
+    const uid = createHash("sha1").update(e.url + "|" + e.tag).digest("hex").slice(0, 16);
+    z.push("BEGIN:VEVENT", `UID:event-${uid}@fc-koeppchen`, "DTSTAMP:20260701T000000Z");
+    if (e.von) {
+      const a = isoLux(e.tag, e.von), b = e.bis ? isoLux(e.tag, e.bis) : new Date(Date.parse(a) + 2 * 3600e3).toISOString();
+      z.push(`DTSTART:${utc(a)}`, `DTEND:${utc(Date.parse(b) > Date.parse(a) ? b : new Date(Date.parse(a) + 2 * 3600e3).toISOString())}`);
+    } else z.push(`DTSTART;VALUE=DATE:${e.tag.replace(/-/g, "")}`, `DTEND;VALUE=DATE:${plus1(e.tag)}`);
+    if (e.abgesagt) z.push("STATUS:CANCELLED");
+    z.push(`SUMMARY:${icsText((e.abgesagt ? "ABGESAGT: " : "") + "🎉 " + e.t)}`);
+    if (e.ort) z.push(`LOCATION:${icsText(e.ort)}`);
+    if (e.url) z.push(`URL:${e.url}`, `DESCRIPTION:${icsText("Mehr auf " + e.url)}`);
+    z.push("END:VEVENT");
   }
   z.push("END:VCALENDAR");
   return z.map(falten).join("\r\n") + "\r\n";
@@ -713,6 +739,8 @@ function kalender() {
     soll.add(t.datei);
     if (t.gruppe && !soll.has(t.gruppe.datei)) { writeFileSync(new URL(t.gruppe.datei, KAL), icsGruppe(D, t.gruppe)); soll.add(t.gruppe.datei); }
   }
+  // Events des Vereins (vom Nutzer, 8.11.2026) — auch ohne Events eine (leere) Datei, damit ein Abo nicht ins Leere zeigt.
+  writeFileSync(new URL("events.ics", KAL), icsEvents(D)); soll.add("events.ics");
   // Mannschaft weg (neue Saison) → Datei weg; ein bestehendes Abo zeigt dann nichts mehr.
   for (const f of readdirSync(KAL)) if (f.endsWith(".ics") && !soll.has(f)) unlinkSync(new URL(f, KAL));
   console.log("Kalender:", [...soll].join(", "));

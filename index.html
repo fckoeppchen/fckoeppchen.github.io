@@ -787,7 +787,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "8.11.2026 neu a";
+const FASSUNG = "8.11.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1213,10 +1213,16 @@ function kalKnopf(kal, ohneHilfe) {
       </details>`);
 }
 
-// Alle Kalender, je einmal (Kinder als Altersklasse), in Reiter-Reihenfolge.
+// Alle Kalender, je einmal (Kinder als Altersklasse). Reihenfolge (vom Nutzer, 8.11.2026): Seniors 1, 2, 3, dann die Jugend von
+// den Ältesten bis zu den Bambinis, am Ende die Events des Vereins.
+const KAL_REIHE = ["Seniors", "U19", "U17", "U15", "U13", "U11", "U9", "U7"];
 function alleKalender(tabs) {
   const seen = new Set();
-  return tabs.map(t => t.datei && (t.gruppe || { datei: t.datei, name: t.reiter })).filter(k => k && !seen.has(k.datei) && seen.add(k.datei));
+  const rang = t => { const i = KAL_REIHE.indexOf(t.kat); return (i < 0 ? 50 : i) * 100 + (t.kat === "Seniors" ? +((t.reiter || "").match(/\d+/) || [1])[0] : 0); };
+  const k = tabs.filter(t => t.datei).slice().sort((a, b) => rang(a) - rang(b))
+    .map(t => t.gruppe || { datei: t.datei, name: t.reiter }).filter(x => !seen.has(x.datei) && seen.add(x.datei));
+  if ((D?.events?.liste || []).some(e => e.tag)) k.push({ datei: "events.ics", name: "Events des Vereins" });
+  return k;
 }
 
 // Reiter Jugendkommission (vom Nutzer, 25.10.2026): Logo, Foto, Video, alle Kalender-Abos.

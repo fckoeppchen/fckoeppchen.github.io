@@ -16,7 +16,7 @@ import { FUPA } from "../tools/fupa-modus.mjs";
 const FUPA_STAND = FUPA.api;
 FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
-import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus, gegnerForm, ortName } from "../tools/fussball.mjs";
+import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus, gegnerForm, ortName, icsEvents } from "../tools/fussball.mjs";
 import { unsereRtlSpiele, rtlZuordnen, rtlFaellig, rtlHolen } from "../tools/rtl.mjs";
 import { ortAus, wetterSpiele, wetterZu, wetterHolen } from "../tools/wetter.mjs";
 import { eventMenue, eventDatum, seitenText, seitenBilder, bildBreite, eventsFaellig, kalenderAdresse, kalenderIds, kalenderEvent, textGleich, titelGleich, zusammenfuehren } from "../tools/vereins-events.mjs";
@@ -1620,6 +1620,15 @@ gleich(adressenAus([{ id: 1, name: "P", sportComplex: { id: 2 } }, { id: 4, name
   abfragen.length = 0;
   await wetterHolen(spiele, adr, r.orte, jetzt, hol);
   ok(abfragen.length === 1 && abfragen[0].includes("forecast"), "Wetter: gemerkter Ort ohne neue Ortssuche");
+}
+// ---- Kalender „Events des Vereins“ (vom Nutzer, 8.11.2026) ----
+{
+  const t = icsEvents({ events: { liste: [{ t: "Kleeschen", url: "u/k", tag: "2026-12-04", von: "17:00", bis: "21:00", ort: "Terrain" },
+    { t: "Dodge", url: "u/d", tag: "2027-06-19" }, { t: "Ohne Datum", url: "u/o" }, { t: "Fest", url: "u/f", tag: "2026-11-20", abgesagt: true }] } });
+  ok(t.includes("DTSTART:20261204T160000Z") && t.includes("DTEND:20261204T200000Z") && t.includes("DTSTART;VALUE=DATE:20270619") && t.includes("DTEND;VALUE=DATE:20270620")
+    && !t.includes("Ohne Datum") && t.includes("STATUS:CANCELLED") && t.includes("SUMMARY:ABGESAGT: 🎉 Fest") && (t.match(/BEGIN:VEVENT/g) || []).length === 3 && t.includes("\r\n"),
+    "Kalender Events: Uhrzeit in Ortszeit, ganztägig ohne Uhrzeit, ohne Datum weg, abgesagt markiert");
+  ok(icsEvents({}).includes("BEGIN:VCALENDAR") && !icsEvents({}).includes("VEVENT"), "Kalender Events: ohne Events leere Datei");
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);
