@@ -1,0 +1,47 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//FC Koeppchen//fussball.html//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:FC Koeppchen Events
+X-WR-TIMEZONE:Europe/Luxembourg
+REFRESH-INTERVAL;VALUE=DURATION:PT3H
+X-PUBLISHED-TTL:PT3H
+BEGIN:VEVENT
+UID:event-33396b1f93ed5146@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART;VALUE=DATE:20260912
+DTEND;VALUE=DATE:20260913
+SUMMARY:🎉 Koeppchen YOUTH CUP
+URL:https://www.fckoeppchen.lu/koeppchen-youth-cup-86601v4
+DESCRIPTION:Mehr auf https://www.fckoeppchen.lu/koeppchen-youth-cup-86601v4
+END:VEVENT
+BEGIN:VEVENT
+UID:event-98ba87089aa481ee@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20261204T160000Z
+DTEND:20261204T200000Z
+SUMMARY:🎉 Kleeschen & Kreschtbamverkaf
+LOCATION:Terrain Koeppchen
+URL:https://www.fckoeppchen.lu/x-mas-bamverkaaf-86047v4
+DESCRIPTION:Mehr auf https://www.fckoeppchen.lu/x-mas-bamverkaaf-86047v4
+END:VEVENT
+BEGIN:VEVENT
+UID:event-a289b954d56eac83@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART;VALUE=DATE:20270619
+DTEND;VALUE=DATE:20270620
+SUMMARY:🎉 Dodge op der Koepp
+URL:https://www.fckoeppchen.lu/dodge-op-der-koepp-993027v4
+DESCRIPTION:Mehr auf https://www.fckoeppchen.lu/dodge-op-der-koepp-993027v4
+END:VEVENT
+BEGIN:VEVENT
+UID:event-d4c1cce20a59d433@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART;VALUE=DATE:20271002
+DTEND;VALUE=DATE:20271003
+SUMMARY:🎉 Oktoberfest
+URL:https://www.fckoeppchen.lu/oktoberfest-86045v4
+DESCRIPTION:Mehr auf https://www.fckoeppchen.lu/oktoberfest-86045v4
+END:VEVENT
+END:VCALENDAR
