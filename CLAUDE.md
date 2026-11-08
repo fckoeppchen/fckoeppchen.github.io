@@ -460,6 +460,20 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   der Klammer ohne „synth.“). Öffnet die Google-Maps-App, sonst die Webseite. Datenschutz-Hinweis nennt den Knopf. **Klasse `wegk`, nicht `weg`**: `#leiste.weg` ist die weggeschobene Reiterleiste, `.weg` machte sie in neu h zur runden Pille (neu i behoben). Abruf: Hausnummer nicht doppelt, wenn die
   FLF sie schon in der Straße hat (Mensdorf „33, 33, …“). 5 von 52 Plätzen ohne Ort in der Klammer (Cents, Fr. Trausch, Munsbach, Ralingen, Hollerich) —
   Suche über Name + Straße. Ortsnamen lesbar (`ortName`: „Esch-sur-alzette“ → „Esch-sur-Alzette“, Klammer weg), „B.P.“ (Postfach) in Hausnummer/Straße weg. OSM-Prüfung (Nominatim, 155 Adressen): 142 im richtigen Ort, 4 Nachbarort, 9 nicht gefunden (FLF-Abkürzungen wie „Rue Jos. Moscardo“). Früher (20.10.) als „Gimmick“ verworfen, weil es nur den Platznamen gab.
+- **Wetter zum Anpfiff** (vom Nutzer, 8.11.2026, Fassung 8.11. neu a; Varianten als Muster gezeigt, gewählt: **A, eine Zeile, mittig** unter der
+  Anstoßzeit — „Anstoß“ steht mittig, `.heute .wann{text-align:center}`): im Heute- und Morgen-Kasten aller Mannschaften „🌧️ 7 °C · Regen möglich ·
+  💨 Wind 20 km/h“ (`wetterText`, `wetterZeile`; Wind erst ab 20 km/h, Regen/Schnee ab 30 %, „wahrscheinlich“ ab 60 %, nachts 🌙/„klar“). Daten:
+  **Open-Meteo** (frei, ohne Schlüssel) über den Abruf, nicht vom Handy (`tools/wetter.mjs`: `wetterSpiele` = heute/morgen, Uhrzeit fest, Adresse
+  bekannt, nicht abgesagt; Ort aus PLZ + Ort der Adresse, Koordinaten über die Ortssuche von Open-Meteo, gemerkt in `D.wetterOrte`; Wert zur
+  Anstoßstunde, gerundet gegen Commit-Flut) → `D.wetter[Spiel-Id] = {c, t, r, w}`. Fehler → alter Stand. Datenschutz-Hinweis nennt Open-Meteo. Hosts
+  `api.open-meteo.com`, `geocoding-api.open-meteo.com` in der Umgebung freigegeben. Offene Uhrzeit → kein Wetter. Tests mit nachgebauter Open-Meteo, Gegenprobe.
+- **Kalender im Reiter Jugendkommission** (vom Nutzer, 8.11.2026): **neu b** — `alleKalender` sortiert Seniors 1, 2, 3, dann U15, U13, U11, U9, U7
+  (`KAL_REIHE`), am Ende „Events des Vereins“ (nur mit Events mit Datum); `tools/fussball.mjs` `icsEvents` → `kalender/events.ics` (immer geschrieben,
+  auch leer; mit Uhrzeit Termin in Ortszeit, sonst ganztägig, ohne Datum nicht, abgesagt `STATUS:CANCELLED`, UID aus Adresse + Tag). Bestehende Abos
+  unverändert. **Neu c** (Vorbild urb.lu): Überschrift „📅 Spiele in deinem Kalender abonnieren“, Text „Tipp an, was dich interessiert. Dein Kalender
+  (iPhone, Android, Outlook, Google) bleibt dann von selbst auf dem neuesten Stand: neue Spiele, verlegte Anstoßzeiten und Ergebnisse.“ (`.kalintro`),
+  Kasten über dem Video. **Verworfen** (vom Nutzer): ein Kalender nach eigener Auswahl wie bei urb.lu (ginge über den Worker als Mischer).
+  Zwei Karten-Knöpfe (Google + Apple) liegen fertig auf Branch `entwurf-karten`, falls „Weg zum Platz“ am iPhone nicht gut aufgeht.
 - **Form im Heute-Kasten der Seniors** (vom Nutzer, 7.11.2026, Fassung 7.11. neu g; nach urb.lu; Entwurf auf Branch `entwurf-form`, Go vom Nutzer am selben Abend → main):
   `formHtml` — beide Mannschaften, letzte 5 Spiele mit Ergebnis vor diesem Spiel (S grün, U grau, N rot, neuestes rechts), aus allen Klassen in
   unseren Daten außer Freundschaftsspielen, Gegner über den Namen (Pokal-Nummer weicht ab); Pokal-Gleichstand ohne Endergebnis zählt nicht; unter 2
