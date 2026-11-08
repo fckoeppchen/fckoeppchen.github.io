@@ -788,7 +788,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "8.11.2026 neu d";
+const FASSUNG = "8.11.2026 neu e";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1280,7 +1280,8 @@ document.addEventListener("toggle", e => { if (e.target.id === "datenschutz") DS
 function wegUrl(ort, adresse) {
   // Die Adresse hat seit dem 7.11.2026 Postleitzahl und Ort (FLF-Ortsliste): Platzname ohne Klammer + Adresse reicht.
   const name = ort.replace(/\s*\(.*\)\s*/, "").trim();
-  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent([name, adresse].filter(Boolean).join(", "));
+  // Seit 8.11.2026 (neu e, vom Nutzer) die Routen-Adresse: öffnet direkt die Wegbeschreibung statt einer Trefferliste.
+  return "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent([name, adresse].filter(Boolean).join(", "));
 }
 function adresseZeile(sp, ids) {
   const a = sp.ort && (D?.adressen || {})[sp.ort];
