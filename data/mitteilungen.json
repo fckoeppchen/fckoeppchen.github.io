@@ -71,6 +71,17 @@
    "text": "Uhrzeit steht fest: Sa., 14.11. um 09:30 · Mini-Spieltag · 📍 Terrain 2 (Grevenmacher, synth.)",
    "ab": 1793827039587,
    "bis": 1794645000000
+  },
+  {
+   "reiter": [
+    "Woche"
+   ],
+   "id": "woche:2026-11-09",
+   "art": "woche",
+   "titel": "Unsere Woche",
+   "text": "Diese Woche 10 Spiele, davon 1 zu Hause",
+   "ab": 1794214800000,
+   "bis": 1794258000000
   }
  ],
  "live": []
