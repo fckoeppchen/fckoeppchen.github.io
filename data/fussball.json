@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-08T17:17:08.035Z",
+ "stand": "2026-11-08T17:46:52.431Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -16017,9 +16017,9 @@
       "id": 44988,
       "n": "FC Differdange 03"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Klengbousbierg (Bissen)"
     },
@@ -16035,9 +16035,9 @@
       "id": 44678,
       "n": "Una Strassen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Avenir Beggen (Luxembourg)"
     },
@@ -16089,9 +16089,9 @@
       "id": 44694,
       "n": "US Feulen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 1 (Lorentzweiler)"
     },
@@ -16107,9 +16107,9 @@
       "id": 45031,
       "n": "Jeunesse Canach"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Luxembourg-Cents"
     },
@@ -16125,9 +16125,9 @@
       "id": 44543,
       "n": "US Mondorf-les-Bains"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Fr. Trausch (synth.)"
     },
@@ -16233,9 +16233,9 @@
       "id": 44980,
       "n": "Racing FC Union Luxembourg"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Municipal (Rumelange)"
     },
@@ -24638,8 +24638,8 @@
  },
  "wetter": {
   "13501": {
-   "c": 3,
-   "t": 4,
+   "c": 0,
+   "t": 3,
    "r": 0,
    "w": 5
   },
