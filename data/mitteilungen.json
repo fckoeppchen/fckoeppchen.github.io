@@ -74,25 +74,51 @@
   },
   {
    "reiter": [
-    "Seniors 2"
+    "POU 1",
+    "Poussins U11"
    ],
-   "id": "heute:13501",
-   "art": "heute",
-   "titel": "Seniors 2 · Heute Spiel",
-   "text": "20:00 gegen Atert Bissen I · 📍 Stade Klengbousbierg 2 (Bissen, synth.)",
-   "ab": 1794214800000,
-   "bis": 1794250800000
+   "id": "zeit:6685072:2026-11-22T09:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "POU 1 · Uhrzeit",
+   "text": "Uhrzeit steht fest: So., 22.11. um 09:30 gegen FC Munsbach I · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1794259023379,
+   "bis": 1795336200000
   },
   {
    "reiter": [
-    "Woche"
+    "POU 2",
+    "Poussins U11"
    ],
-   "id": "woche:2026-11-09",
-   "art": "woche",
-   "titel": "Unsere Woche",
-   "text": "Diese Woche 10 Spiele, davon 1 zu Hause",
-   "ab": 1794214800000,
-   "bis": 1794258000000
+   "id": "zeit:6687072:2026-11-22T12:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "POU 2 · Uhrzeit",
+   "text": "Uhrzeit steht fest: So., 22.11. um 12:30 gegen FC Munsbach II · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1794259023379,
+   "bis": 1795347000000
+  },
+  {
+   "reiter": [
+    "PUP 1",
+    "Pupilles U9"
+   ],
+   "id": "zeit:6716075:2026-11-21T15:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "PUP 1 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 21.11. um 15:30 gegen Victoria Rosport I · 📍 Terrain Ralingen (synth.)",
+   "ab": 1794259023379,
+   "bis": 1795271400000
+  },
+  {
+   "reiter": [
+    "PUP 2",
+    "Pupilles U9"
+   ],
+   "id": "zeit:6717075:2026-11-21T14:00:00+01:00",
+   "art": "uhrzeit",
+   "titel": "PUP 2 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 21.11. um 14:00 gegen Victoria Rosport II · 📍 Terrain Ralingen (synth.)",
+   "ab": 1794259023379,
+   "bis": 1795266000000
   }
  ],
  "live": [
