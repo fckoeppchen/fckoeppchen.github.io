@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-09T06:01:50.401Z",
+ "stand": "2026-11-09T11:01:56.809Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -12351,7 +12351,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
     },
@@ -12549,7 +12549,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
     },
@@ -13045,7 +13045,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Mensdorf, synth.)"
     },
@@ -13081,7 +13081,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
     },
@@ -13171,7 +13171,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Grevenmacher, synth.)"
     },
@@ -13261,7 +13261,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
     },
@@ -15218,10 +15218,11 @@
       "id": 46497,
       "n": "Green-Boys 77 Harlange-Tarchamps I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
+     "hs": 3,
+     "as": 0,
+     "gespielt": true,
+     "forfait": true,
+     "bem": "FF",
      "ort": "Stade Thillenberg 1 (Differdange)"
     },
     {
@@ -18911,7 +18912,7 @@
     },
     {
      "id": 6345022,
-     "d": "2026-11-21T15:00:00+01:00",
+     "d": "2026-11-21T13:30:00+01:00",
      "tag": 2,
      "h": {
       "id": 46353,
