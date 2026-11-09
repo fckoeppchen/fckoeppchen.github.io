@@ -74,6 +74,17 @@
   },
   {
    "reiter": [
+    "Seniors 2"
+   ],
+   "id": "heute:13501",
+   "art": "heute",
+   "titel": "Seniors 2 · Heute Spiel",
+   "text": "20:00 gegen Atert Bissen I · 📍 Stade Klengbousbierg 2 (Bissen, synth.)",
+   "ab": 1794214800000,
+   "bis": 1794250800000
+  },
+  {
+   "reiter": [
     "Woche"
    ],
    "id": "woche:2026-11-09",
@@ -84,5 +95,25 @@
    "bis": 1794258000000
   }
  ],
- "live": []
+ "live": [
+  {
+   "id": 13501,
+   "reiter": [
+    "Seniors 2 · live"
+   ],
+   "titel": "📡 Seniors 2",
+   "d": "2026-11-09T20:00:00+01:00",
+   "h": "Atert Bissen I",
+   "a": "Koeppchen I",
+   "wirHeim": false,
+   "gegner": "Atert Bissen I",
+   "anstoss": "2026-11-09T20:00:00+01:00",
+   "fupaTeam": "mr1",
+   "fupaWir": "fc-koeppchen",
+   "ticker": "lticker:13501",
+   "halbzeit": "lhalbzeit:13501",
+   "ende": "ende-live:13501",
+   "pokal": true
+  }
+ ]
 }
