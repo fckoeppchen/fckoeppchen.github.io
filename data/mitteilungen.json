@@ -119,27 +119,18 @@
    "text": "Uhrzeit steht fest: Sa., 21.11. um 14:00 gegen Victoria Rosport II · 📍 Terrain Ralingen (synth.)",
    "ab": 1794259023379,
    "bis": 1795266000000
+  },
+  {
+   "reiter": [
+    "Seniors 2"
+   ],
+   "id": "ende:13501",
+   "art": "ende",
+   "titel": "Seniors 2 · Endstand",
+   "text": "Atert Bissen I 15:2 Koeppchen I",
+   "ab": 1794263528175,
+   "bis": 1794328328175
   }
  ],
- "live": [
-  {
-   "id": 13501,
-   "reiter": [
-    "Seniors 2 · live"
-   ],
-   "titel": "📡 Seniors 2",
-   "d": "2026-11-09T20:00:00+01:00",
-   "h": "Atert Bissen I",
-   "a": "Koeppchen I",
-   "wirHeim": false,
-   "gegner": "Atert Bissen I",
-   "anstoss": "2026-11-09T20:00:00+01:00",
-   "fupaTeam": "mr1",
-   "fupaWir": "fc-koeppchen",
-   "ticker": "lticker:13501",
-   "halbzeit": "lhalbzeit:13501",
-   "ende": "ende-live:13501",
-   "pokal": true
-  }
- ]
+ "live": []
 }
