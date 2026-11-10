@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-09T22:31:53.838Z",
+ "stand": "2026-11-10T02:12:22.719Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -15219,9 +15219,9 @@
       "id": 45483,
       "n": "US Rumelange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Albert Kongs (Itzig)"
     },
@@ -15237,9 +15237,9 @@
       "id": 45159,
       "n": "Minière Lasauvage"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 11,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Fr. Trausch (synth.)"
     },
@@ -15273,10 +15273,11 @@
       "id": 44801,
       "n": "FC The Belval Belvaux"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 3 - 4",
      "ort": "Terrain 2 (Walferdange, synth.)"
     },
     {
@@ -24640,14 +24641,7 @@
   "Terrain 2 (Lintgen, synth.)": "Rue de la Gare, L-7448 Lintgen",
   "Terrain Op Birkelt (Larochette, synth.)": "Plateau Birkelt, L-7620 Larochette"
  },
- "wetter": {
-  "13501": {
-   "c": 3,
-   "t": 6,
-   "r": 0,
-   "w": 5
-  }
- },
+ "wetter": {},
  "wetterOrte": {
   "LU-5499 Dreiborn": [
    49.617,
