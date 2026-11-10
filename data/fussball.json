@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-10T02:12:22.719Z",
+ "stand": "2026-11-10T11:02:00.224Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -11310,24 +11310,6 @@
      "ort": "Terrain 2 (Junglinster, synth.)"
     },
     {
-     "id": 6685075,
-     "d": "2026-11-22T09:30:00+01:00",
-     "tag": 7,
-     "h": {
-      "id": 45317,
-      "n": "Victoria Rosport I"
-     },
-     "a": {
-      "id": 46194,
-      "n": "CS Grevenmacher I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Ralingen (synth.)"
-    },
-    {
      "id": 6685071,
      "d": "2026-11-22T10:30:00+01:00",
      "tag": 7,
@@ -11344,6 +11326,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Breil (Echternach, synth.)"
+    },
+    {
+     "id": 6685075,
+     "d": "2026-11-22T11:00:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 45317,
+      "n": "Victoria Rosport I"
+     },
+     "a": {
+      "id": 46194,
+      "n": "CS Grevenmacher I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Ralingen (synth.)"
     },
     {
      "id": 6685085,
@@ -11968,6 +11968,42 @@
      "ort": "Terrain Am Brill (Moutfort, synth.)"
     },
     {
+     "id": 6687072,
+     "d": "2026-11-22T09:30:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 45394,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "a": {
+      "id": 45935,
+      "n": "FC Munsbach II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)"
+    },
+    {
+     "id": 6687075,
+     "d": "2026-11-22T09:30:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 45318,
+      "n": "Victoria Rosport II"
+     },
+     "a": {
+      "id": 45872,
+      "n": "Daring Echternach II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Ralingen (synth.)"
+    },
+    {
      "id": 6687073,
      "d": "2026-11-22T10:30:00+01:00",
      "tag": 7,
@@ -12020,42 +12056,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Christnach, synth)"
-    },
-    {
-     "id": 6687072,
-     "d": "2026-11-22T12:30:00+01:00",
-     "tag": 7,
-     "h": {
-      "id": 45394,
-      "n": "FC Koeppchen Wormeldange II"
-     },
-     "a": {
-      "id": 45935,
-      "n": "FC Munsbach II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Am Ga (Wormeldange, synth.)"
-    },
-    {
-     "id": 6687075,
-     "d": "2026-11-22T12:30:00+01:00",
-     "tag": 7,
-     "h": {
-      "id": 45318,
-      "n": "Victoria Rosport II"
-     },
-     "a": {
-      "id": 45872,
-      "n": "Daring Echternach II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Ralingen (synth.)"
     },
     {
      "id": 6687085,
@@ -12735,7 +12735,7 @@
     },
     {
      "id": 6716072,
-     "d": "2026-11-21T11:00:00+01:00",
+     "d": "2026-11-21T14:00:00+01:00",
      "tag": 7,
      "h": {
       "id": 46205,
@@ -12771,7 +12771,7 @@
     },
     {
      "id": 6716075,
-     "d": "2026-11-21T15:30:00+01:00",
+     "d": "2026-11-21T15:00:00+01:00",
      "tag": 7,
      "h": {
       "id": 45319,
@@ -13428,24 +13428,6 @@
      "ort": "Terrain Maartbësch (Berdorf)"
     },
     {
-     "id": 6717072,
-     "d": "2026-11-21T10:00:00+01:00",
-     "tag": 7,
-     "h": {
-      "id": 46251,
-      "n": "US Moutfort-Medingen II"
-     },
-     "a": {
-      "id": 44707,
-      "n": "US Berdorf-Consdorf 01"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Am Brill (Moutfort, synth.)"
-    },
-    {
      "id": 6717071,
      "d": "2026-11-21T11:00:00+01:00",
      "tag": 7,
@@ -13482,8 +13464,26 @@
      "ort": "Terrain 2 (Mensdorf, synth.)"
     },
     {
-     "id": 6717075,
+     "id": 6717072,
      "d": "2026-11-21T14:00:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 46251,
+      "n": "US Moutfort-Medingen II"
+     },
+     "a": {
+      "id": 44707,
+      "n": "US Berdorf-Consdorf 01"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Am Brill (Moutfort, synth.)"
+    },
+    {
+     "id": 6717075,
+     "d": "2026-11-21T15:00:00+01:00",
      "tag": 7,
      "h": {
       "id": 45320,
@@ -18560,7 +18560,7 @@
     },
     {
      "id": 6320022,
-     "d": "2026-11-21T16:30:00+01:00",
+     "d": "2026-11-21T17:30:00+01:00",
      "tag": 2,
      "h": {
       "id": 46200,
