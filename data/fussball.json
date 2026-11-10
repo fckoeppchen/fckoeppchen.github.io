@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-10T21:16:46.375Z",
+ "stand": "2026-11-10T22:31:52.217Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -15328,9 +15328,9 @@
       "id": 46513,
       "n": "US Feulen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 10,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade de la Frontière d'Gennerwiss (Aspelt)"
     },
