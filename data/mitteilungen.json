@@ -122,14 +122,15 @@
   },
   {
    "reiter": [
-    "Seniors 2"
+    "POU 2",
+    "Poussins U11"
    ],
-   "id": "ende:13501",
-   "art": "ende",
-   "titel": "Seniors 2 · Endstand",
-   "text": "Atert Bissen I 15:2 Koeppchen I",
-   "ab": 1794263528175,
-   "bis": 1794328328175
+   "id": "zeit:6687085:2026-11-29T10:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "POU 2 · Uhrzeit",
+   "text": "Uhrzeit steht fest: So., 29.11. um 10:30 gegen Daring Echternach II · 📍 Terrain Breil (Echternach, synth.)",
+   "ab": 1794345418206,
+   "bis": 1795944600000
   }
  ],
  "live": []

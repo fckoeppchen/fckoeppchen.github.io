@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-10T11:02:00.224Z",
+ "stand": "2026-11-10T21:16:46.375Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -11364,42 +11364,6 @@
      "ort": "Terrain 2 (Grevenmacher, synth.)"
     },
     {
-     "id": 6685081,
-     "d": "2026-11-29T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46352,
-      "n": "ENT Biwer/Berbourg I"
-     },
-     "a": {
-      "id": 45317,
-      "n": "Victoria Rosport I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Berbourg, synth.)"
-    },
-    {
-     "id": 6685084,
-     "d": "2026-11-29T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46269,
-      "n": "ENT Canach/Mensdorf I"
-     },
-     "a": {
-      "id": 44904,
-      "n": "Jeunesse Junglinster I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Mensdorf, synth.)"
-    },
-    {
      "id": 6685083,
      "d": "2026-11-29T00:00:01+01:00",
      "tag": 8,
@@ -11416,6 +11380,42 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain au Parc (Mertert, synth.)"
+    },
+    {
+     "id": 6685084,
+     "d": "2026-11-29T10:30:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46269,
+      "n": "ENT Canach/Mensdorf I"
+     },
+     "a": {
+      "id": 44904,
+      "n": "Jeunesse Junglinster I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Mensdorf, synth.)"
+    },
+    {
+     "id": 6685081,
+     "d": "2026-11-29T11:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46352,
+      "n": "ENT Biwer/Berbourg I"
+     },
+     "a": {
+      "id": 45317,
+      "n": "Victoria Rosport I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
     }
    ],
    "start": "2026-09-27T10:30:00+02:00"
@@ -12058,42 +12058,6 @@
      "ort": "Terrain 2 (Christnach, synth)"
     },
     {
-     "id": 6687085,
-     "d": "2026-11-29T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 45872,
-      "n": "Daring Echternach II"
-     },
-     "a": {
-      "id": 45394,
-      "n": "FC Koeppchen Wormeldange II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Breil (Echternach, synth.)"
-    },
-    {
-     "id": 6687081,
-     "d": "2026-11-29T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46351,
-      "n": "ENT Biwer/Berbourg II"
-     },
-     "a": {
-      "id": 45318,
-      "n": "Victoria Rosport II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Berbourg, synth.)"
-    },
-    {
      "id": 6687082,
      "d": "2026-11-29T00:00:01+01:00",
      "tag": 8,
@@ -12112,24 +12076,6 @@
      "ort": "Terrain Munsbach (synth.)"
     },
     {
-     "id": 6687083,
-     "d": "2026-11-29T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 44705,
-      "n": "US Berdorf-Consdorf 01 II"
-     },
-     "a": {
-      "id": 46243,
-      "n": "ENT Mensdorf/Canach II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Maartbësch (Berdorf)"
-    },
-    {
      "id": 6687084,
      "d": "2026-11-29T00:00:01+01:00",
      "tag": 8,
@@ -12146,6 +12092,60 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Am Brill (Moutfort, synth.)"
+    },
+    {
+     "id": 6687081,
+     "d": "2026-11-29T09:30:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46351,
+      "n": "ENT Biwer/Berbourg II"
+     },
+     "a": {
+      "id": 45318,
+      "n": "Victoria Rosport II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
+     "id": 6687085,
+     "d": "2026-11-29T10:30:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 45872,
+      "n": "Daring Echternach II"
+     },
+     "a": {
+      "id": 45394,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Breil (Echternach, synth.)"
+    },
+    {
+     "id": 6687083,
+     "d": "2026-11-29T10:30:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 44705,
+      "n": "US Berdorf-Consdorf 01 II"
+     },
+     "a": {
+      "id": 46243,
+      "n": "ENT Mensdorf/Canach II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Maartbësch (Berdorf)"
     }
    ],
    "start": "2026-09-27T10:30:00+02:00"
@@ -12698,24 +12698,6 @@
      "ort": "Terrain au Parc (Mertert, synth.)"
     },
     {
-     "id": 6716074,
-     "d": "2026-11-21T11:00:00+01:00",
-     "tag": 7,
-     "h": {
-      "id": 45523,
-      "n": "Daring Echternach I"
-     },
-     "a": {
-      "id": 45931,
-      "n": "FC Munsbach I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Breil (Echternach, synth.)"
-    },
-    {
      "id": 6716073,
      "d": "2026-11-21T11:00:00+01:00",
      "tag": 7,
@@ -12750,6 +12732,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Am Brill (Moutfort, synth.)"
+    },
+    {
+     "id": 6716074,
+     "d": "2026-11-21T14:30:00+01:00",
+     "tag": 7,
+     "h": {
+      "id": 45523,
+      "n": "Daring Echternach I"
+     },
+     "a": {
+      "id": 45931,
+      "n": "FC Munsbach I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Breil (Echternach, synth.)"
     },
     {
      "id": 6716071,
@@ -12806,24 +12806,6 @@
      "ort": "Terrain 2 (Grevenmacher, synth.)"
     },
     {
-     "id": 6716081,
-     "d": "2026-11-28T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46350,
-      "n": "ENT Biwer/Berbourg I"
-     },
-     "a": {
-      "id": 45319,
-      "n": "Victoria Rosport I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Berbourg, synth.)"
-    },
-    {
      "id": 6716085,
      "d": "2026-11-28T00:00:01+01:00",
      "tag": 8,
@@ -12876,6 +12858,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain au Parc (Mertert, synth.)"
+    },
+    {
+     "id": 6716081,
+     "d": "2026-11-28T11:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46350,
+      "n": "ENT Biwer/Berbourg I"
+     },
+     "a": {
+      "id": 45319,
+      "n": "Victoria Rosport I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
     }
    ],
    "start": "2026-09-26T14:00:00+02:00"
@@ -13536,42 +13536,6 @@
      "ort": "Terrain 2 (Grevenmacher, synth.)"
     },
     {
-     "id": 6717084,
-     "d": "2026-11-28T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 45870,
-      "n": "Daring Echternach II"
-     },
-     "a": {
-      "id": 46162,
-      "n": "ENT Mensdorf/Canach II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Breil (Echternach, synth.)"
-    },
-    {
-     "id": 6717081,
-     "d": "2026-11-28T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46349,
-      "n": "ENT Biwer/Berbourg II"
-     },
-     "a": {
-      "id": 45320,
-      "n": "Victoria Rosport II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Berbourg, synth.)"
-    },
-    {
      "id": 6717085,
      "d": "2026-11-28T00:00:01+01:00",
      "tag": 8,
@@ -13590,8 +13554,44 @@
      "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
+     "id": 6717081,
+     "d": "2026-11-28T10:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46349,
+      "n": "ENT Biwer/Berbourg II"
+     },
+     "a": {
+      "id": 45320,
+      "n": "Victoria Rosport II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
+     "id": 6717084,
+     "d": "2026-11-28T15:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 45870,
+      "n": "Daring Echternach II"
+     },
+     "a": {
+      "id": 46162,
+      "n": "ENT Mensdorf/Canach II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Breil (Echternach, synth.)"
+    },
+    {
      "id": 6717082,
-     "d": "2026-11-28T00:00:01+01:00",
+     "d": "2026-11-28T15:00:00+01:00",
      "tag": 8,
      "h": {
       "id": 44707,
@@ -15346,9 +15346,9 @@
       "id": 45097,
       "n": "CS Bourscheid"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 12,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Op Biirk (Mensdorf)"
     },
@@ -16001,10 +16001,11 @@
       "id": 44831,
       "n": "FC Koeppchen Wormeldange"
      },
-     "hs": 1,
-     "as": 1,
+     "hs": 8,
+     "as": 7,
      "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 8 - 7",
      "ort": "Stade Jos Philippart (Rodange)"
     },
     {
@@ -17488,10 +17489,11 @@
       "id": 46356,
       "n": "ENT Biwer/Berbourg/UMW"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 5,
+     "as": 6,
+     "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 5 - 6",
      "ort": "Terrain 2 (Lorentzweiler, synth.)"
     }
    ],
@@ -18614,7 +18616,7 @@
     },
     {
      "id": 6320031,
-     "d": "2026-11-28T01:00:00+01:00",
+     "d": "2026-11-28T14:30:00+01:00",
      "tag": 3,
      "h": {
       "id": 46329,
