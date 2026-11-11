@@ -35,6 +35,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Code (vom Nutzer). **Zweiter Code nur fürs Logo/Mitteilungen** (vom Nutzer, 23.10.2026, Fassung neu k, für 1–2 Tester;
   `TEST_HASH`, `codeStimmt(frage, true)`): schaltet nur die Mitteilungen ein, **nicht** „eigenes Gerät“ in der Statistik —
   das bleibt beim ersten Code (Tester zählen also normal mit). Wortlaut beider Codes nur beim Nutzer, nie in eine Datei.
+- **5×-Schalter bleiben vorerst drin** (vom Nutzer, 11.11.2026: „dadurch können wir immer wieder Sachen testen“) — nicht mehr von selbst zum Ausbau vorschlagen.
 - Fassungen dieser Kopie heißen „… neu a“, „… neu b“ usw.
 - **Fassung neu b** (vom Nutzer, 22.10.): Kalender-Knopf (`.kal`) und Mannschafts-Schilder in „Unsere Woche“
   (`.pill.wteam`) grün (`--accentT`, dunkles Türkis aus dem Logo) statt schwarz; Fußzeile „Gemacht von
