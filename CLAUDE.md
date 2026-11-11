@@ -323,6 +323,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   keine Tabelle für die Nations League → Abo „Single Developer“ 9 $/Monat nötig, Tabelle selbst rechnen (am 11.11. geprüft, Host freigegeben);
   (3) flf.lu-Startseite: nur Ticket-Leiste mit kommenden Spielen (auch andere Auswahlen), keine Ergebnisse, keine Tabelle. RTL-Sportdaten führen die
   Nationalmannschaft nicht (nur 10 Luxemburger Wettbewerbe). Liveticker Nati ggf. Sofascore-Widget (frei, je Spiel/Wettbewerb ein Code).
+  **Neigung des Nutzers (11.11.):** bei Nein von FuPa den Reiter Roude Léiw eher ganz weglassen („mal schauen“) — dann noch einmal fragen, nicht von selbst ausbauen.
   **Kopf des Widget-Kastens hellgrün wie der Heute-Kasten** (vom Nutzer, Fassung 30.10. neu e, `.fupakarte`), seit neu f auch mit grünem Rahmen. **Seit neu g alle Karten so** (vom Nutzer): `.card` 2 px grüner Rahmen, `.chead` hellgrün (#e6f6f2); aufklappbare Karten behalten den dunkelgrünen Kopf, der LIVE-Kasten seinen roten Rahmen. **Neu h** (vom Nutzer): Heute-/Morgen-Kasten und der heutige Tag in „Unsere Woche“ (alle `.heute`) mit **dunkelgrünem** Kopf, weißer Schrift, Rahmen dunkelgrün — das Aktuelle fällt sofort auf.
   **Widget aktualisiert sich nicht selbst** (30.10.2026 im FuPa-Skript nachgesehen: kein Takt, nur Knopf ↻ `.fp-liveticker-view-refresh-button`).
   Darum tippt die App ihn an (vom Nutzer, Fassung 30.10. neu o, `fupaAktualisieren`): jede Minute und sofort beim Zurückkommen in die App,
