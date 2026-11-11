@@ -309,6 +309,13 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (MutationObserver) und füllt ein schon gefülltes Element nicht neu. Browser-Test mit echter Adresse (Seite per `page.route` unter
   fckoeppchen.github.io) und echtem Widget: vor Zustimmung 0 FuPa-Anfragen, danach Ticker da, Neuaufbau lädt keine Daten neu, Uhrzeit in
   Ortszeit richtig. Kosmetik (Schrift, Farben) im Widget-Builder.
+  **FuPas Antwort (11.11.2026, Marco vom FuPa-Team):** keine offizielle API, keine individuellen Zugänge; die Endpunkte sind intern,
+  FuPa „rät dringend ab“ (ändern sich ohne Ankündigung), empfiehlt die Widgets. Kein ausdrückliches Verbot. **Nachfrage vom Nutzer am 11.11. verschickt:**
+  nur Halbzeit- und Endstand Seniors 1–3 (auch als Mitteilung, mit „Quelle: FuPa“ + Link), dazu Nationalmannschaft (einmal am Tag Spielplan/
+  Ergebnisse/Tabelle, Halbzeit/Endstand an Spieltagen), zentral über den Worker, Risiko bei uns, Abschalten auf Zuruf. **Antwort abwarten.**
+  Bei Nein: Roude Léiw umbauen (FLF-Startseite verlinkt nächstes/letztes Länderspiel, `/games/<id>` mit schema.org; Liste und Tabelle lädt flf.lu
+  erst im Browser von Clubee → nicht nutzbar; Sofascore-Widgets frei, aber je Wettbewerb ein Code; API-Football hat die Nati, kostenlos nur alte
+  Saisons, ~19 $/Monat) und „📡 Live“ abschalten. UEFA/FIFA verworfen (interne Schnittstellen, strengere Bedingungen).
   **Kopf des Widget-Kastens hellgrün wie der Heute-Kasten** (vom Nutzer, Fassung 30.10. neu e, `.fupakarte`), seit neu f auch mit grünem Rahmen. **Seit neu g alle Karten so** (vom Nutzer): `.card` 2 px grüner Rahmen, `.chead` hellgrün (#e6f6f2); aufklappbare Karten behalten den dunkelgrünen Kopf, der LIVE-Kasten seinen roten Rahmen. **Neu h** (vom Nutzer): Heute-/Morgen-Kasten und der heutige Tag in „Unsere Woche“ (alle `.heute`) mit **dunkelgrünem** Kopf, weißer Schrift, Rahmen dunkelgrün — das Aktuelle fällt sofort auf.
   **Widget aktualisiert sich nicht selbst** (30.10.2026 im FuPa-Skript nachgesehen: kein Takt, nur Knopf ↻ `.fp-liveticker-view-refresh-button`).
   Darum tippt die App ihn an (vom Nutzer, Fassung 30.10. neu o, `fupaAktualisieren`): jede Minute und sofort beim Zurückkommen in die App,
