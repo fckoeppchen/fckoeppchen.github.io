@@ -317,6 +317,12 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Bei Nein: Roude Léiw umbauen (FLF-Startseite verlinkt nächstes/letztes Länderspiel, `/games/<id>` mit schema.org; Liste und Tabelle lädt flf.lu
   erst im Browser von Clubee → nicht nutzbar; Sofascore-Widgets frei, aber je Wettbewerb ein Code; API-Football hat die Nati, kostenlos nur alte
   Saisons, ~19 $/Monat) und „📡 Live“ abschalten. UEFA/FIFA verworfen (interne Schnittstellen, strengere Bedingungen).
+  **Stand 11.11. für Roude Léiw bei Nein** (mit dem Nutzer besprochen, Entscheidung erst nach FuPas Antwort): (1) selbst eintragen (z. B. über den
+  Coach-Bereich, Tabelle rechnet die App), kostenlos, ~12 Spiele je Wettbewerb; (2) **TheSportsDB** (Team-Id 136458, Nations League = Liga 4490,
+  „2026-2027“): kostenloser Schlüssel nur „für Entwicklungsprojekte“, liefert nur 1 nächstes/1 letztes Spiel, Saisonliste nach 15 Spielen abgeschnitten,
+  keine Tabelle für die Nations League → Abo „Single Developer“ 9 $/Monat nötig, Tabelle selbst rechnen (am 11.11. geprüft, Host freigegeben);
+  (3) flf.lu-Startseite: nur Ticket-Leiste mit kommenden Spielen (auch andere Auswahlen), keine Ergebnisse, keine Tabelle. RTL-Sportdaten führen die
+  Nationalmannschaft nicht (nur 10 Luxemburger Wettbewerbe). Liveticker Nati ggf. Sofascore-Widget (frei, je Spiel/Wettbewerb ein Code).
   **Kopf des Widget-Kastens hellgrün wie der Heute-Kasten** (vom Nutzer, Fassung 30.10. neu e, `.fupakarte`), seit neu f auch mit grünem Rahmen. **Seit neu g alle Karten so** (vom Nutzer): `.card` 2 px grüner Rahmen, `.chead` hellgrün (#e6f6f2); aufklappbare Karten behalten den dunkelgrünen Kopf, der LIVE-Kasten seinen roten Rahmen. **Neu h** (vom Nutzer): Heute-/Morgen-Kasten und der heutige Tag in „Unsere Woche“ (alle `.heute`) mit **dunkelgrünem** Kopf, weißer Schrift, Rahmen dunkelgrün — das Aktuelle fällt sofort auf.
   **Widget aktualisiert sich nicht selbst** (30.10.2026 im FuPa-Skript nachgesehen: kein Takt, nur Knopf ↻ `.fp-liveticker-view-refresh-button`).
   Darum tippt die App ihn an (vom Nutzer, Fassung 30.10. neu o, `fupaAktualisieren`): jede Minute und sofort beim Zurückkommen in die App,
