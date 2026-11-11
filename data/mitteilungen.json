@@ -143,6 +143,54 @@
    "text": "Uhrzeit steht fest: So., 29.11. um 10:30 gegen CS Grevenmacher I · 📍 Terrain 2 (Grevenmacher, synth.)",
    "ab": 1794394927124,
    "bis": 1795944600000
+  },
+  {
+   "reiter": [
+    "PUP 1",
+    "Pupilles U9"
+   ],
+   "id": "zeit:6716085:2026-11-28T15:00:00+01:00",
+   "art": "uhrzeit",
+   "titel": "PUP 1 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 28.11. um 15:00 gegen US Moutfort-Medingen I · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1794431833156,
+   "bis": 1795874400000
+  },
+  {
+   "reiter": [
+    "PUP 2",
+    "Pupilles U9"
+   ],
+   "id": "zeit:6717085:2026-11-28T15:00:00+01:00",
+   "art": "uhrzeit",
+   "titel": "PUP 2 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 28.11. um 15:00 gegen US Moutfort-Medingen II · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1794431833156,
+   "bis": 1795874400000
+  },
+  {
+   "reiter": [
+    "BAM 1",
+    "Bambinis U7"
+   ],
+   "id": "zeit:9202611211:2026-11-21T09:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "BAM 1 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 21.11. um 09:30 · Mini-Spieltag · 📍 Terrain Breil (Echternach, synth.)",
+   "ab": 1794431833156,
+   "bis": 1795249800000
+  },
+  {
+   "reiter": [
+    "BAM 2",
+    "Bambinis U7"
+   ],
+   "id": "zeit:9202611212:2026-11-21T09:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "BAM 2 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 21.11. um 09:30 · Mini-Spieltag · 📍 Terrain 2 (Sandweiler, synth.)",
+   "ab": 1794431833156,
+   "bis": 1795249800000
   }
  ],
  "live": []

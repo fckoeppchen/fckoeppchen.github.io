@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-11T11:01:54.314Z",
+ "stand": "2026-11-11T21:17:01.474Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -11364,6 +11364,24 @@
      "ort": "Terrain 2 (Grevenmacher, synth.)"
     },
     {
+     "id": 6685081,
+     "d": "2026-11-29T10:30:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46352,
+      "n": "ENT Biwer/Berbourg I"
+     },
+     "a": {
+      "id": 45317,
+      "n": "Victoria Rosport I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
      "id": 6685084,
      "d": "2026-11-29T10:30:00+01:00",
      "tag": 8,
@@ -11398,24 +11416,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain au Parc (Mertert, synth.)"
-    },
-    {
-     "id": 6685081,
-     "d": "2026-11-29T11:00:00+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46352,
-      "n": "ENT Biwer/Berbourg I"
-     },
-     "a": {
-      "id": 45317,
-      "n": "Victoria Rosport I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Berbourg, synth.)"
     }
    ],
    "start": "2026-09-27T10:30:00+02:00"
@@ -12058,42 +12058,6 @@
      "ort": "Terrain 2 (Christnach, synth)"
     },
     {
-     "id": 6687081,
-     "d": "2026-11-29T09:30:00+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46351,
-      "n": "ENT Biwer/Berbourg II"
-     },
-     "a": {
-      "id": 45318,
-      "n": "Victoria Rosport II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Berbourg, synth.)"
-    },
-    {
-     "id": 6687082,
-     "d": "2026-11-29T09:30:00+01:00",
-     "tag": 8,
-     "h": {
-      "id": 45935,
-      "n": "FC Munsbach II"
-     },
-     "a": {
-      "id": 46381,
-      "n": "Olympia Christnach-Waldbillig"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Munsbach (synth.)"
-    },
-    {
      "id": 6687085,
      "d": "2026-11-29T10:30:00+01:00",
      "tag": 8,
@@ -12110,6 +12074,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Breil (Echternach, synth.)"
+    },
+    {
+     "id": 6687081,
+     "d": "2026-11-29T10:30:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46351,
+      "n": "ENT Biwer/Berbourg II"
+     },
+     "a": {
+      "id": 45318,
+      "n": "Victoria Rosport II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Berbourg, synth.)"
     },
     {
      "id": 6687083,
@@ -12146,6 +12128,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Am Brill (Moutfort, synth.)"
+    },
+    {
+     "id": 6687082,
+     "d": "2026-11-29T11:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 45935,
+      "n": "FC Munsbach II"
+     },
+     "a": {
+      "id": 46381,
+      "n": "Olympia Christnach-Waldbillig"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Munsbach (synth.)"
     }
    ],
    "start": "2026-09-27T10:30:00+02:00"
@@ -12788,24 +12788,6 @@
      "ort": "Terrain Ralingen (synth.)"
     },
     {
-     "id": 6716085,
-     "d": "2026-11-28T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 45392,
-      "n": "FC Koeppchen Wormeldange I"
-     },
-     "a": {
-      "id": 46205,
-      "n": "US Moutfort-Medingen I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Am Ga (Wormeldange, synth.)"
-    },
-    {
      "id": 6716084,
      "d": "2026-11-28T11:00:00+01:00",
      "tag": 8,
@@ -12825,7 +12807,7 @@
     },
     {
      "id": 6716081,
-     "d": "2026-11-28T11:00:00+01:00",
+     "d": "2026-11-28T14:00:00+01:00",
      "tag": 8,
      "h": {
       "id": 46350,
@@ -12843,7 +12825,7 @@
     },
     {
      "id": 6716083,
-     "d": "2026-11-28T11:00:00+01:00",
+     "d": "2026-11-28T14:00:00+01:00",
      "tag": 8,
      "h": {
       "id": 45931,
@@ -12858,6 +12840,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Munsbach (synth.)"
+    },
+    {
+     "id": 6716085,
+     "d": "2026-11-28T15:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 45392,
+      "n": "FC Koeppchen Wormeldange I"
+     },
+     "a": {
+      "id": 46205,
+      "n": "US Moutfort-Medingen I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
      "id": 6716082,
@@ -13518,24 +13518,6 @@
      "ort": "Terrain Jos Durbach (Bous, synth.)"
     },
     {
-     "id": 6717085,
-     "d": "2026-11-28T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 45393,
-      "n": "FC Koeppchen Wormeldange II"
-     },
-     "a": {
-      "id": 46251,
-      "n": "US Moutfort-Medingen II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Am Ga (Wormeldange, synth.)"
-    },
-    {
      "id": 6717083,
      "d": "2026-11-28T10:00:00+01:00",
      "tag": 8,
@@ -13555,7 +13537,7 @@
     },
     {
      "id": 6717081,
-     "d": "2026-11-28T10:00:00+01:00",
+     "d": "2026-11-28T14:00:00+01:00",
      "tag": 8,
      "h": {
       "id": 46349,
@@ -13588,6 +13570,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Breil (Echternach, synth.)"
+    },
+    {
+     "id": 6717085,
+     "d": "2026-11-28T15:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 45393,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "a": {
+      "id": 46251,
+      "n": "US Moutfort-Medingen II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
      "id": 6717082,
@@ -18594,25 +18594,7 @@
      "as": null,
      "gespielt": false,
      "forfait": false,
-     "ort": "Terrain 2 (Bettembourg, synth.)"
-    },
-    {
-     "id": 6320033,
-     "d": "2026-11-28T16:30:00+01:00",
-     "tag": 3,
-     "h": {
-      "id": 45928,
-      "n": "ENT Munsbach/Mensdorf/Canach I"
-     },
-     "a": {
-      "id": 45399,
-      "n": "FC Koeppchen Wormeldange"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Munsbach (synth.)"
+     "ort": "Stade Municipal (Bettembourg, synth.)"
     },
     {
      "id": 6320032,
@@ -18631,6 +18613,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain synthétique (Hesperange, synth.)"
+    },
+    {
+     "id": 6320033,
+     "d": "2026-11-28T17:30:00+01:00",
+     "tag": 3,
+     "h": {
+      "id": 45928,
+      "n": "ENT Munsbach/Mensdorf/Canach I"
+     },
+     "a": {
+      "id": 45399,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Munsbach (synth.)"
     },
     {
      "id": 6320042,
@@ -18932,26 +18932,8 @@
      "ort": "Terrain um Gréin (Remich, synth.)"
     },
     {
-     "id": 6345031,
-     "d": "2026-11-28T00:00:01+01:00",
-     "tag": 3,
-     "h": {
-      "id": 45396,
-      "n": "FC Koeppchen Wormeldange"
-     },
-     "a": {
-      "id": 46022,
-      "n": "Union Remich/Bous I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Am Ga (Wormeldange, synth.)"
-    },
-    {
      "id": 6345033,
-     "d": "2026-11-28T00:00:01+01:00",
+     "d": "2026-11-28T14:30:00+01:00",
      "tag": 3,
      "h": {
       "id": 44755,
@@ -18984,6 +18966,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Junglinster, synth.)"
+    },
+    {
+     "id": 6345031,
+     "d": "2026-11-28T16:30:00+01:00",
+     "tag": 3,
+     "h": {
+      "id": 45396,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "a": {
+      "id": 46022,
+      "n": "Union Remich/Bous I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
      "id": 6345042,
@@ -19416,7 +19416,7 @@
     },
     {
      "id": 9202611212,
-     "d": "2026-11-21T10:30:00+01:00",
+     "d": "2026-11-21T09:30:00+01:00",
      "tag": 7,
      "h": {
       "id": 0,
@@ -19437,12 +19437,12 @@
        "Jeunesse Junglinster II",
        "US Moutfort-Medingen"
       ],
-      "zeitSicher": false
+      "zeitSicher": true
      }
     },
     {
      "id": 9202611211,
-     "d": "2026-11-21T10:30:00+01:00",
+     "d": "2026-11-21T09:30:00+01:00",
      "tag": 7,
      "h": {
       "id": 0,
@@ -19463,7 +19463,7 @@
        "Daring Echternach II",
        "Union Mertert-Wasserbillig"
       ],
-      "zeitSicher": false
+      "zeitSicher": true
      }
     },
     {
