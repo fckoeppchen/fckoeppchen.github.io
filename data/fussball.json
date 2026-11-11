@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-11T06:01:54.170Z",
+ "stand": "2026-11-11T11:01:54.314Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -11347,7 +11347,7 @@
     },
     {
      "id": 6685085,
-     "d": "2026-11-29T00:00:01+01:00",
+     "d": "2026-11-29T10:30:00+01:00",
      "tag": 8,
      "h": {
       "id": 46194,
@@ -11362,24 +11362,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Grevenmacher, synth.)"
-    },
-    {
-     "id": 6685083,
-     "d": "2026-11-29T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46337,
-      "n": "Union Mertert-Wasserbillig"
-     },
-     "a": {
-      "id": 45524,
-      "n": "Daring Echternach I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain au Parc (Mertert, synth.)"
     },
     {
      "id": 6685084,
@@ -11398,6 +11380,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Mensdorf, synth.)"
+    },
+    {
+     "id": 6685083,
+     "d": "2026-11-29T10:30:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46337,
+      "n": "Union Mertert-Wasserbillig"
+     },
+     "a": {
+      "id": 45524,
+      "n": "Daring Echternach I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain au Parc (Mertert, synth.)"
     },
     {
      "id": 6685081,
@@ -12058,42 +12058,6 @@
      "ort": "Terrain 2 (Christnach, synth)"
     },
     {
-     "id": 6687082,
-     "d": "2026-11-29T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 45935,
-      "n": "FC Munsbach II"
-     },
-     "a": {
-      "id": 46381,
-      "n": "Olympia Christnach-Waldbillig"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Munsbach (synth.)"
-    },
-    {
-     "id": 6687084,
-     "d": "2026-11-29T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46204,
-      "n": "US Moutfort-Medingen"
-     },
-     "a": {
-      "id": 46195,
-      "n": "CS Grevenmacher II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Am Brill (Moutfort, synth.)"
-    },
-    {
      "id": 6687081,
      "d": "2026-11-29T09:30:00+01:00",
      "tag": 8,
@@ -12110,6 +12074,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
+     "id": 6687082,
+     "d": "2026-11-29T09:30:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 45935,
+      "n": "FC Munsbach II"
+     },
+     "a": {
+      "id": 46381,
+      "n": "Olympia Christnach-Waldbillig"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Munsbach (synth.)"
     },
     {
      "id": 6687085,
@@ -12146,6 +12128,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Maartbësch (Berdorf)"
+    },
+    {
+     "id": 6687084,
+     "d": "2026-11-29T10:30:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46204,
+      "n": "US Moutfort-Medingen"
+     },
+     "a": {
+      "id": 46195,
+      "n": "CS Grevenmacher II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Am Brill (Moutfort, synth.)"
     }
    ],
    "start": "2026-09-27T10:30:00+02:00"
@@ -12788,24 +12788,6 @@
      "ort": "Terrain Ralingen (synth.)"
     },
     {
-     "id": 6716084,
-     "d": "2026-11-28T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46196,
-      "n": "CS Grevenmacher I"
-     },
-     "a": {
-      "id": 44902,
-      "n": "Jeunesse Junglinster I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Grevenmacher, synth.)"
-    },
-    {
      "id": 6716085,
      "d": "2026-11-28T00:00:01+01:00",
      "tag": 8,
@@ -12824,40 +12806,22 @@
      "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
-     "id": 6716083,
-     "d": "2026-11-28T00:00:01+01:00",
+     "id": 6716084,
+     "d": "2026-11-28T11:00:00+01:00",
      "tag": 8,
      "h": {
-      "id": 45931,
-      "n": "FC Munsbach I"
+      "id": 46196,
+      "n": "CS Grevenmacher I"
      },
      "a": {
-      "id": 46271,
-      "n": "ENT Canach/Mensdorf I"
+      "id": 44902,
+      "n": "Jeunesse Junglinster I"
      },
      "hs": null,
      "as": null,
      "gespielt": false,
      "forfait": false,
-     "ort": "Terrain Munsbach (synth.)"
-    },
-    {
-     "id": 6716082,
-     "d": "2026-11-28T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46278,
-      "n": "Union Mertert-Wasserbillig I"
-     },
-     "a": {
-      "id": 45523,
-      "n": "Daring Echternach I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain au Parc (Mertert, synth.)"
+     "ort": "Terrain 2 (Grevenmacher, synth.)"
     },
     {
      "id": 6716081,
@@ -12876,6 +12840,42 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
+     "id": 6716083,
+     "d": "2026-11-28T11:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 45931,
+      "n": "FC Munsbach I"
+     },
+     "a": {
+      "id": 46271,
+      "n": "ENT Canach/Mensdorf I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Munsbach (synth.)"
+    },
+    {
+     "id": 6716082,
+     "d": "2026-11-28T15:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46278,
+      "n": "Union Mertert-Wasserbillig I"
+     },
+     "a": {
+      "id": 45523,
+      "n": "Daring Echternach I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain au Parc (Mertert, synth.)"
     }
    ],
    "start": "2026-09-26T14:00:00+02:00"
@@ -13518,24 +13518,6 @@
      "ort": "Terrain Jos Durbach (Bous, synth.)"
     },
     {
-     "id": 6717083,
-     "d": "2026-11-28T00:00:01+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46197,
-      "n": "CS Grevenmacher II"
-     },
-     "a": {
-      "id": 46279,
-      "n": "Union Mertert-Wasserbillig II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Grevenmacher, synth.)"
-    },
-    {
      "id": 6717085,
      "d": "2026-11-28T00:00:01+01:00",
      "tag": 8,
@@ -13552,6 +13534,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
+    },
+    {
+     "id": 6717083,
+     "d": "2026-11-28T10:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46197,
+      "n": "CS Grevenmacher II"
+     },
+     "a": {
+      "id": 46279,
+      "n": "Union Mertert-Wasserbillig II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Grevenmacher, synth.)"
     },
     {
      "id": 6717081,
@@ -18579,42 +18579,6 @@
      "ort": "Terrain Am Brill (Moutfort, synth.)"
     },
     {
-     "id": 6320032,
-     "d": "2026-11-28T00:00:01+01:00",
-     "tag": 3,
-     "h": {
-      "id": 45958,
-      "n": "Swift Hesperange I"
-     },
-     "a": {
-      "id": 46200,
-      "n": "US Moutfort-Medingen"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain synthétique (Hesperange, synth.)"
-    },
-    {
-     "id": 6320033,
-     "d": "2026-11-28T01:00:00+01:00",
-     "tag": 3,
-     "h": {
-      "id": 45928,
-      "n": "ENT Munsbach/Mensdorf/Canach I"
-     },
-     "a": {
-      "id": 45399,
-      "n": "FC Koeppchen Wormeldange"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain Munsbach (synth.)"
-    },
-    {
      "id": 6320031,
      "d": "2026-11-28T14:30:00+01:00",
      "tag": 3,
@@ -18631,6 +18595,42 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Bettembourg, synth.)"
+    },
+    {
+     "id": 6320033,
+     "d": "2026-11-28T16:30:00+01:00",
+     "tag": 3,
+     "h": {
+      "id": 45928,
+      "n": "ENT Munsbach/Mensdorf/Canach I"
+     },
+     "a": {
+      "id": 45399,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Munsbach (synth.)"
+    },
+    {
+     "id": 6320032,
+     "d": "2026-11-28T16:30:00+01:00",
+     "tag": 3,
+     "h": {
+      "id": 45958,
+      "n": "Swift Hesperange I"
+     },
+     "a": {
+      "id": 46200,
+      "n": "US Moutfort-Medingen"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain synthétique (Hesperange, synth.)"
     },
     {
      "id": 6320042,
@@ -18969,7 +18969,7 @@
     },
     {
      "id": 6345032,
-     "d": "2026-11-28T01:30:00+01:00",
+     "d": "2026-11-28T16:00:00+01:00",
      "tag": 3,
      "h": {
       "id": 44738,

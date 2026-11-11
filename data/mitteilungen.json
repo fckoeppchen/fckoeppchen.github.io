@@ -131,6 +131,18 @@
    "text": "Uhrzeit steht fest: So., 29.11. um 10:30 gegen Daring Echternach II · 📍 Terrain Breil (Echternach, synth.)",
    "ab": 1794345418206,
    "bis": 1795944600000
+  },
+  {
+   "reiter": [
+    "POU 1",
+    "Poussins U11"
+   ],
+   "id": "zeit:6685085:2026-11-29T10:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "POU 1 · Uhrzeit",
+   "text": "Uhrzeit steht fest: So., 29.11. um 10:30 gegen CS Grevenmacher I · 📍 Terrain 2 (Grevenmacher, synth.)",
+   "ab": 1794394927124,
+   "bis": 1795944600000
   }
  ],
  "live": []
