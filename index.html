@@ -788,7 +788,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "8.11.2026 neu f";
+const FASSUNG = "12.11.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1380,7 +1380,7 @@ function wetterZeile(sp) {
   const t = wetterText((D?.wetter || {})[sp.id], sp.d);
   return t ? `<div class="wetter">${esc(t)}</div>` : "";
 }
-function morgenHtml(m, ids, pill, koeppi = true, form = false) {
+function morgenHtml(m, ids, pill, koeppi = true, form = false, motto = true) {
   const sp = m.sp, zeit = wann(sp).split(" · ")[1], p = pill(sp);
   return `<section class="card heute"><div class="chead"><h2>Morgen Spieltag! ⚽</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}${coachZeichen(sp)}</div><div class="cbody">
     <div class="wann">${esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen")}</div>${wetterZeile(sp)}
@@ -1388,7 +1388,7 @@ function morgenHtml(m, ids, pill, koeppi = true, form = false) {
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}${adresseZeile(sp, ids)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
     ${form ? formHtml(sp, ids) : ""}
-    ${koeppi ? koeppiZeile("trinkflasche", "Trinkflasche nicht vergessen! 😉", "", true) : MOTTO}
+    ${koeppi ? koeppiZeile("trinkflasche", "Trinkflasche nicht vergessen! 😉", "", true) : motto ? MOTTO : ""}
     </div></section>`;
 }
 
@@ -1572,6 +1572,9 @@ function natiHtml(now) {
   const heute = !lv && spieltagHeute(v, now);
   if (heute) h += heuteHtml(heute, ids, { live: FUPA_API && !!WORKER_URL && !!heute.sp.slug, link: !FUPA_API && !!heute.sp.slug, pill: sp => sp.wett === "Testspiele" ? "Testspiel" : "",
     ohneLive: "Das Ergebnis erscheint, sobald FuPa es hat.", fupaUrl: heute.sp.slug && "https://www.fupa.net/match/" + heute.sp.slug });
+  // Morgen-Kasten auch für die Nationalmannschaft (vom Nutzer, 12.11.2026), ohne Koeppi und ohne Motto.
+  const morgen = !heute && !lv && spieltagMorgen(v, now);
+  if (morgen) h += morgenHtml(morgen, ids, sp => sp.wett === "Testspiele" ? "Testspiel" : "", false, false, false);
   if (lv) h += liveHtml(lv, n => n === "Luxemburg", "");
   h += `<section class="card"><div class="chead"><h2>Nächste Spiele</h2></div><div class="cbody">`;
   h += v.kommend.length ? v.kommend.map(sp => spielZeile(sp, ids, meta(sp))).join("") : `<div class="muted">Noch keine Länderspiele angesetzt.</div>`;
