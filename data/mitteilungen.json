@@ -191,7 +191,108 @@
    "text": "Uhrzeit steht fest: Sa., 21.11. um 09:30 · Mini-Spieltag · 📍 Terrain 2 (Sandweiler, synth.)",
    "ab": 1794431833156,
    "bis": 1795249800000
+  },
+  {
+   "reiter": [
+    "Roude Léiw"
+   ],
+   "id": "nheute:14856475",
+   "art": "heute",
+   "titel": "Roude Léiw · Heute",
+   "text": "Länderspiel um 20:45 gegen Estland · UEFA Nations League",
+   "ab": 1794560400000,
+   "bis": 1794599100000
+  },
+  {
+   "reiter": [
+    "SCO",
+    "Scolaires U15"
+   ],
+   "id": "heute:6320013",
+   "art": "heute",
+   "titel": "SCO · Morgen Spiel",
+   "text": "15:00 gegen US Moutfort-Medingen · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1794592800000,
+   "bis": 1794664800000
+  },
+  {
+   "reiter": [
+    "MIN 1",
+    "Minimes U13"
+   ],
+   "id": "heute:6345012",
+   "art": "heute",
+   "titel": "MIN 1 · Morgen Spiel",
+   "text": "16:00 gegen Victoria Rosport I · 📍 Terrain Ralingen (synth.)",
+   "ab": 1794592800000,
+   "bis": 1794668400000
+  },
+  {
+   "reiter": [
+    "PUP 1",
+    "Pupilles U9"
+   ],
+   "id": "heute:6716063",
+   "art": "heute",
+   "titel": "PUP 1 · Morgen Spiel",
+   "text": "15:00 gegen ENT Biwer/Berbourg I · 📍 Terrain 2 (Berbourg, synth.)",
+   "ab": 1794592800000,
+   "bis": 1794664800000
+  },
+  {
+   "reiter": [
+    "PUP 2",
+    "Pupilles U9"
+   ],
+   "id": "heute:6717063",
+   "art": "heute",
+   "titel": "PUP 2 · Morgen Spiel",
+   "text": "15:00 gegen ENT Biwer/Berbourg II · 📍 Terrain 2 (Berbourg, synth.)",
+   "ab": 1794592800000,
+   "bis": 1794664800000
+  },
+  {
+   "reiter": [
+    "BAM 1",
+    "Bambinis U7"
+   ],
+   "id": "heute:9202611141",
+   "art": "heute",
+   "titel": "BAM 1 · Morgen Spiel",
+   "text": "10:30 · Mini-Spieltag · 📍 Terrain Breil (Echternach, synth.)",
+   "ab": 1794592800000,
+   "bis": 1794648600000
+  },
+  {
+   "reiter": [
+    "BAM 2",
+    "Bambinis U7"
+   ],
+   "id": "heute:9202611142",
+   "art": "heute",
+   "titel": "BAM 2 · Morgen Spiel",
+   "text": "09:30 · Mini-Spieltag · 📍 Terrain 2 (Grevenmacher, synth.)",
+   "ab": 1794592800000,
+   "bis": 1794645000000
   }
  ],
- "live": []
+ "live": [
+  {
+   "id": 14856475,
+   "reiter": [
+    "Roude Léiw · live"
+   ],
+   "titel": "📡 Roude Léiw",
+   "d": "2026-11-13T20:45:00+01:00",
+   "h": "Luxemburg",
+   "a": "Estland",
+   "wirHeim": true,
+   "gegner": "Estland",
+   "slug": "luxemburg-m1-estland-m1-261113",
+   "fupaWir": "luxemburg-m1",
+   "ticker": "lnticker:14856475",
+   "halbzeit": "lnhalbzeit:14856475",
+   "ende": "nende-live:14856475"
+  }
+ ]
 }
