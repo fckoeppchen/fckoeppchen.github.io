@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-13T02:54:42.810Z",
+ "stand": "2026-11-13T06:01:48.013Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -24684,7 +24684,7 @@
    "c": 0,
    "t": 3,
    "r": 0,
-   "w": 0
+   "w": 5
   }
  },
  "wetterOrte": {
@@ -24726,7 +24726,7 @@
     "von": "17:00",
     "bis": "21:00",
     "ort": "Terrain Koeppchen",
-    "bild": "bilder/events/6VJ4VAJFW38MYTZ8P0CGD7TB5T.jpg",
+    "bild": "bilder/events/3E2A8WGF8H8P6SX69WHVBTW7AX.jpg",
     "quelle": "beide"
    },
    {
