@@ -194,17 +194,6 @@
   },
   {
    "reiter": [
-    "Roude Léiw"
-   ],
-   "id": "nheute:14856475",
-   "art": "heute",
-   "titel": "Roude Léiw · Heute",
-   "text": "Länderspiel um 20:45 gegen Estland · UEFA Nations League",
-   "ab": 1794560400000,
-   "bis": 1794599100000
-  },
-  {
-   "reiter": [
     "SCO",
     "Scolaires U15"
    ],
@@ -274,25 +263,18 @@
    "text": "09:30 · Mini-Spieltag · 📍 Terrain 2 (Grevenmacher, synth.)",
    "ab": 1794592800000,
    "bis": 1794645000000
+  },
+  {
+   "reiter": [
+    "Roude Léiw"
+   ],
+   "id": "nende:14856475",
+   "art": "ende",
+   "titel": "Roude Léiw · Endstand",
+   "text": "Luxemburg 0:1 Estland",
+   "ab": 1794604637627,
+   "bis": 1794669437627
   }
  ],
- "live": [
-  {
-   "id": 14856475,
-   "reiter": [
-    "Roude Léiw · live"
-   ],
-   "titel": "📡 Roude Léiw",
-   "d": "2026-11-13T20:45:00+01:00",
-   "h": "Luxemburg",
-   "a": "Estland",
-   "wirHeim": true,
-   "gegner": "Estland",
-   "slug": "luxemburg-m1-estland-m1-261113",
-   "fupaWir": "luxemburg-m1",
-   "ticker": "lnticker:14856475",
-   "halbzeit": "lnhalbzeit:14856475",
-   "ende": "nende-live:14856475"
-  }
- ]
+ "live": []
 }
