@@ -856,6 +856,10 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     const gleich7 = neuD(); gleich7.klassen.k1.tabelle = [{ pl: 1, id: 12, n: "US Hostert", sp: 1, pkt: 11 }, { pl: 3, id: 1, n: K + " I", sp: 1, pkt: 10 }];
     ok(mEreignisse(neu, gleich7, null, jetzt).ereignisse.find(e => e.id.startsWith("tabelle:k1"))?.text === "Koeppchen I jetzt 3. Platz (vorher 2.) · 10 Punkte aus 1 Spiel",
       "Tabelle: nur der Platz ändert sich (andere haben gespielt) → Mitteilung");
+    // Noch kein eigenes Spiel (14.11.2026, MIN 1): Platz springt durch fremde Ergebnisse → keine Mitteilung.
+    const null1 = neuD(); null1.klassen.k1.tabelle = [{ pl: 1, id: 12, n: "US Hostert", sp: 1, pkt: 3 }, { pl: 5, id: 1, n: K + " I", sp: 0, pkt: 0 }];
+    const null2 = neuD(); null2.klassen.k1.tabelle = [{ pl: 1, id: 12, n: "US Hostert", sp: 1, pkt: 3 }, { pl: 3, id: 1, n: K + " I", sp: 0, pkt: 0 }];
+    ok(!mEreignisse(null1, null2, null, jetzt).ereignisse.some(e => e.id.startsWith("tabelle:k1")), "Tabelle: 0 eigene Spiele, nur Platz anders → keine Mitteilung");
     // Nachts: wartet bis 7:00; eine zweite Änderung in derselben Nacht ersetzt die erste und vergleicht mit dem Stand vom Abend.
     const nacht = Date.parse("2026-10-27T01:38:00+01:00"), sieben = Date.parse("2026-10-27T07:00:00+01:00");
     const n1 = mEreignisse(alt, neu, null, nacht), t1 = n1.ereignisse.find(e => e.id.startsWith("tabelle:k1"));

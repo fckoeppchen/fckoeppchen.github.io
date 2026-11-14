@@ -434,7 +434,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   anderem Platz). id `tabelle:<Klasse>:<Team>:<Spiele>:<Punkte>:<Platz>:<Tag>`. **Nachts (23–7 Uhr) `ab` = 7:00**; eine weitere Änderung in
   derselben Nacht ersetzt die wartende und behält deren `basis` (Stand vom Abend); zurück auf genau diesen Stand → nichts. „Spieltag komplett“
   bleibt wie es war (ein im Voraus gewertetes Forfait mit späterem Datum hat sein Ergebnis → zählt, vom Nutzer). App: „Letztes Spiel“ zeigt den
-  Platz immer aus der aktuellen FLF-Tabelle (ohne Prüfung). Tests (436) mit Gegenprobe (ohne Nachtregel 3 rot).
+  Platz immer aus der aktuellen FLF-Tabelle (ohne Prüfung). Tests (436) mit Gegenprobe (ohne Nachtregel 3 rot). **Ausnahme seit 14.11.2026** (vom Nutzer gemeldet: MIN 1 bekam vor dem ersten Phase-2-Spiel „5. Platz“, dann „3. Platz · 0 Punkte aus 0 Spielen“ — die FLF ordnet Mannschaften ohne Spiel beliebig ein): **keine Tabellen-Mitteilung, solange unsere Zeile 0 Spiele hat** (`r.sp > 0` beim Anlegen; eine nachts wartende wird trotzdem ersetzt/verworfen). Test mit Gegenprobe.
 - **RTL Live Arena: Link „Live-Video · RTL“** (vom Nutzer, 31.10.2026, Fassung 31.10. neu f; Prüfung und Bauplan in IDEEN.md): RTL überträgt die
   Seniors 1 (Éierepromotioun) als Video, live und danach als ganzes Spiel (9 von 10 Saisonspielen abrufbar). **Nur Link** auf die Spielseite
   `play.rtl.lu/live-arena/<id>` (seit neu g, vom Nutzer: `www.rtl.lu/live-arena/match?m=<id>` zeigte nur ein Standbild, erst Play öffnete diese Seite) — das Video in der App abzuspielen ginge technisch (offene HLS-Adresse), braucht aber RTLs Okay. Knöpfe

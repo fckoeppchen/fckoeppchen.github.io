@@ -183,12 +183,14 @@ export function ereignisse(alt, neu, vorher, now) {
       const ich = new Set(t.ids || [t.id]);
       const r = k.tabelle.find(x => ich.has(x.id)), ra = ka.tabelle.find(x => ich.has(x.id));
       const stand = x => `${x.pl}/${x.pkt}/${x.sp}`;
+      // Ohne eigenes Spiel nichts melden (14.11.2026, vom Nutzer: MIN 1 „3. Platz · 0 Punkte aus 0 Spielen“): vor dem ersten Spiel
+      // ordnet die FLF Mannschaften mit 0 Spielen beliebig ein, der Platz springt mit jedem fremden Ergebnis.
       if (r && ra && stand(r) !== stand(ra)) {
         const vorn = `tabelle:${k.id}:${r.id}:`;
         const wartend = [...aus.values()].find(e => e.id.startsWith(vorn) && e.ab > now);
         const basis = wartend?.basis || { pl: ra.pl, pkt: ra.pkt, sp: ra.sp };
         if (wartend) aus.delete(wartend.id);
-        if (stand(r) !== stand(basis)) {
+        if (r.sp > 0 && stand(r) !== stand(basis)) {
           const ab = tagzeit(now) ? now : naechste7(now);
           dazu({ reiter: [t.reiter], id: `${vorn}${r.sp}:${r.pkt}:${r.pl}:${tagLux(ab)}`, art: "tabelle", titel: `${t.reiter} · Tabelle`,
                  text: `${kurz(r.n)} jetzt ${r.pl}. Platz` + (basis.pl !== r.pl ? ` (vorher ${basis.pl}.)` : "") + ` · ${r.pkt} Punkte aus ${r.sp} ${r.sp === 1 ? "Spiel" : "Spielen"}`,
