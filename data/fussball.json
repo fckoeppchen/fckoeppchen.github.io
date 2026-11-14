@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-14T17:46:45.719Z",
+ "stand": "2026-11-14T18:17:11.827Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -18398,6 +18398,30 @@
    "tabelle": [
     {
      "pl": 1,
+     "id": 46329,
+     "n": "SC Bettembourg II",
+     "sp": 1,
+     "s": 1,
+     "u": 0,
+     "nl": 0,
+     "t": 4,
+     "g": 0,
+     "pkt": 3
+    },
+    {
+     "pl": 2,
+     "id": 45958,
+     "n": "Swift Hesperange I",
+     "sp": 1,
+     "s": 1,
+     "u": 0,
+     "nl": 0,
+     "t": 4,
+     "g": 1,
+     "pkt": 3
+    },
+    {
+     "pl": 3,
      "id": 46200,
      "n": "US Moutfort-Medingen",
      "sp": 1,
@@ -18409,55 +18433,7 @@
      "pkt": 3
     },
     {
-     "pl": 2,
-     "id": 45958,
-     "n": "Swift Hesperange I",
-     "sp": 0,
-     "s": 0,
-     "u": 0,
-     "nl": 0,
-     "t": 0,
-     "g": 0,
-     "pkt": 0
-    },
-    {
-     "pl": 3,
-     "id": 46329,
-     "n": "SC Bettembourg II",
-     "sp": 0,
-     "s": 0,
-     "u": 0,
-     "nl": 0,
-     "t": 0,
-     "g": 0,
-     "pkt": 0
-    },
-    {
      "pl": 4,
-     "id": 45746,
-     "n": "Tricolore Gasperich",
-     "sp": 0,
-     "s": 0,
-     "u": 0,
-     "nl": 0,
-     "t": 0,
-     "g": 0,
-     "pkt": 0
-    },
-    {
-     "pl": 5,
-     "id": 45928,
-     "n": "ENT Munsbach/Mensdorf/Canach I",
-     "sp": 0,
-     "s": 0,
-     "u": 0,
-     "nl": 0,
-     "t": 0,
-     "g": 0,
-     "pkt": 0
-    },
-    {
-     "pl": 6,
      "id": 45399,
      "n": "FC Koeppchen Wormeldange",
      "sp": 1,
@@ -18466,6 +18442,30 @@
      "nl": 1,
      "t": 0,
      "g": 2,
+     "pkt": 0
+    },
+    {
+     "pl": 5,
+     "id": 45746,
+     "n": "Tricolore Gasperich",
+     "sp": 1,
+     "s": 0,
+     "u": 0,
+     "nl": 1,
+     "t": 1,
+     "g": 4,
+     "pkt": 0
+    },
+    {
+     "pl": 6,
+     "id": 45928,
+     "n": "ENT Munsbach/Mensdorf/Canach I",
+     "sp": 1,
+     "s": 0,
+     "u": 0,
+     "nl": 1,
+     "t": 0,
+     "g": 4,
      "pkt": 0
     }
    ],
@@ -18763,20 +18763,20 @@
     },
     {
      "pl": 2,
-     "id": 46192,
-     "n": "CS Grevenmacher I",
-     "sp": 0,
-     "s": 0,
+     "id": 46353,
+     "n": "ENT Biwer/Berbourg/UMW I",
+     "sp": 1,
+     "s": 1,
      "u": 0,
      "nl": 0,
-     "t": 0,
+     "t": 2,
      "g": 0,
-     "pkt": 0
+     "pkt": 3
     },
     {
      "pl": 3,
-     "id": 46353,
-     "n": "ENT Biwer/Berbourg/UMW I",
+     "id": 45396,
+     "n": "FC Koeppchen Wormeldange",
      "sp": 0,
      "s": 0,
      "u": 0,
@@ -18799,14 +18799,14 @@
     },
     {
      "pl": 5,
-     "id": 45396,
-     "n": "FC Koeppchen Wormeldange",
-     "sp": 0,
+     "id": 46192,
+     "n": "CS Grevenmacher I",
+     "sp": 1,
      "s": 0,
      "u": 0,
-     "nl": 0,
+     "nl": 1,
      "t": 0,
-     "g": 0,
+     "g": 2,
      "pkt": 0
     },
     {
