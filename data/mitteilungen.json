@@ -50,18 +50,6 @@
   },
   {
    "reiter": [
-    "BAM 1",
-    "Bambinis U7"
-   ],
-   "id": "zeit:9202611141:2026-11-14T10:30:00+01:00",
-   "art": "uhrzeit",
-   "titel": "BAM 1 · Uhrzeit",
-   "text": "Uhrzeit steht fest: Sa., 14.11. um 10:30 · Mini-Spieltag · 📍 Terrain Breil (Echternach, synth.)",
-   "ab": 1793827039587,
-   "bis": 1794648600000
-  },
-  {
-   "reiter": [
     "POU 1",
     "Poussins U11"
    ],
@@ -227,18 +215,6 @@
    "text": "15:00 gegen ENT Biwer/Berbourg II · 📍 Terrain 2 (Berbourg, synth.)",
    "ab": 1794592800000,
    "bis": 1794664800000
-  },
-  {
-   "reiter": [
-    "BAM 1",
-    "Bambinis U7"
-   ],
-   "id": "heute:9202611141",
-   "art": "heute",
-   "titel": "BAM 1 · Morgen Spiel",
-   "text": "10:30 · Mini-Spieltag · 📍 Terrain Breil (Echternach, synth.)",
-   "ab": 1794592800000,
-   "bis": 1794648600000
   },
   {
    "reiter": [
