@@ -38,18 +38,6 @@
   },
   {
    "reiter": [
-    "PUP 2",
-    "Pupilles U9"
-   ],
-   "id": "zeit:6717063:2026-11-14T15:00:00+01:00",
-   "art": "uhrzeit",
-   "titel": "PUP 2 · Uhrzeit",
-   "text": "Uhrzeit steht fest: Sa., 14.11. um 15:00 gegen ENT Biwer/Berbourg II · 📍 Terrain 2 (Berbourg, synth.)",
-   "ab": 1793790142409,
-   "bis": 1794664800000
-  },
-  {
-   "reiter": [
     "POU 1",
     "Poussins U11"
    ],
@@ -170,18 +158,6 @@
   },
   {
    "reiter": [
-    "SCO",
-    "Scolaires U15"
-   ],
-   "id": "heute:6320013",
-   "art": "heute",
-   "titel": "SCO · Morgen Spiel",
-   "text": "15:00 gegen US Moutfort-Medingen · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1794592800000,
-   "bis": 1794664800000
-  },
-  {
-   "reiter": [
     "MIN 1",
     "Minimes U13"
    ],
@@ -191,30 +167,6 @@
    "text": "16:00 gegen Victoria Rosport I · 📍 Terrain Ralingen (synth.)",
    "ab": 1794592800000,
    "bis": 1794668400000
-  },
-  {
-   "reiter": [
-    "PUP 1",
-    "Pupilles U9"
-   ],
-   "id": "heute:6716063",
-   "art": "heute",
-   "titel": "PUP 1 · Morgen Spiel",
-   "text": "15:00 gegen ENT Biwer/Berbourg I · 📍 Terrain 2 (Berbourg, synth.)",
-   "ab": 1794592800000,
-   "bis": 1794664800000
-  },
-  {
-   "reiter": [
-    "PUP 2",
-    "Pupilles U9"
-   ],
-   "id": "heute:6717063",
-   "art": "heute",
-   "titel": "PUP 2 · Morgen Spiel",
-   "text": "15:00 gegen ENT Biwer/Berbourg II · 📍 Terrain 2 (Berbourg, synth.)",
-   "ab": 1794592800000,
-   "bis": 1794664800000
   },
   {
    "reiter": [
