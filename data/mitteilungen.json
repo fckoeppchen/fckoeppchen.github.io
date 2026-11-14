@@ -62,18 +62,6 @@
   },
   {
    "reiter": [
-    "BAM 2",
-    "Bambinis U7"
-   ],
-   "id": "zeit:9202611142:2026-11-14T09:30:00+01:00",
-   "art": "uhrzeit",
-   "titel": "BAM 2 · Uhrzeit",
-   "text": "Uhrzeit steht fest: Sa., 14.11. um 09:30 · Mini-Spieltag · 📍 Terrain 2 (Grevenmacher, synth.)",
-   "ab": 1793827039587,
-   "bis": 1794645000000
-  },
-  {
-   "reiter": [
     "POU 1",
     "Poussins U11"
    ],
@@ -251,18 +239,6 @@
    "text": "10:30 · Mini-Spieltag · 📍 Terrain Breil (Echternach, synth.)",
    "ab": 1794592800000,
    "bis": 1794648600000
-  },
-  {
-   "reiter": [
-    "BAM 2",
-    "Bambinis U7"
-   ],
-   "id": "heute:9202611142",
-   "art": "heute",
-   "titel": "BAM 2 · Morgen Spiel",
-   "text": "09:30 · Mini-Spieltag · 📍 Terrain 2 (Grevenmacher, synth.)",
-   "ab": 1794592800000,
-   "bis": 1794645000000
   },
   {
    "reiter": [
