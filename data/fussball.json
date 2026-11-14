@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-14T20:46:45.403Z",
+ "stand": "2026-11-14T21:23:58.311Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -70,7 +70,8 @@
     19189,
     19615,
     19617,
-    19961
+    19961,
+    "coach-45396"
    ],
    "reiter": "MIN 1",
    "datei": "u13-1.ics",
@@ -2086,9 +2087,9 @@
       "id": 44831,
       "n": "FC Koeppchen Wormeldange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Municipal (Pétange)"
     },
@@ -19584,6 +19585,38 @@
     }
    ],
    "start": "2026-11-08"
+  },
+  "coach-45396": {
+   "id": "coach-45396",
+   "n": "Vom Trainer eingetragen",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 8000000006,
+     "d": "2026-11-29T09:30:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 0,
+      "n": "Hallenturnier: FC Longwy"
+     },
+     "a": {
+      "id": 45396,
+      "n": "FC Koeppchen Wormeldange"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Longwy",
+     "coach": {
+      "art": "Hallenturnier",
+      "gegner": "FC Longwy"
+     }
+    }
+   ],
+   "start": "2026-11-29"
   }
  },
  "bgl": {
@@ -24571,6 +24604,20 @@
    "bem": null,
    "abgesagt": false,
    "geaendert": "2026-11-04T13:49:12.219Z"
+  },
+  {
+   "id": 6,
+   "reiter": "MIN 1",
+   "art": "Hallenturnier",
+   "datum": "2026-11-29",
+   "zeit": "09:30",
+   "ende": null,
+   "gegner": "FC Longwy",
+   "heim": false,
+   "ort": "Longwy",
+   "bem": null,
+   "abgesagt": false,
+   "geaendert": "2026-11-14T21:22:13.878Z"
   }
  ],
  "coachDoppelt": [],
