@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-14T15:46:50.957Z",
+ "stand": "2026-11-14T16:16:56.801Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -18398,15 +18398,15 @@
    "tabelle": [
     {
      "pl": 1,
-     "id": 45928,
-     "n": "ENT Munsbach/Mensdorf/Canach I",
-     "sp": 0,
-     "s": 0,
+     "id": 46200,
+     "n": "US Moutfort-Medingen",
+     "sp": 1,
+     "s": 1,
      "u": 0,
      "nl": 0,
-     "t": 0,
+     "t": 2,
      "g": 0,
-     "pkt": 0
+     "pkt": 3
     },
     {
      "pl": 2,
@@ -18422,18 +18422,6 @@
     },
     {
      "pl": 3,
-     "id": 46200,
-     "n": "US Moutfort-Medingen",
-     "sp": 0,
-     "s": 0,
-     "u": 0,
-     "nl": 0,
-     "t": 0,
-     "g": 0,
-     "pkt": 0
-    },
-    {
-     "pl": 4,
      "id": 46329,
      "n": "SC Bettembourg II",
      "sp": 0,
@@ -18445,9 +18433,21 @@
      "pkt": 0
     },
     {
+     "pl": 4,
+     "id": 45746,
+     "n": "Tricolore Gasperich",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
      "pl": 5,
-     "id": 45399,
-     "n": "FC Koeppchen Wormeldange",
+     "id": 45928,
+     "n": "ENT Munsbach/Mensdorf/Canach I",
      "sp": 0,
      "s": 0,
      "u": 0,
@@ -18458,14 +18458,14 @@
     },
     {
      "pl": 6,
-     "id": 45746,
-     "n": "Tricolore Gasperich",
-     "sp": 0,
+     "id": 45399,
+     "n": "FC Koeppchen Wormeldange",
+     "sp": 1,
      "s": 0,
      "u": 0,
-     "nl": 0,
+     "nl": 1,
      "t": 0,
-     "g": 0,
+     "g": 2,
      "pkt": 0
     }
    ],
@@ -18482,9 +18482,9 @@
       "id": 46200,
       "n": "US Moutfort-Medingen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
     },
@@ -18751,30 +18751,18 @@
    "tabelle": [
     {
      "pl": 1,
-     "id": 45396,
-     "n": "FC Koeppchen Wormeldange",
-     "sp": 0,
-     "s": 0,
+     "id": 44738,
+     "n": "Jeunesse Junglinster I",
+     "sp": 1,
+     "s": 1,
      "u": 0,
      "nl": 0,
-     "t": 0,
-     "g": 0,
-     "pkt": 0
+     "t": 9,
+     "g": 2,
+     "pkt": 3
     },
     {
      "pl": 2,
-     "id": 46022,
-     "n": "Union Remich/Bous I",
-     "sp": 0,
-     "s": 0,
-     "u": 0,
-     "nl": 0,
-     "t": 0,
-     "g": 0,
-     "pkt": 0
-    },
-    {
-     "pl": 3,
      "id": 46192,
      "n": "CS Grevenmacher I",
      "sp": 0,
@@ -18786,7 +18774,7 @@
      "pkt": 0
     },
     {
-     "pl": 4,
+     "pl": 3,
      "id": 46353,
      "n": "ENT Biwer/Berbourg/UMW I",
      "sp": 0,
@@ -18798,9 +18786,21 @@
      "pkt": 0
     },
     {
+     "pl": 4,
+     "id": 44755,
+     "n": "Victoria Rosport I",
+     "sp": 0,
+     "s": 0,
+     "u": 0,
+     "nl": 0,
+     "t": 0,
+     "g": 0,
+     "pkt": 0
+    },
+    {
      "pl": 5,
-     "id": 44738,
-     "n": "Jeunesse Junglinster I",
+     "id": 45396,
+     "n": "FC Koeppchen Wormeldange",
      "sp": 0,
      "s": 0,
      "u": 0,
@@ -18811,14 +18811,14 @@
     },
     {
      "pl": 6,
-     "id": 44755,
-     "n": "Victoria Rosport I",
-     "sp": 0,
+     "id": 46022,
+     "n": "Union Remich/Bous I",
+     "sp": 1,
      "s": 0,
      "u": 0,
-     "nl": 0,
-     "t": 0,
-     "g": 0,
+     "nl": 1,
+     "t": 2,
+     "g": 9,
      "pkt": 0
     }
    ],

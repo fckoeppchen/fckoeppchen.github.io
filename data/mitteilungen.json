@@ -157,6 +157,40 @@
   },
   {
    "reiter": [
+    "SCO",
+    "Scolaires U15"
+   ],
+   "id": "tabelle:19905:45399:1:0:6:2026-11-14",
+   "art": "tabelle",
+   "titel": "SCO · Tabelle",
+   "text": "Koeppchen jetzt 6. Platz (vorher 5.) · 0 Punkte aus 1 Spiel",
+   "basis": {
+    "pl": 5,
+    "pkt": 0,
+    "sp": 0
+   },
+   "ab": 1794673044018,
+   "bis": 1794759444018
+  },
+  {
+   "reiter": [
+    "MIN 1",
+    "Minimes U13"
+   ],
+   "id": "tabelle:19961:45396:0:0:5:2026-11-14",
+   "art": "tabelle",
+   "titel": "MIN 1 · Tabelle",
+   "text": "Koeppchen jetzt 5. Platz (vorher 1.) · 0 Punkte aus 0 Spielen",
+   "basis": {
+    "pl": 1,
+    "pkt": 0,
+    "sp": 0
+   },
+   "ab": 1794673044018,
+   "bis": 1794759444018
+  },
+  {
+   "reiter": [
     "POU 1",
     "Poussins U11"
    ],
