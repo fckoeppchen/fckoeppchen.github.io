@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-14T17:31:51.611Z",
+ "stand": "2026-11-14T17:46:45.719Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -18500,9 +18500,9 @@
       "id": 46329,
       "n": "SC Bettembourg II"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Munsbach (synth.)"
     },
@@ -18518,9 +18518,9 @@
       "id": 45958,
       "n": "Swift Hesperange I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Emile Bintner (Luxembourg, synth.)"
     },
@@ -24662,14 +24662,14 @@
    "w": 5
   },
   "6685062": {
-   "c": 3,
+   "c": 51,
    "t": 6,
    "r": 40,
    "w": 15
   },
   "6687062": {
-   "c": 3,
-   "t": 4,
+   "c": 51,
+   "t": 5,
    "r": 40,
    "w": 10
   },
