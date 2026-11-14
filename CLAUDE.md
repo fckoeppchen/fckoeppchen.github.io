@@ -512,6 +512,10 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   danach nie mehr — Tore der Verlängerung und der wirkliche Endstand fehlten. Jetzt fragt er nach dem Endstand noch 75 min weiter (`NACH_ENDE_MS`,
   im 180-min-Fenster), ein anderer Endstand geht mit id `<ende>:<h>-<a>` noch einmal raus (`liveEreignisse(…, endeText)` mit dem Text aus
   `gemeldet`). Test mit Gegenprobe. **Worker neu einfügen nötig.**
+- **Kein FuPa-Endstand vor 1 h 45 nach Anpfiff** (14.11.2026, Pétange – Koeppchen): niemand tickerte, jemand trug bei FuPa nur das Ergebnis
+  ein und änderte es nach jedem Tor; FuPa meldet das sofort als „Spiel aus“ (POST, ohne Ticker und Highlights) → je Tor ein „📡 Endstand“
+  (über die Korrektur-Regel `<ende>:<h>-<a>`). Jetzt `FRUEH_ENDE_MS` = 105 min in `liveEreignisse`: davor kein Endstand, keine Verlängerung,
+  kein Elfmeter. Test mit Gegenprobe. **Worker neu einfügen nötig.**
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
