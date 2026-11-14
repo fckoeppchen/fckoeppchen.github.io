@@ -26,18 +26,6 @@
   },
   {
    "reiter": [
-    "PUP 1",
-    "Pupilles U9"
-   ],
-   "id": "zeit:6716063:2026-11-14T16:30:00+01:00",
-   "art": "uhrzeit",
-   "titel": "PUP 1 · Uhrzeit",
-   "text": "Uhrzeit steht fest: Sa., 14.11. um 16:30 gegen ENT Biwer/Berbourg I · 📍 Terrain 2 (Berbourg, synth.)",
-   "ab": 1793790142409,
-   "bis": 1794670200000
-  },
-  {
-   "reiter": [
     "POU 1",
     "Poussins U11"
    ],
@@ -155,17 +143,6 @@
    "text": "Uhrzeit steht fest: Sa., 21.11. um 09:30 · Mini-Spieltag · 📍 Terrain 2 (Sandweiler, synth.)",
    "ab": 1794431833156,
    "bis": 1795249800000
-  },
-  {
-   "reiter": [
-    "Roude Léiw"
-   ],
-   "id": "nende:14856475",
-   "art": "ende",
-   "titel": "Roude Léiw · Endstand",
-   "text": "Luxemburg 0:1 Estland",
-   "ab": 1794604637627,
-   "bis": 1794669437627
   },
   {
    "reiter": [
