@@ -274,7 +274,61 @@
    "text": "Luxemburg 0:1 Estland",
    "ab": 1794604637627,
    "bis": 1794669437627
+  },
+  {
+   "reiter": [
+    "Seniors 1"
+   ],
+   "id": "heute:1002127",
+   "art": "heute",
+   "titel": "Seniors 1 · Heute Spiel",
+   "text": "19:30 gegen Union Titus Pétange · 📍 Stade Municipal (Pétange)",
+   "ab": 1794646800000,
+   "bis": 1794681000000
+  },
+  {
+   "reiter": [
+    "POU 1",
+    "Poussins U11"
+   ],
+   "id": "heute:6685062",
+   "art": "heute",
+   "titel": "POU 1 · Morgen Spiel",
+   "text": "10:30 gegen Union Mertert-Wasserbillig · 📍 Terrain au Parc (Mertert, synth.)",
+   "ab": 1794679200000,
+   "bis": 1794735000000
+  },
+  {
+   "reiter": [
+    "POU 2",
+    "Poussins U11"
+   ],
+   "id": "heute:6687062",
+   "art": "heute",
+   "titel": "POU 2 · Morgen Spiel",
+   "text": "10:30 gegen US Berdorf-Consdorf 01 II · 📍 Terrain Maartbësch (Berdorf)",
+   "ab": 1794679200000,
+   "bis": 1794735000000
   }
  ],
- "live": []
+ "live": [
+  {
+   "id": 1002127,
+   "reiter": [
+    "Seniors 1 · live"
+   ],
+   "titel": "📡 Seniors 1",
+   "d": "2026-11-14T19:30:00+01:00",
+   "h": "Union Titus Pétange",
+   "a": "Koeppchen",
+   "wirHeim": false,
+   "gegner": "Union Titus Pétange",
+   "anstoss": "2026-11-14T19:30:00+01:00",
+   "fupaTeam": "m1",
+   "fupaWir": "fc-koeppchen",
+   "ticker": "lticker:1002127",
+   "halbzeit": "lhalbzeit:1002127",
+   "ende": "ende-live:1002127"
+  }
+ ]
 }
