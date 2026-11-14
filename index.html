@@ -470,7 +470,8 @@ const tagNach = tag => tagPlus(tag, 1);
 const tageZwischen = (a, b) => Math.round((Date.parse(b + "T12:00:00Z") - Date.parse(a + "T12:00:00Z")) / 864e5);
 // Ein Spiel ohne Ergebnis gilt bis 3 h nach Anpfiff als „kommt noch“, mit offener Uhrzeit (00:00) bis
 // Ende des Spieltags (Luxemburger Zeit).
-const istVorbei = (sp, now) => zeitOffen(sp) ? tagLux(now) > tagLux(Date.parse(sp.d)) : now > Date.parse(sp.d) + 3 * 3600e3;
+// Pokal 3½ h statt 3 h (vom Nutzer, 14.11.2026): mit Verlängerung und Elfmeterschießen bis ~2 h 45 ab Anpfiff, 3 h ließen kaum Puffer.
+const istVorbei = (sp, now) => zeitOffen(sp) ? tagLux(now) > tagLux(Date.parse(sp.d)) : now > Date.parse(sp.d) + (sp.typ === "CUP" ? 3.5 : 3) * 3600e3;
 function spieltagMorgen(v, now) {
   if (!v) return null;
   const morgen = tagNach(tagLux(now));
@@ -788,7 +789,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "12.11.2026 neu a";
+const FASSUNG = "14.11.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action

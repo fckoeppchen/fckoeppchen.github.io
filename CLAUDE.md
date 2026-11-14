@@ -512,6 +512,8 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   danach nie mehr — Tore der Verlängerung und der wirkliche Endstand fehlten. Jetzt fragt er nach dem Endstand noch 75 min weiter (`NACH_ENDE_MS`,
   im 180-min-Fenster), ein anderer Endstand geht mit id `<ende>:<h>-<a>` noch einmal raus (`liveEreignisse(…, endeText)` mit dem Text aus
   `gemeldet`). Test mit Gegenprobe. **Worker neu einfügen nötig.**
+- **Pokal: Heute-Kasten/Widget 3½ h statt 3 h** (vom Nutzer, 14.11.2026, Fassung 14.11. neu a): `istVorbei` gibt Pokalspielen (`typ` CUP)
+  3½ h ab Anpfiff — mit Verlängerung und Elfmeterschießen ~2 h 45, 3 h ließen kaum Puffer. Gilt auch fürs Rutschen in die Ergebnisse. Test mit Gegenprobe.
 - **Kein FuPa-Endstand vor 1 h 45 nach Anpfiff** (14.11.2026, Pétange – Koeppchen): niemand tickerte, jemand trug bei FuPa nur das Ergebnis
   ein und änderte es nach jedem Tor; FuPa meldet das sofort als „Spiel aus“ (POST, ohne Ticker und Highlights) → je Tor ein „📡 Endstand“
   (über die Korrektur-Regel `<ende>:<h>-<a>`). Jetzt `FRUEH_ENDE_MS` = 105 min in `liveEreignisse`: davor kein Endstand, keine Verlängerung,

@@ -43,6 +43,8 @@ function gleich(a, b, text) { ok(JSON.stringify(a) === JSON.stringify(b), text +
   ok(M.nachDemSpiel(vv(so), so)?.spruch, "Uhrzeit offen, Tag danach: Super-gemacht-Streifen");
   const mitZeit = { ...offen, d: "2026-11-14T10:00:00+01:00" };
   ok(!M.istVorbei(mitZeit, Date.parse("2026-11-14T12:59:00+01:00")) && M.istVorbei(mitZeit, Date.parse("2026-11-14T13:01:00+01:00")), "mit Uhrzeit: 3 h nach Anpfiff vorbei");
+  const pokal = { ...mitZeit, typ: "CUP" };
+  ok(!M.istVorbei(pokal, Date.parse("2026-11-14T13:29:00+01:00")) && M.istVorbei(pokal, Date.parse("2026-11-14T13:31:00+01:00")), "Pokal: erst 3½ h nach Anpfiff vorbei (Verlängerung, Elfmeterschießen)");
 }
 // Woche in Kalendertagen: auch in der Woche der Zeitumstellung im Frühjahr 7 aufeinanderfolgende Tage.
 {
@@ -190,10 +192,10 @@ gleich([M.ausgang(v2.gespielt[0], 45397), M.ausgang(v2.gespielt[1], 45397)], ["n
 gleich(M.ausgang(spiel(s1), 45396), "u", "Unentschieden");
 gleich(M.ausgang(spiel(s2), 45396), "s", "Sieg");
 
-// Ein Spiel ohne Ergebnis rutscht 3 h nach Anpfiff aus „Nächste Spiele“.
-const nachPokal = Date.parse("2026-10-24T17:30:00+02:00");
+// Ein Spiel ohne Ergebnis rutscht 3 h (Pokal 3½ h) nach Anpfiff aus „Nächste Spiele“.
+const nachPokal = Date.parse("2026-10-24T17:45:00+02:00");
 const v3 = M.sicht(D, 45396, nachPokal);
-ok(v3.kommend.length === 0 && v3.gespielt[0].typ === "CUP", "Pokalspiel ohne Ergebnis nach 3 h bei den Ergebnissen");
+ok(v3.kommend.length === 0 && v3.gespielt[0].typ === "CUP", "Pokalspiel ohne Ergebnis nach 3½ h bei den Ergebnissen");
 ok(M.sicht(D, 45396, Date.parse("2026-10-24T16:30:00+02:00")).kommend.length === 1, "… aber nicht schon nach 2,5 h");
 
 // Steigt eine neue Klasse dazu, ist sie die aktuelle, die alte wandert zu „früher“.
