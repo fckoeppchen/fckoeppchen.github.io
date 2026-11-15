@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-15T13:01:46.490Z",
+ "stand": "2026-11-15T17:46:48.733Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -2105,9 +2105,9 @@
       "id": 44799,
       "n": "FC The Belval Belvaux"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Avenir Beggen (Luxembourg)"
     },
@@ -2159,9 +2159,9 @@
       "id": 44650,
       "n": "Marisca Mersch"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Fr. Trausch (synth.)"
     },
@@ -2195,9 +2195,9 @@
       "id": 45208,
       "n": "FC Luxembourg City"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Fernand Weber (Canach)"
     },
