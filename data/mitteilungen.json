@@ -175,6 +175,17 @@
    "text": "Spieltag 12 komplett: Union Titus Pétange 2:1 Koeppchen · alle Ergebnisse in der App",
    "ab": 1794775625129,
    "bis": 1794862025129
+  },
+  {
+   "reiter": [
+    "Woche"
+   ],
+   "id": "woche:2026-11-16",
+   "art": "woche",
+   "titel": "Unsere Woche",
+   "text": "Diese Woche 10 Spiele, davon 5 zu Hause",
+   "ab": 1794819600000,
+   "bis": 1794862800000
   }
  ],
  "live": []
