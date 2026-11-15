@@ -5,30 +5,6 @@
     "POU 1",
     "Poussins U11"
    ],
-   "id": "zeit:6685062:2026-11-15T10:30:00+01:00",
-   "art": "uhrzeit",
-   "titel": "POU 1 · Uhrzeit",
-   "text": "Uhrzeit steht fest: So., 15.11. um 10:30 gegen Union Mertert-Wasserbillig · 📍 Terrain au Parc (Mertert, synth.)",
-   "ab": 1793790142409,
-   "bis": 1794735000000
-  },
-  {
-   "reiter": [
-    "POU 2",
-    "Poussins U11"
-   ],
-   "id": "zeit:6687062:2026-11-15T10:30:00+01:00",
-   "art": "uhrzeit",
-   "titel": "POU 2 · Uhrzeit",
-   "text": "Uhrzeit steht fest: So., 15.11. um 10:30 gegen US Berdorf-Consdorf 01 II · 📍 Terrain Maartbësch (Berdorf)",
-   "ab": 1793790142409,
-   "bis": 1794735000000
-  },
-  {
-   "reiter": [
-    "POU 1",
-    "Poussins U11"
-   ],
    "id": "zeit:6685072:2026-11-22T09:30:00+01:00",
    "art": "uhrzeit",
    "titel": "POU 1 · Uhrzeit",
@@ -189,30 +165,6 @@
    "text": "Spieltag 1 komplett: Koeppchen 0:2 US Moutfort-Medingen · alle Ergebnisse in der App",
    "ab": 1794678419583,
    "bis": 1794764819583
-  },
-  {
-   "reiter": [
-    "POU 1",
-    "Poussins U11"
-   ],
-   "id": "heute:6685062",
-   "art": "heute",
-   "titel": "POU 1 · Morgen Spiel",
-   "text": "10:30 gegen Union Mertert-Wasserbillig · 📍 Terrain au Parc (Mertert, synth.)",
-   "ab": 1794679200000,
-   "bis": 1794735000000
-  },
-  {
-   "reiter": [
-    "POU 2",
-    "Poussins U11"
-   ],
-   "id": "heute:6687062",
-   "art": "heute",
-   "titel": "POU 2 · Morgen Spiel",
-   "text": "10:30 gegen US Berdorf-Consdorf 01 II · 📍 Terrain Maartbësch (Berdorf)",
-   "ab": 1794679200000,
-   "bis": 1794735000000
   },
   {
    "reiter": [
