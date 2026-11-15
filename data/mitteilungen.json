@@ -182,6 +182,22 @@
    },
    "ab": 1794722400000,
    "bis": 1794808800000
+  },
+  {
+   "reiter": [
+    "Seniors 1"
+   ],
+   "id": "tabelle:18888:44831:12:11:14:2026-11-15",
+   "art": "tabelle",
+   "titel": "Seniors 1 · Tabelle",
+   "text": "Koeppchen jetzt 14. Platz (vorher 13.) · 11 Punkte aus 12 Spielen",
+   "basis": {
+    "pl": 13,
+    "pkt": 11,
+    "sp": 12
+   },
+   "ab": 1794766627866,
+   "bis": 1794853027866
   }
  ],
  "live": []
