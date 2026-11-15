@@ -478,13 +478,8 @@ export const tagzeit = ms => { const h = stundeLux(ms); return h >= 7 && h < 23;
 export const NACH_ENDE_MS = 75 * 60e3;
 // endeText = Text eines schon verschickten Endstands: steht danach ein anderer Endstand da (Verlängerung, Elfmeterschießen,
 // Korrektur), geht er mit eigener id noch einmal raus.
-// Kein Endstand vor 1 h 45 nach Anpfiff (14.11.2026, Pétange – Koeppchen): ohne Tickerer trug jemand bei FuPa nur das Ergebnis ein
-// und änderte es nach jedem Tor — FuPa meldet dann gleich „Spiel aus“ (POST), und jedes Tor kam als neuer „Endstand“.
-// Ein Spiel ist frühestens nach 90 min + Pause + Nachspielzeit aus.
-export const FRUEH_ENDE_MS = 105 * 60e3;
 export function liveEreignisse(c, k, now, endeText) {
   const aus = [], d = Date.parse(c.d);
-  const fertig = now - d >= FRUEH_ENDE_MS;
   if (k.section === "LIVE" && (k.hs != null || k.ticker || k.tore.length))
     aus.push({ id: c.ticker, reiter: c.reiter, art: "ticker", titel: `${c.titel} · Liveticker`,
                text: `Heute tickert FuPa das Spiel gegen ${c.gegner} – live in der App.`, ab: now, bis: d + 180 * 60e3 });
@@ -502,7 +497,6 @@ export function liveEreignisse(c, k, now, endeText) {
   // Endstand, sondern „Verlängerung“ bzw. „Elfmeterschießen“ (je eine eigene id, also nur einmal). Der Endstand kommt nach dem
   // Elfmeterschießen, mit Stand nach Verlängerung und Elfmetern getrennt (FuPa zählt die Elfmeter zum Stand dazu).
   const roh = k.toreRoh || [];
-  if (!fertig) return aus;
   if (c.pokal && k.section === "POST" && k.hs != null && k.hs === k.as && !roh.some(t => t.elf)) {
     // Ende der Verlängerung: ein Tor nach der 90. Minute oder mehr als 2 h 10 seit Anpfiff (nach 90 Minuten ~1 h 50, nach 120 ~2 h 25).
     // Die Spielminute hilft hier nicht: nach „Spiel aus“ schickt FuPa keinen live-Block mehr (am 7.11.2026 nachgesehen).

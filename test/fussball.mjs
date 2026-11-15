@@ -1009,15 +1009,11 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(hz?.id === "halbzeit:503" && hz.titel === "Seniors 2 · Halbzeit" && hz.text === "Avenir Beggen 1:0 Koeppchen I"
      && !liveEreignisse(c, { section: "LIVE", period: "secondHalf", slug: c.slug, hs: 1, as: 0, ticker: "Paul", tore: [] }, t0).some(e => e.art === "halbzeit")
      && !liveEreignisse(c, { section: "LIVE", period: "halftime", hs: null, as: null, tore: [] }, t0).length, "Live: Halbzeit nur in der Pause und nur mit Stand");
-  const tE = Date.parse(c.d) + 110 * 60e3;
-  ok(!liveEreignisse(c, { section: "POST", slug: c.slug, hs: 1, as: 0, tore: [] }, t0).some(e => e.art === "ende")
-     && !liveEreignisse(c, { section: "POST", slug: c.slug, hs: 1, as: 0, tore: [] }, Date.parse(c.d) + 104 * 60e3).some(e => e.art === "ende"),
-     "Live: FuPa „Spiel aus“ vor 1 h 45 (nur Ergebnis eingetragen, kein Ticker) → kein Endstand");
-  const en = liveEreignisse({ ...c, wirHeim: true, h: "Koeppchen I", a: "Avenir Beggen" }, { section: "POST", slug: c.slug, hs: 3, as: 1, tore: [] }, tE)[0];
+  const en = liveEreignisse({ ...c, wirHeim: true, h: "Koeppchen I", a: "Avenir Beggen" }, { section: "POST", slug: c.slug, hs: 3, as: 1, tore: [] }, t0)[0];
   ok(en?.text === "Koeppchen I 1:3 Avenir Beggen", "Live: Endstand dreht FuPas Zahlen, wenn FuPa Heim/Gast vertauscht");
-  ok(liveEreignisse(c, { section: "POST", slug: c.slug, hs: 3, as: 1, tore: [] }, tE)[0].text === "Avenir Beggen 3:1 Koeppchen I", "Live: Endstand ohne Vertauschen");
+  ok(liveEreignisse(c, { section: "POST", slug: c.slug, hs: 3, as: 1, tore: [] }, t0)[0].text === "Avenir Beggen 3:1 Koeppchen I", "Live: Endstand ohne Vertauschen");
   // Verlängerung (7.11.2026): FuPa meldete nach 90 min schon POST 1:1 — ein späterer anderer Endstand kommt mit eigener id.
-  const endeL = (hs, as, alt) => liveEreignisse(c, { section: "POST", slug: c.slug, hs, as, tore: [] }, tE, alt).filter(e => e.art === "ende");
+  const endeL = (hs, as, alt) => liveEreignisse(c, { section: "POST", slug: c.slug, hs, as, tore: [] }, t0, alt).filter(e => e.art === "ende");
   ok(!endeL(1, 1, "Avenir Beggen 1:1 Koeppchen I").length, "Live: gleicher Endstand schon verschickt → nichts");
   const nv = endeL(1, 2, "Avenir Beggen 1:1 Koeppchen I");
   ok(nv.length === 1 && nv[0].id === c.ende + ":1-2" && nv[0].text === "Avenir Beggen 1:2 Koeppchen I", "Live: anderer Endstand nach Verlängerung → eigene Mitteilung — ist " + JSON.stringify(nv));
@@ -1125,8 +1121,6 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
     ok(fragen.length === vorher, "📡 Live: Spiel gemerkt, FuPa höchstens einmal pro Minute");
     fp = { ...fp, section: "POST", homeGoal: 1, awayGoal: 2 };
     await mitteilungenSenden(db, spiel + 3 * 60e3);
-    ok(!T.gemeldet.has("ende-live:503"), "📡 Live: „Spiel aus“ nach 3 Minuten ist kein Endstand");
-    await mitteilungenSenden(db, spiel + 110 * 60e3);
     const g = T.gemeldet.get("ende-live:503");
     ok(g && g.passend === 1 && !T.gemeldet.has("ende:503") && an.filter(x => x === "SEN").length === 0, "📡 Live: Endstand mit eigener id nur an „· live“, der FLF-Endstand bleibt frei");
     ok(WAHL_OK.test("Seniors 3 · live") && WAHL_OK.test("Roude Léiw · live") && WAHL_OK.test("Minimes U13") && !WAHL_OK.test("x<script>"), "📡 Live: Worker nimmt „· live“ in der Auswahl an");
