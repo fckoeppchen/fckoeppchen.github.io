@@ -178,6 +178,17 @@
   },
   {
    "reiter": [
+    "Roude Léiw"
+   ],
+   "id": "nheute:14856477",
+   "art": "heute",
+   "titel": "Roude Léiw · Heute",
+   "text": "Länderspiel um 18:00 gegen Island · UEFA Nations League",
+   "ab": 1794819600000,
+   "bis": 1794848400000
+  },
+  {
+   "reiter": [
     "Woche"
    ],
    "id": "woche:2026-11-16",
@@ -188,5 +199,23 @@
    "bis": 1794862800000
   }
  ],
- "live": []
+ "live": [
+  {
+   "id": 14856477,
+   "reiter": [
+    "Roude Léiw · live"
+   ],
+   "titel": "📡 Roude Léiw",
+   "d": "2026-11-16T18:00:00+01:00",
+   "h": "Island",
+   "a": "Luxemburg",
+   "wirHeim": false,
+   "gegner": "Island",
+   "slug": "island-m1-luxemburg-m1-261116",
+   "fupaWir": "luxemburg-m1",
+   "ticker": "lnticker:14856477",
+   "halbzeit": "lnhalbzeit:14856477",
+   "ende": "nende-live:14856477"
+  }
+ ]
 }
