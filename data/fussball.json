@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-16T11:02:18.917Z",
+ "stand": "2026-11-16T21:17:32.806Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -18776,27 +18776,27 @@
     },
     {
      "pl": 3,
-     "id": 45396,
-     "n": "FC Koeppchen Wormeldange",
-     "sp": 0,
+     "id": 44755,
+     "n": "Victoria Rosport I",
+     "sp": 1,
      "s": 0,
-     "u": 0,
+     "u": 1,
      "nl": 0,
      "t": 0,
      "g": 0,
-     "pkt": 0
+     "pkt": 1
     },
     {
      "pl": 4,
-     "id": 44755,
-     "n": "Victoria Rosport I",
-     "sp": 0,
+     "id": 45396,
+     "n": "FC Koeppchen Wormeldange",
+     "sp": 1,
      "s": 0,
-     "u": 0,
+     "u": 1,
      "nl": 0,
      "t": 0,
      "g": 0,
-     "pkt": 0
+     "pkt": 1
     },
     {
      "pl": 5,
@@ -18872,9 +18872,9 @@
       "id": 45396,
       "n": "FC Koeppchen Wormeldange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Ralingen (synth.)"
     },
@@ -24514,12 +24514,11 @@
      "id": "Luxemburg",
      "n": "Luxemburg"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 3,
+    "as": 0,
+    "gespielt": true,
     "wett": "UEFA Nations League",
-    "runde": "C4",
-    "ort": "Laugardalsvöllur"
+    "runde": "C4"
    }
   ],
   "gruppe": {
@@ -24529,48 +24528,48 @@
      "pl": 1,
      "id": "Island",
      "n": "Island",
-     "sp": 5,
-     "s": 3,
+     "sp": 6,
+     "s": 4,
      "u": 2,
      "nl": 0,
-     "t": 12,
+     "t": 15,
      "g": 1,
-     "pkt": 11
+     "pkt": 14
     },
     {
      "pl": 2,
      "id": "Estland",
      "n": "Estland",
-     "sp": 5,
-     "s": 2,
+     "sp": 6,
+     "s": 3,
      "u": 3,
      "nl": 0,
-     "t": 3,
-     "g": 1,
-     "pkt": 9
+     "t": 5,
+     "g": 2,
+     "pkt": 12
     },
     {
      "pl": 3,
      "id": "Bulgarien",
      "n": "Bulgarien",
-     "sp": 5,
+     "sp": 6,
      "s": 1,
      "u": 1,
-     "nl": 3,
-     "t": 3,
-     "g": 10,
+     "nl": 4,
+     "t": 4,
+     "g": 12,
      "pkt": 4
     },
     {
      "pl": 4,
      "id": "Luxemburg",
      "n": "Luxemburg",
-     "sp": 5,
+     "sp": 6,
      "s": 1,
      "u": 0,
-     "nl": 4,
+     "nl": 5,
      "t": 2,
-     "g": 8,
+     "g": 11,
      "pkt": 3
     }
    ]

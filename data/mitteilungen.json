@@ -135,71 +135,44 @@
   },
   {
    "reiter": [
-    "Seniors 1"
-   ],
-   "id": "tabelle:18888:44831:12:11:14:2026-11-15",
-   "art": "tabelle",
-   "titel": "Seniors 1 · Tabelle",
-   "text": "Koeppchen jetzt 14. Platz (vorher 13.) · 11 Punkte aus 12 Spielen",
-   "basis": {
-    "pl": 13,
-    "pkt": 11,
-    "sp": 12
-   },
-   "ab": 1794766627866,
-   "bis": 1794853027866
-  },
-  {
-   "reiter": [
-    "Seniors 1"
-   ],
-   "id": "spieltag:18888:12",
-   "art": "spieltag",
-   "titel": "Seniors 1 · Spieltag",
-   "text": "Spieltag 12 komplett: Union Titus Pétange 2:1 Koeppchen · alle Ergebnisse in der App",
-   "ab": 1794775625129,
-   "bis": 1794862025129
-  },
-  {
-   "reiter": [
     "Roude Léiw"
    ],
-   "id": "nheute:14856477",
-   "art": "heute",
-   "titel": "Roude Léiw · Heute",
-   "text": "Länderspiel um 18:00 gegen Island · UEFA Nations League",
-   "ab": 1794819600000,
-   "bis": 1794848400000
+   "id": "nende:14856477",
+   "art": "ende",
+   "titel": "Roude Léiw · Endstand",
+   "text": "Island 3:0 Luxemburg",
+   "ab": 1794863867150,
+   "bis": 1794928667150
   },
   {
    "reiter": [
-    "Woche"
+    "MIN 1",
+    "Minimes U13"
    ],
-   "id": "woche:2026-11-16",
-   "art": "woche",
-   "titel": "Unsere Woche",
-   "text": "Diese Woche 10 Spiele, davon 5 zu Hause",
-   "ab": 1794819600000,
-   "bis": 1794862800000
+   "id": "spieltag:19961:1",
+   "art": "spieltag",
+   "titel": "MIN 1 · Spieltag",
+   "text": "Spieltag 1 komplett: Victoria Rosport I 0:0 Koeppchen · alle Ergebnisse in der App",
+   "ab": 1794863867150,
+   "bis": 1794950267150
+  },
+  {
+   "reiter": [
+    "MIN 1",
+    "Minimes U13"
+   ],
+   "id": "tabelle:19961:45396:1:1:4:2026-11-16",
+   "art": "tabelle",
+   "titel": "MIN 1 · Tabelle",
+   "text": "Koeppchen jetzt 4. Platz (vorher 3.) · 1 Punkte aus 1 Spiel",
+   "basis": {
+    "pl": 3,
+    "pkt": 0,
+    "sp": 0
+   },
+   "ab": 1794863867150,
+   "bis": 1794950267150
   }
  ],
- "live": [
-  {
-   "id": 14856477,
-   "reiter": [
-    "Roude Léiw · live"
-   ],
-   "titel": "📡 Roude Léiw",
-   "d": "2026-11-16T18:00:00+01:00",
-   "h": "Island",
-   "a": "Luxemburg",
-   "wirHeim": false,
-   "gegner": "Island",
-   "slug": "island-m1-luxemburg-m1-261116",
-   "fupaWir": "luxemburg-m1",
-   "ticker": "lnticker:14856477",
-   "halbzeit": "lnhalbzeit:14856477",
-   "ende": "nende-live:14856477"
-  }
- ]
+ "live": []
 }
