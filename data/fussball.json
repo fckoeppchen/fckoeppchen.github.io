@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-16T21:17:32.806Z",
+ "stand": "2026-11-17T02:30:59.643Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -4914,25 +4914,25 @@
      "pl": 10,
      "id": 45383,
      "n": "Résidence Walferdange I",
-     "sp": 6,
+     "sp": 7,
      "s": 1,
-     "u": 1,
+     "u": 2,
      "nl": 4,
-     "t": 21,
-     "g": 36,
-     "pkt": 4
+     "t": 26,
+     "g": 41,
+     "pkt": 5
     },
     {
      "pl": 11,
      "id": 44588,
      "n": "F91 Dudelange",
-     "sp": 6,
+     "sp": 7,
      "s": 1,
-     "u": 0,
+     "u": 1,
      "nl": 5,
-     "t": 14,
-     "g": 17,
-     "pkt": 3
+     "t": 19,
+     "g": 22,
+     "pkt": 4
     },
     {
      "pl": 12,
@@ -5698,9 +5698,9 @@
       "id": 45383,
       "n": "Résidence Walferdange I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 5,
+     "as": 5,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Aloyse Meyer (Dudelange, synth.)"
     },
