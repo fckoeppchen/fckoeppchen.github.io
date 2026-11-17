@@ -122,35 +122,6 @@
   },
   {
    "reiter": [
-    "MIN 1",
-    "Minimes U13"
-   ],
-   "id": "spieltag:19961:1",
-   "art": "spieltag",
-   "titel": "MIN 1 · Spieltag",
-   "text": "Spieltag 1 komplett: Victoria Rosport I 0:0 Koeppchen · alle Ergebnisse in der App",
-   "ab": 1794863867150,
-   "bis": 1794950267150
-  },
-  {
-   "reiter": [
-    "MIN 1",
-    "Minimes U13"
-   ],
-   "id": "tabelle:19961:45396:1:1:4:2026-11-16",
-   "art": "tabelle",
-   "titel": "MIN 1 · Tabelle",
-   "text": "Koeppchen jetzt 4. Platz (vorher 3.) · 1 Punkte aus 1 Spiel",
-   "basis": {
-    "pl": 3,
-    "pkt": 0,
-    "sp": 0
-   },
-   "ab": 1794863867150,
-   "bis": 1794950267150
-  },
-  {
-   "reiter": [
     "Seniors 3"
    ],
    "id": "tabelle:18936:45404:6:7:8:2026-11-17",
