@@ -122,17 +122,6 @@
   },
   {
    "reiter": [
-    "Roude Léiw"
-   ],
-   "id": "nende:14856477",
-   "art": "ende",
-   "titel": "Roude Léiw · Endstand",
-   "text": "Island 3:0 Luxemburg",
-   "ab": 1794863867150,
-   "bis": 1794928667150
-  },
-  {
-   "reiter": [
     "MIN 1",
     "Minimes U13"
    ],
@@ -159,6 +148,22 @@
    },
    "ab": 1794863867150,
    "bis": 1794950267150
+  },
+  {
+   "reiter": [
+    "Seniors 3"
+   ],
+   "id": "tabelle:18936:45404:6:7:8:2026-11-17",
+   "art": "tabelle",
+   "titel": "Seniors 3 · Tabelle",
+   "text": "Koeppchen II jetzt 8. Platz (vorher 6.) · 7 Punkte aus 6 Spielen",
+   "basis": {
+    "pl": 6,
+    "pkt": 10,
+    "sp": 6
+   },
+   "ab": 1794950219605,
+   "bis": 1795036619605
   }
  ],
  "live": []

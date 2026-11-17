@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-17T02:30:59.643Z",
+ "stand": "2026-11-17T21:16:47.140Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -4846,8 +4846,8 @@
      "s": 4,
      "u": 1,
      "nl": 2,
-     "t": 21,
-     "g": 23,
+     "t": 19,
+     "g": 19,
      "pkt": 13
     },
     {
@@ -4906,8 +4906,8 @@
      "s": 2,
      "u": 2,
      "nl": 3,
-     "t": 22,
-     "g": 25,
+     "t": 18,
+     "g": 23,
      "pkt": 8
     },
     {
@@ -5608,10 +5608,11 @@
       "id": 44981,
       "n": "Racing FC Union Luxembourg"
      },
-     "hs": 5,
-     "as": 4,
+     "hs": 3,
+     "as": 0,
      "gespielt": true,
-     "forfait": false,
+     "forfait": true,
+     "bem": "FF",
      "ort": "Terrain 2 (Rumelange, synth.)"
     },
     {
@@ -7362,12 +7363,12 @@
      "id": 45006,
      "n": "US Moutfort-Medingen",
      "sp": 7,
-     "s": 4,
+     "s": 5,
      "u": 1,
-     "nl": 2,
-     "t": 27,
-     "g": 12,
-     "pkt": 13
+     "nl": 1,
+     "t": 29,
+     "g": 10,
+     "pkt": 16
     },
     {
      "pl": 4,
@@ -7395,18 +7396,6 @@
     },
     {
      "pl": 6,
-     "id": 45404,
-     "n": "FC Koeppchen Wormeldange II",
-     "sp": 6,
-     "s": 3,
-     "u": 1,
-     "nl": 2,
-     "t": 15,
-     "g": 13,
-     "pkt": 10
-    },
-    {
-     "pl": 7,
      "id": 44609,
      "n": "Syra Mensdorf",
      "sp": 6,
@@ -7418,7 +7407,7 @@
      "pkt": 9
     },
     {
-     "pl": 8,
+     "pl": 7,
      "id": 45607,
      "n": "FC Munsbach",
      "sp": 7,
@@ -7428,6 +7417,18 @@
      "t": 16,
      "g": 22,
      "pkt": 8
+    },
+    {
+     "pl": 8,
+     "id": 45404,
+     "n": "FC Koeppchen Wormeldange II",
+     "sp": 6,
+     "s": 2,
+     "u": 1,
+     "nl": 3,
+     "t": 13,
+     "g": 15,
+     "pkt": 7
     },
     {
      "pl": 9,
@@ -8214,10 +8215,11 @@
       "id": 45404,
       "n": "FC Koeppchen Wormeldange II"
      },
-     "hs": 1,
-     "as": 2,
+     "hs": 3,
+     "as": 0,
      "gespielt": true,
-     "forfait": false,
+     "forfait": true,
+     "bem": "FF",
      "ort": "Terrain Am Brill (Moutfort, synth.)"
     },
     {
@@ -17274,10 +17276,11 @@
       "id": 46260,
       "n": "FC Luxembourg City"
      },
-     "hs": 2,
-     "as": 1,
+     "hs": 3,
+     "as": 0,
      "gespielt": true,
-     "forfait": false,
+     "forfait": true,
+     "bem": "FF",
      "ort": "Stade Klengbousbierg 2 (Bissen, synth.)"
     },
     {
