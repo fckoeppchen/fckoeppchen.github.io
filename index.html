@@ -799,7 +799,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "18.11.2026 neu b";
+const FASSUNG = "19.11.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -1002,9 +1002,11 @@ function tabelleHtml(k, eigen, logos = true) {
 // Offene Spiele zeigen ihren eigenen Termin (vom Nutzer, 25.10.2026: „Spieltag 6 · Fr 23.10.“, Syra – Moutfort aber erst am
 // Dienstag; bei „offen“ sah man nicht, ob heute oder in ein paar Tagen). Kopf = mittlerer Termin des Spieltags. Liegt der
 // Termin eines Spiels ohne Ergebnis über 3 Tage zurück, hat die FLF meist nur das alte Datum stehen lassen (verlegt).
-function offenMeta(s, kopfTag, now) {
+// Klassen ohne Ergebnisse (U7/U9/U11, vom Nutzer gemeldet 18.11.2026): dort fehlt das Ergebnis immer, und viele Vereine melden den
+// Spielbericht nicht — „verlegt“ wäre geraten, und neben „gespielt“ stand es im Widerspruch. Vorbei = gespielt wie im Schild.
+function offenMeta(s, kopfTag, now, ohneErg = false) {
   if (s.bem === "Arrêté" && !s.gespielt) return "abgebrochen, Wertung offen";
-  if (s.hs != null || s.gespielt) return tagLux(Date.parse(s.d)) !== kopfTag ? esc(wann(s.d, false)) : "";
+  if (s.hs != null || s.gespielt || (ohneErg && istVorbei(s, now))) return tagLux(Date.parse(s.d)) !== kopfTag ? esc(wann(s.d, false)) : "";
   if (Date.parse(s.d) < now - 3 * 864e5) return "noch nicht gespielt (verlegt)";
   // Am Tag des Spieltags reicht die Uhrzeit, sonst Tag und Uhrzeit.
   return tagLux(Date.parse(s.d)) === kopfTag ? esc(wann(s).split(" · ").slice(1).join(" · ")) : esc(wann(s));
@@ -1014,7 +1016,7 @@ function alleSpieleHtml(k, ids) {
   return nachSpieltag(k.spiele).map(([tag, sp]) => {
     const ds = sp.map(s => Date.parse(s.d)).sort((a, b) => a - b), kopf = ds[Math.floor((ds.length - 1) / 2)];
     return `<div class="tag">${tag ? "Spieltag " + tag : "Spiele"} · ${wann(new Date(kopf).toISOString(), false)}</div>` +
-      sp.map(s => spielZeile({ ...s, erg: k.ergebnisse }, ids, offenMeta(s, tagLux(kopf), now))).join("");
+      sp.map(s => spielZeile({ ...s, erg: k.ergebnisse }, ids, offenMeta(s, tagLux(kopf), now, k.ergebnisse === false))).join("");
   }).join("");
 }
 

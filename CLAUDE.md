@@ -526,6 +526,10 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   (`logos` false in heuteHtml/morgenHtml/tabelleHtml: FuPa-Nummern könnten zufällig FLF-Nummern treffen), BGL-Tabelle nur bei Quelle FLF.
   **Neu b** (vom Nutzer: bei zweizeiligem Namen stand das Logo höher): `.m:has(.lgg)` richtet oben aus, Ergebnis auf Höhe der Logo-Mitte.
   Erster Lauf: 97 Vereine, 400 Mannschaften, 1,4 MB. Tests (515) mit Gegenprobe; Browser bei 390 px (Seniors 1, MIN 1, SCO, BGL, Roude Léiw).
+- **U7/U9/U11: kein „verlegt“ mehr in „Alle Spiele der Klasse“** (vom Nutzer gemeldet, 19.11.2026, Fassung 19.11. neu a): dort stand „gespielt“ und
+  darunter „noch nicht gespielt (verlegt)“, weil `offenMeta` fehlendes Ergebnis + Termin > 3 Tage vorbei als verlegt las — in Klassen ohne Ergebnisse
+  fehlt es immer, und viele Vereine melden den Spielbericht nicht. `offenMeta(…, ohneErg)` (`k.ergebnisse === false`): vorbei = gespielt. Browser PUP 1:
+  vorher 19× „verlegt“, jetzt 0; SCO/Seniors unverändert.
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
