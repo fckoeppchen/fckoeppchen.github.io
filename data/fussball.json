@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-17T21:16:47.140Z",
+ "stand": "2026-11-18T11:02:13.058Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -11254,7 +11254,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain au Parc (Mertert, synth.)"
     },
@@ -11948,7 +11948,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Maartbësch (Berdorf)"
     },
@@ -12660,7 +12660,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Berbourg, synth.)"
     },
@@ -13390,7 +13390,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Berbourg, synth.)"
     },
