@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-18T22:51:35.450Z",
+ "stand": "2026-11-18T23:58:36.167Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -25040,6 +25040,1826 @@
   "46602": 500016,
   "46609": 500118
  },
+ "historie": [
+  {
+   "s": "20242025",
+   "d": "2024-07-10T19:30:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "US Mondorf-les-Bains",
+   "hs": 0,
+   "as": 8,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-07-26T19:30:00+02:00",
+   "h": "Red Star Merl-Belair",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 4,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-07-31T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC 72 Erpeldange",
+   "hs": 8,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-08-02T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Jeunesse Schieren",
+   "hs": 2,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-08-03T19:30:00+02:00",
+   "h": "Jeunesse Canach",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 3,
+   "as": 0,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-08-04T15:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Eintracht Trier",
+   "hs": 4,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-08-10T18:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC Red Black Pfaffenthal",
+   "hs": 7,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-08-11T16:00:00+02:00",
+   "h": "Syra Mensdorf",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 4,
+   "as": 0,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-08-18T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Etzella Ettelbruck",
+   "hs": 0,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-08-25T16:00:00+02:00",
+   "h": "Atert Bissen",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-08-26T19:30:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Jeunesse Biwer",
+   "hs": 5,
+   "as": 3,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-08-26T19:30:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Jeunesse Junglinster",
+   "hs": 6,
+   "as": 0,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-08-30T19:30:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "ENT Mondorf/Schengen II",
+   "hs": 1,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-01T16:00:00+02:00",
+   "h": "Marisca Mersch",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-03T20:00:00+02:00",
+   "h": "ENT Canach/CSG I",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 3,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-03T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "US Moutfort-Medingen",
+   "hs": 0,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-06T20:00:00+02:00",
+   "h": "Sporting Mertzig",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 1,
+   "as": 4,
+   "typ": "CUP"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-09T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Racing FC Union Luxembourg",
+   "hs": 5,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-10T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "FC Munsbach II",
+   "hs": 2,
+   "as": 1,
+   "typ": "CUP"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-15T16:00:00+02:00",
+   "h": "Avenir Beggen",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-16T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Racing FC Union Luxembourg",
+   "hs": 1,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-17T00:00:01+02:00",
+   "h": "Red Boys Aspelt",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 0,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-18T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC Schifflange 95",
+   "hs": 2,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-22T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC Luxembourg City",
+   "hs": 2,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-23T20:00:00+02:00",
+   "h": "FC Luxembourg City I",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 3,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-24T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "FC Luxembourg City II",
+   "hs": 1,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-28T18:30:00+02:00",
+   "h": "Résidence Walferdange II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 2,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-29T16:00:00+02:00",
+   "h": "US Sandweiler",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 1,
+   "as": 5,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-09-30T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "SC Bettembourg",
+   "hs": 1,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-04T20:00:00+02:00",
+   "h": "Marisca Mersch",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 6,
+   "as": 1,
+   "typ": "CUP"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-06T16:00:00+02:00",
+   "h": "Union Remich/Bous",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 3,
+   "as": 2,
+   "typ": "CUP"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-07T20:00:00+02:00",
+   "h": "FC Rodange 91 I",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 2,
+   "as": 0,
+   "typ": "CUP"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-10T19:30:00+02:00",
+   "h": "FC Differdange 03",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 4,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-14T20:15:00+02:00",
+   "h": "CS Fola Esch-Alzette I",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 3,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-15T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "FC Les Aiglons Dalheim",
+   "hs": 3,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-19T18:00:00+02:00",
+   "h": "AS Luxembourg",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 0,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-20T18:00:00+02:00",
+   "h": "US Rumelange",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 6,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-21T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Syra Mensdorf",
+   "hs": 4,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-23T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "US Feulen",
+   "hs": 0,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-27T16:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Jeunesse Canach",
+   "hs": 3,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-29T20:00:00+01:00",
+   "h": "Union Remich/Bous",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 0,
+   "as": 5,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-10-29T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "FC Munsbach II",
+   "hs": 1,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-11-03T14:30:00+01:00",
+   "h": "FC Mamer 32",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 3,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-11-04T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "FC The Belval Belvaux",
+   "hs": 8,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-11-04T20:00:00+01:00",
+   "h": "Berdenia Berbourg II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 1,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-11-13T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "SC Bettembourg",
+   "hs": 6,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-11-14T19:30:00+01:00",
+   "h": "F91 Dudelange",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 8,
+   "as": 0,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-11-24T16:00:00+01:00",
+   "h": "Résidence Walferdange",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 4,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-11-25T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "FC Schifflange 95 I",
+   "hs": 3,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-11-25T20:00:00+01:00",
+   "h": "ENT Mondorf/Schengen II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 1,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-11-27T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Alisontia Steinsel",
+   "hs": 2,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-12-01T16:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Berdenia Berbourg",
+   "hs": 3,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-12-02T20:00:00+01:00",
+   "h": "ENT Mondorf/Schengen I",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 5,
+   "as": 5,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-12-03T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Tricolore Gasperich II",
+   "hs": 3,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-12-06T20:00:00+01:00",
+   "h": "Avenir Beggen",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 1,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-12-08T16:00:00+01:00",
+   "h": "UN Kaerjeng 97",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 1,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2024-12-09T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Yellow Boys Weiler-la-Tour",
+   "hs": 4,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-01-15T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Etzella Ettelbruck",
+   "hs": 0,
+   "as": 6,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-01-21T20:00:00+01:00",
+   "h": "Red Star Merl-Belair",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 3,
+   "as": 3,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-01-21T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "AS Luxembourg",
+   "hs": 6,
+   "as": 0,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-01-25T17:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "CS Sedan Ardennes",
+   "hs": 2,
+   "as": 3,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-02-01T18:00:00+01:00",
+   "h": "FC Munsbach II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 3,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-02-03T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "SC Bettembourg",
+   "hs": 1,
+   "as": 0,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-02-05T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC Kopstal 33",
+   "hs": 4,
+   "as": 0,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-02-07T20:00:00+01:00",
+   "h": "CS Oberkorn",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 2,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-02-07T20:00:00+01:00",
+   "h": "FC Käerch",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 11,
+   "as": 0,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-02-15T16:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "SG Obermosel Nittel",
+   "hs": 2,
+   "as": 0,
+   "typ": "FM"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-02-16T16:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Atert Bissen",
+   "hs": 3,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-02-21T20:00:00+01:00",
+   "h": "Racing FC Union Luxembourg",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 1,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-02-23T16:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Marisca Mersch",
+   "hs": 1,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-02-25T00:00:01+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Red Boys Aspelt",
+   "hs": 3,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-02-28T20:00:00+01:00",
+   "h": "FC Luxembourg City II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 3,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-03-01T19:30:00+01:00",
+   "h": "FC Schifflange 95",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-03-03T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "FC Luxembourg City I",
+   "hs": 4,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-03-09T16:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Avenir Beggen",
+   "hs": 1,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-03-10T20:00:00+01:00",
+   "h": "SC Bettembourg",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 1,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-03-11T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Résidence Walferdange II",
+   "hs": 1,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-03-14T20:00:00+01:00",
+   "h": "FC Les Aiglons Dalheim",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 4,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-03-16T16:00:00+01:00",
+   "h": "FC Luxembourg City",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 1,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-03-17T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "CS Fola Esch-Alzette I",
+   "hs": 3,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-03-30T16:00:00+02:00",
+   "h": "US Feulen",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 1,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-01T20:00:00+02:00",
+   "h": "Syra Mensdorf",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 4,
+   "as": 4,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-01T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "AS Luxembourg",
+   "hs": 2,
+   "as": 4,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-02T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "US Sandweiler",
+   "hs": 2,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-05T18:30:00+02:00",
+   "h": "FC Munsbach II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 1,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-06T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "US Rumelange",
+   "hs": 2,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-07T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Union Remich/Bous",
+   "hs": 5,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-11T20:00:00+02:00",
+   "h": "FC The Belval Belvaux",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 3,
+   "as": 4,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-13T16:00:00+02:00",
+   "h": "Jeunesse Canach",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-15T00:00:01+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Berdenia Berbourg II",
+   "hs": 3,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-19T18:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC Mamer 32",
+   "hs": 1,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-27T16:00:00+02:00",
+   "h": "Alisontia Steinsel",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 1,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-28T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "FC Schifflange 95 I",
+   "hs": 2,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-04-29T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "ENT Mondorf/Schengen II",
+   "hs": 4,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-05-02T20:00:00+02:00",
+   "h": "Tricolore Gasperich II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 7,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-05-04T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Résidence Walferdange",
+   "hs": 0,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-05-05T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "ENT Mondorf/Schengen I",
+   "hs": 6,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-05-10T18:30:00+02:00",
+   "h": "Yellow Boys Weiler-la-Tour",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 5,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-05-11T16:00:00+02:00",
+   "h": "Berdenia Berbourg",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 1,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-05-13T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Avenir Beggen",
+   "hs": 0,
+   "as": 4,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-05-16T20:00:00+02:00",
+   "h": "US Moutfort-Medingen",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 5,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-05-18T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "UN Kaerjeng 97",
+   "hs": 1,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-05-19T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "ENT Canach/CSG I",
+   "hs": 7,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-05-25T16:00:00+02:00",
+   "h": "Etzella Ettelbruck",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 5,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20242025",
+   "d": "2025-05-31T18:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Sporting Mertzig",
+   "hs": 1,
+   "as": 0,
+   "typ": "PLO"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-07-21T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "FC Munsbach II",
+   "hs": 4,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-07-23T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Etzella Ettelbruck",
+   "hs": 3,
+   "as": 4,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-07-26T17:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Jeunesse Schieren",
+   "hs": 3,
+   "as": 3,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-08-02T18:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Marisca Mersch",
+   "hs": 4,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-08-03T16:00:00+02:00",
+   "h": "Syra Mensdorf",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 3,
+   "as": 4,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-08-06T19:30:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Jeunesse Biwer",
+   "hs": 2,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-08-09T18:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Union Remich/Bous",
+   "hs": 2,
+   "as": 0,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-08-10T18:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Berdenia Berbourg",
+   "hs": 3,
+   "as": 2,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-08-17T16:00:00+02:00",
+   "h": "US Rumelange",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 3,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-08-23T18:00:00+02:00",
+   "h": "CS Sanem I",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 1,
+   "as": 3,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-08-24T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC Lorentzweiler",
+   "hs": 4,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-08-30T18:30:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "FC Munsbach II",
+   "hs": 4,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-08-31T16:00:00+02:00",
+   "h": "Berdenia Berbourg",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-01T20:00:00+02:00",
+   "h": "Union Titus Pétange",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 3,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-06T18:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC Luxembourg City",
+   "hs": 2,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-08T20:00:00+02:00",
+   "h": "FC Schifflange 95",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 9,
+   "as": 0,
+   "typ": "CUP"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-08T20:00:00+02:00",
+   "h": "Jeunesse Junglinster",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 0,
+   "as": 3,
+   "typ": "CUP"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-14T16:00:00+02:00",
+   "h": "Alisontia Steinsel",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-15T20:00:00+02:00",
+   "h": "Una Strassen I",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 2,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-15T20:00:00+02:00",
+   "h": "ENT Mondorf/Schengen II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 1,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-21T16:00:00+02:00",
+   "h": "FC Käerch",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 0,
+   "typ": "CUP"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-22T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "FC Rodange 91",
+   "hs": 9,
+   "as": 10,
+   "typ": "CUP"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-27T18:30:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "US Sandweiler",
+   "hs": 1,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-28T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC Mondercange",
+   "hs": 4,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-09-29T20:00:00+02:00",
+   "h": "F91 Dudelange",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 3,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-05T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC Wiltz 71",
+   "hs": 0,
+   "as": 4,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-06T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "FC Wiltz 71",
+   "hs": 3,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-06T20:00:00+02:00",
+   "h": "AS Red Black Luxembourg",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 2,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-11T18:30:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Tricolore Gasperich II",
+   "hs": 6,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-12T16:00:00+02:00",
+   "h": "Etzella Ettelbruck",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-13T20:00:00+02:00",
+   "h": "Atert Bissen I",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 3,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-17T20:00:00+02:00",
+   "h": "FC Luxembourg City II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 0,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-19T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Résidence Walferdange",
+   "hs": 2,
+   "as": 4,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-20T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "AS La Jeunesse d'Esch/Alzette I",
+   "hs": 7,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-24T20:00:00+02:00",
+   "h": "Marisca Mersch",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 4,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-25T14:30:00+02:00",
+   "h": "FC Noertzange H.F.",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 0,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-10-27T20:00:00+01:00",
+   "h": "Résidence Walferdange I",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 4,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-11-02T16:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC Schifflange 95",
+   "hs": 2,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-11-03T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Racing FC Union Luxembourg",
+   "hs": 0,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-11-04T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Union Remich/Bous II",
+   "hs": 3,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-11-16T16:00:00+01:00",
+   "h": "CS Fola Esch-Alzette",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 4,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-11-21T20:00:00+01:00",
+   "h": "Una Strassen II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 1,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-11-24T20:00:00+01:00",
+   "h": "Marisca Mersch",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 1,
+   "as": 4,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-11-29T18:30:00+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Red Boys Aspelt",
+   "hs": 11,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-11-30T16:00:00+01:00",
+   "h": "SC Bettembourg",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-12-01T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "UN Kaerjeng 97 I",
+   "hs": 0,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-12-03T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "FC The Belval Belvaux",
+   "hs": 2,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-12-05T20:00:00+01:00",
+   "h": "FC Les Aiglons Dalheim",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 4,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-12-07T16:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "US Feulen",
+   "hs": 1,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2025-12-08T19:30:00+01:00",
+   "h": "Victoria Rosport",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 3,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-01-22T20:00:00+01:00",
+   "h": "FC Mamer 32",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 3,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-01-25T15:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "UN Kaerjeng 97",
+   "hs": 0,
+   "as": 5,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-01-28T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Avenir Beggen",
+   "hs": 1,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-01-31T15:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "FC The Belval Belvaux",
+   "hs": 3,
+   "as": 4,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-01-31T15:30:00+01:00",
+   "h": "Una Strassen",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 1,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-02-02T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Marisca Mersch",
+   "hs": 0,
+   "as": 4,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-02-06T20:00:00+01:00",
+   "h": "Syra Mensdorf",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 3,
+   "as": 2,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-02-11T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "US Moutfort-Medingen",
+   "hs": 1,
+   "as": 4,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-02-15T16:00:00+01:00",
+   "h": "FC Lorentzweiler",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 0,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-02-18T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Jeunesse Useldange",
+   "hs": 2,
+   "as": 3,
+   "typ": "FM"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-02-21T18:30:00+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "ENT Mondorf/Schengen II",
+   "hs": 0,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-02-22T16:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Berdenia Berbourg",
+   "hs": 1,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-02-23T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Una Strassen I",
+   "hs": 1,
+   "as": 4,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-02-27T20:00:00+01:00",
+   "h": "US Sandweiler",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 5,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-01T14:30:00+01:00",
+   "h": "FC Luxembourg City",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 0,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-02T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "F91 Dudelange",
+   "hs": 3,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-07T18:30:00+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "AS Red Black Luxembourg",
+   "hs": 2,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-08T16:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Alisontia Steinsel",
+   "hs": 0,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-09T20:00:00+01:00",
+   "h": "FC Wiltz 71",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 3,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-13T20:00:00+01:00",
+   "h": "Tricolore Gasperich II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 2,
+   "as": 5,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-15T16:00:00+01:00",
+   "h": "FC Mondercange",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 1,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-16T20:00:00+01:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Atert Bissen I",
+   "hs": 3,
+   "as": 5,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-21T18:30:00+01:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "FC Luxembourg City II",
+   "hs": 10,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-22T16:00:00+01:00",
+   "h": "FC Wiltz 71",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 3,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-23T19:30:00+01:00",
+   "h": "AS La Jeunesse d'Esch/Alzette I",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 3,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-03-29T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Etzella Ettelbruck",
+   "hs": 2,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-04-04T18:00:00+02:00",
+   "h": "Résidence Walferdange",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 0,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-04-07T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Résidence Walferdange I",
+   "hs": 5,
+   "as": 6,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-04-08T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "FC Noertzange H.F.",
+   "hs": 8,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-04-10T20:00:00+02:00",
+   "h": "Union Remich/Bous II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 0,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-04-12T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "Marisca Mersch",
+   "hs": 2,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-04-13T20:00:00+02:00",
+   "h": "Racing FC Union Luxembourg",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 5,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-04-18T16:30:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "Una Strassen II",
+   "hs": 3,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-04-19T16:00:00+02:00",
+   "h": "FC Schifflange 95",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 0,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-04-20T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Marisca Mersch",
+   "hs": 3,
+   "as": 5,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-04-26T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "CS Fola Esch-Alzette",
+   "hs": 1,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-05-03T16:00:00+02:00",
+   "h": "FC The Belval Belvaux",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 1,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-05-04T20:00:00+02:00",
+   "h": "UN Kaerjeng 97 I",
+   "a": "FC Koeppchen Wormeldange I",
+   "hs": 1,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-05-05T20:00:00+02:00",
+   "h": "Red Boys Aspelt",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 1,
+   "as": 4,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-05-09T18:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange II",
+   "a": "FC Les Aiglons Dalheim",
+   "hs": 15,
+   "as": 0,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-05-10T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "SC Bettembourg",
+   "hs": 2,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-05-11T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Victoria Rosport",
+   "hs": 4,
+   "as": 6,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-05-16T18:30:00+02:00",
+   "h": "FC Munsbach II",
+   "a": "FC Koeppchen Wormeldange II",
+   "hs": 4,
+   "as": 2,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-05-17T16:00:00+02:00",
+   "h": "US Feulen",
+   "a": "FC Koeppchen Wormeldange",
+   "hs": 2,
+   "as": 1,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-05-18T20:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange I",
+   "a": "Union Titus Pétange",
+   "hs": 4,
+   "as": 3,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-05-23T16:00:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "US Rumelange",
+   "hs": 2,
+   "as": 4,
+   "typ": "CC"
+  },
+  {
+   "s": "20252026",
+   "d": "2026-06-02T19:30:00+02:00",
+   "h": "FC Koeppchen Wormeldange",
+   "a": "CS Grevenmacher",
+   "hs": 2,
+   "as": 1,
+   "typ": "PLO"
+  }
+ ],
  "adressen": {
   "Stade Am Dieltchen (Weiler, synth.)": "6, Rue de Luxembourg, L-5772 Weiler-la-Tour",
   "Am Ga (Wormeldange, synth.)": "Dreiborn, L-5499 Dreiborn",
