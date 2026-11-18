@@ -9,6 +9,7 @@ import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, unlink
 import { createHash } from "node:crypto";
 import { isoLux } from "./bambini.mjs";
 import { FUPA as FUPA_MODUS } from "./fupa-modus.mjs";
+import { vereineAus, logosHolen } from "./logos.mjs";
 
 export const API = "https://extranet.flf.lu/api/graphql";
 export const CLUB = 1003703;          // Wormeldange FC Koeppchen
@@ -393,11 +394,14 @@ export function fupaTabelleMitFlfNamen(standings, flfSpiele, gemerkt = {}, minSp
   return { tabelle, namen };
 }
 
+// Mannschaft → Verein aus allen geholten FLF-Spielen (für die Logos, tools/logos.mjs).
+const VEREINE = {};
 async function bglHolen(saison, zeit, alt) {
   const div = (await gq(Q_DIVS, { s: saison.id })).divisions.find(d => d.name.trim() === BGL_NAME);
   if (!div) throw new Error("FLF: " + BGL_NAME + " nicht gefunden");
   await pause(1000);
   const { matches } = await gq(Q_MATCHES, { c: { ...zeit, divisionId: div.id, matchTypeId: "CC" } });
+  vereineAus(matches, VEREINE);
   await pause(1000);
   const { rankings } = await gq(Q_RANKING, { c: { seasonId: saison.id, divisionId: div.id, matchTypeId: "CC" } });
   const spiele = matches.map(spiel).sort((a, b) => a.d.localeCompare(b.d) || a.h.n.localeCompare(b.h.n));
@@ -630,6 +634,8 @@ async function main() {
   }
 
   const neu = aufbereiten({ saison, vereinsSpiele, klassen });
+  vereineAus(vereinsSpiele, VEREINE);
+  for (const k of Object.values(klassen)) vereineAus(k.spiele, VEREINE);
   // BGL und Nationalteam dürfen den Abruf nicht kippen: fällt eins aus, bleibt der alte Stand.
   const alt = existsSync(OUT) ? JSON.parse(readFileSync(OUT, "utf8")) : {};
   try { neu.bgl = await bglHolen(saison, zeit, alt.bgl); } catch (e) { console.error("BGL:", e.message); neu.bgl = alt.bgl || null; }
@@ -676,6 +682,12 @@ async function main() {
     }
     neu.gegnerForm = gf;
   }
+  // Vereinslogos (tools/logos.mjs): fehlende einmal holen und verkleinern. Fehler → ohne Logo (alte bleiben, wo die Datei da ist).
+  try {
+    const r = await logosHolen(VEREINE, { eigen: CLUB });
+    neu.logos = r.logos;
+    console.log("Logos:", Object.keys(r.logos).length, "Mannschaften,", r.neu, "neu geholt" + (r.fehler.length ? ", Fehler: " + r.fehler.join("; ") : ""));
+  } catch (e) { console.error("Logos:", e.message); neu.logos = alt.logos || {}; }
   // Adressen der Plätze unserer Spiele (für den Heute-/Morgen-Kasten bei Auswärtsspielen). Nur abfragen, wenn ein Platz noch
   // keine hat oder um 7 Uhr (Anlagen ändern sich selten). Fehler → alter Stand.
   {

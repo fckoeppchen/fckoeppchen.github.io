@@ -46,10 +46,12 @@ jobs:
       - run: command -v pdftotext || (sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils) || true
       # convert verkleinert die Event-Bilder der Vereins-Homepage (tools/vereins-events.mjs). Fehlt es, gibt es nur das Vereinslogo.
       - run: command -v convert || (sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick) || true
+      # rsvg-convert verkleinert die Vereinslogos der FLF (tools/logos.mjs). Fehlt es, bleiben neue Vereine ohne Logo.
+      - run: command -v rsvg-convert || (sudo apt-get update -qq && sudo apt-get install -y -qq librsvg2-bin) || true
       - run: node tools/fussball.mjs
       - name: Commit, falls sich etwas geändert hat
         run: |
-          git add -A data/fussball.json data/mitteilungen.json kalender bilder/events
+          git add -A data/fussball.json data/mitteilungen.json kalender bilder/events bilder/logos
           if git diff --cached --quiet; then echo "keine Änderung"; exit 0; fi
           git config user.name "fussball-abruf"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

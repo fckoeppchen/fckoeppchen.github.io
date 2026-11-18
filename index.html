@@ -230,6 +230,12 @@
   .livekasten{border:2px dashed var(--accentT);border-radius:12px;padding:10px 12px;margin:14px 0 6px;background:#f3fbf9}
   .livekasten>b{font-size:16px}.livekasten .klein{margin:6px 0 8px}
   .mitt .marten .haken{font-size:13.5px;padding:3px 0}
+  .lgg{display:block;width:64px;height:64px;object-fit:contain;margin:0 0 6px auto}
+  .m .t:not(.h) .lgg{margin:0 auto 6px 0}
+  .letztes .lgg{width:56px;height:56px}
+  .tmz{display:flex;align-items:center;gap:6px}
+  .lgk{width:20px;height:20px;object-fit:contain;flex:none}
+  .lgf{width:16px;height:16px;object-fit:contain;vertical-align:-3px;margin-right:5px}
 </style>
 </head>
 <body>
@@ -529,15 +535,15 @@ function letztesHtml(v, now) {
     const unten = [liga ? esc(v.aktuell.n) : kl ? esc(kl.n) : artText(sp) ? esc(artText(sp)) : "", zeile ? `jetzt <b>${zeile.pl}. Platz</b>` : ""].filter(Boolean).join(" · ");
     return `<section class="card heute letztes"><div class="chead"><h2>Letztes Spiel</h2><span class="pill">${!erg ? "Ergebnis folgt" : pokalOffen(sp) ? "nach 90 Minuten" : "Endstand"}</span></div><div class="cbody">
       <div class="wann klein">${datum(sp)}${liga && sp.tag ? ` · Spieltag ${sp.tag}` : ""}</div>
-      <div class="m" style="border:0"><div class="t h${v.ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
-      <div class="gross">${erg ? `${sp.hs}:${sp.as}` : "–:–"}</div><div class="t${v.ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
+      <div class="m" style="border:0"><div class="t h${v.ids.has(sp.h.id) ? " wir" : ""}">${beideLogos(sp) ? logoImg(sp.h.id, "lgg") : ""}${umbruch(anzeige(sp.h.n))}</div>
+      <div class="gross">${erg ? `${sp.hs}:${sp.as}` : "–:–"}</div><div class="t${v.ids.has(sp.a.id) ? " wir" : ""}">${beideLogos(sp) ? logoImg(sp.a.id, "lgg") : ""}${umbruch(anzeige(sp.a.n))}</div></div>
       ${erg ? pokalHinweis(sp) : `<div class="zusatz">Ergebnis kommt, sobald die FLF es einträgt.</div>`}${unten ? `<div class="zusatz">${unten}</div>` : ""}${rtlKnopf(sp, "▶ Ganzes Spiel ansehen · RTL")}${MOTTO}</div></section>`;
   }
   const nach = nachDemSpiel(v, now);
   if (!nach) return "";
   const sp = nach.sp, naechst = v.kommend[0];
   const spiel = sp.bam ? `<div class="zusatz">Mini-Spieltag mit ${esc(sp.bam.mit.map(anzeige).join(", "))}${sp.ort ? `<br>📍 ${esc(sp.ort)}` : ""}</div>`
-    : spielZeile(sp, v.ids, "").replace('<div class="m">', '<div class="m" style="border:0">');
+    : spielZeile(sp, v.ids, "", true).replace('<div class="m">', '<div class="m" style="border:0">');
   return `<section class="card heute letztes"><div class="chead"><h2>Letztes Spiel</h2></div><div class="cbody">
     <div class="wann klein">${datum(sp)}</div>
     <div class="kzeile">${koeppiBild("ball-faust")}<span>Super gemacht, ${esc(v.team.reiter)}! 💪<br><span class="spruch">${esc(nach.spruch)}</span></span></div>
@@ -789,7 +795,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "14.11.2026 neu a";
+const FASSUNG = "18.11.2026 neu a";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
@@ -923,6 +929,16 @@ const QUELLEN_LIVE = [
 // Logo nur einmal eingebettet (als Favicon), Kopf und Fußzeile nehmen es von dort. Das Home-Icon hat
 // zusätzlich die Streifen in Vereinsfarben.
 const LOGO = document.querySelector('link[rel="icon"]').href;
+// Vereinslogos (vom Nutzer, 18.11.2026): aus dem FLF-Extranet, vom Abruf verkleinert (tools/logos.mjs). D.logos = {Mannschaft: Verein};
+// unser Verein mit dem eigenen Logo. Groß im Heute-/Morgen-/Letztes-Spiel-Kasten, klein in Tabellen und Form-Zeile, nicht in Spiellisten.
+// Nur für FLF-Mannschaften — Roude Léiw hat FuPa-Nummern, die zufällig gleich sein könnten (`logos` false).
+const VEREIN_NR = 1003703;
+// Im Kasten nur, wenn beide Seiten eins haben — Trainer-Spiele und Bambini-Spieltage hätten sonst nur unser Logo.
+const beideLogos = sp => !!(D?.logos?.[sp.h.id] && D?.logos?.[sp.a.id]);
+function logoImg(id, cls) {
+  const c = D?.logos?.[id];
+  return c ? `<img class="${cls}" alt="" src="${c === VEREIN_NR ? LOGO : "bilder/logos/" + c + ".png"}">` : "";
+}
 // FLF-Logo für den Reiter „Roude Léiw“ (vom Nutzer als Bild, 55×72, 32 Farben).
 const FLF_LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAABICAMAAABlcZ1gAAAAYFBMVEXfKC+oHiLQ4OoAAACZ0/DnrK357u5yHx5lZWdTsN////8dYY+ooqObXV3iU1gZFRZzxe02iLbRo6OOsMZdjK05ms2xsbHfPUJGep+qf3//AACKQT/+/f1Rtuj06eqEPDuQAeA8AAAAIHRSTlP+/vwA//8F/f//uP////////8F////Bv//BgH////9/l20T9cAAAJ7SURBVHjandfroqIgEABgnEAltLTLOe0u4vu/5Q4XBU0FnF9ZfjmoMAy5mCgvJah4XH/K0gIysSsj0SjY9eEgCVgRjQrh33JyjlVjOx5FOxIN/1xK6ybWKnkc6mbgQ0PimYyHhySHTfDnUpI9Bg0cQbLNoMZo9mFJgOGHTVbXah8SuZVkYx3sjXFURCFf/6+yrNp+MGpyo9x090ZmOlnfMRqZ6kCHsgNsQSY69mvf+t8bY0ev3MqpIpwyiFWiq4rVdLsxSMpzrKppoh3Rr/uiWNO6GD3/SvjgOeCPwPS/jAbfINl53mh8YwkOKOcdDb9gbSD3HAw26PJbxiKuc27o8t5PTXoh+mHgOU6nKYT4aMnzHBcCpHoKwbss9xZP8+klOM1xvXCnP8WbZtyX2UkqeLLjOL75KvAN9xxF9/Rp9zTDvYLx8tR1ST+/8LxU1+GNgVWxaFTcLQeoFa6LfvHen398WAwQF1KlUuYtXSRaIzVrqorO9zBRHJpZ8pv7PeroID6zk4CLPmgH0fUFX20IXW2KRtxRf2ewXjemZquU9azr50e/Lp+HDi/4nIuvrcBJ15O0/wRbC7wpiU4OfjLp9wxS12v6fmXXaTfX4ZST/HXOSQ7nHPBzToI6506OL+ogJ7xTQ04EjmewbsdRsMWF2nrdQVC6l+7fIk8qKcYwgHSHYA438qwU5aGzB851vt6b4NQ6u08OILUrqL+emcWeuX2y25d7aPIcAhemaZnel099wAypPR8dAo6H3fubBX3HBKkbkMs3HN/MHmGfQ2NPcWa2z/Ew4mjYV4V9XCwWfdwEiyrSpeK2fdE3zjC3T3WwqMZIVKu++EQf/h/Q40g3HHy04AAAAABJRU5ErkJggg==";
 
@@ -946,7 +962,7 @@ function bisDahin(iso, now) {
   return tage === 0 ? "heute" : tage === 1 ? "morgen" : tage > 1 ? `in ${tage} Tagen` : "";
 }
 
-function spielZeile(sp, ids, meta) {
+function spielZeile(sp, ids, meta, logos = false) {
   // Gefärbt (Sieg/Unentschieden/Niederlage) wird nur, wo eine eigene Mannschaft spielt.
   const tid = ids && (ids.has(sp.h.id) ? sp.h.id : ids.has(sp.a.id) ? sp.a.id : null);
   // Bei U9/U11 veröffentlicht die FLF keine Ergebnisse (showResult) — dann zeigen wir auch
@@ -957,19 +973,19 @@ function spielZeile(sp, ids, meta) {
   const sc = !ohne && sp.gespielt && sp.hs != null ? `${sp.hs} : ${sp.as}` : "";
   const wirH = ids && ids.has(sp.h.id), wirA = ids && ids.has(sp.a.id);
   return `<div class="m">
-    <div class="t h${wirH ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
+    <div class="t h${wirH ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.h.id, "lgg") : ""}${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc ${sc ? (a || "") : "offen"}">${sp.abgesagt ? "abgesagt" : sc || (ohne && (sp.gespielt || istVorbei(sp, Date.now())) ? "gespielt" : sp.gespielt ? "–" : Date.parse(sp.d) < Date.now() ? "–" : "offen")}</div>
-    <div class="t${wirA ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div>
+    <div class="t${wirA ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.a.id, "lgg") : ""}${umbruch(anzeige(sp.a.n))}</div>
     ${meta ? `<div class="meta">${meta}</div>` : ""}
   </div>`;
 }
 
-function tabelleHtml(k, eigen) {
+function tabelleHtml(k, eigen, logos = true) {
   if (!k.tabelle || !k.tabelle.length) return `<div class="muted">Für diese Klasse veröffentlicht die FLF keine Tabelle.</div>`;
   const z = zonen(D.saison.id, k.n);
   const rows = k.tabelle.map(r => {
     const cls = [eigen.has(r.id) ? "wir" : "", z && z.auf.includes(r.pl) ? "auf" : "", z && z.ab.includes(r.pl) ? "ab" : ""].join(" ");
-    return `<tr class="${cls}"><td class="pl">${r.pl}</td><td class="tm">${umbruch(anzeige(r.n))}</td><td>${r.sp}</td>
+    return `<tr class="${cls}"><td class="pl">${r.pl}</td><td class="tm">${logos ? `<span class="tmz">${logoImg(r.id, "lgk") || `<i class="lgk"></i>`}<span>${umbruch(anzeige(r.n))}</span></span>` : umbruch(anzeige(r.n))}</td><td>${r.sp}</td>
       <td class="wide">${r.s}</td><td class="wide">${r.u}</td><td class="wide">${r.nl}</td>
       <td>${r.t}:${r.g}</td><td class="narrow">${r.t - r.g > 0 ? "+" : ""}${r.t - r.g}</td><td class="pk">${r.pkt}</td></tr>`;
   }).join("");
@@ -1300,17 +1316,17 @@ function formHtml(sp, ids) {
   const reihe = (istEr) => vor.filter(x => istEr(x.h) || istEr(x.a)).slice(-5).map(x => {
     const d = istEr(x.h) ? x.hs - x.as : x.as - x.hs; return d > 0 ? "s" : d < 0 ? "n" : "u"; });
   const zeile = (t, istEr) => { const r = reihe(istEr); return r.length < 2 ? "" :
-    `<div class="fz"><span class="fn">${esc(anzeige(t.n))}</span><span>${r.map(x => `<span class="fb ${x}">${{ s: "S", u: "U", n: "N" }[x]}</span>`).join("")}</span></div>`; };
+    `<div class="fz"><span class="fn">${logoImg(t.id, "lgf")}${esc(anzeige(t.n))}</span><span>${r.map(x => `<span class="fb ${x}">${{ s: "S", u: "U", n: "N" }[x]}</span>`).join("")}</span></div>`; };
   const wir = t => ids.has(t.id), er = n => t => t.n === n;
   // Gegner im Pokal aus einer anderen Liga: Form vom Abruf (D.gegnerForm, aus den Spielen seines Vereins).
   const fertig = (D?.gegnerForm || {})[sp.id];
   const zeile2 = (t, istEr) => fertig && !ids.has(t.id) && fertig.length >= 2
-    ? `<div class="fz"><span class="fn">${esc(anzeige(t.n))}</span><span>${fertig.map(x => `<span class="fb ${x}">${{ s: "S", u: "U", n: "N" }[x]}</span>`).join("")}</span></div>`
+    ? `<div class="fz"><span class="fn">${logoImg(t.id, "lgf")}${esc(anzeige(t.n))}</span><span>${fertig.map(x => `<span class="fb ${x}">${{ s: "S", u: "U", n: "N" }[x]}</span>`).join("")}</span></div>`
     : zeile(t, istEr);
   const h = zeile2(sp.h, ids.has(sp.h.id) ? wir : er(sp.h.n)), a = zeile2(sp.a, ids.has(sp.a.id) ? wir : er(sp.a.n));
   return h || a ? `<div class="form"><div class="ft">Form · letzte 5 Spiele, das neueste rechts</div>${h}${a}</div>` : "";
 }
-function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, motto, fupaUrl, form }) {
+function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, motto, fupaUrl, form, logos = true }) {
   const sp = heute.sp, zeit = wann(sp).split(" · ")[1];
   const min = !heute.begonnen && minutenBisAnpfiff(sp, Date.now());
   // Nächster Wechsel des Kastens (Countdown an, Anpfiff) — der Takt unten baut dann neu.
@@ -1340,8 +1356,8 @@ function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, mot
     : koeppiZeile("ball-faust", heute.begonnen ? "Daumen drücken! 🤞" : "Viel Spaß und viel Glück! 💪", "", motto);
   return `<section class="card heute"><div class="chead"><h2>${titel}</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}${coachZeichen(sp)}</div><div class="cbody">
     <div class="wann">${oben}</div>${wetterZeile(sp)}
-    <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
-    <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
+    <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.h.id, "lgg") : ""}${umbruch(anzeige(sp.h.n))}</div>
+    <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.a.id, "lgg") : ""}${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}${adresseZeile(sp, ids)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
     ${form ? formHtml(sp, ids) : ""}
     ${unten ? `<div class="zusatz">${fupaLink(esc(unten), (live || link) && fupaUrl)}</div>` : ""}${rtlKnopf(sp, heute.begonnen ? "🔴 Live-Video · RTL" : "📺 Live-Video ab Anpfiff · RTL")}${kz}${motto && !koeppi ? MOTTO : ""}
@@ -1381,12 +1397,12 @@ function wetterZeile(sp) {
   const t = wetterText((D?.wetter || {})[sp.id], sp.d);
   return t ? `<div class="wetter">${esc(t)}</div>` : "";
 }
-function morgenHtml(m, ids, pill, koeppi = true, form = false, motto = true) {
+function morgenHtml(m, ids, pill, koeppi = true, form = false, motto = true, logos = true) {
   const sp = m.sp, zeit = wann(sp).split(" · ")[1], p = pill(sp);
   return `<section class="card heute"><div class="chead"><h2>Morgen Spieltag! ⚽</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}${coachZeichen(sp)}</div><div class="cbody">
     <div class="wann">${esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen")}</div>${wetterZeile(sp)}
-    <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
-    <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
+    <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.h.id, "lgg") : ""}${umbruch(anzeige(sp.h.n))}</div>
+    <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.a.id, "lgg") : ""}${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}${adresseZeile(sp, ids)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
     ${form ? formHtml(sp, ids) : ""}
     ${koeppi ? koeppiZeile("trinkflasche", "Trinkflasche nicht vergessen! 😉", "", true) : motto ? MOTTO : ""}
@@ -1554,7 +1570,7 @@ function bglHtml(now) {
   // Tabelle zuerst, dann letzter und nächste Spieltage — anders als bei den Mannschaften, mit Absicht
   // (vom Nutzer, 20.10.2026: so ist man schneller bei der Tabelle). Stadion nur bei Spielen, die noch kommen.
   let h = `<section class="card"><div class="chead"><h2>Tabelle</h2><div class="hint">BGL League</div></div>
-    <div class="cbody">${tabelleHtml({ n: b.n, tabelle: t.tabelle }, new Set())}${hinweis}</div></section>`;
+    <div class="cbody">${tabelleHtml({ n: b.n, tabelle: t.tabelle }, new Set(), b.quelle !== "FuPa")}${hinweis}</div></section>`;
   if (v.letzter) h += tag(v.letzter, "Zuletzt: Spieltag");
   for (const t of v.naechste) h += tag(t, "Nächster: Spieltag");
   if (!v.naechste.length) h += `<div class="note">Keine weiteren Spieltage eingetragen.</div>`;
@@ -1571,17 +1587,17 @@ function natiHtml(now) {
   const lv = LIVE_SP && liveAnzeige(mitWorker(liveBasis(null, LIVE_SP), wFrisch(LIVE_SP)), v, now);
   LIVE_POLL = !!LIVE_SP && !!WORKER_URL && (imFenster(LIVE_SP, now) || !!lv?.laeuft);
   const heute = !lv && spieltagHeute(v, now);
-  if (heute) h += heuteHtml(heute, ids, { live: FUPA_API && !!WORKER_URL && !!heute.sp.slug, link: !FUPA_API && !!heute.sp.slug, pill: sp => sp.wett === "Testspiele" ? "Testspiel" : "",
+  if (heute) h += heuteHtml(heute, ids, { logos: false, live: FUPA_API && !!WORKER_URL && !!heute.sp.slug, link: !FUPA_API && !!heute.sp.slug, pill: sp => sp.wett === "Testspiele" ? "Testspiel" : "",
     ohneLive: "Das Ergebnis erscheint, sobald FuPa es hat.", fupaUrl: heute.sp.slug && "https://www.fupa.net/match/" + heute.sp.slug });
   // Morgen-Kasten auch für die Nationalmannschaft (vom Nutzer, 12.11.2026), ohne Koeppi und ohne Motto.
   const morgen = !heute && !lv && spieltagMorgen(v, now);
-  if (morgen) h += morgenHtml(morgen, ids, sp => sp.wett === "Testspiele" ? "Testspiel" : "", false, false, false);
+  if (morgen) h += morgenHtml(morgen, ids, sp => sp.wett === "Testspiele" ? "Testspiel" : "", false, false, false, false);
   if (lv) h += liveHtml(lv, n => n === "Luxemburg", "");
   h += `<section class="card"><div class="chead"><h2>Nächste Spiele</h2></div><div class="cbody">`;
   h += v.kommend.length ? v.kommend.map(sp => spielZeile(sp, ids, meta(sp))).join("") : `<div class="muted">Noch keine Länderspiele angesetzt.</div>`;
   h += `</div></section>`;
   if (v.gruppe) h += `<section class="card"><div class="chead"><h2>Tabelle</h2><div class="hint">${esc(v.gruppe.n)}</div></div>
-    <div class="cbody">${tabelleHtml(v.gruppe, ids)}</div></section>`;
+    <div class="cbody">${tabelleHtml(v.gruppe, ids, false)}</div></section>`;
   h += `<section class="card"><div class="chead"><h2>Ergebnisse</h2></div><div class="cbody">`;
   // Die letzten acht — FuPa liefert auch das Vorjahr mit, das wäre eine lange Liste.
   h += v.gespielt.length ? v.gespielt.slice(0, 8).map(sp => spielZeile(sp, ids, meta(sp))).join("") : `<div class="muted">Noch nichts gespielt.</div>`;

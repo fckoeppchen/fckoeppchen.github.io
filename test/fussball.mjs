@@ -19,6 +19,7 @@ import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambi
 import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus, gegnerForm, ortName, icsEvents } from "../tools/fussball.mjs";
 import { unsereRtlSpiele, rtlZuordnen, rtlFaellig, rtlHolen } from "../tools/rtl.mjs";
 import { ortAus, wetterSpiele, wetterZu, wetterHolen } from "../tools/wetter.mjs";
+import { vereineAus, logosHolen } from "../tools/logos.mjs";
 import { eventMenue, eventDatum, seitenText, seitenBilder, bildBreite, eventsFaellig, kalenderAdresse, kalenderIds, kalenderEvent, textGleich, titelGleich, zusammenfuehren } from "../tools/vereins-events.mjs";
 
 const hier = path.dirname(fileURLToPath(import.meta.url));
@@ -1635,6 +1636,24 @@ gleich(adressenAus([{ id: 1, name: "P", sportComplex: { id: 2 } }, { id: 4, name
     && !t.includes("Ohne Datum") && t.includes("STATUS:CANCELLED") && t.includes("SUMMARY:ABGESAGT: 🎉 Fest") && (t.match(/BEGIN:VEVENT/g) || []).length === 3 && t.includes("\r\n"),
     "Kalender Events: Uhrzeit in Ortszeit, ganztägig ohne Uhrzeit, ohne Datum weg, abgesagt markiert");
   ok(icsEvents({}).includes("BEGIN:VCALENDAR") && !icsEvents({}).includes("VEVENT"), "Kalender Events: ohne Events leere Datei");
+}
+// ---- Vereinslogos (vom Nutzer, 18.11.2026) ----
+{
+  const v = vereineAus([{ homeTeam: { id: 1, clubId1: 500 }, awayTeam: { id: 2, clubId1: 600 } }, { homeTeam: { id: 3, clubId1: 500 }, awayTeam: null }]);
+  ok(JSON.stringify(v) === JSON.stringify({ 1: 500, 2: 600, 3: 500 }), "Logos: Mannschaft → Verein aus den FLF-Spielen");
+  const dir = fs.mkdtempSync(path.join((await import("os")).tmpdir(), "logos-"));
+  const ordner = new URL("file://" + dir + "/");
+  fs.writeFileSync(path.join(dir, "600.png"), "x");
+  const geholt = [];
+  const holen = async c => { geholt.push(c); if (c === 700) throw new Error("HTTP 404"); return Buffer.from("<svg/>"); };
+  const umrechnen = (svg, ziel) => fs.writeFileSync(ziel, "png");
+  const r = await logosHolen({ ...v, 4: 700, 5: 1003703 }, { ordner, holen, umrechnen, eigen: 1003703 });
+  ok(geholt.join() === "500,700" && r.neu === 1 && r.fehler.length === 1 && JSON.stringify(r.logos) === JSON.stringify({ 1: 500, 2: 600, 3: 500, 5: 1003703 }),
+    "Logos: nur fehlende geholt (einmal je Verein), Fehler → ohne Logo, eigener Verein ohne Abruf — ist " + JSON.stringify([geholt, r]));
+  geholt.length = 0;
+  const r2 = await logosHolen(v, { ordner, holen, umrechnen });
+  ok(geholt.length === 0 && Object.keys(r2.logos).length === 3, "Logos: zweiter Lauf holt nichts neu");
+  fs.rmSync(dir, { recursive: true, force: true });
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);
