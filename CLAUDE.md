@@ -524,6 +524,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Kinder, `spielZeile(…, true)`), **nur wenn beide Seiten eins haben** (`beideLogos` — Trainer-Spiele, Bambini), klein (20 px, `.lgk`) in jeder
   Tabelle (fehlt eins: Platzhalter), 16 px in der Form-Zeile. **Nicht** in Spiellisten (auch nicht BGL-Spieltage; vom Nutzer). **Roude Léiw ohne**
   (`logos` false in heuteHtml/morgenHtml/tabelleHtml: FuPa-Nummern könnten zufällig FLF-Nummern treffen), BGL-Tabelle nur bei Quelle FLF.
+  **Neu b** (vom Nutzer: bei zweizeiligem Namen stand das Logo höher): `.m:has(.lgg)` richtet oben aus, Ergebnis auf Höhe der Logo-Mitte.
   Erster Lauf: 97 Vereine, 400 Mannschaften, 1,4 MB. Tests (515) mit Gegenprobe; Browser bei 390 px (Seniors 1, MIN 1, SCO, BGL, Roude Léiw).
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht

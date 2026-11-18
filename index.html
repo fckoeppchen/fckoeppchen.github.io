@@ -233,6 +233,10 @@
   .lgg{display:block;width:64px;height:64px;object-fit:contain;margin:0 0 6px auto}
   .m .t:not(.h) .lgg{margin:0 auto 6px 0}
   .letztes .lgg{width:56px;height:56px}
+  /* Zweizeiliger Name (vom Nutzer, 18.11.2026): Logos oben auf einer Linie, Ergebnis auf Höhe ihrer Mitte. */
+  .m:has(.lgg){align-items:start;--lgh:64px}
+  .letztes .m:has(.lgg){--lgh:56px}
+  .m:has(.lgg)>:nth-child(2){align-self:start;margin-top:calc(var(--lgh) / 2);transform:translateY(-50%)}
   .tmz{display:flex;align-items:center;gap:6px}
   .lgk{width:20px;height:20px;object-fit:contain;flex:none}
   .lgf{width:16px;height:16px;object-fit:contain;vertical-align:-3px;margin-right:5px}
@@ -795,7 +799,7 @@ function wocheBilanz(alle) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "18.11.2026 neu a";
+const FASSUNG = "18.11.2026 neu b";
 const KEY = "fussball_v1";
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
