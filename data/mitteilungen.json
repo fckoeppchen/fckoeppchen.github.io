@@ -122,19 +122,27 @@
   },
   {
    "reiter": [
-    "Seniors 3"
+    "BAM 1",
+    "Bambinis U7"
    ],
-   "id": "tabelle:18936:45404:6:7:8:2026-11-17",
-   "art": "tabelle",
-   "titel": "Seniors 3 · Tabelle",
-   "text": "Koeppchen II jetzt 8. Platz (vorher 6.) · 7 Punkte aus 6 Spielen",
-   "basis": {
-    "pl": 6,
-    "pkt": 10,
-    "sp": 6
-   },
-   "ab": 1794950219605,
-   "bis": 1795036619605
+   "id": "zeit:9202611281:2026-11-28T10:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "BAM 1 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 28.11. um 10:30 · Mini-Spieltag · 📍 Terrain Ralingen (synth.)",
+   "ab": 1795036631108,
+   "bis": 1795858200000
+  },
+  {
+   "reiter": [
+    "BAM 2",
+    "Bambinis U7"
+   ],
+   "id": "zeit:9202611282:2026-11-28T10:30:00+01:00",
+   "art": "uhrzeit",
+   "titel": "BAM 2 · Uhrzeit",
+   "text": "Uhrzeit steht fest: Sa., 28.11. um 10:30 · Mini-Spieltag · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1795036631108,
+   "bis": 1795858200000
   }
  ],
  "live": []

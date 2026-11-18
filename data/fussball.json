@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-18T11:02:13.058Z",
+ "stand": "2026-11-18T21:16:58.551Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -8246,18 +8246,18 @@
      "d": "2026-11-18T20:00:00+01:00",
      "tag": 8,
      "h": {
-      "id": 46587,
-      "n": "Olympia Christnach-Waldbillig I"
-     },
-     "a": {
       "id": 45335,
       "n": "Blo-Wäiss Medernach"
+     },
+     "a": {
+      "id": 46587,
+      "n": "Olympia Christnach-Waldbillig I"
      },
      "hs": null,
      "as": null,
      "gespielt": false,
      "forfait": false,
-     "ort": "Terrain Am Lahr (Christnach)"
+     "ort": "Terrain 1 (Stegen, synth.)"
     },
     {
      "id": 1015085,
@@ -9350,24 +9350,6 @@
      "ort": "Terrain 2 (Beggen, synth.)"
     },
     {
-     "id": 1015183,
-     "d": "2027-04-16T20:00:00+02:00",
-     "tag": 18,
-     "h": {
-      "id": 45335,
-      "n": "Blo-Wäiss Medernach"
-     },
-     "a": {
-      "id": 46587,
-      "n": "Olympia Christnach-Waldbillig I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Stegen, synth.)"
-    },
-    {
      "id": 1015182,
      "d": "2027-04-16T20:00:00+02:00",
      "tag": 18,
@@ -9402,6 +9384,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Lintgen, synth.)"
+    },
+    {
+     "id": 1015183,
+     "d": "2027-04-16T20:00:00+02:00",
+     "tag": 18,
+     "h": {
+      "id": 46587,
+      "n": "Olympia Christnach-Waldbillig I"
+     },
+     "a": {
+      "id": 45335,
+      "n": "Blo-Wäiss Medernach"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain Am Lahr (Christnach)"
     },
     {
      "id": 1015181,
@@ -19389,12 +19389,12 @@
        "ENT Biwer/Berbourg I",
        "US Sandweiler II"
       ],
-      "zeitSicher": true
+      "zeitSicher": false
      }
     },
     {
      "id": 9202611142,
-     "d": "2026-11-14T09:30:00+01:00",
+     "d": "2026-11-14T10:30:00+01:00",
      "tag": 6,
      "h": {
       "id": 0,
@@ -19415,7 +19415,7 @@
        "US Berdorf-Consdorf 01",
        "ENT Biwer/Berbourg II"
       ],
-      "zeitSicher": true
+      "zeitSicher": false
      }
     },
     {
@@ -19493,7 +19493,7 @@
        "US Moutfort-Medingen",
        "Daring Echternach II"
       ],
-      "zeitSicher": false
+      "zeitSicher": true
      }
     },
     {
@@ -19519,7 +19519,7 @@
        "ENT Biwer/Berbourg II",
        "FC Munsbach"
       ],
-      "zeitSicher": false
+      "zeitSicher": true
      }
     }
    ],
