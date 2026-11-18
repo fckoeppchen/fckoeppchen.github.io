@@ -16,7 +16,7 @@ import { FUPA } from "../tools/fupa-modus.mjs";
 const FUPA_STAND = FUPA.api;
 FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
-import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus, gegnerForm, ortName, icsEvents } from "../tools/fussball.mjs";
+import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus, gegnerForm, ortName, icsEvents, historieAus } from "../tools/fussball.mjs";
 import { unsereRtlSpiele, rtlZuordnen, rtlFaellig, rtlHolen } from "../tools/rtl.mjs";
 import { ortAus, wetterSpiele, wetterZu, wetterHolen } from "../tools/wetter.mjs";
 import { vereineAus, logosHolen } from "../tools/logos.mjs";
@@ -27,7 +27,7 @@ const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
 const i = src.indexOf("==== Logik"), j = src.indexOf("==== Oberfläche");
 if (i < 0 || j < 0) throw new Error("Abschnittsmarken Logik/Oberfläche nicht gefunden");
 const M = new Function(src.slice(src.lastIndexOf("//", i), src.lastIndexOf("//", j)) + `
-  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei, artText, coachZusatz, coachName, wocheSpiele, eventsWoche, eventsSpaeter, eventBis };`)();
+  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei, artText, coachZusatz, coachName, wocheSpiele, eventsWoche, eventsSpaeter, eventBis, saisonStats, vorjahrPunkte, duelle, aktuellerSpieltag };`)();
 
 let fehler = 0, n = 0;
 function ok(bed, text) { n++; if (!bed) { fehler++; console.log("✗ " + text); } }
@@ -1654,6 +1654,37 @@ gleich(adressenAus([{ id: 1, name: "P", sportComplex: { id: 2 } }, { id: 4, name
   const r2 = await logosHolen(v, { ordner, holen, umrechnen });
   ok(geholt.length === 0 && Object.keys(r2.logos).length === 3, "Logos: zweiter Lauf holt nichts neu");
   fs.rmSync(dir, { recursive: true, force: true });
+}
+// ---- Statistiken der Seniors, neue Ansicht (vom Nutzer, 19.11.2026) ----
+{
+  const T = (id, n) => ({ id, n });
+  const W = T(1, "FC Koeppchen Wormeldange"), A = T(2, "FC Mamer 32"), B = T(3, "CS Fola"), C = T(4, "US Feulen");
+  const g = (id, tag, d, h, a, hs, as) => ({ id, tag, d, h, a, hs, as, gespielt: hs != null });
+  const k = { id: 9, typ: "CC", spiele: [
+    g(1, 1, "2026-09-01T16:00:00+02:00", W, A, 3, 0), g(2, 1, "2026-09-01T16:00:00+02:00", B, C, 1, 1),
+    g(3, 2, "2026-09-08T16:00:00+02:00", B, W, 2, 2), g(4, 2, "2026-09-08T16:00:00+02:00", C, A, 0, 4),
+    g(5, 3, "2026-09-15T16:00:00+02:00", W, C, 1, 2), g(6, 3, "2026-09-15T16:00:00+02:00", A, B, 1, 0),
+    g(7, 4, "2026-09-22T16:00:00+02:00", A, W, null, null) ] };
+  const st = M.saisonStats(k, new Set([1]));
+  ok(st.verlauf.map(x => x.platz).join() === "1,1,2" && st.verlauf[0].von === 4, "Statistik: Tabellenverlauf Platz je Spieltag — ist " + JSON.stringify(st.verlauf));
+  ok(st.alle.p === 4 && st.alle.t === 6 && st.alle.g === 4 && st.heim.sp === 2 && st.heim.p === 3 && st.aus.p === 1 && st.zuNull === 1,
+    "Statistik: Bilanz gesamt, zu Hause, auswärts, ohne Gegentor — ist " + JSON.stringify([st.alle, st.heim, st.aus, st.zuNull]));
+  ok(st.hoechsterSieg.f === 3 && st.hoechsterSieg.geg === "FC Mamer 32" && st.toreich.f + st.toreich.g === 4 && st.serie === 2,
+    "Statistik: höchster Sieg, torreichstes Spiel, längste Serie ohne Niederlage");
+  ok(M.aktuellerSpieltag(k) === 3 && M.aktuellerSpieltag({ spiele: [g(1, 1, "2026-09-01T16:00:00+02:00", W, A, null, null)] }) === 1, "Statistik: aktueller Spieltag = zuletzt gespielter");
+  const hist = historieAus([
+    { match: { matchDate: "2025-10-05T16:00:00+02:00", homeScore: 1, awayScore: 2, finalHomeScore: null }, homeTeam: { name: W.n }, awayTeam: { name: A.n }, matchType: { id: "CC" } },
+    { match: { matchDate: "2025-08-31T16:00:00+02:00", homeScore: 2, awayScore: 0 }, homeTeam: { name: W.n }, awayTeam: { name: C.n }, matchType: { id: "CC" } },
+    { match: { matchDate: "2026-01-20T19:00:00+01:00", homeScore: 5, awayScore: 0 }, homeTeam: { name: A.n }, awayTeam: { name: W.n }, matchType: { id: "FM" } },
+    { match: { matchDate: "2025-09-07T16:00:00+02:00", homeScore: null, awayScore: null }, homeTeam: { name: B.n }, awayTeam: { name: W.n }, matchType: { id: "CC" } },
+    { match: { matchDate: "2025-11-01T16:00:00+01:00", homeScore: 1, awayScore: 1, finalHomeScore: 3, finalAwayScore: 1 }, homeTeam: { name: A.n }, awayTeam: { name: W.n }, matchType: { id: "CUP" } } ], "20252026");
+  ok(hist.length === 4 && hist.find(x => x.typ === "CUP").hs === 3, "Historie: ohne Ergebnis weg, Endergebnis vor 90-min-Stand");
+  const sp = g(99, 5, "2026-11-22T16:00:00+01:00", W, A, null, null);
+  const du = M.duelle(sp, new Set([1]), { 9: k }, hist);
+  ok(du.length === 3 && du[0].d.startsWith("2026-09-01") && du[0].e === "s" && du.map(x => x.e).join() === "s,n,n" && !du.some(x => x.hs === 5),
+    "Direkter Vergleich: Liga + Pokal aus Saison und Historie, ohne Freundschaftsspiel, neueste zuerst — ist " + JSON.stringify(du));
+  const vj = M.vorjahrPunkte(hist, W.n, 2, "20262027");
+  ok(vj && vj.p === 3 && vj.saison === 20252026 && M.vorjahrPunkte(hist, W.n, 5, "20262027") === null, "Vorjahr: Punkte nach n Ligaspielen, zu wenig Spiele → nichts — ist " + JSON.stringify(vj));
 }
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen grün`);
 process.exit(fehler ? 1 : 0);

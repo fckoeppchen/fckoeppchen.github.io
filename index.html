@@ -240,6 +240,51 @@
   .tmz{display:flex;align-items:center;gap:6px}
   .lgk{width:20px;height:20px;object-fit:contain;flex:none}
   .lgf{width:16px;height:16px;object-fit:contain;vertical-align:-3px;margin-right:5px}
+  /* Neue Ansicht (vom Nutzer, 19.11.2026): Auswahl oben, Leiste unten. Nur mit body[data-neu], bis NEUE_ANSICHT für alle an ist. */
+  .nv,.unten{display:none}
+  body[data-neu] #leiste,body[data-neu] #zahnrad,body[data-neu] #coachknopf{display:none!important}
+  body[data-neu] header{border-bottom:5px solid var(--accent)}
+  body[data-neu] .nv{display:flex;padding-top:10px}
+  .nv button{flex:1;display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;color:#111;border:0;border-radius:10px;padding:10px 14px;font:700 17px Barlow,sans-serif;cursor:pointer}
+  .nv button .pf{font-size:13px;color:#6b716e;font-weight:700}
+  .nv .titel{flex:1;color:#fff;font:22px 'Bebas Neue',sans-serif;letter-spacing:1px;padding:6px 2px}
+  body[data-neu] .unten{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#111;border-top:5px solid var(--accent);padding:6px 4px calc(10px + env(safe-area-inset-bottom))}
+  body[data-neu]{padding-bottom:84px}
+  .unten button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;color:#9aa19e;font:700 11px Barlow,sans-serif;cursor:pointer;position:relative;padding:2px 0}
+  .unten button i{font-style:normal;font-size:21px;filter:grayscale(1);opacity:.75}
+  .unten button.on{color:#fff}.unten button.on i{filter:none;opacity:1}
+  .unten button .punkt{position:absolute;top:0;left:calc(50% + 8px);width:9px;height:9px;border-radius:50%;background:#e53935;border:2px solid #111}
+  .sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:60;display:flex;align-items:flex-end}
+  .sheet[hidden]{display:none}
+  .sheet .in{background:#fff;width:100%;max-width:720px;margin:0 auto;border-radius:18px 18px 0 0;padding:14px 14px calc(24px + env(safe-area-inset-bottom));max-height:85vh;overflow:auto}
+  .sheet h3{font:20px 'Bebas Neue',sans-serif;letter-spacing:1px;margin:4px 2px 10px;display:flex;justify-content:space-between}
+  .sheet h3 button{background:none;border:0;font-size:22px;cursor:pointer;color:#6b716e}
+  .sheet .gr{font:700 12px Barlow,sans-serif;color:#6b716e;text-transform:uppercase;letter-spacing:.8px;margin:12px 2px 6px}
+  .sheet .kn{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .sheet .kn button{background:#f1f3f2;border:0;border-radius:10px;padding:11px 6px;font:700 15px Barlow,sans-serif;color:#111;cursor:pointer}
+  .sheet .kn button.on{background:#111;color:#fff}
+  .sheet .zeile{display:flex;align-items:center;gap:12px;padding:13px 4px;border:0;border-bottom:1px solid var(--line);font:600 16px Barlow,sans-serif;background:none;width:100%;text-align:left;cursor:pointer;color:#111}
+  .sheet .zeile i{font-style:normal;font-size:20px;width:28px;text-align:center}
+  .blaettern{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 0 6px}
+  .blaettern span{font:20px 'Bebas Neue',sans-serif;letter-spacing:1px;color:var(--accentT);text-align:center}
+  .blaettern button{width:42px;height:42px;flex:none;border-radius:50%;border:0;background:#e6f6f2;font-size:22px;color:var(--accentT);cursor:pointer}
+  .blaettern button:disabled{opacity:.3}
+  .platz{border:2px dashed #b9c9c4;border-radius:12px;padding:16px 14px;color:#6b716e;font-size:14px;line-height:1.4;text-align:center}
+  .platz b{display:block;color:#111;font-size:16px;margin-bottom:4px}
+  .kz{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .kz div{background:#f1f5f3;border-radius:10px;padding:10px;text-align:center}
+  .kz b{display:block;font:30px 'Bebas Neue',sans-serif;letter-spacing:1px;color:var(--accentT)}
+  .kz span{font-size:13px;color:#4a504d}
+  .ha{width:100%;border-collapse:collapse;font-size:15px}.ha td,.ha th{padding:7px 4px;text-align:center;border-bottom:1px solid var(--line)}
+  .ha th{color:#6b716e;font-size:13px}.ha td:first-child,.ha th:first-child{text-align:left}
+  .rek div{padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}.rek div:last-child{border-bottom:0}.rek span{color:#6b716e;font-size:13px;display:block}
+  .vgl{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+  .vgl .ft{color:#6b716e;font-size:13px;margin-bottom:6px}
+  .vz{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px;padding:4px 0}
+  .vz .e{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;padding:1px 8px;border-radius:6px;color:#fff;flex:none}
+  .vz .e.s{background:var(--good)}.vz .e.n{background:var(--bad)}.vz .e.u{background:#8a908d}
+  .einlad{display:flex;gap:12px;align-items:center}.einlad .koeppi{flex:none}
+  .einlad .lg2{display:flex;gap:6px;align-items:center;margin-top:6px}.einlad .lg2 img{width:30px;height:30px;object-fit:contain}
 </style>
 </head>
 <body>
@@ -250,9 +295,12 @@
     <button id="coachknopf" class="zahnrad" hidden aria-label="Coach">📋</button>
     <button id="zahnrad" class="zahnrad" hidden aria-label="Mitteilungen">⚙️</button>
   </div>
+  <div class="nv" id="nv"></div>
 </div></header>
 <div id="leiste"><div class="wrap"><div class="seg" id="seg"></div></div></div>
 <main id="main"><div class="note">Lade …</div></main>
+<nav class="unten" id="unten"></nav>
+<div class="sheet" id="sheet" hidden></div>
 
 <script>
 // ==== Logik (ohne DOM, wird von test/fussball.mjs ausgeschnitten) ====
@@ -795,12 +843,85 @@ function wocheBilanz(alle) {
   return b;
 }
 
+// ---- Statistiken der Seniors (Knopf „Team“ der neuen Ansicht, vom Nutzer 19.11.2026) ----
+// Alles aus den FLF-Ergebnissen gerechnet, keine Personendaten. `k` = Ligaklasse, `ids` = unsere Mannschaftsnummern.
+function saisonStats(k, ids) {
+  const sp = (k?.spiele || []).filter(s => s.hs != null && s.as != null).sort((a, b) => a.d.localeCompare(b.d));
+  // Tabellenverlauf: Platz nach jedem Spieltag (Punkte, Tordifferenz, Tore — bei Gleichstand kann die FLF anders sortieren).
+  const tage = [...new Set(sp.map(s => s.tag).filter(t => t != null))].sort((a, b) => a - b);
+  const verlauf = [];
+  for (const tag of tage) {
+    const z = new Map();
+    for (const s of sp.filter(s => s.tag != null && s.tag <= tag))
+      for (const [t, f, g] of [[s.h, s.hs, s.as], [s.a, s.as, s.hs]]) {
+        const r = z.get(t.id) || { id: t.id, p: 0, d: 0, t: 0 };
+        r.p += f > g ? 3 : f === g ? 1 : 0; r.d += f - g; r.t += f; z.set(t.id, r);
+      }
+    const rang = [...z.values()].sort((a, b) => b.p - a.p || b.d - a.d || b.t - a.t);
+    const i = rang.findIndex(r => ids.has(r.id));
+    if (i >= 0) verlauf.push({ tag, platz: i + 1, von: rang.length });
+  }
+  const unsere = sp.filter(s => ids.has(s.h.id) || ids.has(s.a.id)).map(s => {
+    const heim = ids.has(s.h.id); return { s, heim, f: heim ? s.hs : s.as, g: heim ? s.as : s.hs, geg: heim ? s.a.n : s.h.n };
+  });
+  const bilanz = l => ({ sp: l.length, s: l.filter(u => u.f > u.g).length, u: l.filter(u => u.f === u.g).length, n: l.filter(u => u.f < u.g).length,
+    t: l.reduce((a, u) => a + u.f, 0), g: l.reduce((a, u) => a + u.g, 0), p: l.reduce((a, u) => a + (u.f > u.g ? 3 : u.f === u.g ? 1 : 0), 0) });
+  const siege = unsere.filter(u => u.f > u.g);
+  const hoechsterSieg = siege.slice().sort((a, b) => (b.f - b.g) - (a.f - a.g) || b.f - a.f)[0] || null;
+  const toreich = unsere.slice().sort((a, b) => (b.f + b.g) - (a.f + a.g))[0] || null;
+  let serie = 0, lauf = 0;
+  for (const u of unsere) { lauf = u.f >= u.g ? lauf + 1 : 0; serie = Math.max(serie, lauf); }
+  return { verlauf, unsere, alle: bilanz(unsere), heim: bilanz(unsere.filter(u => u.heim)), aus: bilanz(unsere.filter(u => !u.heim)),
+    zuNull: unsere.filter(u => u.g === 0).length, hoechsterSieg, toreich, serie };
+}
+// Punkte nach den ersten n Ligaspielen der Vorsaison (D.historie vom Abruf). `name` = FLF-Name unserer Mannschaft.
+function vorjahrPunkte(historie, name, n, saison) {
+  const vor = Math.max(0, ...(historie || []).map(x => +x.s).filter(x => x < +saison));
+  if (!vor) return null;
+  const l = historie.filter(x => +x.s === vor && x.typ === "CC" && (x.h === name || x.a === name)).sort((a, b) => a.d.localeCompare(b.d)).slice(0, n);
+  if (l.length < n) return null;
+  return { saison: vor, p: l.reduce((a, x) => { const f = x.h === name ? x.hs : x.as, g = x.h === name ? x.as : x.hs; return a + (f > g ? 3 : f === g ? 1 : 0); }, 0) };
+}
+// Direkter Vergleich: frühere Duelle (Liga und Pokal, keine Freundschaftsspiele) — diese Saison aus den Klassen, davor aus D.historie
+// (FLF hat Spiele ab 2024-25). Neueste zuerst, höchstens `max`.
+function duelle(sp, ids, klassen, historie, max = 4) {
+  const wir = ids.has(sp.h.id) ? sp.h.n : sp.a.n, geg = ids.has(sp.h.id) ? sp.a.n : sp.h.n;
+  const passt = (h, a) => (h === wir && a === geg) || (h === geg && a === wir);
+  const l = [];
+  for (const k of Object.values(klassen || {})) if (k.typ !== "FM")
+    for (const x of k.spiele || []) if (x.id !== sp.id && x.hs != null && x.as != null && Date.parse(x.d) < Date.parse(sp.d) && passt(x.h.n, x.a.n))
+      l.push({ d: x.d, h: x.h.n, a: x.a.n, hs: x.hs, as: x.as });
+  for (const x of historie || []) if (x.typ !== "FM" && passt(x.h, x.a) && !l.some(y => y.d === x.d)) l.push(x);
+  return l.sort((a, b) => b.d.localeCompare(a.d)).slice(0, max).map(x => {
+    const wirH = x.h === wir, d = wirH ? x.hs - x.as : x.as - x.hs;
+    return { d: x.d, wirHeim: wirH, hs: x.hs, as: x.as, e: d > 0 ? "s" : d < 0 ? "n" : "u" };
+  });
+}
+// Liga der Seniors: Spieltag zum Blättern, beim Öffnen der zuletzt (auch angefangen) gespielte.
+function aktuellerSpieltag(k) {
+  const mit = (k?.spiele || []).filter(s => s.tag != null && s.hs != null).map(s => s.tag);
+  return mit.length ? Math.max(...mit) : Math.min(...(k?.spiele || []).map(s => s.tag).filter(t => t != null), 1);
+}
+
 // ==== Oberfläche ====
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "19.11.2026 neu a";
+const FASSUNG = "19.11.2026 neu b";
 const KEY = "fussball_v1";
+// ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
+// Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
+// Für alle: NEUE_ANSICHT = true (danach die alte Ansicht ausbauen).
+const NEUE_ANSICHT = false;
+const ALT_ANSICHT = KEY + "_altansicht";
+function neuAn() {
+  try {
+    if (localStorage.getItem(ALT_ANSICHT) === "1") return false;
+    return NEUE_ANSICHT || ["pro", "test"].includes(localStorage.getItem(KEY + "_mtest"));
+  } catch (e) { return NEUE_ANSICHT; }
+}
+let SHEET = null;   // "wahl" | "mehr" | null
+const SPIELTAG = {};   // Seniors-Liga: gewählter Spieltag je Klasse
 const QUELLEN = [
   // raw.githubusercontent schickt CORS-Freigabe und ist nach einem Commit der Action
   // nach wenigen Minuten aktuell, ohne auf den Neuaufbau von GitHub Pages zu warten.
@@ -1086,6 +1207,12 @@ function renderInnen() {
   // Reiter (persist beim Umschalten). Gibt es den gemerkten Reiter nicht mehr, auch die Woche.
   const extra = extraReiter(D);
   if (!tabs.some(t => t.id === ST.team) && !extra.some(t => t.id === ST.team)) ST.team = "woche";
+  // Neue Ansicht: Auswahl oben, Leiste unten, Seite nach Knopf aufgeteilt (nur mit Schalter, siehe neuAn).
+  const NEU = neuAn();
+  document.body.toggleAttribute("data-neu", NEU);
+  if (typeof ST.team === "number") ST.mann = ST.team;
+  if (NEU) neuLeisten(tabs, extra);
+  else { SHEET = null; document.getElementById("sheet").hidden = true; }
   const wTage = wocheTage(Date.now()), wAlle = wocheSpiele(D, wTage, Date.now());
   const heuteN = wAlle.filter(sp => tagLux(Date.parse(sp.d)) === tagLux(Date.now())).length;
   const liveN = liveZahl(Date.now());
@@ -1171,7 +1298,7 @@ function renderInnen() {
     v.team.kat === "Seniors" && !morgen.sp.coach && morgen.sp.typ !== "FM");   // Form auch am Vortag (vom Nutzer, 8.11.2026)
   h += letztesHtml(v, now);
   if (lv) h += liveHtml(lv, n => anzeige(n).startsWith("Koeppchen"), "offiziell zählt die FLF");
-
+  if (NEU && kinder) h += einladungHtml(now);
 
   h += `<section class="card"><div class="chead"><h2>Nächste Spiele</h2></div><div class="cbody">`;
   if (!v.kommend.length) h += kinder && !v.status?.keinePhase ? koeppiZeile("ruhig", "Noch keine Termine eingetragen.", "links") : `<div class="muted">Noch keine Termine eingetragen.</div>`;
@@ -1195,17 +1322,19 @@ function renderInnen() {
   h += `</div></section>`;
 
   const keinePhase = !!v.status?.keinePhase;
+  // Teile der Seite: alte Ansicht alles untereinander, neue Ansicht je nach Knopf unten (Spiele / Liga / Früher bzw. Team).
+  let tab = "", erg = "", alleSp = "", frueher = "";
   if (keinePhase) {}
   else if (v.aktuell && !v.aktuell.ergebnisse && !v.aktuell.tabelle) {
-    h += `<div class="note">In der ${esc(v.team.kat)} veröffentlicht die FLF keine Ergebnisse und keine Tabelle — hier stehen darum nur die Termine.${v.team.kat === "U7" ? ` Die Mini-Spieltage stehen nicht im Extranet, sondern als PDF auf <a href="https://www.flf.lu/generaux-92804v4" target="_blank" rel="noopener">flf.lu</a>. Anstoß meist 10:30 (sauf changement), die genaue Uhrzeit kommt mit dem Wochenprogramm.` : ""}</div>`;
+    tab += `<div class="note">In der ${esc(v.team.kat)} veröffentlicht die FLF keine Ergebnisse und keine Tabelle — hier stehen darum nur die Termine.${v.team.kat === "U7" ? ` Die Mini-Spieltage stehen nicht im Extranet, sondern als PDF auf <a href="https://www.flf.lu/generaux-92804v4" target="_blank" rel="noopener">flf.lu</a>. Anstoß meist 10:30 (sauf changement), die genaue Uhrzeit kommt mit dem Wochenprogramm.` : ""}</div>`;
   } else if (v.aktuell) {
-    h += `<section class="card"><div class="chead"><h2>Tabelle</h2><div class="hint">${esc(v.aktuell.n)}</div></div>
+    tab += `<section class="card"><div class="chead"><h2>Tabelle</h2><div class="hint">${esc(v.aktuell.n)}</div></div>
       <div class="cbody">${tabelleHtml(v.aktuell, v.eigen)}</div></section>`;
   }
 
   if (!keinePhase) {
-  h += `<section class="card"><div class="chead"><h2>${v.aktuell && !v.aktuell.ergebnisse ? "Bisherige Spiele" : "Unsere Ergebnisse"}</h2></div><div class="cbody">`;
-  if (!v.gespielt.length) h += `<div class="muted">Noch nichts gespielt.</div>`;
+  erg += `<section class="card"><div class="chead"><h2>${v.aktuell && !v.aktuell.ergebnisse ? "Bisherige Spiele" : "Unsere Ergebnisse"}</h2></div><div class="cbody">`;
+  if (!v.gespielt.length) erg += `<div class="muted">Noch nichts gespielt.</div>`;
   const ergZeile = sp => {
     const pokal = art(sp) ? " · " + art(sp) : "";
     const fehlt = !sp.gespielt && sp.erg !== false ? " · Ergebnis noch nicht eingetragen" : "";
@@ -1213,21 +1342,196 @@ function renderInnen() {
   };
   // Solange Koeppi lobt, steht das Spiel mit im Kasten (vom Nutzer, 25.10.2026) — gleich dargestellt wie in der
   // Liste (Wunsch des Vereins: Ergebnis nicht hervorheben), danach wieder normal unten in der Liste.
-
-  for (const sp of v.gespielt) h += ergZeile(sp);
-  h += `</div></section>`;
+  for (const sp of v.gespielt) erg += ergZeile(sp);
+  erg += `</div></section>`;
   }
 
+  // In der neuen Ansicht sind „Alle Spiele“ und „Früher“ gleich aufgeklappt — dafür hat man den Knopf getippt.
+  const auf = NEU ? " open" : "";
   if (v.aktuell && !keinePhase) {
-    h += `<details class="card"><summary><h2>Alle Spiele der Klasse</h2><span class="hint">${v.aktuell.spiele.length} Spiele</span></summary>
+    alleSp += `<details class="card"${auf}><summary><h2>Alle Spiele der Klasse</h2><span class="hint">${v.aktuell.spiele.length} Spiele</span></summary>
       <div class="cbody">${alleSpieleHtml(v.aktuell, ids)}</div></details>`;
   }
   for (const k of keinePhase ? [v.aktuell, ...v.frueher] : v.frueher) {
-    h += `<details class="card"><summary><h2>Früher: ${esc(k.n.replace(alter, "").trim() || k.n)}</h2></summary>
+    frueher += `<details class="card"${auf}><summary><h2>Früher: ${esc(k.n.replace(alter, "").trim() || k.n)}</h2></summary>
       <div class="cbody">${tabelleHtml(k, v.eigen)}<div style="margin-top:10px">${alleSpieleHtml(k, ids)}</div></div></details>`;
   }
 
-  main.innerHTML = h + fuss();
+  if (!NEU) { main.innerHTML = h + tab + erg + alleSp + frueher + fuss(); return; }
+  const seniors = v.team.kat === "Seniors", knopf = ST.knopf || "spiele";
+  let inhalt;
+  if (knopf === "liga") inhalt = keinePhase
+    ? `<div class="note">Für ${esc(v.team.reiter)} ist im Moment keine neue Phase vorgesehen. Die Tabelle der letzten Phase steht unter „Früher“.</div>`
+    : (tab + (seniors && v.aktuell?.tabelle ? spieltagBlaettern(v.aktuell, ids, now) : alleSp)) || `<div class="note">Noch keine Liga eingetragen.</div>`;
+  else if (knopf === "vier") inhalt = seniors ? teamHtml(v, now) : frueher || `<div class="note">In dieser Saison gibt es für ${esc(v.team.reiter)} noch keine früheren Phasen.</div>`;
+  else inhalt = h + erg;
+  main.innerHTML = inhalt + fuss();
+}
+
+// ---- Neue Ansicht: Leisten, Auswahl, „Mehr“ (vom Nutzer, 19.11.2026) ----
+const mannName = id => typeof id === "number" ? (D?.teams.find(t => t.id === id)?.reiter || "") : id === "bgl" ? "BGL" : id === "nati" ? "Roude Léiw" : "";
+function neuLeisten(tabs, extra) {
+  const amTeam = typeof ST.team === "number" || ST.team === "bgl" || ST.team === "nati";
+  const wahl = amTeam ? ST.team : (ST.mann ?? tabs[0]?.id);
+  const nv = document.getElementById("nv");
+  nv.innerHTML = MITT_OFFEN ? `<div class="titel">Mitteilungen</div>` : COACH_OFFEN ? `<div class="titel">Coach</div>`
+    : ST.team === "jk" ? `<div class="titel">Jugendkommission</div>`
+    : `<button data-sheet="wahl"><span><span class="pf">${ST.team === "bgl" || ST.team === "nati" ? "" : "Mannschaft · "}</span>${esc(mannName(wahl))}</span><span>▾</span></button>`;
+  const seniors = D?.teams.find(t => t.id === ST.mann)?.kat === "Seniors";
+  const aktiv = ST.team === "woche" && !MITT_OFFEN && !COACH_OFFEN ? "woche"
+    : MITT_OFFEN || COACH_OFFEN || ST.team === "jk" || ST.team === "bgl" || ST.team === "nati" ? "mehr" : (ST.knopf || "spiele");
+  // Roter Punkt an „Spiele“: die gewählte Mannschaft spielt heute oder morgen.
+  let punkt = false;
+  try { if (typeof ST.mann === "number") { const v = sicht(D, ST.mann, Date.now()); punkt = !!(spieltagHeute(v, Date.now()) || spieltagMorgen(v, Date.now())); } } catch (e) {}
+  const kn = [["woche", "🗓️", "Woche"], ["spiele", "⚽", "Spiele"], ["liga", "📊", "Liga"], ["vier", seniors ? "👕" : "🕘", seniors ? "Team" : "Früher"], ["mehr", "☰", "Mehr"]];
+  document.getElementById("unten").innerHTML = kn.map(([k, i, t]) =>
+    `<button data-knopf="${k}" class="${k === aktiv ? "on" : ""}"><i>${i}</i>${t}${k === "spiele" && punkt ? `<span class="punkt"></span>` : ""}</button>`).join("");
+  const sh = document.getElementById("sheet");
+  sh.hidden = !SHEET;
+  if (SHEET === "wahl") {
+    const kn2 = l => `<div class="kn">${l.map(t => `<button data-t="${t.id}" class="${t.id === ST.team ? "on" : ""}">${esc(t.reiter || t.n)}</button>`).join("")}</div>`;
+    const sen = tabs.filter(t => t.kat === "Seniors"), jug = tabs.filter(t => t.kat !== "Seniors");
+    const mehr = extra.filter(t => t.id === "bgl" || t.id === "nati").map(t => ({ ...t, reiter: t.id === "bgl" ? "BGL" : "Roude Léiw" }));
+    sh.innerHTML = `<div class="in"><h3>Mannschaft wählen<button data-sheet="zu" aria-label="Schließen">✕</button></h3>
+      ${sen.length ? `<div class="gr">Seniors</div>${kn2(sen)}` : ""}${jug.length ? `<div class="gr">Jugend</div>${kn2(jug)}` : ""}${mehr.length ? `<div class="gr">Mehr</div>${kn2(mehr)}` : ""}</div>`;
+  } else if (SHEET === "mehr") {
+    const z = [mitt() && ["mitt", "🔔", "Mitteilungen"], ["bgl", "🏆", "BGL League"], ["nati", "🦁", "Roude Léiw"], ["jk", "🧒", "Jugendkommission"],
+      ["kal", "🗓️", "Kalender abonnieren"], coachDa() && ["coach", "📋", "Coach"], ["teilen", "📤", "App teilen"], ["ds", "🔒", "Datenschutz"],
+      !NEUE_ANSICHT && ["alt", "↩︎", "Alte Ansicht (zum Vergleichen)"]].filter(Boolean);
+    sh.innerHTML = `<div class="in"><h3>Mehr<button data-sheet="zu" aria-label="Schließen">✕</button></h3>${z.map(([k, i, t]) => `<button class="zeile" data-mehr="${k}"><i>${i}</i>${t}</button>`).join("")}</div>`;
+  } else sh.innerHTML = "";
+}
+document.addEventListener("click", e => {
+  const sh = e.target.closest("[data-sheet]");
+  if (sh) { SHEET = sh.dataset.sheet === "zu" ? null : sh.dataset.sheet; render(); return; }
+  if (e.target.id === "sheet") { SHEET = null; render(); return; }
+  if (SHEET === "wahl" && e.target.closest("#sheet [data-t]")) {   // gewählt (den Reiter setzt der allgemeine Klick oben)
+    SHEET = null; if (!["spiele", "liga", "vier"].includes(ST.knopf)) ST.knopf = "spiele"; persist(); render(); return;
+  }
+  const k = e.target.closest("[data-knopf]");
+  if (k) {
+    const kn = k.dataset.knopf;
+    if (kn === "mehr") { SHEET = "mehr"; render(); return; }
+    MITT_OFFEN = false; COACH_OFFEN = false; DS_OFFEN = false;
+    const vorher = ST.team;
+    if (kn === "woche") ST.team = "woche";
+    else { ST.knopf = kn; if (typeof ST.team !== "number") ST.team = ST.mann ?? aufteilen(D).tabs[0]?.id; }
+    persist(); render(); window.scrollTo(0, 0);
+    if (ST.team !== vorher) angesehen();
+    return;
+  }
+  const m = e.target.closest("[data-mehr]");
+  if (m) {
+    const w = m.dataset.mehr; SHEET = null;
+    if (w === "teilen") { render(); appTeilen(m); return; }
+    if (w === "alt") { try { localStorage.setItem(ALT_ANSICHT, "1"); } catch (err) {} render(); window.scrollTo(0, 0); return; }
+    MITT_OFFEN = w === "mitt"; COACH_OFFEN = w === "coach";
+    if (["bgl", "nati", "jk", "kal"].includes(w)) { ST.team = w === "kal" ? "jk" : w; persist(); angesehen(); }
+    if (w === "ds") DS_OFFEN = true;
+    render();
+    const ziel = w === "kal" ? document.querySelector(".kalliste") : w === "ds" ? document.getElementById("datenschutz") : null;
+    if (ziel) ziel.scrollIntoView({ block: "start" }); else window.scrollTo(0, 0);
+    return;
+  }
+  if (e.target.closest("[data-neuzurueck]")) { try { localStorage.removeItem(ALT_ANSICHT); } catch (err) {} render(); window.scrollTo(0, 0); return; }
+  const sp = e.target.closest("[data-sptag]");
+  if (sp) { const [kid, tag] = sp.dataset.sptag.split(":"); SPIELTAG[kid] = +tag; render(); }
+});
+
+// Liga der Seniors: ein Spieltag mit ‹ › statt aller Spiele (vom Nutzer: Seniors ja, Kinder untereinander).
+function spieltagBlaettern(k, ids, now) {
+  const tage = [...new Set(k.spiele.map(s => s.tag).filter(t => t != null))].sort((a, b) => a - b);
+  if (!tage.length) return "";
+  let t = SPIELTAG[k.id] ?? aktuellerSpieltag(k);
+  if (!tage.includes(t)) t = tage[tage.length - 1];
+  const i = tage.indexOf(t), sp = k.spiele.filter(s => s.tag === t).sort((a, b) => a.d.localeCompare(b.d));
+  const ds = sp.map(s => Date.parse(s.d)).sort((a, b) => a - b), kopf = ds[Math.floor((ds.length - 1) / 2)];
+  const knopf = (j, z) => `<button data-sptag="${esc(k.id)}:${tage[j]}"${j < 0 || j >= tage.length ? " disabled" : ""} aria-label="${z === "‹" ? "Spieltag davor" : "Nächster Spieltag"}">${z}</button>`;
+  return `<section class="card"><div class="chead"><h2>Spieltage</h2><div class="hint">${tage.length} Spieltage</div></div><div class="cbody">
+    <div class="blaettern">${knopf(i - 1, "‹")}<span>Spieltag ${t} · ${esc(wann(new Date(kopf).toISOString(), false))}</span>${knopf(i + 1, "›")}</div>
+    ${sp.map(s => spielZeile({ ...s, erg: k.ergebnisse }, ids, offenMeta(s, tagLux(kopf), now, k.ergebnisse === false))).join("")}</div></section>`;
+}
+
+// FuPa-Widgets „Kader“ und „Torjäger“ (vom Nutzer, 19.11.2026: legt er im Widget-Builder an). Bis die Nummern da sind: Platzhalter.
+const FUPA_KADER = {};       // { "Seniors 1": "<Widget-Nummer>", … }
+const FUPA_TORJAEGER = {};   // dito, je Liga der Mannschaft
+function fupaKarte(titel, hint, id, platzhalter) {
+  if (!id) return `<section class="card"><div class="chead"><h2>${titel}</h2><div class="hint">${hint}</div></div><div class="cbody">
+    <div class="platz"><b>Hier kommt das FuPa-Widget „${titel}“</b>${platzhalter}</div></div></section>`;
+  return `<section class="card fupakarte"><div class="chead"><h2>${titel}</h2><div class="hint">${hint}</div></div><div class="cbody">` + (fupaOk()
+    ? `<div class="fupaplatz" data-fw="${esc(id)}"></div>`
+    : `<div class="fupatext">Kommt direkt von <a href="https://www.fupa.net/club/fc-koeppchen" target="_blank" rel="noopener">FuPa</a>. Dafür verbindet sich das Handy mit FuPa, FuPa sieht dabei seine Internet-Adresse.</div>
+      <button class="kal" data-fupa="ja" style="margin-top:10px">Von FuPa anzeigen</button>`) + `</div></section>`;
+}
+
+// Knopf „Team“ der Seniors: Statistik aus den FLF-Ergebnissen, Kader/Torjäger von FuPa, Pokal.
+function teamHtml(v, now) {
+  const k = v.aktuell, st = k ? saisonStats(k, v.ids) : null, r = v.team.reiter;
+  const zeile = (k?.tabelle || []).find(x => v.eigen.has(x.id));
+  let h = "";
+  if (st && st.unsere.length) {
+    h += `<section class="card"><div class="chead"><h2>Saison in Zahlen</h2><div class="hint">${esc(k.n)}</div></div><div class="cbody"><div class="kz">
+      <div><b>${zeile ? zeile.pl + "." : st.verlauf.at(-1)?.platz + "."}</b><span>Platz nach ${zeile ? zeile.sp : st.alle.sp} Spielen</span></div>
+      <div><b>${zeile ? zeile.pkt : st.alle.p}</b><span>Punkte</span></div>
+      <div><b>${st.alle.t}</b><span>Tore geschossen</span></div><div><b>${st.zuNull}</b><span>Spiele ohne Gegentor</span></div></div></div></section>`;
+    if (st.verlauf.length >= 2) {
+      const n = st.verlauf.length, von = Math.max(...st.verlauf.map(x => x.von)), W = 330, H = 160;
+      const x = i => 22 + i * (W - 32) / (n - 1), y = p => 10 + (p - 1) * (H - 20) / Math.max(1, von - 1);
+      const marken = [...new Set([1, Math.round(von / 4), Math.round(von / 2), Math.round(3 * von / 4), von])].filter(p => p >= 1);
+      h += `<section class="card"><div class="chead"><h2>Tabellenverlauf</h2><div class="hint">Platz nach jedem Spieltag</div></div><div class="cbody">
+        <svg viewBox="0 0 ${W} ${H + 18}" width="100%" role="img" aria-label="Tabellenverlauf">
+        ${marken.map(p => `<text x="14" y="${y(p) + 4}" font-size="10" text-anchor="end" fill="#6b716e">${p}.</text><line x1="22" x2="${W - 10}" y1="${y(p)}" y2="${y(p)}" stroke="#e3e6e4"/>`).join("")}
+        <polyline fill="none" stroke="#0f7a65" stroke-width="3" stroke-linejoin="round" points="${st.verlauf.map((p, i) => x(i) + "," + y(p.platz)).join(" ")}"/>
+        ${st.verlauf.map((p, i) => `<circle cx="${x(i)}" cy="${y(p.platz)}" r="4" fill="#0f7a65"/>`).join("")}
+        ${st.verlauf.map((p, i) => n <= 16 || i % 2 === 0 ? `<text x="${x(i)}" y="${H + 14}" font-size="10" text-anchor="middle" fill="#6b716e">${p.tag}</text>` : "").join("")}</svg>
+        <div class="muted" style="font-size:12px">Selbst gerechnet aus den Ergebnissen (Punkte, Tordifferenz, Tore); bei Gleichstand sortiert die FLF manchmal anders.</div></div></section>`;
+    }
+  }
+  h += fupaKarte("Kader", "von FuPa", FUPA_KADER[r], `Alle Spieler der ${esc(r)} mit Position, Einsätzen und Toren dieser Saison. Platzhalter, bis die Widget-Nummer eingetragen ist.`);
+  h += fupaKarte("Torjäger", (k ? esc(k.n) + " · " : "") + "von FuPa", FUPA_TORJAEGER[r], "Die besten Torschützen der Liga. Platzhalter, bis die Widget-Nummer eingetragen ist.");
+  if (st && st.unsere.length) {
+    const b = (x, name) => `<tr><td>${name}</td><td>${x.sp}</td><td>${x.s}</td><td>${x.u}</td><td>${x.n}</td><td>${x.t}:${x.g}</td><td><b>${x.p}</b></td></tr>`;
+    h += `<section class="card"><div class="chead"><h2>Zu Hause und auswärts</h2><div class="hint">Liga</div></div><div class="cbody"><table class="ha">
+      <tr><th></th><th>Sp</th><th>S</th><th>U</th><th>N</th><th>Tore</th><th>Pkt</th></tr>${b(st.heim, "🏠 Zu Hause")}${b(st.aus, "✈️ Auswärts")}</table></div></section>`;
+    const dat = u => esc(wann(u.s.d, false).split(" · ")[0]);
+    h += `<section class="card"><div class="chead"><h2>Rekorde der Saison</h2><div class="hint">Liga</div></div><div class="cbody rek">
+      <div><span>Höchster Sieg</span>${st.hoechsterSieg ? `${st.hoechsterSieg.f}:${st.hoechsterSieg.g} gegen ${esc(anzeige(st.hoechsterSieg.geg))} (${dat(st.hoechsterSieg)})` : "noch kein Sieg"}</div>
+      <div><span>Torreichstes Spiel</span>${st.toreich.f}:${st.toreich.g} gegen ${esc(anzeige(st.toreich.geg))} (${dat(st.toreich)})</div>
+      <div><span>Längste Serie ohne Niederlage</span>${st.serie} ${st.serie === 1 ? "Spiel" : "Spiele"}</div></div></section>`;
+    const u0 = st.unsere[0], name = u0.heim ? u0.s.h.n : u0.s.a.n;
+    const vj = vorjahrPunkte(D.historie, name, st.alle.sp, D.saison.id);
+    if (vj) {
+      const sz = x => String(x).slice(0, 4) + "-" + String(x).slice(6);
+      h += `<section class="card"><div class="chead"><h2>Vergleich mit letzter Saison</h2></div><div class="cbody"><div class="kz">
+        <div><b>${st.alle.p}</b><span>Punkte nach ${st.alle.sp} Spielen<br>${sz(D.saison.id)}</span></div>
+        <div><b>${vj.p}</b><span>Punkte nach ${st.alle.sp} Spielen<br>${sz(vj.saison)}</span></div></div></div></section>`;
+    }
+  }
+  const pokal = [...v.gespielt].reverse().concat(v.kommend).filter(sp => sp.typ === "CUP");
+  if (pokal.length) h += `<section class="card"><div class="chead"><h2>Pokal</h2><div class="hint">diese Saison</div></div><div class="cbody">
+    ${pokal.map(sp => spielZeile(sp, v.ids, [esc((sp.klasse || "").replace(/^Coupe de Luxembourg\s*-\s*/, "")), pokalOffen(sp) ? "nach 90 Min., Endstand folgt" : pokalArt(sp)].filter(Boolean).join(" · "))).join("")}</div></section>`;
+  return h || `<div class="note">Noch keine Daten für ${esc(r)}.</div>`;
+}
+
+// Direkter Vergleich im Heute-/Morgen-Kasten der Seniors (neue Ansicht): letzte Duelle Liga + Pokal, FLF ab 2024-25.
+function vergleichHtml(sp, ids) {
+  const l = duelle(sp, ids, D?.klassen, D?.historie);
+  if (!l.length) return "";
+  const kurz = n => esc(anzeige(n));
+  const wir = ids.has(sp.h.id) ? sp.h.n : sp.a.n, geg = ids.has(sp.h.id) ? sp.a.n : sp.h.n;
+  return `<div class="vgl"><div class="ft">Direkter Vergleich · letzte Duelle (Liga und Pokal)</div>${l.map(x =>
+    `<div class="vz"><span>${esc(new Date(x.d).toLocaleDateString("de-DE", { timeZone: TZ, day: "numeric", month: "numeric", year: "2-digit" }))} · ${x.wirHeim ? kurz(wir) + " – " + kurz(geg) : kurz(geg) + " – " + kurz(wir)}</span><span class="e ${x.e}">${x.hs}:${x.as}</span></div>`).join("")}</div>`;
+}
+
+// Kinder (neue Ansicht, vom Nutzer 19.11.2026): Einladung zum nächsten Heimspiel der Ersten, bis 7 Tage vorher.
+function einladungHtml(now) {
+  const t = D.teams.find(t => t.reiter === "Seniors 1");
+  if (!t) return "";
+  const v = sicht(D, t.id, now), sp = v.kommend.find(s => !s.abgesagt && !s.coach);
+  if (!sp || !v.ids.has(sp.h.id) || Date.parse(sp.d) - now > 7 * 864e5 || zeitOffen(sp)) return "";
+  const lg = logoImg(sp.h.id, "") && logoImg(sp.a.id, "") ? `<div class="lg2">${logoImg(sp.h.id, "")}<span>gegen</span>${logoImg(sp.a.id, "")}</div>` : "";
+  return `<section class="card"><div class="chead"><h2>Unsere Erste spielt!</h2><span class="pill">Heimspiel</span></div><div class="cbody"><div class="einlad">
+    ${koeppiBild("fahne")}<div><b>${esc(wann(sp))}</b>${sp.ort ? `<br>📍 ${esc(sp.ort)}` : ""}<br>Seniors 1 gegen ${esc(anzeige(sp.a.n))} – kommt vorbei und feuert unsere Erste an! 💪${lg}</div></div>${MOTTO}</div></section>`;
 }
 
 function kalKnopf(kal, ohneHilfe) {
@@ -1290,6 +1594,7 @@ function fuss() {
       Spielpläne und Ergebnisse kommen von der FLF und von FuPa.${!FUPA_API ? ` Den Liveticker der Seniors lädt die App erst, wenn man „Liveticker anzeigen“ tippt, direkt von FuPa (fupa.net); FuPa sieht dabei die Internet-Adresse des Handys.${fupaOk() ? ` <button class="kal" data-fupa="nein" style="margin:4px 0">FuPa-Liveticker nicht mehr laden</button>` : ""}` : ""} Die Events kommen von der Vereins-Homepage fckoeppchen.lu. Das Wetter kommt von Open-Meteo (open-meteo.com). Der Knopf „Live-Video · RTL“ öffnet die Seite von RTL. Der Knopf „Weg zum Platz“ öffnet Google Maps mit der Adresse des Platzes. Das Video im Reiter der Jugendkommission wird von YouTube geladen.
       Fragen: <a href="mailto:koeppchenapp@hotmail.com">koeppchenapp@hotmail.com</a>
     </details>
+    ${!NEUE_ANSICHT && !neuAn() && (() => { try { return localStorage.getItem(ALT_ANSICHT) === "1"; } catch (e) { return false; } })() ? `<button class="kal" data-neuzurueck="1" style="margin-top:8px">Neue Ansicht testen</button>` : ""}
     <div style="margin-top:6px;font-size:11px">Fassung ${FASSUNG}</div></footer>`;
 }
 // Datenschutz bleibt offen, wenn die Fußzeile bei einem Takt neu gebaut wird; beim Reiterwechsel zu wie alles andere (vom Nutzer).
@@ -1365,7 +1670,7 @@ function heuteHtml(heute, ids, { live, widget, link, pill, ohneLive, koeppi, mot
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.h.id, "lgg") : ""}${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.a.id, "lgg") : ""}${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}${adresseZeile(sp, ids)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
-    ${form ? formHtml(sp, ids) : ""}
+    ${form ? formHtml(sp, ids) + (neuAn() ? vergleichHtml(sp, ids) : "") : ""}
     ${unten ? `<div class="zusatz">${fupaLink(esc(unten), (live || link) && fupaUrl)}</div>` : ""}${rtlKnopf(sp, heute.begonnen ? "🔴 Live-Video · RTL" : "📺 Live-Video ab Anpfiff · RTL")}${kz}${motto && !koeppi ? MOTTO : ""}
     </div></section>`;
 }
@@ -1410,7 +1715,7 @@ function morgenHtml(m, ids, pill, koeppi = true, form = false, motto = true, log
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.h.id, "lgg") : ""}${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.a.id, "lgg") : ""}${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}${adresseZeile(sp, ids)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
-    ${form ? formHtml(sp, ids) : ""}
+    ${form ? formHtml(sp, ids) + (neuAn() ? vergleichHtml(sp, ids) : "") : ""}
     ${koeppi ? koeppiZeile("trinkflasche", "Trinkflasche nicht vergessen! 😉", "", true) : motto ? MOTTO : ""}
     </div></section>`;
 }

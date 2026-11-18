@@ -449,3 +449,24 @@ Idee nach urb.lu („Bilanz géint …“, „Éischt Duell“). Quellen für fr
   Mannschaften** → Seniors 1 ab 2021 (~32 Spiele/Saison). Namen luxemburgisch („Koeppchen Wuermer“, „CS Uewerkuer“), Zuordnung über RTL-Teamnummer nötig.
 - **FuPa**: Seniors 1 ab 2014-15, Réserves I ab 2019-20, Réserves II ab 2024-25 (25 je Seite, also blättern). Nur mit FuPas Okay (Schnittstelle ruht).
 Plan war: Gegner über Vereinsnummer, Liga + Pokal, keine Freundschaftsspiele, Anzeige im Heute-Kasten unter der Form.
+
+## Neue Ansicht: Leiste unten (vom Nutzer, 18./19.11.2026) — Bauplan, **hinter Schalter im Bau**
+Anlass: Kopf + „Unsere Woche“ + 16 Reiter belegten ~⅓ des Bildschirms. Zahlen 17.11.: 18 Öffnungen, 32 angesehene Reiter — fast nur die
+eigene Mannschaft + Woche. Muster als Bildschirmfotos gezeigt (Variante B), vom Nutzer gewählt und geändert.
+**Schalter:** `NEUE_ANSICHT` (false) — bis dahin nur Geräte mit eigenem Code („pro“) oder Tester-Code („test“); unter „Mehr“ „Alte Ansicht“
+zum Vergleichen (`fussball_v1_altansicht`). Für alle: `NEUE_ANSICHT = true`, danach alte Ansicht ausbauen. Testphase 1–2 Wochen.
+- **Oben:** Kopf wie bisher, darunter eine Zeile „Mannschaft · SCO ▾“ → Auswahl von unten (Seniors / Jugend / Mehr: BGL, Roude Léiw). Zahnrad und 📋 oben weg.
+- **Unten (fest):** 🗓️ Woche · ⚽ Spiele · 📊 Liga · 🕘 Früher (Seniors: 👕 Team) · ☰ Mehr. Roter Punkt an „Spiele“ bei Spiel heute/morgen.
+- **Spiele:** Phase-Hinweis/Keine neue Phase, Heute/Morgen/Letztes, Live, Nächste Spiele (+ Kalender-Knopf), Unsere Ergebnisse; alle Spiele
+  (Liga, Pokal, Freundschaft, Trainer). Kinder: Kasten „Unsere Erste spielt!“ vor einem Heimspiel der Seniors 1 (bis 7 Tage vorher, Fahnen-Koeppi).
+- **Liga:** Tabelle + Spieltage. Kinder alle untereinander (aufgeklappt), **Seniors ein Spieltag mit ‹ ›** (aktueller zuerst). U7/U9/U11 nur Spieltage.
+  Keine neue Phase → Hinweis auf „Früher“.
+- **Früher** (nicht Seniors): vergangene Phasen aufgeklappt; keine → „Keine früheren Phasen“.
+- **Team** (Seniors 1–3): Saison in Zahlen, Tabellenverlauf (selbst gerechnet), Kader + Torjäger (FuPa-Widgets, **Nummern liefert der Nutzer**;
+  bis dahin Platzhalter), Zu Hause/Auswärts, Rekorde, Vergleich mit letzter Saison, Pokal.
+- **Direkter Vergleich** im Heute-/Morgen-Kasten der Seniors (unter der Form): letzte Duelle Liga + Pokal aus FLF-Daten ab 2024-25
+  (`D.historie`, holt der Abruf um 7 Uhr). Achtung: am 7.11. hatte der Nutzer „lass Bilanz sein“ gesagt — jetzt im Muster gesehen und
+  „mach das“; beim Test noch einmal bestätigen lassen.
+- **Mehr:** Mitteilungen, BGL, Roude Léiw, Jugendkommission, Kalender, Coach (mit Code), App teilen, Datenschutz, Alte Ansicht.
+- **BGL/Roude Léiw/Jugendkommission:** ganze Seite wie bisher, Leiste zeigt „Mehr“.
+- Offen: Leiste beim Scrollen ausblenden (erst am iPhone testen), Leiste am Home-Balken der installierten App prüfen.

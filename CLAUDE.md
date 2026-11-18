@@ -530,6 +530,19 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   darunter „noch nicht gespielt (verlegt)“, weil `offenMeta` fehlendes Ergebnis + Termin > 3 Tage vorbei als verlegt las — in Klassen ohne Ergebnisse
   fehlt es immer, und viele Vereine melden den Spielbericht nicht. `offenMeta(…, ohneErg)` (`k.ergebnisse === false`): vorbei = gespielt. Browser PUP 1:
   vorher 19× „verlegt“, jetzt 0; SCO/Seniors unverändert.
+- **Neue Ansicht: Auswahl oben, Leiste unten — hinter Schalter** (vom Nutzer, 19.11.2026, Fassung 19.11. neu b; Bauplan in `IDEEN.md`
+  „Neue Ansicht“). `NEUE_ANSICHT` (false) — bis dahin nur Geräte mit Merker `fussball_v1_mtest` „pro“ oder „test“ (`neuAn`); „Mehr → Alte Ansicht“
+  (`fussball_v1_altansicht`) und in der Fußzeile „Neue Ansicht testen“ zurück. `body[data-neu]` blendet `#leiste`, Zahnrad und 📋 aus; `#nv` (Auswahl
+  „Mannschaft · SCO ▾“ bzw. Titel), `#unten` (Woche · Spiele · Liga · Früher/Team · Mehr, roter Punkt bei Spiel heute/morgen), `#sheet` (Auswahl / Mehr,
+  `SHEET`). Zustand `ST.knopf` (spiele|liga|vier), `ST.mann` (zuletzt gewählte Mannschaft). `renderInnen` baut die Teile getrennt (`h` Spiele, `tab`,
+  `erg`, `alleSp`, `frueher`): alte Ansicht alles untereinander wie vorher; neu je Knopf. Liga: Kinder Tabelle + alle Spieltage aufgeklappt,
+  Seniors Tabelle + `spieltagBlaettern` (‹ ›, `SPIELTAG`, Start `aktuellerSpieltag`). Früher aufgeklappt. **Team** (Seniors, `teamHtml`): Saison in Zahlen,
+  Tabellenverlauf (SVG, `saisonStats` — selbst gerechnet), Kader/Torjäger (`FUPA_KADER`/`FUPA_TORJAEGER` leer → Platzhalter; Nummern liefert der Nutzer),
+  Heim/Auswärts, Rekorde, Vergleich Vorsaison (`vorjahrPunkte`), Pokal. **Direkter Vergleich** (`duelle`, `vergleichHtml`) unter der Form im
+  Heute-/Morgen-Kasten, nur neue Ansicht. Daten: `D.historie` (tools/fussball.mjs `historieAus`, Seniors der zwei Vorsaisons, um 7 Uhr). Kinder:
+  `einladungHtml` „Unsere Erste spielt!“ bis 7 Tage vor einem Heimspiel der Seniors 1. BGL/Roude Léiw/Jugendkommission: ganze Seite, Leiste „Mehr“.
+  Tests (522) mit Gegenprobe; Browser bei 390 px mit und ohne Code (ohne Code unverändert), Alte Ansicht hin und zurück, keine Fehler.
+  **Am iPhone noch nicht geprüft** (Leiste am Home-Balken der installierten App).
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es

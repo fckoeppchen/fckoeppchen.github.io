@@ -394,6 +394,14 @@ export function fupaTabelleMitFlfNamen(standings, flfSpiele, gemerkt = {}, minSp
   return { tabelle, namen };
 }
 
+// Frühere Spiele kurz (für direkten Vergleich und Vorjahr): nur gespielte mit Ergebnis, Endergebnis vor 90-min-Stand.
+export function historieAus(matches, s) {
+  return (matches || []).map(m => {
+    const x = m.match, hs = x.finalHomeScore ?? x.homeScore, as = x.finalAwayScore ?? x.awayScore;
+    return hs == null || as == null || !m.homeTeam || !m.awayTeam ? null
+      : { s, d: x.matchDate, h: m.homeTeam.name, a: m.awayTeam.name, hs, as, typ: m.matchType?.id || "" };
+  }).filter(Boolean);
+}
 // Mannschaft → Verein aus allen geholten FLF-Spielen (für die Logos, tools/logos.mjs).
 const VEREINE = {};
 async function bglHolen(saison, zeit, alt) {
@@ -688,6 +696,25 @@ async function main() {
     neu.logos = r.logos;
     console.log("Logos:", Object.keys(r.logos).length, "Mannschaften,", r.neu, "neu geholt" + (r.fehler.length ? ", Fehler: " + r.fehler.join("; ") : ""));
   } catch (e) { console.error("Logos:", e.message); neu.logos = alt.logos || {}; }
+  // Frühere Saisons der Seniors (vom Nutzer, 19.11.2026: direkter Vergleich und Vorjahr im Knopf „Team“). Die FLF hat Spiele ab 2024-25.
+  // Einmal am Tag um 7 Uhr (oder wenn noch nichts da ist), höchstens die zwei Saisons davor. Fehler → alter Stand.
+  {
+    const stunde = +new Date().toLocaleString("en-GB", { timeZone: "Europe/Luxembourg", hour: "2-digit", hourCycle: "h23" });
+    neu.historie = alt.historie || [];
+    if (!alt.historie || stunde === 7) {
+      try {
+        const frueher = d.seasons.filter(x => +x.id < +saison.id).sort((a, b) => +b.id - +a.id).slice(0, 2);
+        const l = [];
+        for (const sz of frueher) for (const a of AGES.filter(a => a.kat === "Seniors")) {
+          await pause(1000);
+          const { matches } = await gq(Q_MATCHES, { c: { seasonId: sz.id, startDate: day(sz.startDate), endDate: day(sz.endDate), clubId: CLUB, ageCategoryId: a.id, matchTypeId: "ALL" } });
+          l.push(...historieAus(matches, sz.id));
+        }
+        neu.historie = l.sort((a, b) => a.d.localeCompare(b.d));
+        console.log("Historie:", neu.historie.length, "Spiele");
+      } catch (e) { console.error("Historie:", e.message); }
+    }
+  }
   // Adressen der Plätze unserer Spiele (für den Heute-/Morgen-Kasten bei Auswärtsspielen). Nur abfragen, wenn ein Platz noch
   // keine hat oder um 7 Uhr (Anlagen ändern sich selten). Fehler → alter Stand.
   {
