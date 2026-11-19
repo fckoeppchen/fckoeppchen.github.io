@@ -942,7 +942,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu i";
+const FASSUNG = "20.11.2026 neu j";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1412,16 +1412,17 @@ function neuLeisten(tabs, extra) {
   const amTeam = typeof ST.team === "number" || ST.team === "bgl" || ST.team === "nati";
   const wahl = amTeam ? ST.team : (ST.mann ?? tabs[0]?.id);
   const nv = document.getElementById("nv");
-  // Mitteilungen, Coach, Jugendkommission: rechts nichts — der Name steht schon in der grauen Unterzeile.
-  nv.innerHTML = MITT_OFFEN || COACH_OFFEN || ST.team === "jk" ? ""
-    : `<button data-sheet="wahl"><span>${esc(mannName(wahl))}</span><span>▾</span></button>`;
+  // Auswahl immer da, auch unter „Mehr“ (vom Nutzer, 20.11.2026: sonst kam man dort nicht zurück zur Mannschaft).
+  nv.innerHTML = `<button data-sheet="wahl"><span>${esc(mannName(wahl) || "Mannschaft")}</span><span>▾</span></button>`;
   const seniors = D?.teams.find(t => t.id === ST.mann)?.kat === "Seniors";
   const aktiv = ST.team === "woche" && !MITT_OFFEN && !COACH_OFFEN ? "woche"
     : MITT_OFFEN || COACH_OFFEN || ST.team === "jk" || ST.team === "bgl" || ST.team === "nati" ? "mehr" : (ST.knopf || "spiele");
   // Roter Punkt an „Spiele“: die gewählte Mannschaft spielt heute oder morgen.
   let punkt = false;
   try { if (typeof ST.mann === "number") { const v = sicht(D, ST.mann, Date.now()); punkt = !!(spieltagHeute(v, Date.now()) || spieltagMorgen(v, Date.now())); } } catch (e) {}
-  const kn = [["woche", "🗓️", "Woche"], ["spiele", "⚽", "Spiele"], ["liga", "📊", "Liga"], ["vier", seniors ? "👕" : "🕘", seniors ? "Team" : "Früher"], ["mehr", "☰", "Mehr"]];
+  // BGL und Roude Léiw haben keinen „Früher“/„Team“ (vom Nutzer, 20.11.2026: der führte zu einer anderen Mannschaft).
+  const kn = [["woche", "🗓️", "Woche"], ["spiele", "⚽", "Spiele"], ["liga", "📊", "Liga"], ["vier", seniors ? "👕" : "🕘", seniors ? "Team" : "Früher"], ["mehr", "☰", "Mehr"]]
+    .filter(([k]) => !(k === "vier" && (ST.team === "bgl" || ST.team === "nati")));
   const knoepfe = kn.map(([k, i, t]) =>
     `<button data-knopf="${k}" class="${k === aktiv ? "on" : ""}"><i>${i}</i>${t}${k === "spiele" && punkt ? `<span class="punkt"></span>` : ""}</button>`).join("");
   document.getElementById("unten").innerHTML = knoepfe;

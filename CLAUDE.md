@@ -555,6 +555,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   breit; Handy unverändert. Tests (536) mit Gegenprobe (4 rot); Browser mit gestellter Uhr Sa–Sa für Seniors 1, MIN 1, PUP 1, auswärts (Fola), ohne Code
   unverändert, Computer 1280 px.
   **Neu i** (vom Nutzer): „Mehr → Kalender abonnieren“ springt zum ganzen Kasten samt Überschrift (Abstand um die Kopfhöhe), JK-Logo mit fester Größe (verschob beim Nachladen).
+  **Neu j** (vom Nutzer): Mannschafts-Pille immer sichtbar, auch unter Mehr (Jugendkommission, Mitteilungen, Coach: zeigt die zuletzt gewählte Mannschaft); BGL/Roude Léiw ohne Knopf „Früher/Team“.
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
