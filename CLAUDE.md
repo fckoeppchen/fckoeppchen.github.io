@@ -542,7 +542,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   Heute-/Morgen-Kasten, nur neue Ansicht. Daten: `D.historie` (tools/fussball.mjs `historieAus`, Seniors der zwei Vorsaisons, um 7 Uhr). Kinder:
   `einladungHtml` „Unsere Erste spielt!“ bis 7 Tage vor einem Heimspiel der Seniors 1. BGL/Roude Léiw/Jugendkommission: ganze Seite, Leiste „Mehr“.
   Tests (522) mit Gegenprobe; Browser bei 390 px mit und ohne Code (ohne Code unverändert), Alte Ansicht hin und zurück, keine Fehler.
-  **Am iPhone noch nicht geprüft** (Leiste am Home-Balken der installierten App).
+  **Neu c** (Bildschirmfoto vom Nutzer, installierte App): der Home-Balken lag über den Beschriftungen — iOS meldet ohne viewport-fit=cover keinen
+  Sicherheitsabstand (env = 0), legt die Seite unten aber trotzdem darunter. In der installierten App (`body[data-app]`, `istApp`) 30 px Abstand unten;
+  Symbole in fester Höhe (☰ bei „Mehr“ stand höher als die Emojis). Am iPhone erneut prüfen.
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es

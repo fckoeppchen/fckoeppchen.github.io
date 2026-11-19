@@ -250,8 +250,11 @@
   .nv .titel{flex:1;color:#fff;font:22px 'Bebas Neue',sans-serif;letter-spacing:1px;padding:6px 2px}
   body[data-neu] .unten{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#111;border-top:5px solid var(--accent);padding:6px 4px calc(10px + env(safe-area-inset-bottom))}
   body[data-neu]{padding-bottom:84px}
+  /* Installierte App am iPhone (19.11.2026, Bildschirmfoto vom Nutzer): ohne viewport-fit=cover meldet iOS keinen
+     Sicherheitsabstand (env = 0), legt die Seite unten aber trotzdem unter den Home-Balken — der Strich lag über den Beschriftungen. */
+  body[data-neu][data-app] .unten{padding-bottom:max(30px, env(safe-area-inset-bottom))} body[data-neu][data-app]{padding-bottom:104px}
   .unten button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;color:#9aa19e;font:700 11px Barlow,sans-serif;cursor:pointer;position:relative;padding:2px 0}
-  .unten button i{font-style:normal;font-size:21px;filter:grayscale(1);opacity:.75}
+  .unten button i{font-style:normal;font-size:21px;line-height:26px;height:26px;display:flex;align-items:center;justify-content:center;filter:grayscale(1);opacity:.75}
   .unten button.on{color:#fff}.unten button.on i{filter:none;opacity:1}
   .unten button .punkt{position:absolute;top:0;left:calc(50% + 8px);width:9px;height:9px;border-radius:50%;background:#e53935;border:2px solid #111}
   .sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:60;display:flex;align-items:flex-end}
@@ -907,7 +910,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "19.11.2026 neu b";
+const FASSUNG = "19.11.2026 neu c";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1210,6 +1213,7 @@ function renderInnen() {
   // Neue Ansicht: Auswahl oben, Leiste unten, Seite nach Knopf aufgeteilt (nur mit Schalter, siehe neuAn).
   const NEU = neuAn();
   document.body.toggleAttribute("data-neu", NEU);
+  document.body.toggleAttribute("data-app", istApp());   // installierte App (navigator.standalone bzw. display-mode)
   if (typeof ST.team === "number") ST.mann = ST.team;
   if (NEU) neuLeisten(tabs, extra);
   else { SHEET = null; document.getElementById("sheet").hidden = true; }
