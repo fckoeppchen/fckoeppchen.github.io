@@ -244,10 +244,12 @@
   .nv,.unten{display:none}
   body[data-neu] #leiste,body[data-neu] #zahnrad,body[data-neu] #coachknopf{display:none!important}
   body[data-neu] header{border-bottom:5px solid var(--accent)}
-  body[data-neu] .nv{display:flex;padding-top:10px}
-  .nv button{flex:1;display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;color:#111;border:0;border-radius:10px;padding:10px 14px;font:700 17px Barlow,sans-serif;cursor:pointer}
-  .nv button .pf{font-size:13px;color:#6b716e;font-weight:700}
-  .nv .titel{flex:1;color:#fff;font:22px 'Bebas Neue',sans-serif;letter-spacing:1px;padding:6px 2px}
+  /* Auswahl im Kopf statt der Unterzeile (vom Nutzer, 19.11.2026: spart eine Zeile) */
+  body[data-neu] .nv{display:flex;padding-top:3px}
+  body[data-neu] #sub{display:none}
+  .nv button{display:inline-flex;align-items:center;gap:8px;max-width:100%;background:#fff;color:#111;border:0;border-radius:999px;padding:4px 12px;font:700 16px Barlow,sans-serif;cursor:pointer;white-space:nowrap}
+  .nv button .pf{font-size:12px;color:#6b716e;font-weight:700}
+  .nv .titel{color:#b9bfbc;font-size:14px;padding:3px 0}
   body[data-neu] .unten{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#111;border-top:5px solid var(--accent);padding:6px 4px calc(10px + env(safe-area-inset-bottom))}
   body[data-neu]{padding-bottom:84px}
   /* Installierte App am iPhone (19.11.2026, Bildschirmfoto vom Nutzer): ohne viewport-fit=cover meldet iOS keinen
@@ -294,11 +296,10 @@
 <header><div class="wrap">
   <div class="top">
     <img alt="" id="logo">
-    <div style="flex:1"><h1>FC Koeppchen</h1><div class="sub" id="sub">U13 Minimes</div></div>
+    <div style="flex:1;min-width:0"><h1>FC Koeppchen</h1><div class="sub" id="sub">U13 Minimes</div><div class="nv" id="nv"></div></div>
     <button id="coachknopf" class="zahnrad" hidden aria-label="Coach">📋</button>
     <button id="zahnrad" class="zahnrad" hidden aria-label="Mitteilungen">⚙️</button>
   </div>
-  <div class="nv" id="nv"></div>
 </div></header>
 <div id="leiste"><div class="wrap"><div class="seg" id="seg"></div></div></div>
 <main id="main"><div class="note">Lade …</div></main>
@@ -910,7 +911,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "19.11.2026 neu e";
+const FASSUNG = "19.11.2026 neu f";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
