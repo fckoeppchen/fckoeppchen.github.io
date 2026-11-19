@@ -250,6 +250,7 @@
   body[data-neu] .nv{display:flex;flex:none}
   body[data-neu] #sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .nv button{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;border:0;border-radius:999px;padding:7px 14px;font:700 16px Barlow,sans-serif;cursor:pointer;white-space:nowrap}
+  .nv button{box-shadow:0 0 0 3px var(--accent),0 0 12px 2px rgba(31,168,140,.55)}   /* grüner Ring im Koeppchen-Grün (vom Nutzer, 20.11.2026) */
   body[data-neu] .unten{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#111;border-top:5px solid var(--accent);padding:6px 4px calc(10px + env(safe-area-inset-bottom))}
   body[data-neu]{padding-bottom:84px}
   /* Countdown-Kasten (vom Nutzer, 20.11.2026) */
@@ -943,7 +944,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu l";
+const FASSUNG = "20.11.2026 neu m";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
