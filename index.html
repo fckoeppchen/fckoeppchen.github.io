@@ -909,7 +909,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu f";
+const FASSUNG = "20.11.2026 neu g";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1455,8 +1455,8 @@ function spieltagBlaettern(k, ids, now) {
 }
 
 // FuPa-Widgets „Kader“ und „Spieler-Statistik“ (vom Nutzer, 19.11.2026: legt er im Widget-Builder an). Bis die Nummern da sind: Platzhalter.
-const FUPA_KADER = { "Seniors 1": "3MJSYQHeaOEjFzO4N37jry85JFY" };     // { "Seniors 1": "<Widget-Nummer>", … }
-const FUPA_STATISTIK = { "Seniors 1": "3MJSiqPPuryEVpIQppTifd6ARKb" }; // Spieler-Statistik der Mannschaft (Spiele, Tore, Assists, Karten, Minuten)
+const FUPA_KADER = { "Seniors 1": "3MJSYQHeaOEjFzO4N37jry85JFY", "Seniors 2": "3MK2BED50QbFh6bdKd3IHK9YgDi", "Seniors 3": "3MK2M3vZiT9WJCCk5tATbXXWRns" };     // { "Seniors 1": "<Widget-Nummer>", … }
+const FUPA_STATISTIK = { "Seniors 1": "3MJSiqPPuryEVpIQppTifd6ARKb", "Seniors 2": "3MK23Qmn7AZT8z4VvK6EZTl9FGJ", "Seniors 3": "3MK2GrjJRXEOK7r4zWSGtVub7QP" }; // Spieler-Statistik der Mannschaft (Spiele, Tore, Assists, Karten, Minuten)
 // Zuklappbar (vom Nutzer, 20.11.2026: die Widgets sind sehr lang). Offen bleibt offen, auch wenn die Seite neu gebaut wird (FUPA_AUF).
 const FUPA_AUF = new Set();
 // Merken schon beim Tippen (nicht erst beim „toggle“-Ereignis): baut ein Takt die Seite gerade neu, käme „toggle“ am alten Element an.
