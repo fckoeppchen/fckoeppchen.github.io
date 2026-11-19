@@ -142,6 +142,16 @@
   .wsprachen{display:flex;gap:6px;justify-content:flex-end;margin-bottom:4px}
   .wsprachen button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:3px 8px;font:inherit;font-size:13px;cursor:pointer}
   .wsprachen button.an{border-color:var(--accentT);color:var(--accentT);font-weight:700}
+  /* Hinweis „Neu: aufgeräumt!“ beim ersten Öffnen der neuen Ansicht (vom Nutzer, 20.11.2026) */
+  .neuhin .cbody{font-size:15px;line-height:1.45}.neuhin p{margin:0 0 10px}
+  .neuhin ul{list-style:none;padding:0;margin:0 0 12px}
+  .neuhin li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px solid var(--line)}
+  .neuhin li:first-child{border-top:0}
+  .neuhin li>span:first-child{font-size:20px;line-height:22px;flex:none;width:26px;text-align:center}
+  .neuhin .ok{display:block;width:100%;border:0;border-radius:12px;background:var(--accentT);color:#fff;font:700 17px Barlow,sans-serif;padding:12px;cursor:pointer}
+  .neuhin .nurpc{display:none}
+  @media (min-width:900px){.neuhin .nurpc{display:inline}.neuhin .nurhandy{display:none}}
+  body[data-neuhin] .nv button{box-shadow:0 0 0 3px #3ddc97,0 0 14px 4px rgba(61,220,151,.7)!important}
   .note{font-size:13.5px;line-height:1.4;padding:10px 12px;border-radius:10px;margin:12px 0;background:var(--panel);border:1px solid var(--line)}
   .note.up{border-color:var(--accent);background:#e6f6f2}
   .note.down{border-color:#e9a3ac;background:#fbecee}
@@ -959,7 +969,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu n";
+const FASSUNG = "20.11.2026 neu o";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1196,7 +1206,7 @@ function alleSpieleHtml(k, ids) {
   }).join("");
 }
 
-function render() { renderInnen(); fupaEinsetzen(); willkommen(); }
+function render() { renderInnen(); fupaEinsetzen(); willkommen(); neuHinweis(); }
 // Begrüßung beim ersten Öffnen (vom Nutzer, 26.10.2026, Texte abgenommen, Plan in IDEEN.md): für den Umzug vorbereitet, erst mit
 // dem Go an. Eigener Merker — darum sehen ihn alle einmal, auch bisherige Nutzer. „Los geht's“ schließt ihn für immer.
 const BEGRUESSUNG = true;
@@ -1251,6 +1261,62 @@ document.addEventListener("click", e => {
   const l = e.target.closest("[data-wlang]");
   if (l) { WLANG = l.dataset.wlang; willkommen(); return; }
   if (e.target.closest("[data-wlos]")) { try { localStorage.setItem(WILLKOMMEN, "1"); } catch (err) {} render(); window.scrollTo(0, 0); }
+});
+// Hinweis „Neu: aufgeräumt!“ (vom Nutzer, 20.11.2026): einmal beim ersten Öffnen der neuen Ansicht, nur wer die alte kannte
+// (schon Daten der App beim Start). Gemerkt sofort beim Zeigen → beim nächsten Öffnen (neu gestartet oder ≥ 30 min im
+// Hintergrund) weg; „Alles klar“ schließt ihn gleich. Sprachen wie die Begrüßung (WLANG).
+const NEUHIN = KEY + "_neuhinweis";
+const KANNTE_ALT = (() => { try { return !!(localStorage.getItem(WILLKOMMEN) || localStorage.getItem(KEY)); } catch (e) { return false; } })();
+let NEUHIN_JETZT = false, NEUHIN_WEG = 0;
+const NH_TEXT = {
+  de: { titel: "Neu: aufgeräumt! ✨", ok: "Alles klar 👍",
+    a: "Viele von euch haben uns gesagt, dass die vielen Knöpfe oben zu viel Platz wegnehmen. Darum haben wir die App aufgeräumt, damit ihr schneller findet, was ihr sucht. Danke für eure Rückmeldungen! 💚",
+    l: ["<b>Mannschaft wechseln:</b> oben rechts auf den grünen Knopf mit der Mannschaft tippen.",
+      "<b><span class=\"nurhandy\">Unten</span><span class=\"nurpc\">Oben</span>:</b> Woche · Spiele · Liga · Früher (bei den Seniors: Team).",
+      "<b>Mehr:</b> Mitteilungen, Kalender, Jugendkommission, BGL, Roude Léiw."] },
+  fr: { titel: "Nouveau : plus clair ! ✨", ok: "C'est compris 👍",
+    a: "Beaucoup d'entre vous nous ont dit que les nombreux boutons en haut prenaient trop de place. Nous avons donc réorganisé l'application pour que vous trouviez plus vite ce que vous cherchez. Merci pour vos retours ! 💚",
+    l: ["<b>Changer d'équipe :</b> touchez le bouton vert avec l'équipe, en haut à droite.",
+      "<b><span class=\"nurhandy\">En bas</span><span class=\"nurpc\">En haut</span> :</b> Woche · Spiele · Liga · Früher (pour les Seniors : Team).",
+      "<b>Mehr :</b> notifications, calendrier, Jugendkommission, BGL, Roude Léiw."] },
+  en: { titel: "New: tidied up! ✨", ok: "Got it 👍",
+    a: "Many of you told us that the many buttons at the top took up too much space. So we tidied up the app to help you find what you're looking for faster. Thanks for your feedback! 💚",
+    l: ["<b>Switch team:</b> tap the green button with the team name at the top right.",
+      "<b><span class=\"nurhandy\">At the bottom</span><span class=\"nurpc\">At the top</span>:</b> Woche · Spiele · Liga · Früher (for the Seniors: Team).",
+      "<b>Mehr:</b> notifications, calendar, Jugendkommission, BGL, Roude Léiw."] },
+};
+function neuHinweis() {
+  document.getElementById("neuhin")?.remove();
+  document.body.removeAttribute("data-neuhin");
+  if (!neuAn() || MITT_OFFEN || COACH_OFFEN || document.getElementById("willkommen")) return false;
+  if (!NEUHIN_JETZT) {
+    try {
+      if (localStorage.getItem(NEUHIN)) return false;
+      localStorage.setItem(NEUHIN, "1");   // gleich gemerkt: beim nächsten Öffnen nicht mehr
+    } catch (e) { return false; }
+    if (!KANNTE_ALT) return false;   // ganz neu dabei: kennt die alte Ansicht nicht, braucht keinen Hinweis
+    NEUHIN_JETZT = true;
+  }
+  const main = document.querySelector("main");
+  if (!main) return false;
+  const t = NH_TEXT[WLANG] || NH_TEXT.de, i = ["👆", "⚽", "☰"], d = document.createElement("section");
+  d.className = "card heute neuhin"; d.id = "neuhin";
+  d.innerHTML = `<div class="chead"><h2>${esc(t.titel)}</h2></div><div class="cbody"><div class="wsprachen">${Object.entries(W_TEXT).map(([k, x]) =>
+      `<button data-nhlang="${k}" class="${k === WLANG ? "an" : ""}">${x.flag} ${k.toUpperCase()}</button>`).join("")}</div>
+    <p>${esc(t.a)}</p><ul>${t.l.map((x, n) => `<li><span>${i[n]}</span><span>${x}</span></li>`).join("")}</ul>
+    <button class="ok" data-nhok="1">${esc(t.ok)}</button></div>`;
+  main.insertBefore(d, main.firstChild);
+  document.body.setAttribute("data-neuhin", "");
+  return true;
+}
+document.addEventListener("click", e => {
+  const l = e.target.closest("[data-nhlang]");
+  if (l) { WLANG = l.dataset.nhlang; neuHinweis(); return; }
+  if (e.target.closest("[data-nhok]")) { NEUHIN_JETZT = false; neuHinweis(); window.scrollTo(0, 0); }
+});
+document.addEventListener("visibilitychange", () => {   // ≥ 30 min weg = neues Öffnen → Hinweis weg
+  if (document.hidden) { NEUHIN_WEG = Date.now(); return; }
+  if (NEUHIN_JETZT && NEUHIN_WEG && Date.now() - NEUHIN_WEG >= 30 * 60000) { NEUHIN_JETZT = false; neuHinweis(); }
 });
 // Hinweis „Neu: Mitteilungen“ (30.10.–7.11.2026) ist raus (vom Nutzer: Leute fanden das ✕ nicht); das Zahnrad reicht.
 function renderInnen() {

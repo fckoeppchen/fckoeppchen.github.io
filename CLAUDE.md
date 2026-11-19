@@ -561,6 +561,11 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   hoch, 3.–4. Barrage gegen 13./14. der BGL Ligue, 13.–14. Barrage gegen die Zweiten der 1. Division, 15.–16. runter; **BGL Ligue** 13.–14. Barrage,
   15.–16. runter; nur bei 16 Mannschaften. Barrage hellgrün/hellrot (`--goodB`/`--badB`, `aufb`/`abb`). **Réserves nicht** (FLF legt die Regeln jedes
   Jahr neu fest, „publiées chaque année par le Conseil d'Administration“) — erst mit dem Rundschreiben. Tests (540) mit Gegenprobe.
+- **Hinweis „Neu: aufgeräumt! ✨“** (vom Nutzer, 20.11.2026, Fassung 20.11. neu o): `neuHinweis()` oben in `main`, sobald die neue Ansicht an ist (`neuAn`, also jetzt
+  schon bei eigenem/Tester-Code, später für alle), **nur wer die alte kannte** (`KANNTE_ALT`: beim Start schon Begrüßung gesehen oder Daten der App).
+  **Genau einmal:** beim ersten Zeigen sofort gemerkt (`fussball_v1_neuhinweis`), steht in dieser Sitzung bis „Alles klar 👍“; beim nächsten Öffnen
+  (Neustart oder ≥ 30 min im Hintergrund) weg. Ganz Neue (Begrüßung) bekommen ihn nie. DE/FR/EN wie die Begrüßung (`NH_TEXT`, `WLANG`), Pille
+  leuchtet stärker, solange er steht (`body[data-neuhin]`). „Unten“/„Oben“ je nach Handy/Computer. Browser: Tester, Alles klar, neu, ohne Code, 1280 px.
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
