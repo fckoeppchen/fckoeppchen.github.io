@@ -285,7 +285,8 @@
   .vgl .ft{color:#6b716e;font-size:13px;margin-bottom:6px}
   .vz{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px;padding:4px 0}
   .vz .e{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;padding:1px 8px;border-radius:6px;color:#fff;flex:none}
-  .vz .e.s{background:var(--good)}.vz .e.n{background:var(--bad)}.vz .e.u{background:#8a908d}
+  /* gleiche Farben wie die Ergebnisse in den Spiellisten (vom Nutzer, 20.11.2026): grün, grau, schwarz */
+  .vz .e.s{background:var(--accent)}.vz .e.u{background:#e4e7e5;color:#111}.vz .e.n{background:#111}
   .einlad{display:flex;gap:12px;align-items:center}.einlad .koeppi{flex:none}
   .einlad .lg2{display:flex;gap:6px;align-items:center;margin-top:6px}.einlad .lg2 img{width:30px;height:30px;object-fit:contain}
 </style>
@@ -909,7 +910,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu c";
+const FASSUNG = "20.11.2026 neu d";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1540,7 +1541,7 @@ function teamHtml(v, now) {
 
 // Direkter Vergleich im Heute-/Morgen-Kasten der Seniors (neue Ansicht): letzte Duelle Liga + Pokal, FLF ab 2024-25.
 function vergleichHtml(sp, ids) {
-  const l = duelle(sp, ids, D?.klassen, D?.historie);
+  const l = duelle(sp, ids, D?.klassen, D?.historie, 2);   // nur die letzten 2 (vom Nutzer, 20.11.2026: sonst zu viel)
   if (!l.length) return "";
   const kurz = n => esc(anzeige(n));
   const wir = ids.has(sp.h.id) ? sp.h.n : sp.a.n, geg = ids.has(sp.h.id) ? sp.a.n : sp.h.n;
