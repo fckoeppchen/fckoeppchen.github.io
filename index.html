@@ -942,7 +942,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu h";
+const FASSUNG = "20.11.2026 neu i";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1469,8 +1469,9 @@ document.addEventListener("click", e => {
     if (["bgl", "nati", "jk", "kal"].includes(w)) { ST.team = w === "kal" ? "jk" : w; persist(); angesehen(); }
     if (w === "ds") DS_OFFEN = true;
     render();
-    const ziel = w === "kal" ? document.querySelector(".kalliste") : w === "ds" ? document.getElementById("datenschutz") : null;
-    if (ziel) ziel.scrollIntoView({ block: "start" }); else window.scrollTo(0, 0);
+    // Ganzer Kasten samt Überschrift, nicht hinter dem festen Kopf (vom Nutzer, 20.11.2026: sonst begann das Bild beim ersten Kalender).
+    const ziel = w === "kal" ? document.querySelector(".kalliste")?.closest(".card") : w === "ds" ? document.getElementById("datenschutz") : null;
+    if (ziel) window.scrollTo(0, ziel.getBoundingClientRect().top + scrollY - document.querySelector("header").offsetHeight - 10); else window.scrollTo(0, 0);
     return;
   }
   if (e.target.closest("[data-neuzurueck]")) { try { localStorage.removeItem(ALT_ANSICHT); } catch (err) {} render(); window.scrollTo(0, 0); return; }
@@ -1611,7 +1612,7 @@ const JK_VIDEO = "fjIkYf6GGWs";
 function jkHtml(tabs) {
   const kal = alleKalender(tabs);
   return `<section class="card"><div class="cbody" style="text-align:center">
-      <img src="bilder/jk-logo.png" alt="Jugendkommissioun FC Koeppchen" style="width:min(260px,70%);height:auto">
+      <img src="bilder/jk-logo.png" alt="Jugendkommissioun FC Koeppchen" width="324" height="320" style="width:min(260px,70%);height:auto">
     </div></section>
     <section class="card"><div class="chead"><h2>Eis Jugendkommissioun</h2></div><div class="cbody">
       <img class="jkfoto" src="bilder/jugendkommissioun.jpg" alt="Die Jugendkommission des FC Koeppchen" loading="lazy" width="900" height="900">

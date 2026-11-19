@@ -554,6 +554,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Computer** ab 900 px: dieselben Knöpfe oben im Kopf (`#kopftabs`, gleiches Markup wie `#unten`, Klick über `data-knopf`), Leiste unten weg, Kopf 1000 px
   breit; Handy unverändert. Tests (536) mit Gegenprobe (4 rot); Browser mit gestellter Uhr Sa–Sa für Seniors 1, MIN 1, PUP 1, auswärts (Fola), ohne Code
   unverändert, Computer 1280 px.
+  **Neu i** (vom Nutzer): „Mehr → Kalender abonnieren“ springt zum ganzen Kasten samt Überschrift (Abstand um die Kopfhöhe), JK-Logo mit fester Größe (verschob beim Nachladen).
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
