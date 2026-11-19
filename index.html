@@ -910,7 +910,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "19.11.2026 neu d";
+const FASSUNG = "19.11.2026 neu e";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1456,9 +1456,9 @@ function spieltagBlaettern(k, ids, now) {
     ${sp.map(s => spielZeile({ ...s, erg: k.ergebnisse }, ids, offenMeta(s, tagLux(kopf), now, k.ergebnisse === false))).join("")}</div></section>`;
 }
 
-// FuPa-Widgets „Kader“ und „Torjäger“ (vom Nutzer, 19.11.2026: legt er im Widget-Builder an). Bis die Nummern da sind: Platzhalter.
+// FuPa-Widgets „Kader“ und „Spieler-Statistik“ (vom Nutzer, 19.11.2026: legt er im Widget-Builder an). Bis die Nummern da sind: Platzhalter.
 const FUPA_KADER = { "Seniors 1": "3MJSYQHeaOEjFzO4N37jry85JFY" };     // { "Seniors 1": "<Widget-Nummer>", … }
-const FUPA_TORJAEGER = {};   // dito, je Liga der Mannschaft
+const FUPA_STATISTIK = { "Seniors 1": "3MJSiqPPuryEVpIQppTifd6ARKb" }; // Spieler-Statistik der Mannschaft (Spiele, Tore, Assists, Karten, Minuten)
 function fupaKarte(titel, hint, id, platzhalter) {
   if (!id) return `<section class="card"><div class="chead"><h2>${titel}</h2><div class="hint">${hint}</div></div><div class="cbody">
     <div class="platz"><b>Hier kommt das FuPa-Widget „${titel}“</b>${platzhalter}</div></div></section>`;
@@ -1468,7 +1468,7 @@ function fupaKarte(titel, hint, id, platzhalter) {
       <button class="kal" data-fupa="ja" style="margin-top:10px">Von FuPa anzeigen</button>`) + `</div></section>`;
 }
 
-// Knopf „Team“ der Seniors: Statistik aus den FLF-Ergebnissen, Kader/Torjäger von FuPa, Pokal.
+// Knopf „Team“ der Seniors: Statistik aus den FLF-Ergebnissen, Kader/Spieler-Statistik von FuPa, Pokal.
 function teamHtml(v, now) {
   const k = v.aktuell, st = k ? saisonStats(k, v.ids) : null, r = v.team.reiter;
   const zeile = (k?.tabelle || []).find(x => v.eigen.has(x.id));
@@ -1492,7 +1492,7 @@ function teamHtml(v, now) {
     }
   }
   h += fupaKarte("Kader", "von FuPa", FUPA_KADER[r], `Alle Spieler der ${esc(r)} mit Position, Einsätzen und Toren dieser Saison. Platzhalter, bis die Widget-Nummer eingetragen ist.`);
-  h += fupaKarte("Torjäger", (k ? esc(k.n) + " · " : "") + "von FuPa", FUPA_TORJAEGER[r], "Die besten Torschützen der Liga. Platzhalter, bis die Widget-Nummer eingetragen ist.");
+  h += fupaKarte("Spieler-Statistik", esc(r) + " · von FuPa", FUPA_STATISTIK[r], "Spiele, Tore, Vorlagen, Karten und Minuten jedes Spielers dieser Saison. Platzhalter, bis die Widget-Nummer eingetragen ist.");
   if (st && st.unsere.length) {
     const b = (x, name) => `<tr><td>${name}</td><td>${x.sp}</td><td>${x.s}</td><td>${x.u}</td><td>${x.n}</td><td>${x.t}:${x.g}</td><td><b>${x.p}</b></td></tr>`;
     h += `<section class="card"><div class="chead"><h2>Zu Hause und auswärts</h2><div class="hint">Liga</div></div><div class="cbody"><table class="ha">

@@ -462,7 +462,7 @@ zum Vergleichen (`fussball_v1_altansicht`). Für alle: `NEUE_ANSICHT = true`, da
 - **Liga:** Tabelle + Spieltage. Kinder alle untereinander (aufgeklappt), **Seniors ein Spieltag mit ‹ ›** (aktueller zuerst). U7/U9/U11 nur Spieltage.
   Keine neue Phase → Hinweis auf „Früher“.
 - **Früher** (nicht Seniors): vergangene Phasen aufgeklappt; keine → „Keine früheren Phasen“.
-- **Team** (Seniors 1–3): Saison in Zahlen, Tabellenverlauf (selbst gerechnet), Kader + Torjäger (FuPa-Widgets, **Nummern liefert der Nutzer**;
+- **Team** (Seniors 1–3): Saison in Zahlen, Tabellenverlauf (selbst gerechnet), Kader + Spieler-Statistik (FuPa-Widgets, **Nummern liefert der Nutzer**;
   bis dahin Platzhalter), Zu Hause/Auswärts, Rekorde, Vergleich mit letzter Saison, Pokal.
 - **Direkter Vergleich** im Heute-/Morgen-Kasten der Seniors (unter der Form): letzte Duelle Liga + Pokal aus FLF-Daten ab 2024-25
   (`D.historie`, holt der Abruf um 7 Uhr). Achtung: am 7.11. hatte der Nutzer „lass Bilanz sein“ gesagt — jetzt im Muster gesehen und

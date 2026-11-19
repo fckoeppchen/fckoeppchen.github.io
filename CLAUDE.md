@@ -537,7 +537,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   `SHEET`). Zustand `ST.knopf` (spiele|liga|vier), `ST.mann` (zuletzt gewählte Mannschaft). `renderInnen` baut die Teile getrennt (`h` Spiele, `tab`,
   `erg`, `alleSp`, `frueher`): alte Ansicht alles untereinander wie vorher; neu je Knopf. Liga: Kinder Tabelle + alle Spieltage aufgeklappt,
   Seniors Tabelle + `spieltagBlaettern` (‹ ›, `SPIELTAG`, Start `aktuellerSpieltag`). Früher aufgeklappt. **Team** (Seniors, `teamHtml`): Saison in Zahlen,
-  Tabellenverlauf (SVG, `saisonStats` — selbst gerechnet), Kader/Torjäger (`FUPA_KADER`/`FUPA_TORJAEGER` leer → Platzhalter; Nummern liefert der Nutzer),
+  Tabellenverlauf (SVG, `saisonStats` — selbst gerechnet), Kader/Spieler-Statistik (`FUPA_KADER`/`FUPA_STATISTIK`, FuPa-Widgets je Mannschaft; Seniors 1 seit 19.11. neu d/e, fehlende → Platzhalter),
   Heim/Auswärts, Rekorde, Vergleich Vorsaison (`vorjahrPunkte`), Pokal. **Direkter Vergleich** (`duelle`, `vergleichHtml`) unter der Form im
   Heute-/Morgen-Kasten, nur neue Ansicht. Daten: `D.historie` (tools/fussball.mjs `historieAus`, Seniors der zwei Vorsaisons, um 7 Uhr). Kinder:
   `einladungHtml` „Unsere Erste spielt!“ bis 7 Tage vor einem Heimspiel der Seniors 1. BGL/Roude Léiw/Jugendkommission: ganze Seite, Leiste „Mehr“.
