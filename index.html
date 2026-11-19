@@ -128,7 +128,8 @@
   .form .fz{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:2px 0}
   .form .fn{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .form .fb{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:4px;color:#fff;font-size:12px;font-weight:700;margin-left:3px}
-  .form .fb.s{background:#2e9e5b}.form .fb.u{background:#9aa0a6}.form .fb.n{background:#d9534f}
+  /* Farben wie die Spiellisten (vom Nutzer, 20.11.2026): grün, grau, schwarz */
+  .form .fb.s{background:var(--accent)}.form .fb.u{background:#e4e7e5;color:#111}.form .fb.n{background:#111}
   .wegk{display:inline-block;margin:6px 0 0 22px;padding:6px 12px;border-radius:999px;background:var(--accentT);color:#fff;font-weight:700;font-size:13.5px;text-decoration:none}
   .heute .wetter{text-align:center;font-size:14px;margin:2px 0 6px}
   .adresse{font-size:13px;color:var(--muted);margin:1px 0 0 22px}
@@ -910,7 +911,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu d";
+const FASSUNG = "20.11.2026 neu e";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
