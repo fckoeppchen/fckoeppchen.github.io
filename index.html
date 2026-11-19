@@ -93,7 +93,8 @@
   .cbody{padding:10px 12px}
   .heute,.fupakarte{border:2px solid var(--accent)}
   .heute .wann{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;text-align:center;line-height:1.1}
-  .heute .wo{text-align:center;font-size:13px;color:var(--muted);margin-top:4px}
+  .heute .wo,.naechstes .wo{text-align:center;font-size:13px;color:var(--muted);margin-top:4px}
+  .heute .wo .adresse,.naechstes .wo .adresse,.heute .wo .wegk,.naechstes .wo .wegk{margin-left:0}   /* genau mittig (vom Nutzer, 20.11.2026) */
   .letztes .wann.klein{font-size:20px}
   .letztes .gross{font-family:'Bebas Neue',sans-serif;font-size:56px;letter-spacing:2px;line-height:1;min-width:110px;text-align:center;color:var(--accentT)}
   .letztes .spruch{font-weight:400;font-size:13px}
@@ -942,7 +943,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu k";
+const FASSUNG = "20.11.2026 neu l";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
