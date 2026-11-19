@@ -909,7 +909,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu b";
+const FASSUNG = "20.11.2026 neu c";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1409,7 +1409,7 @@ document.addEventListener("click", e => {
   if (sh) { SHEET = sh.dataset.sheet === "zu" ? null : sh.dataset.sheet; render(); return; }
   if (e.target.id === "sheet") { SHEET = null; render(); return; }
   if (SHEET === "wahl" && e.target.closest("#sheet [data-t]")) {   // gewählt (den Reiter setzt der allgemeine Klick oben)
-    SHEET = null; if (!["spiele", "liga", "vier"].includes(ST.knopf)) ST.knopf = "spiele"; persist(); render(); return;
+    SHEET = null; ST.knopf = "spiele"; persist(); render(); return;   // neue Mannschaft → immer „Spiele“ (vom Nutzer, 20.11.2026)
   }
   const k = e.target.closest("[data-knopf]");
   if (k) {
@@ -1981,7 +1981,7 @@ async function aktualisieren() {
 
 document.addEventListener("click", e => {
   const z = e.target.closest("[data-gehe]");
-  if (z) { MITT_OFFEN = false; COACH_OFFEN = false; DS_OFFEN = false; ST.team = +z.dataset.gehe; persist(); render(); window.scrollTo(0, 0); angesehen(); return; }
+  if (z) { MITT_OFFEN = false; COACH_OFFEN = false; DS_OFFEN = false; ST.team = +z.dataset.gehe; ST.knopf = "spiele"; persist(); render(); window.scrollTo(0, 0); angesehen(); return; }
   const b = e.target.closest("button");
   if (!b) return;
   if (b.dataset.fupa) {
