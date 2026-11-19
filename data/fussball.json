@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-19T11:03:10.698Z",
+ "stand": "2026-11-19T21:16:50.530Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -13372,7 +13372,7 @@
      },
      "hs": null,
      "as": null,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Breil (Echternach, synth.)"
     },
