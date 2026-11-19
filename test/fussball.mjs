@@ -27,7 +27,7 @@ const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
 const i = src.indexOf("==== Logik"), j = src.indexOf("==== Oberfläche");
 if (i < 0 || j < 0) throw new Error("Abschnittsmarken Logik/Oberfläche nicht gefunden");
 const M = new Function(src.slice(src.lastIndexOf("//", i), src.lastIndexOf("//", j)) + `
-  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei, artText, coachZusatz, coachName, wocheSpiele, eventsWoche, eventsSpaeter, eventBis, saisonStats, vorjahrPunkte, duelle, aktuellerSpieltag };`)();
+  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei, artText, coachZusatz, coachName, wocheSpiele, eventsWoche, eventsSpaeter, eventBis, saisonStats, vorjahrPunkte, duelle, aktuellerSpieltag, naechstesSpiel };`)();
 
 let fehler = 0, n = 0;
 function ok(bed, text) { n++; if (!bed) { fehler++; console.log("✗ " + text); } }
@@ -53,6 +53,30 @@ function gleich(a, b, text) { ok(JSON.stringify(a) === JSON.stringify(b), text +
   ok(w[0] === "2027-03-22" && w[6] === "2027-03-28", "Woche der Frühjahrs-Zeitumstellung: Mo 22.3. bis So 28.3. — ist " + w.join(","));
   const h = M.wocheTage(Date.parse("2026-10-25T22:30:00+01:00"));
   ok(h[0] === "2026-10-26" && h[6] === "2026-11-01", "So nach 22 Uhr am Tag der Herbst-Zeitumstellung: nächste Woche");
+}
+// Countdown „Nächstes Spiel“ (vom Nutzer, 20.11.2026): ab 2. Tag nach dem letzten Spiel bis 2 Tage vorher, >14 Tage ohne Zähler.
+{
+  const sp = (id, d, extra = {}) => ({ id, d, h: { id: 1, n: "FC Koeppchen Wormeldange" }, a: { id: 9, n: "Gegner" }, gespielt: false, ...extra });
+  const v = (kommend, gespielt) => ({ team: { reiter: "Seniors 1" }, kommend, gespielt });
+  const t = s => Date.parse(s);
+  const so = sp(1, "2026-11-15T16:00:00+01:00", { gespielt: true, hs: 1, as: 0 }), naechst = sp(2, "2026-11-22T16:00:00+01:00");
+  const n = (now, k = [naechst], g = [so]) => M.naechstesSpiel(v(k, g), t(now));
+  ok(n("2026-11-15T20:00:00+01:00") === null, "Countdown: am Spieltag nach dem Spiel nicht");
+  ok(n("2026-11-16T12:00:00+01:00") === null, "Countdown: So-Spiel → Montag noch nicht");
+  ok(n("2026-11-17T08:00:00+01:00")?.tage === 5, "Countdown: So-Spiel → ab Dienstag, noch 5 Tage");
+  ok(n("2026-11-20T12:00:00+01:00")?.tage === 2, "Countdown: Freitag noch 2 Tage");
+  ok(n("2026-11-21T12:00:00+01:00") === null, "Countdown: am Vortag nicht (Morgen-Kasten)");
+  ok(n("2026-11-22T12:00:00+01:00") === null, "Countdown: am Spieltag nicht");
+  const sa = sp(3, "2026-11-14T15:00:00+01:00", { gespielt: true, hs: 2, as: 2 });
+  ok(n("2026-11-15T12:00:00+01:00", [naechst], [sa]) === null && n("2026-11-16T09:00:00+01:00", [naechst], [sa])?.tage === 6, "Countdown: Sa-Spiel → So nicht, ab Montag");
+  ok(n("2026-11-16T12:00:00+01:00", [sp(4, "2026-11-18T20:00:00+01:00")]) === null && n("2026-11-17T12:00:00+01:00", [sp(4, "2026-11-18T20:00:00+01:00")]) === null, "Countdown: englische Woche So/Mi → keiner");
+  ok(n("2026-11-16T12:00:00+01:00", [sp(4, "2026-11-18T20:00:00+01:00")], [sa])?.tage === 2, "Countdown: englische Woche Sa/Mi → Montag einer");
+  const winter = n("2026-11-24T12:00:00+01:00", [sp(5, "2027-02-14T16:00:00+01:00")]);
+  ok(winter && winter.zaehler === false && n("2026-11-24T12:00:00+01:00")?.zaehler !== false, "Countdown: Winterpause ohne Zähler");
+  ok(n("2026-11-17T12:00:00+01:00", [sp(6, "2026-11-20T16:00:00+01:00", { abgesagt: true }), naechst])?.sp.id === 2, "Countdown: abgesagtes Spiel übersprungen");
+  ok(n("2026-11-17T12:00:00+01:00", [naechst], [])?.tage === 5, "Countdown: ohne gespieltes Spiel (Saisonbeginn) gleich");
+  ok(n("2026-11-17T12:00:00+01:00", [naechst], [sp(7, "2026-12-05T16:00:00+01:00", { gespielt: true, hs: 3, as: 0 }), so])?.tage === 5, "Countdown: im Voraus gewertetes Forfait zählt nicht als letztes Spiel");
+  ok(n("2026-11-17T12:00:00+01:00", [], [so]) === null, "Countdown: ohne nächstes Spiel nichts");
 }
 // Koeppi (22.10.2026): nur Kinder; Vortag-Kasten; Streifen nach dem Spiel (Sieg bzw. U9/U11 immer).
 {

@@ -545,6 +545,15 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Neu c** (Bildschirmfoto vom Nutzer, installierte App): der Home-Balken lag über den Beschriftungen — iOS meldet ohne viewport-fit=cover keinen
   Sicherheitsabstand (env = 0), legt die Seite unten aber trotzdem darunter. In der installierten App (`body[data-app]`, `istApp`) 30 px Abstand unten;
   Symbole in fester Höhe (☰ bei „Mehr“ stand höher als die Emojis). Am iPhone erneut prüfen.
+- **Countdown „Nächstes Spiel“ + Computer-Kopf (Variante B)** (vom Nutzer, 20.11.2026, Fassung 20.11. neu h; nur neue Ansicht): `naechstesSpiel(v, now)` (Logik)
+  — Spieltag und Tag danach nur „Letztes Spiel“, ab dem 2. Tag nach dem letzten Spiel (Sa → Mo, So → Di; letztes Spiel nach **Tag**, im Voraus gewertete
+  Forfaits mit späterem Tag zählen nicht) bis 2 Tage vorher Kasten „Nächstes Spiel“ (`naechstesHtml`, Kopf hellgrün, `.naechstes`, groß „noch n Tage“,
+  Datum + Anstoß, Logos, Platz, auswärts Adresse + „Weg zum Platz“; **kein** Wetter/Form/Vergleich — bleibt bei Morgen/Heute, vom Nutzer), darunter
+  „Letztes Spiel“ (bei der Jugend ohne Zeile „Nächstes Spiel: …“, `letztesHtml(…, ohneNaechstes)`); Vortag Morgen, Spieltag Heute. Englische Woche So/Mi →
+  kein Countdown. > 14 Tage (`COUNTDOWN_TAGE`) → nur Datum ohne Zähler. Listen „Nächste Spiele“/„Unsere Ergebnisse“ bleiben vollständig (vom Nutzer).
+  **Computer** ab 900 px: dieselben Knöpfe oben im Kopf (`#kopftabs`, gleiches Markup wie `#unten`, Klick über `data-knopf`), Leiste unten weg, Kopf 1000 px
+  breit; Handy unverändert. Tests (536) mit Gegenprobe (4 rot); Browser mit gestellter Uhr Sa–Sa für Seniors 1, MIN 1, PUP 1, auswärts (Fola), ohne Code
+  unverändert, Computer 1280 px.
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es

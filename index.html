@@ -251,6 +251,25 @@
   .nv button{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;border:0;border-radius:999px;padding:7px 14px;font:700 16px Barlow,sans-serif;cursor:pointer;white-space:nowrap}
   body[data-neu] .unten{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#111;border-top:5px solid var(--accent);padding:6px 4px calc(10px + env(safe-area-inset-bottom))}
   body[data-neu]{padding-bottom:84px}
+  /* Countdown-Kasten (vom Nutzer, 20.11.2026) */
+  .naechstes{border:2px solid var(--accent)}
+  .cd{text-align:center;margin:2px 0 8px}
+  .cdz{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:1px;color:var(--accent);line-height:1}
+  .cdd{font-size:15px;font-weight:700;margin-top:4px}
+  /* Computer (vom Nutzer, 20.11.2026, Variante B): ab 900 px die Knöpfe oben im Kopf statt der Leiste unten. */
+  .kopftabs{display:none}
+  @media (min-width:900px){
+    body[data-neu] header .wrap{max-width:1000px}
+    body[data-neu] .kopftabs{display:flex;gap:4px;flex:1;margin-left:24px}
+    body[data-neu] .top > div:nth-child(2){flex:none!important}
+    body[data-neu] .unten{display:none!important}
+    body[data-neu],body[data-neu][data-app]{padding-bottom:0}
+    .kopftabs button{position:relative;background:none;border:0;color:#b9bfbc;font:700 15px Barlow,sans-serif;padding:8px 14px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:6px}
+    .kopftabs button:hover{color:#fff}
+    .kopftabs button.on{background:#fff;color:#111}
+    .kopftabs button i{font-style:normal}
+    .kopftabs .punkt{position:static;width:7px;height:7px;border-radius:50%;background:#d4001a;display:inline-block}
+  }
   /* Installierte App am iPhone (19.11.2026, Bildschirmfoto vom Nutzer): ohne viewport-fit=cover meldet iOS keinen
      Sicherheitsabstand (env = 0), legt die Seite unten aber trotzdem unter den Home-Balken — der Strich lag über den Beschriftungen. */
   body[data-neu][data-app] .unten{padding-bottom:max(30px, env(safe-area-inset-bottom))} body[data-neu][data-app]{padding-bottom:104px}
@@ -294,7 +313,7 @@
 <header><div class="wrap">
   <div class="top">
     <img alt="" id="logo">
-    <div style="flex:1;min-width:0"><h1>FC Koeppchen</h1><div class="sub" id="sub">U13 Minimes</div></div><div class="nv" id="nv"></div>
+    <div style="flex:1;min-width:0"><h1>FC Koeppchen</h1><div class="sub" id="sub">U13 Minimes</div></div><div class="kopftabs" id="kopftabs"></div><div class="nv" id="nv"></div>
     <button id="coachknopf" class="zahnrad" hidden aria-label="Coach">📋</button>
     <button id="zahnrad" class="zahnrad" hidden aria-label="Mitteilungen">⚙️</button>
   </div>
@@ -538,6 +557,20 @@ function spieltagMorgen(v, now) {
   const sp = v.kommend.filter(s => tagLux(Date.parse(s.d)) === morgen && !s.abgesagt).sort((a, b) => a.d.localeCompare(b.d))[0];
   return sp ? { sp } : null;
 }
+// Kasten „Nächstes Spiel“ mit Countdown (vom Nutzer, 20.11.2026, neue Ansicht): Spieltag und Tag danach gehören dem „Letzten Spiel“,
+// erst ab dem 2. Tag nach dem letzten Spiel kommt der Countdown (Sa-Spiel → ab Mo, So-Spiel → ab Di), bis 2 Tage vor dem nächsten;
+// am Vortag übernimmt „Morgen Spieltag!“. Englische Woche So/Mi → kein Countdown. Mehr als 14 Tage weg (Winterpause) → ohne Zähler.
+const COUNTDOWN_TAGE = 14;
+function naechstesSpiel(v, now) {
+  if (!v || spieltagHeute(v, now) || spieltagMorgen(v, now)) return null;
+  const heute = tagLux(now), sp = v.kommend.find(s => !s.abgesagt);
+  if (!sp) return null;
+  const tage = tageZwischen(heute, tagLux(Date.parse(sp.d)));
+  if (tage < 2) return null;
+  const letztes = v.gespielt.find(s => tagLux(Date.parse(s.d)) <= heute && !s.abgesagt);   // nach Tag: im Voraus gewertete Forfaits (spätere Tage) zählen nicht
+  if (letztes && tageZwischen(tagLux(Date.parse(letztes.d)), heute) < 2) return null;
+  return { sp, tage, zaehler: tage <= COUNTDOWN_TAGE };
+}
 // Streifen über den Ergebnissen nach jedem Spiel, egal wie es ausging (vom Verein, 22.10.2026: keine
 // Ergebnisse hervorheben, gelobt wird das Spielen, nicht der Sieg). Höchstens 7 Tage, und nicht mehr,
 // sobald das nächste Spiel ansteht (Vortag/Spieltag zeigen ihre eigenen Kästen).
@@ -568,7 +601,7 @@ function pokalHinweis(sp) {
   if (pokalOffen(sp)) return `<div class="zusatz"><b>Stand nach 90 Minuten.</b> Das Spiel ging in die Verlängerung. Der Endstand wird nachgereicht, sobald die FLF ihn einträgt.</div>`;
   return pokalArt(sp) ? `<div class="zusatz">${pokalArt(sp)}</div>` : "";
 }
-function letztesHtml(v, now) {
+function letztesHtml(v, now, ohneNaechstes = false) {
   // Am Vortag weg, dort steht „Morgen Spieltag!“ (seit 8.11.2026 auch bei den Seniors).
   if (spieltagHeute(v, now) || spieltagMorgen(v, now)) return "";
   const datum = sp => esc(wann(sp.d, false).split(" · ")[0]);
@@ -601,7 +634,7 @@ function letztesHtml(v, now) {
   return `<section class="card heute letztes"><div class="chead"><h2>Letztes Spiel</h2></div><div class="cbody">
     <div class="wann klein">${datum(sp)}</div>
     <div class="kzeile">${koeppiBild("ball-faust")}<span>Super gemacht, ${esc(v.team.reiter)}! 💪<br><span class="spruch">${esc(nach.spruch)}</span></span></div>
-    ${spiel}${naechst ? `<div class="zusatz">${sp.bam ? "Nächster Mini-Spieltag" : "Nächstes Spiel"}: ${esc(wann(naechst))}${esc(naechst.bam ? "" : " gegen " + anzeige(v.ids.has(naechst.h.id) ? naechst.a.n : naechst.h.n))}${naechst.ort ? (naechst.bam ? " · " : "<br>") + "📍 " + esc(naechst.ort) : ""}</div>` : ""}${MOTTO}</div></section>`;
+    ${spiel}${naechst && !ohneNaechstes ? `<div class="zusatz">${sp.bam ? "Nächster Mini-Spieltag" : "Nächstes Spiel"}: ${esc(wann(naechst))}${esc(naechst.bam ? "" : " gegen " + anzeige(v.ids.has(naechst.h.id) ? naechst.a.n : naechst.h.n))}${naechst.ort ? (naechst.bam ? " · " : "<br>") + "📍 " + esc(naechst.ort) : ""}</div>` : ""}${MOTTO}</div></section>`;
 }
 // Sprüche vom Verein (22.10.2026).
 const SPRUECHE = ["Talent bringt dich weit, harte Arbeit bringt dich weiter!", "Werde jeden Tag ein kleines Stück besser!",
@@ -909,7 +942,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu g";
+const FASSUNG = "20.11.2026 neu h";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1299,7 +1332,10 @@ function renderInnen() {
   const morgen = !heute && !lv && spieltagMorgen(v, now);
   if (morgen) h += morgenHtml(morgen, v.ids, sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "", kinder,
     v.team.kat === "Seniors" && !morgen.sp.coach && morgen.sp.typ !== "FM");   // Form auch am Vortag (vom Nutzer, 8.11.2026)
-  h += letztesHtml(v, now);
+  // „Nächstes Spiel“ mit Countdown über dem „Letzten Spiel“ (vom Nutzer, 20.11.2026, nur neue Ansicht).
+  const nx = NEU && !heute && !lv && !morgen && naechstesSpiel(v, now);
+  if (nx) h += naechstesHtml(nx, v.ids, sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "");
+  h += letztesHtml(v, now, !!nx);
   if (lv) h += liveHtml(lv, n => anzeige(n).startsWith("Koeppchen"), "offiziell zählt die FLF");
 
   h += `<section class="card"><div class="chead"><h2>Nächste Spiele</h2></div><div class="cbody">`;
@@ -1386,8 +1422,10 @@ function neuLeisten(tabs, extra) {
   let punkt = false;
   try { if (typeof ST.mann === "number") { const v = sicht(D, ST.mann, Date.now()); punkt = !!(spieltagHeute(v, Date.now()) || spieltagMorgen(v, Date.now())); } } catch (e) {}
   const kn = [["woche", "🗓️", "Woche"], ["spiele", "⚽", "Spiele"], ["liga", "📊", "Liga"], ["vier", seniors ? "👕" : "🕘", seniors ? "Team" : "Früher"], ["mehr", "☰", "Mehr"]];
-  document.getElementById("unten").innerHTML = kn.map(([k, i, t]) =>
+  const knoepfe = kn.map(([k, i, t]) =>
     `<button data-knopf="${k}" class="${k === aktiv ? "on" : ""}"><i>${i}</i>${t}${k === "spiele" && punkt ? `<span class="punkt"></span>` : ""}</button>`).join("");
+  document.getElementById("unten").innerHTML = knoepfe;
+  document.getElementById("kopftabs").innerHTML = knoepfe;   // dieselben Knöpfe oben im Kopf, nur ab 900 px sichtbar
   const sh = document.getElementById("sheet");
   sh.hidden = !SHEET;
   if (SHEET === "wahl") {
@@ -1720,6 +1758,18 @@ function wetterText(w, d) {
 function wetterZeile(sp) {
   const t = wetterText((D?.wetter || {})[sp.id], sp.d);
   return t ? `<div class="wetter">${esc(t)}</div>` : "";
+}
+// Countdown-Kasten: Datum und Anstoß, Logos, Platz, auswärts Adresse und „Weg zum Platz“ — kein Wetter, keine Form, kein
+// Vergleich (vom Nutzer, 20.11.2026: das bleibt bei Morgen/Heute). Kopf hellgrün, Morgen/Heute bleiben dunkelgrün.
+function naechstesHtml(n, ids, pill) {
+  const sp = n.sp, [datum, zeit] = wann(sp).split(" · "), p = pill(sp);
+  const wannText = esc(datum) + (zeitOffen(sp) ? " · Uhrzeit noch offen" : zeit ? " · Anstoß " + esc(zeit) : "");
+  return `<section class="card naechstes"><div class="chead"><h2>Nächstes Spiel</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}${coachZeichen(sp)}</div><div class="cbody">
+    <div class="cd">${n.zaehler ? `<div class="cdz">noch ${n.tage} Tage</div>` : ""}<div class="cdd">${wannText}</div></div>
+    <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${beideLogos(sp) ? logoImg(sp.h.id, "lgg") : ""}${umbruch(anzeige(sp.h.n))}</div>
+    <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${beideLogos(sp) ? logoImg(sp.a.id, "lgg") : ""}${umbruch(anzeige(sp.a.n))}</div></div>
+    ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}${adresseZeile(sp, ids)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}
+    </div></section>`;
 }
 function morgenHtml(m, ids, pill, koeppi = true, form = false, motto = true, logos = true) {
   const sp = m.sp, zeit = wann(sp).split(" · ")[1], p = pill(sp);
