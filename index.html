@@ -942,7 +942,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu j";
+const FASSUNG = "20.11.2026 neu k";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1420,9 +1420,10 @@ function neuLeisten(tabs, extra) {
   // Roter Punkt an „Spiele“: die gewählte Mannschaft spielt heute oder morgen.
   let punkt = false;
   try { if (typeof ST.mann === "number") { const v = sicht(D, ST.mann, Date.now()); punkt = !!(spieltagHeute(v, Date.now()) || spieltagMorgen(v, Date.now())); } } catch (e) {}
-  // BGL und Roude Léiw haben keinen „Früher“/„Team“ (vom Nutzer, 20.11.2026: der führte zu einer anderen Mannschaft).
+  // BGL und Roude Léiw: nur Woche und Mehr (vom Nutzer, 20.11.2026: Spiele/Liga/Früher führten zu einer anderen Mannschaft als oben steht;
+  // zurück zur Mannschaft über die Pille).
   const kn = [["woche", "🗓️", "Woche"], ["spiele", "⚽", "Spiele"], ["liga", "📊", "Liga"], ["vier", seniors ? "👕" : "🕘", seniors ? "Team" : "Früher"], ["mehr", "☰", "Mehr"]]
-    .filter(([k]) => !(k === "vier" && (ST.team === "bgl" || ST.team === "nati")));
+    .filter(([k]) => !((ST.team === "bgl" || ST.team === "nati") && ["spiele", "liga", "vier"].includes(k)));
   const knoepfe = kn.map(([k, i, t]) =>
     `<button data-knopf="${k}" class="${k === aktiv ? "on" : ""}"><i>${i}</i>${t}${k === "spiele" && punkt ? `<span class="punkt"></span>` : ""}</button>`).join("");
   document.getElementById("unten").innerHTML = knoepfe;
