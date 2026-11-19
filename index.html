@@ -28,7 +28,7 @@
     /* Vereinsfarben: weiss, schwarz, ein bisschen Grün (das Türkis aus dem Logo). */
     --bg:#f3f4f3; --panel:#ffffff; --panel2:#f6f7f6; --line:#e1e4e2;
     --text:#111111; --muted:#6b716e; --accent:#1fa88c; --accentT:#0f7a65;
-    --head:#111111; --good:#1fa88c; --bad:#d9485a;
+    --head:#111111; --good:#1fa88c; --bad:#d9485a; --goodB:#9fdcc9; --badB:#f0a9b2;
   }
   *{box-sizing:border-box}
   html,body{overscroll-behavior-y:none;margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Barlow,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
@@ -155,6 +155,7 @@
   td.pl{text-align:center;width:26px;font-weight:700;border-left:3px solid transparent}
   tr.auf td.pl{border-left-color:var(--good)}
   tr.ab td.pl{border-left-color:var(--bad)}
+  tr.aufb td.pl{border-left-color:var(--goodB)} tr.abb td.pl{border-left-color:var(--badB)}
   tr.wir td{background:#e6f6f2;font-weight:700}
   td.pk{font-weight:700}
   .leg{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-top:8px;flex-wrap:wrap}
@@ -376,6 +377,20 @@ function regelnVon(saisonId, name) {
 function zonen(saisonId, name) {
   const r = regelnVon(saisonId, name), { nr } = klasseVon(name);
   return (r && nr && r[nr]) || null;
+}
+// Seniors (vom Nutzer, 20.11.2026): Spielreglement der FLF, Art. 4 „Descente et montée“ (PDF vom Nutzer, Stand Juli 2025) — gilt jede
+// Saison, bis die FLF das Reglement ändert. aufB/abB = Barrage (Platz 3./4. gegen 13./14. der BGL Ligue; 13./14. gegen die Zweiten der
+// 1. Division). Nur bei 16 Mannschaften. Réserves: die FLF legt die Regeln jedes Jahr neu fest → nicht markiert, solange wir sie nicht haben.
+// Nur für die Tabelle; der Saisonabschluss (sicht → status) bleibt bei `zonen` (dort geht es um Klassen I–VI der Jugend).
+const REGELN_SENIORS = [
+  [/^BGL Lig/i, { auf: [], aufB: [], ab: [15, 16], abB: [13, 14] }],
+  [/^Promotion d.Honneur/i, { auf: [1, 2], aufB: [3, 4], ab: [15, 16], abB: [13, 14] }],
+];
+function tabellenZonen(saisonId, k) {
+  const z = zonen(saisonId, k.n);
+  if (z) return z;
+  const s = REGELN_SENIORS.find(([re]) => re.test(k.n || ""));
+  return s && (k.tabelle || []).length === 16 ? s[1] : null;
 }
 
 // Sicht einer Mannschaft auf ein Spiel: s/u/n oder null, solange kein Ergebnis da ist.
@@ -944,7 +959,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu m";
+const FASSUNG = "20.11.2026 neu n";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1144,14 +1159,17 @@ function spielZeile(sp, ids, meta, logos = false) {
 
 function tabelleHtml(k, eigen, logos = true) {
   if (!k.tabelle || !k.tabelle.length) return `<div class="muted">Für diese Klasse veröffentlicht die FLF keine Tabelle.</div>`;
-  const z = zonen(D.saison.id, k.n);
+  const z = tabellenZonen(D.saison.id, k);
   const rows = k.tabelle.map(r => {
-    const cls = [eigen.has(r.id) ? "wir" : "", z && z.auf.includes(r.pl) ? "auf" : "", z && z.ab.includes(r.pl) ? "ab" : ""].join(" ");
+    const cls = [eigen.has(r.id) ? "wir" : "", z && z.auf.includes(r.pl) ? "auf" : "", z && z.ab.includes(r.pl) ? "ab" : "",
+      z && (z.aufB || []).includes(r.pl) ? "aufb" : "", z && (z.abB || []).includes(r.pl) ? "abb" : ""].join(" ");
     return `<tr class="${cls}"><td class="pl">${r.pl}</td><td class="tm">${logos ? `<span class="tmz">${logoImg(r.id, "lgk") || `<i class="lgk"></i>`}<span>${umbruch(anzeige(r.n))}</span></span>` : umbruch(anzeige(r.n))}</td><td>${r.sp}</td>
       <td class="wide">${r.s}</td><td class="wide">${r.u}</td><td class="wide">${r.nl}</td>
       <td>${r.t}:${r.g}</td><td class="narrow">${r.t - r.g > 0 ? "+" : ""}${r.t - r.g}</td><td class="pk">${r.pkt}</td></tr>`;
   }).join("");
   const leg = z ? `<div class="leg">${z.auf.length ? `<span><i style="background:var(--good)"></i>Aufstieg${z.extra ? " (" + esc(z.extra) + ")" : ""}</span>` : ""}
+      ${(z.aufB || []).length ? `<span><i style="background:var(--goodB)"></i>Barrage Aufstieg</span>` : ""}
+      ${(z.abB || []).length ? `<span><i style="background:var(--badB)"></i>Barrage Abstieg</span>` : ""}
       ${z.ab.length ? `<span><i style="background:var(--bad)"></i>Abstieg</span>` : ""}</div>` : "";
   return `<table><thead><tr><th>#</th><th>Mannschaft</th><th>Sp</th><th class="wide">S</th><th class="wide">U</th><th class="wide">N</th>
     <th>Tore</th><th class="narrow">±</th><th>Pkt</th></tr></thead><tbody>${rows}</tbody></table>${leg}`;

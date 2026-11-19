@@ -27,7 +27,7 @@ const src = fs.readFileSync(path.join(hier, "..", "index.html"), "utf8");
 const i = src.indexOf("==== Logik"), j = src.indexOf("==== Oberfläche");
 if (i < 0 || j < 0) throw new Error("Abschnittsmarken Logik/Oberfläche nicht gefunden");
 const M = new Function(src.slice(src.lastIndexOf("//", i), src.lastIndexOf("//", j)) + `
-  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei, artText, coachZusatz, coachName, wocheSpiele, eventsWoche, eventsSpaeter, eventBis, saisonStats, vorjahrPunkte, duelle, aktuellerSpieltag, naechstesSpiel };`)();
+  return { natiLiveSpiel, extraReiter, reiterBreiten, bglSicht, bglTabelle, natiSicht, spieltagHeute, minutenBisAnpfiff, liveSpiel, liveBasis, kartenArt, ereignisListe, torArt, mitWorker, liveAnzeige, liveZeit, imLiveFenster, REGELN, klasseVon, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag, roem, wocheTage, wocheSpiele, wocheBilanz, istKinder, spieltagMorgen, nachDemSpiel, tagNach, istVorbei, artText, coachZusatz, coachName, wocheSpiele, eventsWoche, eventsSpaeter, eventBis, saisonStats, vorjahrPunkte, duelle, aktuellerSpieltag, naechstesSpiel, tabellenZonen };`)();
 
 let fehler = 0, n = 0;
 function ok(bed, text) { n++; if (!bed) { fehler++; console.log("✗ " + text); } }
@@ -53,6 +53,16 @@ function gleich(a, b, text) { ok(JSON.stringify(a) === JSON.stringify(b), text +
   ok(w[0] === "2027-03-22" && w[6] === "2027-03-28", "Woche der Frühjahrs-Zeitumstellung: Mo 22.3. bis So 28.3. — ist " + w.join(","));
   const h = M.wocheTage(Date.parse("2026-10-25T22:30:00+01:00"));
   ok(h[0] === "2026-10-26" && h[6] === "2026-11-01", "So nach 22 Uhr am Tag der Herbst-Zeitumstellung: nächste Woche");
+}
+// Auf-/Abstieg Seniors (Spielreglement Art. 4, vom Nutzer 20.11.2026): Promotion d'Honneur und BGL Ligue, nur mit 16 Mannschaften; Réserves nicht.
+{
+  const tab = n => Array.from({ length: n }, (_, i) => ({ pl: i + 1 }));
+  const ph = M.tabellenZonen("20262027", { n: "Promotion d'Honneur", tabelle: tab(16) });
+  ok(ph && ph.auf.join() === "1,2" && ph.aufB.join() === "3,4" && ph.abB.join() === "13,14" && ph.ab.join() === "15,16", "Seniors: Promotion d'Honneur 1–2 hoch, 3–4 Barrage, 13–14 Barrage, 15–16 runter");
+  const bgl = M.tabellenZonen("20262027", { n: "BGL Ligue", tabelle: tab(16) });
+  ok(bgl && bgl.auf.length === 0 && bgl.abB.join() === "13,14" && bgl.ab.join() === "15,16", "Seniors: BGL Ligue 13–14 Barrage, 15–16 runter");
+  ok(M.tabellenZonen("20262027", { n: "Réserves Classe 1", tabelle: tab(12) }) === null && M.tabellenZonen("20262027", { n: "Promotion d'Honneur", tabelle: tab(14) }) === null, "Seniors: Réserves und andere Größe nicht markiert");
+  ok(M.tabellenZonen("20262027", { n: "U13 Minimes Cl3 S2 Phase 2", tabelle: tab(6) })?.auf.join() === "1", "Jugend: weiter aus dem Rundschreiben");
 }
 // Countdown „Nächstes Spiel“ (vom Nutzer, 20.11.2026): ab 2. Tag nach dem letzten Spiel bis 2 Tage vorher, >14 Tage ohne Zähler.
 {

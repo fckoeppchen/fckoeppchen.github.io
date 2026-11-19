@@ -556,6 +556,11 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   unverändert, Computer 1280 px.
   **Neu i** (vom Nutzer): „Mehr → Kalender abonnieren“ springt zum ganzen Kasten samt Überschrift (Abstand um die Kopfhöhe), JK-Logo mit fester Größe (verschob beim Nachladen).
   **Neu j** (vom Nutzer): Mannschafts-Pille immer sichtbar, auch unter Mehr (Jugendkommission, Mitteilungen, Coach: zeigt die zuletzt gewählte Mannschaft); BGL/Roude Léiw ohne Knopf „Früher/Team“; **neu k** dort auch ohne Spiele/Liga (nur Woche · Mehr, zurück über die Pille). **Neu l:** Platz, Adresse und Weg-Knopf im Countdown mittig, Adresse/Weg-Knopf auch in Heute/Morgen ohne Einzug. **Neu m** (vom Nutzer): Pille mit festem grünem Ring im Koeppchen-Grün (`--accent`, leichtes Leuchten).
+- **Auf-/Abstieg Seniors in den Tabellen** (vom Nutzer, 20.11.2026, Fassung 20.11. neu n; Quelle: FLF-Spielreglement Art. 4 „Descente et montée“,
+  PDF vom Nutzer, Stand Juli 2025): `REGELN_SENIORS`/`tabellenZonen` (nur Tabelle, Saisonabschluss bleibt bei `zonen`) — **Promotion d'Honneur** 1.–2.
+  hoch, 3.–4. Barrage gegen 13./14. der BGL Ligue, 13.–14. Barrage gegen die Zweiten der 1. Division, 15.–16. runter; **BGL Ligue** 13.–14. Barrage,
+  15.–16. runter; nur bei 16 Mannschaften. Barrage hellgrün/hellrot (`--goodB`/`--badB`, `aufb`/`abb`). **Réserves nicht** (FLF legt die Regeln jedes
+  Jahr neu fest, „publiées chaque année par le Conseil d'Administration“) — erst mit dem Rundschreiben. Tests (540) mit Gegenprobe.
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
