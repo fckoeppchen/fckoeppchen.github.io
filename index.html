@@ -969,15 +969,16 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu o";
+const FASSUNG = "20.11.2026 neu p";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
 // Für alle: NEUE_ANSICHT = true (danach die alte Ansicht ausbauen).
-const NEUE_ANSICHT = false;
+const NEUE_ANSICHT = true;   // für alle an seit 20.11.2026 (vom Nutzer: „Go“); zurück = false
 const ALT_ANSICHT = KEY + "_altansicht";
 function neuAn() {
   try {
+    if (NEUE_ANSICHT) return true;   // für alle an: „Alte Ansicht“ gibt es nicht mehr (Menüpunkt weg), alter Merker zählt nicht
     if (localStorage.getItem(ALT_ANSICHT) === "1") return false;
     return NEUE_ANSICHT || ["pro", "test"].includes(localStorage.getItem(KEY + "_mtest"));
   } catch (e) { return NEUE_ANSICHT; }

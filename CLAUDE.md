@@ -566,6 +566,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   **Genau einmal:** beim ersten Zeigen sofort gemerkt (`fussball_v1_neuhinweis`), steht in dieser Sitzung bis „Alles klar 👍“; beim nächsten Öffnen
   (Neustart oder ≥ 30 min im Hintergrund) weg. Ganz Neue (Begrüßung) bekommen ihn nie. DE/FR/EN wie die Begrüßung (`NH_TEXT`, `WLANG`), Pille
   leuchtet stärker, solange er steht (`body[data-neuhin]`). „Unten“/„Oben“ je nach Handy/Computer. Browser: Tester, Alles klar, neu, ohne Code, 1280 px.
+- **Neue Ansicht für alle an** (vom Nutzer, 20.11.2026: „Go“, Fassung 20.11. neu p): `NEUE_ANSICHT = true`; `neuAn()` dann immer true (alter Merker
+  `fussball_v1_altansicht` zählt nicht mehr, Menüpunkt „Alte Ansicht“ weg). **Zurück = false**, sonst nichts. Alte Ansicht erst nach ein paar ruhigen
+  Tagen ausbauen (Claudes Vorschlag) — vorher den Nutzer fragen. Browser: alter Nutzer → neue Ansicht + Hinweis einmal, ganz neu → Begrüßung ohne Hinweis.
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
