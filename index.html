@@ -909,7 +909,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "19.11.2026 neu g";
+const FASSUNG = "20.11.2026 neu a";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1458,13 +1458,16 @@ function spieltagBlaettern(k, ids, now) {
 // FuPa-Widgets „Kader“ und „Spieler-Statistik“ (vom Nutzer, 19.11.2026: legt er im Widget-Builder an). Bis die Nummern da sind: Platzhalter.
 const FUPA_KADER = { "Seniors 1": "3MJSYQHeaOEjFzO4N37jry85JFY" };     // { "Seniors 1": "<Widget-Nummer>", … }
 const FUPA_STATISTIK = { "Seniors 1": "3MJSiqPPuryEVpIQppTifd6ARKb" }; // Spieler-Statistik der Mannschaft (Spiele, Tore, Assists, Karten, Minuten)
-function fupaKarte(titel, hint, id, platzhalter) {
-  if (!id) return `<section class="card"><div class="chead"><h2>${titel}</h2><div class="hint">${hint}</div></div><div class="cbody">
-    <div class="platz"><b>Hier kommt das FuPa-Widget „${titel}“</b>${platzhalter}</div></div></section>`;
-  return `<section class="card fupakarte"><div class="chead"><h2>${titel}</h2><div class="hint">${hint}</div></div><div class="cbody">` + (fupaOk()
+// Zuklappbar (vom Nutzer, 20.11.2026: die Widgets sind sehr lang). Offen bleibt offen, auch wenn die Seite neu gebaut wird (FUPA_AUF).
+const FUPA_AUF = new Set();
+document.addEventListener("toggle", e => { const k = e.target.dataset?.fupaauf; if (k) e.target.open ? FUPA_AUF.add(k) : FUPA_AUF.delete(k); }, true);
+function fupaKarte(titel, hint, id, platzhalter, schluessel) {
+  const kopf = `<details class="card" data-fupaauf="${esc(schluessel)}"${FUPA_AUF.has(schluessel) ? " open" : ""}><summary><h2>${titel}</h2><span class="hint">${hint}</span></summary><div class="cbody">`;
+  if (!id) return kopf + `<div class="platz"><b>Hier kommt das FuPa-Widget „${titel}“</b>${platzhalter}</div></div></details>`;
+  return kopf + (fupaOk()
     ? `<div class="fupaplatz" data-fw="${esc(id)}"></div>`
     : `<div class="fupatext">Kommt direkt von <a href="https://www.fupa.net/club/fc-koeppchen" target="_blank" rel="noopener">FuPa</a>. Dafür verbindet sich das Handy mit FuPa, FuPa sieht dabei seine Internet-Adresse.</div>
-      <button class="kal" data-fupa="ja" style="margin-top:10px">Von FuPa anzeigen</button>`) + `</div></section>`;
+      <button class="kal" data-fupa="ja" style="margin-top:10px">Von FuPa anzeigen</button>`) + `</div></details>`;
 }
 
 // Knopf „Team“ der Seniors: Statistik aus den FLF-Ergebnissen, Kader/Spieler-Statistik von FuPa, Pokal.
@@ -1490,8 +1493,6 @@ function teamHtml(v, now) {
         <div class="muted" style="font-size:12px">Selbst gerechnet aus den Ergebnissen (Punkte, Tordifferenz, Tore); bei Gleichstand sortiert die FLF manchmal anders.</div></div></section>`;
     }
   }
-  h += fupaKarte("Kader", "von FuPa", FUPA_KADER[r], `Alle Spieler der ${esc(r)} mit Position, Einsätzen und Toren dieser Saison. Platzhalter, bis die Widget-Nummer eingetragen ist.`);
-  h += fupaKarte("Spieler-Statistik", esc(r) + " · von FuPa", FUPA_STATISTIK[r], "Spiele, Tore, Vorlagen, Karten und Minuten jedes Spielers dieser Saison. Platzhalter, bis die Widget-Nummer eingetragen ist.");
   if (st && st.unsere.length) {
     const b = (x, name) => `<tr><td>${name}</td><td>${x.sp}</td><td>${x.s}</td><td>${x.u}</td><td>${x.n}</td><td>${x.t}:${x.g}</td><td><b>${x.p}</b></td></tr>`;
     h += `<section class="card"><div class="chead"><h2>Zu Hause und auswärts</h2><div class="hint">Liga</div></div><div class="cbody"><table class="ha">
@@ -1513,7 +1514,10 @@ function teamHtml(v, now) {
   const pokal = [...v.gespielt].reverse().concat(v.kommend).filter(sp => sp.typ === "CUP");
   if (pokal.length) h += `<section class="card"><div class="chead"><h2>Pokal</h2><div class="hint">diese Saison</div></div><div class="cbody">
     ${pokal.map(sp => spielZeile(sp, v.ids, [esc((sp.klasse || "").replace(/^Coupe de Luxembourg\s*-\s*/, "")), pokalOffen(sp) ? "nach 90 Min., Endstand folgt" : pokalArt(sp)].filter(Boolean).join(" · "))).join("")}</div></section>`;
-  return h || `<div class="note">Noch keine Daten für ${esc(r)}.</div>`;
+  // FuPa-Widgets ans Ende, Statistik über dem Kader (vom Nutzer, 20.11.2026).
+  h += fupaKarte("Spieler-Statistik", esc(r) + " · von FuPa", FUPA_STATISTIK[r], "Spiele, Tore, Vorlagen, Karten und Minuten jedes Spielers dieser Saison. Platzhalter, bis die Widget-Nummer eingetragen ist.", "statistik " + r);
+  h += fupaKarte("Kader", esc(r) + " · von FuPa", FUPA_KADER[r], `Alle Spieler der ${esc(r)} mit Position, Einsätzen und Toren dieser Saison. Platzhalter, bis die Widget-Nummer eingetragen ist.`, "kader " + r);
+  return h;
 }
 
 // Direkter Vergleich im Heute-/Morgen-Kasten der Seniors (neue Ansicht): letzte Duelle Liga + Pokal, FLF ab 2024-25.
