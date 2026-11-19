@@ -910,7 +910,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "19.11.2026 neu c";
+const FASSUNG = "19.11.2026 neu d";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1457,7 +1457,7 @@ function spieltagBlaettern(k, ids, now) {
 }
 
 // FuPa-Widgets „Kader“ und „Torjäger“ (vom Nutzer, 19.11.2026: legt er im Widget-Builder an). Bis die Nummern da sind: Platzhalter.
-const FUPA_KADER = {};       // { "Seniors 1": "<Widget-Nummer>", … }
+const FUPA_KADER = { "Seniors 1": "3MJSYQHeaOEjFzO4N37jry85JFY" };     // { "Seniors 1": "<Widget-Nummer>", … }
 const FUPA_TORJAEGER = {};   // dito, je Liga der Mannschaft
 function fupaKarte(titel, hint, id, platzhalter) {
   if (!id) return `<section class="card"><div class="chead"><h2>${titel}</h2><div class="hint">${hint}</div></div><div class="cbody">
