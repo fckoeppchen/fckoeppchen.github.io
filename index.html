@@ -92,6 +92,8 @@
   .hint.tagdatum{font-size:15px;font-weight:600;color:var(--text)}
   .cbody{padding:10px 12px}
   .heute,.fupakarte{border:2px solid var(--accent)}
+  .mgross{font-family:'Bebas Neue',sans-serif;font-size:clamp(24px,8.4vw,34px);letter-spacing:1px;line-height:1.05;text-align:center;white-space:nowrap;color:var(--accentT)}
+  .mzeit{text-align:center;font-size:19px;font-weight:700;margin-top:2px}
   .heute .wann{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;text-align:center;line-height:1.1}
   .heute .wo,.naechstes .wo{text-align:center;font-size:13px;color:var(--muted);margin-top:4px}
   .heute .wo .adresse,.naechstes .wo .adresse,.heute .wo .wegk,.naechstes .wo .wegk{margin-left:0}   /* genau mittig (vom Nutzer, 20.11.2026) */
@@ -970,7 +972,7 @@ function aktuellerSpieltag(k, now = Date.now()) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu q";
+const FASSUNG = "20.11.2026 neu r";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1526,7 +1528,7 @@ function neuLeisten(tabs, extra) {
       ${sen.length ? `<div class="gr">Seniors</div>${kn2(sen)}` : ""}${jug.length ? `<div class="gr">Jugend</div>${kn2(jug)}` : ""}${mehr.length ? `<div class="gr">Mehr</div>${kn2(mehr)}` : ""}</div>`;
   } else if (SHEET === "mehr") {
     const z = [mitt() && ["mitt", "🔔", "Mitteilungen"], ["bgl", "🏆", "BGL League"], ["nati", "🦁", "Roude Léiw"], ["jk", "🧒", "Jugendkommission"],
-      ["kal", "🗓️", "Kalender abonnieren"], coachDa() && ["coach", "📋", "Coach"], ["teilen", "📤", "App teilen"], ["ds", "🔒", "Datenschutz"],
+      ["kal", "🗓️", "Kalender abonnieren"], coachDa() && ["coach", "📋", "Coach"], ["teilen", "📤", "App teilen"], ["ds", "🔒", "Datenschutz / Kontakt"],
       !NEUE_ANSICHT && ["alt", "↩︎", "Alte Ansicht (zum Vergleichen)"]].filter(Boolean);
     sh.innerHTML = `<div class="in"><h3>Mehr<button data-sheet="zu" aria-label="Schließen">✕</button></h3>${z.map(([k, i, t]) => `<button class="zeile" data-mehr="${k}"><i>${i}</i>${t}</button>`).join("")}</div>`;
   } else sh.innerHTML = "";
@@ -1729,7 +1731,7 @@ function fuss() {
     Aktualisiert jeden Tag um 7:00, 12:00 und 23:30 Uhr, Mo–Fr zusätzlich um 22:15 Uhr, Sa/So von 8 bis 22 Uhr alle 15 Minuten.
     <br><button class="teilen" id="teilen">↗︎ App teilen</button>
     <div class="von" id="von">Gemacht von Laurent R. für den FC Koeppchen <img alt="" src="${LOGO}"></div>${eigenesGeraet() ? `<div style="font-size:11px">Dieses Gerät zählt nicht in der Statistik mit.</div>` : ""}
-    <details class="kalhilfe datenschutz" id="datenschutz"${DS_OFFEN ? " open" : ""}><summary>Datenschutz</summary>
+    <details class="kalhilfe datenschutz" id="datenschutz"${DS_OFFEN ? " open" : ""}><summary>Datenschutz / Kontakt</summary>
       Die App zählt anonym, wie oft sie geöffnet und welche Reiter angesehen werden — ohne Namen, Telefonnummern oder Standorte.
       Wer Mitteilungen einschaltet, für den wird nur die Push-Adresse des Handys und die Auswahl der Mannschaften gespeichert; Abmelden löscht beides.
       Was die App sich merkt (gewählter Reiter, letzter Stand), bleibt auf dem Handy. Keine Werbung, kein Tracking.
@@ -1864,8 +1866,10 @@ function naechstesHtml(n, ids, pill) {
 }
 function morgenHtml(m, ids, pill, koeppi = true, form = false, motto = true, logos = true) {
   const sp = m.sp, zeit = wann(sp).split(" · ")[1], p = pill(sp);
-  return `<section class="card heute"><div class="chead"><h2>Morgen Spieltag! ⚽</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}${coachZeichen(sp)}</div><div class="cbody">
-    <div class="wann">${esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen")}</div>${wetterZeile(sp)}
+  // Vom Nutzer (20.11.2026): „Morgen Spieltag!“ groß im Kasten, Anstoß kleiner darunter, Datum im Kopf — sonst las sich „Anstoß 18:30“ wie heute.
+  const tagText = new Date(sp.d).toLocaleDateString("de-DE", { timeZone: TZ, weekday: "long", day: "numeric", month: "long" });
+  return `<section class="card heute morgenk"><div class="chead"><h2>${esc(tagText)}</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}${coachZeichen(sp)}</div><div class="cbody">
+    <div class="mgross">Morgen Spieltag! ⚽</div><div class="mzeit">${esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen")}</div>${wetterZeile(sp)}
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.h.id, "lgg") : ""}${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${logos && beideLogos(sp) ? logoImg(sp.a.id, "lgg") : ""}${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}${adresseZeile(sp, ids)}</div>` : ""}${coachZusatz(sp) ? `<div class="wo">${esc(coachZusatz(sp))}</div>` : ""}

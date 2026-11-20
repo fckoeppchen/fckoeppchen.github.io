@@ -572,6 +572,9 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Fassung 20.11. neu q** (vom Nutzer): (1) Liga der Seniors öffnet beim Spieltag des letzten Spiels **bis jetzt** (`aktuellerSpieltag(k, now)`) — bei
   Seniors 3 sprang sie wegen der im Voraus gewerteten Larochette-Forfaits (Ergebnis bis Mai) auf den letzten Spieltag. (2) Kein Duell gefunden → Zeile
   „Direkter Vergleich: kein Duell in den letzten zwei Saisons“ statt nichts. Test mit Gegenprobe (541).
+- **Fassung 20.11. neu r** (vom Nutzer, Muster vorher gezeigt): **Morgen-Kasten** (`morgenHtml`, Klasse `morgenk`) — Kopf = Datum („Samstag, 21. November“),
+  im Kasten groß und grün „Morgen Spieltag! ⚽“ (`.mgross`, Bebas, `clamp(24px,8.4vw,34px)`, einzeilig bis 320 px), darunter kleiner fett „Anstoß 18:30“ (`.mzeit`).
+  Anlass: „Anstoß 18:30“ groß las sich wie heute. Heute-Kasten unverändert. **Mehr → „Datenschutz / Kontakt“**, ebenso der Kopf des Abschnitts in der Fußzeile.
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
