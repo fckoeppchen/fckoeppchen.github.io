@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-20T01:19:07.597Z",
+ "stand": "2026-11-20T03:44:23.623Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -15727,7 +15727,7 @@
      "as": 3,
      "gespielt": true,
      "forfait": false,
-     "ort": "Centre Sportif Fancy (Biwer)"
+     "ort": "Stade Parquet Böhm (Biwer)"
     },
     {
      "id": 13595,
@@ -26870,7 +26870,7 @@
   "Stade Fernand Weber (Canach)": "73, Rue Lenningen, L-5411 Canach",
   "Stade FC The Belval (Belvaux, synth.)": "Rue du Stade, L-4488 Belvaux",
   "Luxembourg-Cents": "83a, Tawioun, L-2612 Luxembourg",
-  "Centre Sportif Fancy (Biwer)": "Schoulstrooss, L-6833 Biwer",
+  "Stade Parquet Böhm (Biwer)": "Schoulstrooss, L-6833 Biwer",
   "Stade Op der Millen (Remich)": "4, Route du Vin, L-5549 Remich",
   "Stade Municipal (Bettembourg, synth.)": "Route de Mondorf, L-3260 Bettembourg",
   "Stade Jos Philippart (Rodange)": "9, Rue Jos. Moscardo, L-4840 Rodange",
@@ -26915,7 +26915,50 @@
   "Terrain 2 (Lintgen, synth.)": "Rue de la Gare, L-7448 Lintgen",
   "Terrain Op Birkelt (Larochette, synth.)": "Plateau Birkelt, L-7620 Larochette"
  },
- "wetter": {},
+ "wetter": {
+  "1015083": {
+   "c": 0,
+   "t": 1,
+   "r": 0,
+   "w": 5
+  },
+  "6320021": {
+   "c": 0,
+   "t": 6,
+   "r": 0,
+   "w": 0
+  },
+  "6345023": {
+   "c": 0,
+   "t": 6,
+   "r": 0,
+   "w": 5
+  },
+  "6716075": {
+   "c": 0,
+   "t": 7,
+   "r": 0,
+   "w": 5
+  },
+  "6717075": {
+   "c": 0,
+   "t": 7,
+   "r": 0,
+   "w": 5
+  },
+  "9202611211": {
+   "c": 0,
+   "t": 3,
+   "r": 0,
+   "w": 5
+  },
+  "9202611212": {
+   "c": 0,
+   "t": 3,
+   "r": 0,
+   "w": 5
+  }
+ },
  "wetterOrte": {
   "LU-5499 Dreiborn": [
    49.617,
@@ -26952,6 +26995,14 @@
   "LU-6552 Berdorf": [
    49.821,
    6.349
+  ],
+  "LU-2549 Luxembourg": [
+   49.61,
+   6.133
+  ],
+  "LU-5218 Sandweiler": [
+   49.615,
+   6.222
   ]
  },
  "events": {
