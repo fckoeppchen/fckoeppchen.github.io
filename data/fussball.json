@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-20T11:02:00.958Z",
+ "stand": "2026-11-20T21:16:49.164Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -2400,24 +2400,6 @@
      "ort": "Stade E. Mayrisch (Esch)"
     },
     {
-     "id": 1002145,
-     "d": "2026-11-29T16:00:00+01:00",
-     "tag": 14,
-     "h": {
-      "id": 44892,
-      "n": "FC Lorentzweiler"
-     },
-     "a": {
-      "id": 44650,
-      "n": "Marisca Mersch"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 1 (Lorentzweiler)"
-    },
-    {
      "id": 1002147,
      "d": "2026-11-29T16:00:00+01:00",
      "tag": 14,
@@ -2470,6 +2452,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Stade Fernand Weber (Canach)"
+    },
+    {
+     "id": 1002145,
+     "d": "2026-11-29T16:00:00+01:00",
+     "tag": 14,
+     "h": {
+      "id": 44650,
+      "n": "Marisca Mersch"
+     },
+     "a": {
+      "id": 44892,
+      "n": "FC Lorentzweiler"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Schintgespesch (Mersch)"
     },
     {
      "id": 1002143,
@@ -4398,6 +4398,24 @@
      "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
+     "id": 1002285,
+     "d": "2027-05-09T16:00:00+02:00",
+     "tag": 28,
+     "h": {
+      "id": 44892,
+      "n": "FC Lorentzweiler"
+     },
+     "a": {
+      "id": 44650,
+      "n": "Marisca Mersch"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 1 (Lorentzweiler)"
+    },
+    {
      "id": 1002282,
      "d": "2027-05-09T16:00:00+02:00",
      "tag": 28,
@@ -4450,24 +4468,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Stade Jos Philippart (Rodange)"
-    },
-    {
-     "id": 1002285,
-     "d": "2027-05-09T16:00:00+02:00",
-     "tag": 28,
-     "h": {
-      "id": 44650,
-      "n": "Marisca Mersch"
-     },
-     "a": {
-      "id": 44892,
-      "n": "FC Lorentzweiler"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Schintgespesch (Mersch)"
     },
     {
      "id": 1002287,
@@ -26924,27 +26924,27 @@
   },
   "6320021": {
    "c": 0,
-   "t": 6,
+   "t": 5,
    "r": 0,
    "w": 5
   },
   "6345023": {
    "c": 0,
-   "t": 7,
+   "t": 6,
    "r": 0,
-   "w": 5
+   "w": 0
   },
   "6716075": {
-   "c": 1,
-   "t": 8,
+   "c": 0,
+   "t": 7,
    "r": 0,
-   "w": 5
+   "w": 0
   },
   "6717075": {
-   "c": 1,
-   "t": 8,
+   "c": 0,
+   "t": 7,
    "r": 0,
-   "w": 5
+   "w": 0
   },
   "9202611211": {
    "c": 0,
