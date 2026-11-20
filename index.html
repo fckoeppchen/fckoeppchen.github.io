@@ -960,8 +960,9 @@ function duelle(sp, ids, klassen, historie, max = 4) {
   });
 }
 // Liga der Seniors: Spieltag zum Blättern, beim Öffnen der zuletzt (auch angefangen) gespielte.
-function aktuellerSpieltag(k) {
-  const mit = (k?.spiele || []).filter(s => s.tag != null && s.hs != null).map(s => s.tag);
+// Nur Spiele bis jetzt: im Voraus gewertete Forfaits (Larochette, Seniors 3) haben schon ein Ergebnis bis Mai (vom Nutzer, 20.11.2026).
+function aktuellerSpieltag(k, now = Date.now()) {
+  const mit = (k?.spiele || []).filter(s => s.tag != null && s.hs != null && Date.parse(s.d) <= now).map(s => s.tag);
   return mit.length ? Math.max(...mit) : Math.min(...(k?.spiele || []).map(s => s.tag).filter(t => t != null), 1);
 }
 
@@ -969,7 +970,7 @@ function aktuellerSpieltag(k) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu p";
+const FASSUNG = "20.11.2026 neu q";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1668,7 +1669,7 @@ function teamHtml(v, now) {
 // Direkter Vergleich im Heute-/Morgen-Kasten der Seniors (neue Ansicht): letzte Duelle Liga + Pokal, FLF ab 2024-25.
 function vergleichHtml(sp, ids) {
   const l = duelle(sp, ids, D?.klassen, D?.historie, 2);   // nur die letzten 2 (vom Nutzer, 20.11.2026: sonst zu viel)
-  if (!l.length) return "";
+  if (!l.length) return `<div class="vgl"><div class="ft">Direkter Vergleich: kein Duell in den letzten zwei Saisons</div></div>`;   // vom Nutzer, 20.11.2026
   const kurz = n => esc(anzeige(n));
   const wir = ids.has(sp.h.id) ? sp.h.n : sp.a.n, geg = ids.has(sp.h.id) ? sp.a.n : sp.h.n;
   return `<div class="vgl"><div class="ft">Direkter Vergleich · letzte Duelle (Liga und Pokal)</div>${l.map(x =>

@@ -1706,6 +1706,8 @@ gleich(adressenAus([{ id: 1, name: "P", sportComplex: { id: 2 } }, { id: 4, name
   ok(st.hoechsterSieg.f === 3 && st.hoechsterSieg.geg === "FC Mamer 32" && st.toreich.f + st.toreich.g === 4 && st.serie === 2,
     "Statistik: höchster Sieg, torreichstes Spiel, längste Serie ohne Niederlage");
   ok(M.aktuellerSpieltag(k) === 3 && M.aktuellerSpieltag({ spiele: [g(1, 1, "2026-09-01T16:00:00+02:00", W, A, null, null)] }) === 1, "Statistik: aktueller Spieltag = zuletzt gespielter");
+{ const vor = { spiele: [g(1, 1, "2026-09-01T16:00:00+02:00", W, A, 2, 1), g(2, 2, "2026-09-08T16:00:00+02:00", W, A, null, null), g(3, 9, "2027-05-03T00:00:01+02:00", W, A, 3, 0)] };
+  ok(M.aktuellerSpieltag(vor, Date.parse("2026-09-10T12:00:00+02:00")) === 1, "Liga: Forfait im Voraus (Spieltag 9 im Mai) zählt nicht als aktueller Spieltag"); }
   const hist = historieAus([
     { match: { matchDate: "2025-10-05T16:00:00+02:00", homeScore: 1, awayScore: 2, finalHomeScore: null }, homeTeam: { name: W.n }, awayTeam: { name: A.n }, matchType: { id: "CC" } },
     { match: { matchDate: "2025-08-31T16:00:00+02:00", homeScore: 2, awayScore: 0 }, homeTeam: { name: W.n }, awayTeam: { name: C.n }, matchType: { id: "CC" } },
