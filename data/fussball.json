@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-21T17:46:56.870Z",
+ "stand": "2026-11-21T18:16:55.445Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -18438,24 +18438,24 @@
     },
     {
      "pl": 4,
-     "id": 45399,
-     "n": "FC Koeppchen Wormeldange",
-     "sp": 1,
-     "s": 0,
+     "id": 45746,
+     "n": "Tricolore Gasperich",
+     "sp": 2,
+     "s": 1,
      "u": 0,
      "nl": 1,
-     "t": 0,
-     "g": 2,
-     "pkt": 0
+     "t": 3,
+     "g": 5,
+     "pkt": 3
     },
     {
      "pl": 5,
-     "id": 45746,
-     "n": "Tricolore Gasperich",
-     "sp": 1,
+     "id": 45399,
+     "n": "FC Koeppchen Wormeldange",
+     "sp": 2,
      "s": 0,
      "u": 0,
-     "nl": 1,
+     "nl": 2,
      "t": 1,
      "g": 4,
      "pkt": 0
@@ -18769,28 +18769,40 @@
      "pl": 2,
      "id": 44738,
      "n": "Jeunesse Junglinster I",
-     "sp": 1,
+     "sp": 2,
      "s": 1,
-     "u": 0,
+     "u": 1,
      "nl": 0,
-     "t": 9,
-     "g": 2,
-     "pkt": 3
+     "t": 10,
+     "g": 3,
+     "pkt": 4
     },
     {
      "pl": 3,
-     "id": 45396,
-     "n": "FC Koeppchen Wormeldange",
-     "sp": 1,
-     "s": 0,
-     "u": 1,
-     "nl": 0,
-     "t": 0,
-     "g": 0,
-     "pkt": 1
+     "id": 46022,
+     "n": "Union Remich/Bous I",
+     "sp": 2,
+     "s": 1,
+     "u": 0,
+     "nl": 1,
+     "t": 5,
+     "g": 9,
+     "pkt": 3
     },
     {
      "pl": 4,
+     "id": 45396,
+     "n": "FC Koeppchen Wormeldange",
+     "sp": 2,
+     "s": 0,
+     "u": 2,
+     "nl": 0,
+     "t": 1,
+     "g": 1,
+     "pkt": 2
+    },
+    {
+     "pl": 5,
      "id": 44755,
      "n": "Victoria Rosport I",
      "sp": 2,
@@ -18802,27 +18814,15 @@
      "pkt": 1
     },
     {
-     "pl": 5,
+     "pl": 6,
      "id": 46192,
      "n": "CS Grevenmacher I",
-     "sp": 1,
+     "sp": 2,
      "s": 0,
      "u": 0,
-     "nl": 1,
+     "nl": 2,
      "t": 0,
-     "g": 2,
-     "pkt": 0
-    },
-    {
-     "pl": 6,
-     "id": 46022,
-     "n": "Union Remich/Bous I",
-     "sp": 1,
-     "s": 0,
-     "u": 0,
-     "nl": 1,
-     "t": 2,
-     "g": 9,
+     "g": 5,
      "pkt": 0
     }
    ],
