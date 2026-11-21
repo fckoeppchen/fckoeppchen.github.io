@@ -101,30 +101,6 @@
     "BAM 1",
     "Bambinis U7"
    ],
-   "id": "zeit:9202611211:2026-11-21T09:30:00+01:00",
-   "art": "uhrzeit",
-   "titel": "BAM 1 · Uhrzeit",
-   "text": "Uhrzeit steht fest: Sa., 21.11. um 09:30 · Mini-Spieltag · 📍 Terrain Breil (Echternach, synth.)",
-   "ab": 1794431833156,
-   "bis": 1795249800000
-  },
-  {
-   "reiter": [
-    "BAM 2",
-    "Bambinis U7"
-   ],
-   "id": "zeit:9202611212:2026-11-21T09:30:00+01:00",
-   "art": "uhrzeit",
-   "titel": "BAM 2 · Uhrzeit",
-   "text": "Uhrzeit steht fest: Sa., 21.11. um 09:30 · Mini-Spieltag · 📍 Terrain 2 (Sandweiler, synth.)",
-   "ab": 1794431833156,
-   "bis": 1795249800000
-  },
-  {
-   "reiter": [
-    "BAM 1",
-    "Bambinis U7"
-   ],
    "id": "zeit:9202611281:2026-11-28T10:30:00+01:00",
    "art": "uhrzeit",
    "titel": "BAM 1 · Uhrzeit",
@@ -191,30 +167,6 @@
    "text": "15:00 gegen Victoria Rosport II · 📍 Terrain Ralingen (synth.)",
    "ab": 1795197600000,
    "bis": 1795269600000
-  },
-  {
-   "reiter": [
-    "BAM 1",
-    "Bambinis U7"
-   ],
-   "id": "heute:9202611211",
-   "art": "heute",
-   "titel": "BAM 1 · Morgen Spiel",
-   "text": "09:30 · Mini-Spieltag · 📍 Terrain Breil (Echternach, synth.)",
-   "ab": 1795197600000,
-   "bis": 1795249800000
-  },
-  {
-   "reiter": [
-    "BAM 2",
-    "Bambinis U7"
-   ],
-   "id": "heute:9202611212",
-   "art": "heute",
-   "titel": "BAM 2 · Morgen Spiel",
-   "text": "09:30 · Mini-Spieltag · 📍 Terrain 2 (Sandweiler, synth.)",
-   "ab": 1795197600000,
-   "bis": 1795249800000
   },
   {
    "reiter": [
