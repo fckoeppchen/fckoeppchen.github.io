@@ -146,22 +146,6 @@
   },
   {
    "reiter": [
-    "Seniors 3"
-   ],
-   "id": "tabelle:18936:45404:6:7:9:2026-11-20",
-   "art": "tabelle",
-   "titel": "Seniors 3 · Tabelle",
-   "text": "Koeppchen II jetzt 9. Platz (vorher 8.) · 7 Punkte aus 6 Spielen",
-   "basis": {
-    "pl": 8,
-    "pkt": 7,
-    "sp": 6
-   },
-   "ab": 1795154400000,
-   "bis": 1795240800000
-  },
-  {
-   "reiter": [
     "SCO",
     "Scolaires U15"
    ],
@@ -231,7 +215,61 @@
    "text": "09:30 · Mini-Spieltag · 📍 Terrain 2 (Sandweiler, synth.)",
    "ab": 1795197600000,
    "bis": 1795249800000
+  },
+  {
+   "reiter": [
+    "Seniors 3"
+   ],
+   "id": "heute:1015083",
+   "art": "heute",
+   "titel": "Seniors 3 · Heute Spiel",
+   "text": "18:30 gegen Minerva Lintgen · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1795251600000,
+   "bis": 1795282200000
+  },
+  {
+   "reiter": [
+    "POU 1",
+    "Poussins U11"
+   ],
+   "id": "heute:6685072",
+   "art": "heute",
+   "titel": "POU 1 · Morgen Spiel",
+   "text": "09:30 gegen FC Munsbach I · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1795284000000,
+   "bis": 1795336200000
+  },
+  {
+   "reiter": [
+    "POU 2",
+    "Poussins U11"
+   ],
+   "id": "heute:6687072",
+   "art": "heute",
+   "titel": "POU 2 · Morgen Spiel",
+   "text": "09:30 gegen FC Munsbach II · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1795284000000,
+   "bis": 1795336200000
   }
  ],
- "live": []
+ "live": [
+  {
+   "id": 1015083,
+   "reiter": [
+    "Seniors 3 · live"
+   ],
+   "titel": "📡 Seniors 3",
+   "d": "2026-11-21T18:30:00+01:00",
+   "h": "Koeppchen II",
+   "a": "Minerva Lintgen",
+   "wirHeim": true,
+   "gegner": "Minerva Lintgen",
+   "anstoss": "2026-11-21T18:30:00+01:00",
+   "fupaTeam": "mr2",
+   "fupaWir": "fc-koeppchen",
+   "ticker": "lticker:1015083",
+   "halbzeit": "lhalbzeit:1015083",
+   "ende": "ende-live:1015083"
+  }
+ ]
 }
