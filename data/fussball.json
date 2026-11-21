@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-21T15:46:49.807Z",
+ "stand": "2026-11-21T16:17:06.111Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -18402,30 +18402,18 @@
    "tabelle": [
     {
      "pl": 1,
-     "id": 46329,
-     "n": "SC Bettembourg II",
-     "sp": 1,
-     "s": 1,
+     "id": 45958,
+     "n": "Swift Hesperange I",
+     "sp": 2,
+     "s": 2,
      "u": 0,
      "nl": 0,
-     "t": 4,
-     "g": 0,
-     "pkt": 3
+     "t": 8,
+     "g": 2,
+     "pkt": 6
     },
     {
      "pl": 2,
-     "id": 45958,
-     "n": "Swift Hesperange I",
-     "sp": 1,
-     "s": 1,
-     "u": 0,
-     "nl": 0,
-     "t": 4,
-     "g": 1,
-     "pkt": 3
-    },
-    {
-     "pl": 3,
      "id": 46200,
      "n": "US Moutfort-Medingen",
      "sp": 1,
@@ -18434,6 +18422,18 @@
      "nl": 0,
      "t": 2,
      "g": 0,
+     "pkt": 3
+    },
+    {
+     "pl": 3,
+     "id": 46329,
+     "n": "SC Bettembourg II",
+     "sp": 2,
+     "s": 1,
+     "u": 0,
+     "nl": 1,
+     "t": 5,
+     "g": 4,
      "pkt": 3
     },
     {
@@ -18755,6 +18755,18 @@
    "tabelle": [
     {
      "pl": 1,
+     "id": 46353,
+     "n": "ENT Biwer/Berbourg/UMW I",
+     "sp": 2,
+     "s": 2,
+     "u": 0,
+     "nl": 0,
+     "t": 4,
+     "g": 1,
+     "pkt": 6
+    },
+    {
+     "pl": 2,
      "id": 44738,
      "n": "Jeunesse Junglinster I",
      "sp": 1,
@@ -18766,21 +18778,9 @@
      "pkt": 3
     },
     {
-     "pl": 2,
-     "id": 46353,
-     "n": "ENT Biwer/Berbourg/UMW I",
-     "sp": 1,
-     "s": 1,
-     "u": 0,
-     "nl": 0,
-     "t": 2,
-     "g": 0,
-     "pkt": 3
-    },
-    {
      "pl": 3,
-     "id": 44755,
-     "n": "Victoria Rosport I",
+     "id": 45396,
+     "n": "FC Koeppchen Wormeldange",
      "sp": 1,
      "s": 0,
      "u": 1,
@@ -18791,14 +18791,14 @@
     },
     {
      "pl": 4,
-     "id": 45396,
-     "n": "FC Koeppchen Wormeldange",
-     "sp": 1,
+     "id": 44755,
+     "n": "Victoria Rosport I",
+     "sp": 2,
      "s": 0,
      "u": 1,
-     "nl": 0,
-     "t": 0,
-     "g": 0,
+     "nl": 1,
+     "t": 1,
+     "g": 2,
      "pkt": 1
     },
     {
