@@ -134,30 +134,6 @@
   },
   {
    "reiter": [
-    "PUP 1",
-    "Pupilles U9"
-   ],
-   "id": "heute:6716075",
-   "art": "heute",
-   "titel": "PUP 1 · Morgen Spiel",
-   "text": "15:00 gegen Victoria Rosport I · 📍 Terrain Ralingen (synth.)",
-   "ab": 1795197600000,
-   "bis": 1795269600000
-  },
-  {
-   "reiter": [
-    "PUP 2",
-    "Pupilles U9"
-   ],
-   "id": "heute:6717075",
-   "art": "heute",
-   "titel": "PUP 2 · Morgen Spiel",
-   "text": "15:00 gegen Victoria Rosport II · 📍 Terrain Ralingen (synth.)",
-   "ab": 1795197600000,
-   "bis": 1795269600000
-  },
-  {
-   "reiter": [
     "Seniors 3"
    ],
    "id": "heute:1015083",
