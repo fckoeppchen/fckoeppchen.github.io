@@ -194,26 +194,34 @@
    "text": "Spieltag 2 komplett: Tricolore Gasperich 2:1 Koeppchen · alle Ergebnisse in der App",
    "ab": 1795286824216,
    "bis": 1795373224216
+  },
+  {
+   "reiter": [
+    "Seniors 3"
+   ],
+   "id": "ende:1015083",
+   "art": "ende",
+   "titel": "Seniors 3 · Endstand",
+   "text": "Koeppchen II 6:0 Minerva Lintgen",
+   "ab": 1795292233608,
+   "bis": 1795357033608
+  },
+  {
+   "reiter": [
+    "Seniors 3"
+   ],
+   "id": "tabelle:18936:45404:7:10:6:2026-11-21",
+   "art": "tabelle",
+   "titel": "Seniors 3 · Tabelle",
+   "text": "Koeppchen II jetzt 6. Platz (vorher 9.) · 10 Punkte aus 7 Spielen",
+   "basis": {
+    "pl": 9,
+    "pkt": 7,
+    "sp": 6
+   },
+   "ab": 1795292233608,
+   "bis": 1795378633608
   }
  ],
- "live": [
-  {
-   "id": 1015083,
-   "reiter": [
-    "Seniors 3 · live"
-   ],
-   "titel": "📡 Seniors 3",
-   "d": "2026-11-21T18:30:00+01:00",
-   "h": "Koeppchen II",
-   "a": "Minerva Lintgen",
-   "wirHeim": true,
-   "gegner": "Minerva Lintgen",
-   "anstoss": "2026-11-21T18:30:00+01:00",
-   "fupaTeam": "mr2",
-   "fupaWir": "fc-koeppchen",
-   "ticker": "lticker:1015083",
-   "halbzeit": "lhalbzeit:1015083",
-   "ende": "ende-live:1015083"
-  }
- ]
+ "live": []
 }

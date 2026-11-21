@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-21T19:47:07.607Z",
+ "stand": "2026-11-21T20:16:54.524Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -7396,6 +7396,18 @@
     },
     {
      "pl": 6,
+     "id": 45404,
+     "n": "FC Koeppchen Wormeldange II",
+     "sp": 7,
+     "s": 3,
+     "u": 1,
+     "nl": 3,
+     "t": 19,
+     "g": 15,
+     "pkt": 10
+    },
+    {
+     "pl": 7,
      "id": 44609,
      "n": "Syra Mensdorf",
      "sp": 6,
@@ -7407,7 +7419,7 @@
      "pkt": 9
     },
     {
-     "pl": 7,
+     "pl": 8,
      "id": 46181,
      "n": "ENT CSG/Canach II",
      "sp": 8,
@@ -7419,7 +7431,7 @@
      "pkt": 8
     },
     {
-     "pl": 8,
+     "pl": 9,
      "id": 45607,
      "n": "FC Munsbach",
      "sp": 7,
@@ -7429,18 +7441,6 @@
      "t": 16,
      "g": 22,
      "pkt": 8
-    },
-    {
-     "pl": 9,
-     "id": 45404,
-     "n": "FC Koeppchen Wormeldange II",
-     "sp": 6,
-     "s": 2,
-     "u": 1,
-     "nl": 3,
-     "t": 13,
-     "g": 15,
-     "pkt": 7
     },
     {
      "pl": 10,
@@ -7458,12 +7458,12 @@
      "pl": 11,
      "id": 44628,
      "n": "Minerva Lintgen",
-     "sp": 7,
+     "sp": 8,
      "s": 1,
      "u": 1,
-     "nl": 5,
+     "nl": 6,
      "t": 19,
-     "g": 46,
+     "g": 52,
      "pkt": 4
     },
     {
@@ -8308,9 +8308,9 @@
       "id": 44628,
       "n": "Minerva Lintgen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 6,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
     },
@@ -18402,6 +18402,18 @@
    "tabelle": [
     {
      "pl": 1,
+     "id": 46200,
+     "n": "US Moutfort-Medingen",
+     "sp": 2,
+     "s": 2,
+     "u": 0,
+     "nl": 0,
+     "t": 8,
+     "g": 1,
+     "pkt": 6
+    },
+    {
+     "pl": 2,
      "id": 45958,
      "n": "Swift Hesperange I",
      "sp": 2,
@@ -18411,18 +18423,6 @@
      "t": 8,
      "g": 2,
      "pkt": 6
-    },
-    {
-     "pl": 2,
-     "id": 46200,
-     "n": "US Moutfort-Medingen",
-     "sp": 1,
-     "s": 1,
-     "u": 0,
-     "nl": 0,
-     "t": 2,
-     "g": 0,
-     "pkt": 3
     },
     {
      "pl": 3,
@@ -18464,12 +18464,12 @@
      "pl": 6,
      "id": 45928,
      "n": "ENT Munsbach/Mensdorf/Canach I",
-     "sp": 1,
+     "sp": 2,
      "s": 0,
      "u": 0,
-     "nl": 1,
-     "t": 0,
-     "g": 4,
+     "nl": 2,
+     "t": 1,
+     "g": 10,
      "pkt": 0
     }
    ],
