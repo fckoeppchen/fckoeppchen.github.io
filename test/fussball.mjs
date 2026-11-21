@@ -1204,24 +1204,6 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   await worker.fetch(new Request("https://w/?push=angekommen&id=" + encodeURIComponent(wo.id)), { DB: db });
   await worker.fetch(new Request("https://w/?push=angekommen&id=gibts-nicht"), { DB: db });
   ok(q1.status === 204 && T.gemeldet.get(wo.id).angekommen === 2 && !T.gemeldet.has("gibts-nicht"), "Empfangsbestätigung: zählt je Mitteilung, Unbekanntes nicht");
-  {
-    // Test „Empfang je Handy“ (eine Woche, vom Nutzer 5.11.2026): je Abo eine Kurznummer, Quittung mit „~nummer“ zählt beim Handy
-    // und weiter bei der Mitteilung; nach DIAG_BIS nichts mehr.
-    const { handyNr, DIAG_BIS } = await import("../tools/cloudflare-worker.js");
-    const ep = "https://web.push.apple.com/W1", nr = handyNr(ep), t0 = DIAG_BIS - 3 * 864e5 + 12 * 3600e3;
-    T.diag = new Map(); T.post.clear(); T.abos.set(ep, { endpoint: ep, abo: JSON.stringify({ endpoint: ep, keys: schl }), wahl: "{}" });
-    const ped = { ...wo, id: "diag:1" }; T.gemeldet.set(ped.id, { zeit: t0, an: 0, passend: 1 });
-    T.post.set(ped.id + "|" + ep, { id: ped.id, endpoint: ep, nachricht: JSON.stringify({ titel: "T", text: "x", q: ped.id }), bis: t0 + 864e5, prio: 1, zeit: t0 });
-    await mitteilungenSenden(db, t0);
-    ok(/^[0-9a-f]{4}$/.test(nr) && T.diag.get(nr + "|diag:1")?.gesendet === t0, "Empfang je Handy: Versand mit Kurznummer gemerkt");
-    await worker.fetch(new Request("https://w/?push=angekommen&id=" + encodeURIComponent("diag:1~" + nr)), { DB: db });
-    ok(T.diag.get(nr + "|diag:1").angekommen > 0 && T.gemeldet.get("diag:1").angekommen === 1, "Empfang je Handy: Quittung mit ~nummer zählt beim Handy und bei der Mitteilung");
-    T.diag = new Map(); T.post.set("diag:2|" + ep, { id: "diag:2", endpoint: ep, nachricht: JSON.stringify({ titel: "T", text: "x", q: "diag:2" }), bis: DIAG_BIS + 3 * 864e5, prio: 1, zeit: DIAG_BIS });
-    T.gemeldet.set("diag:2", { zeit: DIAG_BIS, an: 0, passend: 1 });
-    await mitteilungenSenden(db, DIAG_BIS + 864e5 + 12 * 3600e3 - ((DIAG_BIS + 864e5) % 864e5));
-    ok(T.diag.size === 0 && T.gemeldet.get("diag:2").an === 1, "Empfang je Handy: nach DIAG_BIS wird nichts mehr gemerkt (verschickt wird weiter)");
-    T.abos.delete(ep);
-  }
   void vorEnde;
   globalThis.fetch = echt;
   // Übersicht: geplant, verschickt (an wie viele), nachts wartend, verpasst.
