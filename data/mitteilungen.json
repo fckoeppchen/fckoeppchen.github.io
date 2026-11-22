@@ -77,40 +77,6 @@
     "SCO",
     "Scolaires U15"
    ],
-   "id": "tabelle:19905:45399:2:0:5:2026-11-21",
-   "art": "tabelle",
-   "titel": "SCO · Tabelle",
-   "text": "Koeppchen jetzt 5. Platz (vorher 4.) · 0 Punkte aus 2 Spielen",
-   "basis": {
-    "pl": 4,
-    "pkt": 0,
-    "sp": 1
-   },
-   "ab": 1795285032352,
-   "bis": 1795371432352
-  },
-  {
-   "reiter": [
-    "MIN 1",
-    "Minimes U13"
-   ],
-   "id": "tabelle:19961:45396:2:2:4:2026-11-21",
-   "art": "tabelle",
-   "titel": "MIN 1 · Tabelle",
-   "text": "Koeppchen jetzt 4. Platz (vorher 3.) · 2 Punkte aus 2 Spielen",
-   "basis": {
-    "pl": 3,
-    "pkt": 1,
-    "sp": 1
-   },
-   "ab": 1795285032352,
-   "bis": 1795371432352
-  },
-  {
-   "reiter": [
-    "SCO",
-    "Scolaires U15"
-   ],
    "id": "spieltag:19905:2",
    "art": "spieltag",
    "titel": "SCO · Spieltag",
@@ -144,6 +110,22 @@
    "text": "Koeppchen 1:5 FC Mamer 32",
    "ab": 1795367825461,
    "bis": 1795432625461
+  },
+  {
+   "reiter": [
+    "Seniors 1"
+   ],
+   "id": "tabelle:18888:44831:13:11:14:2026-11-22",
+   "art": "tabelle",
+   "titel": "Seniors 1 · Tabelle",
+   "text": "Koeppchen jetzt 14. Platz · 11 Punkte aus 13 Spielen",
+   "basis": {
+    "pl": 14,
+    "pkt": 11,
+    "sp": 12
+   },
+   "ab": 1795371434156,
+   "bis": 1795457834156
   }
  ],
  "live": []
