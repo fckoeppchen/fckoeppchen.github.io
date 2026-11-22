@@ -120,6 +120,17 @@
    "text": "Spieltag 13 komplett: Koeppchen 1:5 FC Mamer 32 · alle Ergebnisse in der App",
    "ab": 1795375035494,
    "bis": 1795461435494
+  },
+  {
+   "reiter": [
+    "Woche"
+   ],
+   "id": "woche:2026-11-23",
+   "art": "woche",
+   "titel": "Unsere Woche",
+   "text": "Diese Woche 12 Spiele, davon 4 zu Hause",
+   "ab": 1795424400000,
+   "bis": 1795467600000
   }
  ],
  "live": []
