@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-22T16:01:57.568Z",
+ "stand": "2026-11-22T17:16:51.711Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -2231,9 +2231,9 @@
       "id": 45070,
       "n": "FC Mamer 32"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 5,
+     "gespielt": true,
      "forfait": false,
      "ort": "Am Ga (Wormeldange, synth.)"
     },
@@ -21401,9 +21401,9 @@
      "id": 44975,
      "n": "Progrès Niederkorn"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 4,
+    "as": 4,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade Municipal de la Ville de Differdange"
    },
@@ -21491,9 +21491,9 @@
      "id": 44695,
      "n": "AS La Jeunesse d'Esch/Alzette"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 3,
+    "as": 2,
+    "gespielt": true,
     "forfait": false,
     "ort": "Party-Rent-Arena (Rosport)"
    },
