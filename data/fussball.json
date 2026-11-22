@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-22T18:16:58.416Z",
+ "stand": "2026-11-22T18:46:53.869Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -2268,9 +2268,9 @@
       "id": 44914,
       "n": "Avenir Beggen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 1 (Mondercange)"
     },
@@ -2286,9 +2286,9 @@
       "id": 44799,
       "n": "FC The Belval Belvaux"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Jos Philippart (Rodange)"
     },
