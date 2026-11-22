@@ -2,18 +2,6 @@
  "ereignisse": [
   {
    "reiter": [
-    "POU 1",
-    "Poussins U11"
-   ],
-   "id": "zeit:6685072:2026-11-22T09:30:00+01:00",
-   "art": "uhrzeit",
-   "titel": "POU 1 · Uhrzeit",
-   "text": "Uhrzeit steht fest: So., 22.11. um 09:30 gegen FC Munsbach I · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1794259023379,
-   "bis": 1795336200000
-  },
-  {
-   "reiter": [
     "POU 2",
     "Poussins U11"
    ],
@@ -124,30 +112,6 @@
    "text": "Spieltag 2 komplett: Koeppchen 1:1 Jeunesse Junglinster I · alle Ergebnisse in der App",
    "ab": 1795283233503,
    "bis": 1795369633503
-  },
-  {
-   "reiter": [
-    "POU 1",
-    "Poussins U11"
-   ],
-   "id": "heute:6685072",
-   "art": "heute",
-   "titel": "POU 1 · Morgen Spiel",
-   "text": "09:30 gegen FC Munsbach I · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1795284000000,
-   "bis": 1795336200000
-  },
-  {
-   "reiter": [
-    "POU 2",
-    "Poussins U11"
-   ],
-   "id": "heute:6687072",
-   "art": "heute",
-   "titel": "POU 2 · Morgen Spiel",
-   "text": "09:30 gegen FC Munsbach II · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1795284000000,
-   "bis": 1795336200000
   },
   {
    "reiter": [
