@@ -58,6 +58,13 @@
   .seg button.woche img{height:22px;margin:-4px 0;display:inline-block}
   .wzus{font-size:15px;font-weight:600;text-align:center}
   .wzeile{cursor:pointer}
+  /* Leiste der Spieltage in „Unsere Woche“ (vom Nutzer, 22.11.2026, Muster B mit Knopf „Woche“) */
+  .kstrip{position:relative;display:flex;gap:6px;overflow-x:auto;padding:2px 2px 10px;margin:0 0 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .kstrip::-webkit-scrollbar{display:none}
+  .kc{flex:none;border:2px solid var(--line);border-radius:12px;background:#fff;color:#111;padding:7px 12px;font-family:inherit;text-align:left;line-height:1.25;cursor:pointer}
+  .kc b{display:block;font-size:15px;white-space:nowrap}.kc span{font-size:12px;color:var(--muted);white-space:nowrap}
+  .kc.kw{border-color:var(--accentT)}
+  .kc.on{background:var(--accentT);border-color:var(--accentT);color:#fff}.kc.on span{color:#d9f2ec}
   .rtlzeile{text-align:center;margin:10px 0 2px}
   .rtlbtn{display:inline-block;background:#e3001b;color:#fff!important;font-weight:700;font-size:15px;padding:9px 16px;border-radius:999px;text-decoration:none}
   .evz{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e3e8e6;color:inherit;text-decoration:none}
@@ -972,7 +979,7 @@ function aktuellerSpieltag(k, now = Date.now()) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "20.11.2026 neu r";
+const FASSUNG = "22.11.2026 neu a";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1332,6 +1339,7 @@ function renderInnen() {
   // Reiter (persist beim Umschalten). Gibt es den gemerkten Reiter nicht mehr, auch die Woche.
   const extra = extraReiter(D);
   if (!tabs.some(t => t.id === ST.team) && !extra.some(t => t.id === ST.team)) ST.team = "woche";
+  if (ST.team !== "woche") WOCHE_TAG = null;
   // Neue Ansicht: Auswahl oben, Leiste unten, Seite nach Knopf aufgeteilt (nur mit Schalter, siehe neuAn).
   const NEU = neuAn();
   document.body.toggleAttribute("data-neu", NEU);
@@ -1368,7 +1376,17 @@ function renderInnen() {
   if (ST.team === "woche") {
     LIVE_SP = null; LIVE_POLL = false;
     document.getElementById("sub").textContent = "Unsere Woche · " + D.saison.n.replace("Saison ", "");
-    main.innerHTML = wocheHtml(wTage, wAlle, now) + fuss();
+    const links = main.querySelector(".kstrip")?.scrollLeft || 0;   // Wischstand der Leiste über Neuaufbauten halten
+    main.innerHTML = wocheHtml(wTage, wAlle, now, neuAn() ? wocheLeiste(now) : null) + fuss();
+    const st = main.querySelector(".kstrip"), on = st?.querySelector(".kc.on");
+    if (st) {
+      st.scrollLeft = links;
+      if (on && WOCHE_ZEIGEN) {   // gewählten Tag ins Bild holen
+        if (on.offsetLeft < st.scrollLeft) st.scrollLeft = on.offsetLeft - 8;
+        else if (on.offsetLeft + on.offsetWidth > st.scrollLeft + st.clientWidth) st.scrollLeft = on.offsetLeft + on.offsetWidth - st.clientWidth + 8;
+      }
+      WOCHE_ZEIGEN = false;
+    }
     return;
   }
   if (ST.team === "jk") {
@@ -1540,13 +1558,15 @@ document.addEventListener("click", e => {
   if (SHEET === "wahl" && e.target.closest("#sheet [data-t]")) {   // gewählt (den Reiter setzt der allgemeine Klick oben)
     SHEET = null; ST.knopf = "spiele"; persist(); render(); return;   // neue Mannschaft → immer „Spiele“ (vom Nutzer, 20.11.2026)
   }
+  const wt = e.target.closest("[data-wtag]");
+  if (wt) { WOCHE_TAG = wt.dataset.wtag || null; WOCHE_ZEIGEN = true; render(); return; }
   const k = e.target.closest("[data-knopf]");
   if (k) {
     const kn = k.dataset.knopf;
     if (kn === "mehr") { SHEET = "mehr"; render(); return; }
     MITT_OFFEN = false; COACH_OFFEN = false; DS_OFFEN = false;
     const vorher = ST.team;
-    if (kn === "woche") ST.team = "woche";
+    if (kn === "woche") { ST.team = "woche"; WOCHE_TAG = null; }
     else { ST.knopf = kn; if (typeof ST.team !== "number") ST.team = ST.mann ?? aufteilen(D).tabs[0]?.id; }
     persist(); render(); window.scrollTo(0, 0);
     if (ST.team !== vorher) angesehen();
@@ -1972,17 +1992,38 @@ function evKasten(tage, now) {
   const l = eventsSpaeter(D.events.liste, tage, now);
   return `<section class="card"><div class="chead"><h2>Nächste Events des Vereins</h2></div><div class="cbody">${l.length ? l.map(e => evZeile(e, now, false)).join("") : `<div class="muted">Im Moment sind keine Events geplant.</div>`}</div></section>`;
 }
-function wocheHtml(tage, alle, now) {
+// Leiste über der Woche (vom Nutzer, 22.11.2026): ganz links „🗓️ Woche“ (alle Spiele der Woche wie bisher), dann die Tage der nächsten
+// drei Wochen ab heute, an denen etwas ist (Spiele oder Events des Vereins). Antippen zeigt nur diesen Tag. WOCHE_TAG = gewählter Tag
+// oder null; beim Verlassen von „Unsere Woche“ und beim Tippen auf „Woche“ unten zurück auf null.
+let WOCHE_TAG = null, WOCHE_ZEIGEN = false;
+const LEISTE_TAGE = 21;
+function wocheLeiste(now) {
+  const heute = tagLux(now), tage = Array.from({ length: LEISTE_TAGE }, (_, k) => tagPlus(heute, k));
+  const spiele = wocheSpiele(D, tage, now), evs = (D.events?.liste || []).filter(e => e.tag && tage.includes(e.tag) && !e.abgesagt);
+  const zahl = t => [spiele.filter(sp => tagLux(Date.parse(sp.d)) === t).length, evs.filter(e => e.tag === t).length];
+  const mit = tage.filter(t => zahl(t).some(Boolean));
+  if (WOCHE_TAG && !mit.includes(WOCHE_TAG)) WOCHE_TAG = null;
+  const wd = t => new Date(t + "T12:00:00").toLocaleDateString("de-DE", { weekday: "short" }).replace(".", "");
+  const was = t => { const [n, e] = zahl(t); return [n ? `${n} ${n === 1 ? "Spiel" : "Spiele"}` : "", e ? `${e} ${e === 1 ? "Event" : "Events"}` : ""].filter(Boolean).join(" · "); };
+  const html = `<div class="kstrip"><button class="kc kw${WOCHE_TAG ? "" : " on"}" data-wtag=""><b>🗓️ Woche</b><span>alle Spiele</span></button>${mit.map(t =>
+    `<button class="kc${t === WOCHE_TAG ? " on" : ""}" data-wtag="${t}"><b>${t === heute ? "Heute" : wd(t) + " " + +t.slice(8) + "." + +t.slice(5, 7) + "."}</b><span>${was(t)}</span></button>`).join("")}</div>`;
+  return { html, sel: WOCHE_TAG, spiele };
+}
+function wocheHtml(tage, alle, now, leiste) {
   const kurz = d => { const x = new Date(d + "T12:00:00"); return x.getDate() + "." + (x.getMonth() + 1) + "."; };
   const heim = alle.filter(sp => sp.heim).length;
-  const evW = eventsWoche(D.events?.liste, tage, now), evN = evW.filter(e => !e.abgesagt).length;
+  let evW = eventsWoche(D.events?.liste, tage, now); const evN = evW.filter(e => !e.abgesagt).length;
   const evText = evN ? ` · ${evN} ${evN === 1 ? "Event" : "Events"}` : "";
   // Keine Bilanz (Siege/Remis/Niederlagen): vom Verein, 22.10.2026 — es geht nicht ums Gewinnen.
   const zus = !alle.length ? (evW.length ? "Diese Woche keine Spiele" + evText : "Diese Woche keine Spiele.")
     : `${alle.length} ${alle.length === 1 ? "Spiel" : "Spiele"}, davon ${heim} zu Hause${evText}`;
   let h = `<section class="card"><div class="chead"><h2>Unsere Woche</h2><div class="hint tagdatum">${kurz(tage[0])} – ${kurz(tage[6])}</div></div>
     <div class="cbody"><div class="kzeile">${koeppiBild(alle.length || evW.length ? "fahne" : "ruhig")}<div><div class="wzus">${esc(zus)}</div>${MOTTO}</div></div></div></section>`;
-  if (!alle.length && !evW.length) {
+  if (leiste) h += leiste.html;
+  if (leiste?.sel) {   // nur der gewählte Tag (auch aus einer späteren Woche)
+    tage = [leiste.sel]; alle = leiste.spiele.filter(sp => tagLux(Date.parse(sp.d)) === leiste.sel);
+    evW = eventsWoche(D.events?.liste, tage, now);
+  } else if (!alle.length && !evW.length) {
     const naechstes = aufteilen(D).tabs.flatMap(t => sicht(D, t.id, now).kommend.map(sp => ({ ...sp, reiter: t.reiter })))
       .sort((a, b) => a.d.localeCompare(b.d))[0];
     if (naechstes) h += `<div class="note">Nächstes Spiel: ${esc(wann(naechstes))} · ${esc(naechstes.reiter)} gegen ${esc(anzeige(naechstes.h.id === naechstes.wir ? naechstes.a.n : naechstes.h.n))}</div>`;
@@ -2022,7 +2063,7 @@ function wocheHtml(tage, alle, now) {
     }
     h += `</div></section>`;
   }
-  return h + evKasten(tage, now);
+  return h + (leiste?.sel ? "" : evKasten(tage, now));
 }
 
 function bglHtml(now) {

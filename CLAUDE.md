@@ -575,6 +575,12 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Fassung 20.11. neu r** (vom Nutzer, Muster vorher gezeigt): **Morgen-Kasten** (`morgenHtml`, Klasse `morgenk`) — Kopf = Datum („Samstag, 21. November“),
   im Kasten groß und grün „Morgen Spieltag! ⚽“ (`.mgross`, Bebas, `clamp(24px,8.4vw,34px)`, einzeilig bis 320 px), darunter kleiner fett „Anstoß 18:30“ (`.mzeit`).
   Anlass: „Anstoß 18:30“ groß las sich wie heute. Heute-Kasten unverändert. **Mehr → „Datenschutz / Kontakt“**, ebenso der Kopf des Abschnitts in der Fußzeile.
+- **Leiste der Spieltage in „Unsere Woche“** (vom Nutzer, 22.11.2026, Fassung 22.11. neu a; Muster A/B/C gezeigt, gewählt B + Knopf „Woche“ links):
+  unter dem Kasten „Unsere Woche“ eine wischbare Leiste (`wocheLeiste`, `.kstrip`, `.kc`): ganz links „🗓️ Woche · alle Spiele“ (Standard, Ansicht wie
+  bisher), dann jeder Tag der nächsten 21 Tage (`LEISTE_TAGE`) mit Spielen oder Events („Sa 28.11. · 6 Spiele“, „Fr 4.12. · 1 Event“, heute „Heute“).
+  Antippen (`data-wtag`, `WOCHE_TAG`) zeigt nur diesen Tag, auch aus späteren Wochen (`wocheHtml(…, leiste)`), ohne „Nächste Events“. Zurück auf „Woche“
+  beim Tippen auf „Woche“ (links oder unten) und beim Verlassen von „Unsere Woche“. Wischstand bleibt über die Takte, der gewählte Tag rutscht ins Bild
+  (`WOCHE_ZEIGEN`). Nur neue Ansicht. Browser mit gestellter Uhr (Mo 23.11.: Woche, Sa, Takt, zurück, 5.12., Event-Tag 4.12., Spiele → Woche), keine Fehler.
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
