@@ -580,7 +580,7 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
   bisher), dann jeder Tag der nächsten 21 Tage (`LEISTE_TAGE`) mit Spielen oder Events („Sa 28.11. · 6 Spiele“, „Fr 4.12. · 1 Event“, heute „Heute“).
   Antippen (`data-wtag`, `WOCHE_TAG`) zeigt nur diesen Tag, auch aus späteren Wochen (`wocheHtml(…, leiste)`), ohne „Nächste Events“. Zurück auf „Woche“
   beim Tippen auf „Woche“ (links oder unten) und beim Verlassen von „Unsere Woche“. Wischstand bleibt über die Takte, der gewählte Tag rutscht ins Bild
-  (`WOCHE_ZEIGEN`). Nur neue Ansicht. Browser mit gestellter Uhr (Mo 23.11.: Woche, Sa, Takt, zurück, 5.12., Event-Tag 4.12., Spiele → Woche), keine Fehler.
+  (`WOCHE_ZEIGEN`). **Neu b** (vom Nutzer): nach 5 min ohne Tippen/Scrollen oder ≥ 5 min im Hintergrund zurück auf „Woche“ (`nachRuhe`, gleicher Takt wie das Zuklappen der FuPa-Widgets). Nur neue Ansicht. Browser mit gestellter Uhr (Mo 23.11.: Woche, Sa, Takt, zurück, 5.12., Event-Tag 4.12., Spiele → Woche), keine Fehler.
 - **Push mit Dringlichkeit „high“** (vom Nutzer, 2.11.2026): die nachts aufgehobenen Tabellen-Mitteilungen (So/Mo 7:00) gingen „an 4 von 4“,
   aber „angekommen auf 3“ — beim Nutzer nie angezeigt, auch nicht in der Mitteilungszentrale; alle sofort verschickten kamen an. Vermutung (nicht
   bewiesen): iOS verschiebt „normal“ im Stromsparschlaf und verwirft es bei Web-Apps. `DRINGLICHKEIT = "high"` in `pushSenden` (Apple empfiehlt es
