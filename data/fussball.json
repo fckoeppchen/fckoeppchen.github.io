@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-22T17:16:51.711Z",
+ "stand": "2026-11-22T17:47:06.976Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -2213,10 +2213,11 @@
       "id": 45031,
       "n": "Jeunesse Canach"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 1,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
+     "bem": "Arrêté",
      "ort": "Streetwheels Arena (Berbourg)"
     },
     {
@@ -2321,9 +2322,9 @@
       "id": 44560,
       "n": "Union Titus Pétange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Municipal (Bettembourg, synth.)"
     },
@@ -21383,9 +21384,9 @@
      "id": 44598,
      "n": "Résidence Walferdange"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 2,
+    "as": 2,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade Jos Nosbaum (Dudelange)"
    },
@@ -21437,9 +21438,9 @@
      "id": 44790,
      "n": "Atert Bissen"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 0,
+    "as": 4,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade Alphonse Theis (Hesperange)"
    },
@@ -21455,9 +21456,9 @@
      "id": 44543,
      "n": "US Mondorf-les-Bains"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 2,
+    "as": 2,
+    "gespielt": true,
     "forfait": false,
     "ort": "Dribbel (Bascharage)"
    },
@@ -21473,9 +21474,9 @@
      "id": 44823,
      "n": "US Rumelange"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 4,
+    "as": 4,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade Jos Becker (Hostert, synth.)"
    },
