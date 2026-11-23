@@ -123,6 +123,17 @@
   },
   {
    "reiter": [
+    "Seniors 2"
+   ],
+   "id": "heute:1011085",
+   "art": "heute",
+   "titel": "Seniors 2 · Heute Spiel",
+   "text": "20:00 gegen Résidence Walferdange I · 📍 Terrain 2 (Walferdange, synth.)",
+   "ab": 1795424400000,
+   "bis": 1795460400000
+  },
+  {
+   "reiter": [
     "Woche"
    ],
    "id": "woche:2026-11-23",
@@ -133,5 +144,24 @@
    "bis": 1795467600000
   }
  ],
- "live": []
+ "live": [
+  {
+   "id": 1011085,
+   "reiter": [
+    "Seniors 2 · live"
+   ],
+   "titel": "📡 Seniors 2",
+   "d": "2026-11-23T20:00:00+01:00",
+   "h": "Résidence Walferdange I",
+   "a": "Koeppchen I",
+   "wirHeim": false,
+   "gegner": "Résidence Walferdange I",
+   "anstoss": "2026-11-23T20:00:00+01:00",
+   "fupaTeam": "mr1",
+   "fupaWir": "fc-koeppchen",
+   "ticker": "lticker:1011085",
+   "halbzeit": "lhalbzeit:1011085",
+   "ende": "ende-live:1011085"
+  }
+ ]
 }
