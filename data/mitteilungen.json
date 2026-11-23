@@ -71,26 +71,34 @@
    "text": "Uhrzeit steht fest: Sa., 28.11. um 10:30 · Mini-Spieltag · 📍 Am Ga (Wormeldange, synth.)",
    "ab": 1795036631108,
    "bis": 1795858200000
+  },
+  {
+   "reiter": [
+    "Seniors 2"
+   ],
+   "id": "ende:1011085",
+   "art": "ende",
+   "titel": "Seniors 2 · Endstand",
+   "text": "Résidence Walferdange I 5:4 Koeppchen I",
+   "ab": 1795473140768,
+   "bis": 1795537940768
+  },
+  {
+   "reiter": [
+    "Seniors 2"
+   ],
+   "id": "tabelle:18918:45403:8:10:7:2026-11-24",
+   "art": "tabelle",
+   "titel": "Seniors 2 · Tabelle",
+   "text": "Koeppchen I jetzt 7. Platz · 10 Punkte aus 8 Spielen",
+   "basis": {
+    "pl": 7,
+    "pkt": 10,
+    "sp": 7
+   },
+   "ab": 1795500000000,
+   "bis": 1795586400000
   }
  ],
- "live": [
-  {
-   "id": 1011085,
-   "reiter": [
-    "Seniors 2 · live"
-   ],
-   "titel": "📡 Seniors 2",
-   "d": "2026-11-23T20:00:00+01:00",
-   "h": "Résidence Walferdange I",
-   "a": "Koeppchen I",
-   "wirHeim": false,
-   "gegner": "Résidence Walferdange I",
-   "anstoss": "2026-11-23T20:00:00+01:00",
-   "fupaTeam": "mr1",
-   "fupaWir": "fc-koeppchen",
-   "ticker": "lticker:1011085",
-   "halbzeit": "lhalbzeit:1011085",
-   "ende": "ende-live:1011085"
-  }
- ]
+ "live": []
 }
