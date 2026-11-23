@@ -236,15 +236,17 @@ function icsAus(D, liste, titel) {
     const offen = ortsZeit(sp.d).slice(11, 16) === "00:00";
     // Coach: Ende, wenn der Trainer eins angegeben hat (Turniere), sonst die übliche Dauer.
     const ende = sp.coach?.ende && !offen ? Date.parse(isoLux(ortsZeit(sp.d).slice(0, 10), sp.coach.ende)) : 0;
-    z.push(`DTSTART:${utc(sp.d)}`, `DTEND:${utc(new Date(ende > Date.parse(sp.d) ? ende : Date.parse(sp.d) + dauerMin * 60e3).toISOString())}`);
+    z.push(`DTSTART:${utc(sp.d)}`, `DTEND:${utc(new Date(ende > Date.parse(sp.d) ? ende : Date.parse(sp.d) + (sp.lalux ? 180 : dauerMin) * 60e3).toISOString())}`);
     if (sp.abgesagt) z.push("STATUS:CANCELLED");
     // BAM: ein Mini-Spieltag mit mehreren Gegnern — Mannschaft und Ort im Titel, die Gegner in der Beschreibung.
     const bamWir = sp.bam && [sp.h, sp.a].find(x => x.id);
+    // LALUX Indoor Cup: ein Turniertag in der Halle (tools/lalux.mjs), Gruppe und Gegner in der Beschreibung.
+    const laluxWir = sp.lalux && [sp.h, sp.a].find(x => x.id);
     // Trainer-Spiel für mehrere Mannschaften: „Koeppchen MIN 1+2“ statt nur der ersten.
     const nm = x => sp.coach?.mannschaften && x.id && unsere.has(x.id) ? "Koeppchen " + sp.coach.mannschaften : name(x);
-    z.push(`SUMMARY:${icsText((sp.abgesagt ? "ABGESAGT: " : "") + (bamWir ? `⚽ ${name(bamWir)} · Mini-Spieltag${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : `⚽ ${nm(sp.h)} – ${nm(sp.a)}${erg}${art}`) + (offen ? " · Uhrzeit offen" : ""))}`);
+    z.push(`SUMMARY:${icsText((sp.abgesagt ? "ABGESAGT: " : "") + (bamWir ? `⚽ ${name(bamWir)} · Mini-Spieltag${sp.ort ? " in " + ortKurz(sp.ort) : ""}` : laluxWir ? `⚽ ${sp.lalux.mannschaften ? "Koeppchen " + sp.lalux.mannschaften : name(laluxWir)} · LALUX Indoor in ${sp.ort}` : `⚽ ${nm(sp.h)} – ${nm(sp.a)}${erg}${art}`) + (offen ? " · Uhrzeit offen" : ""))}`);
     if (sp.ort) z.push(`LOCATION:${icsText(sp.ort)}`);
-    z.push(`DESCRIPTION:${icsText(sp.klasse + (sp.tag ? `, Spieltag ${sp.tag}` : "") + (sp.coach ? (sp.coach.ende ? `\nbis ca. ${sp.coach.ende}` : "") + (sp.coach.bem ? "\n" + sp.coach.bem : "") : "") + (sp.bam ? `\nMit ${sp.bam.mit.join(", ")}${sp.bam.zeitSicher ? "" : "\nUhrzeit laut FLF meist 10:30 (sauf changement)"}` : ""))}`, "END:VEVENT");
+    z.push(`DESCRIPTION:${icsText(sp.klasse + (sp.tag ? `, Spieltag ${sp.tag}` : "") + (sp.coach ? (sp.coach.ende ? `\nbis ca. ${sp.coach.ende}` : "") + (sp.coach.bem ? "\n" + sp.coach.bem : "") : "") + (sp.bam ? `\nMit ${sp.bam.mit.join(", ")}${sp.bam.zeitSicher ? "" : "\nUhrzeit laut FLF meist 10:30 (sauf changement)"}` : "") + (sp.lalux ? `, ${sp.lalux.runde}, Gruppe ${sp.lalux.gruppe}\nMit ${sp.lalux.mit.join(", ")}` : ""))}`, "END:VEVENT");
   }
   z.push("END:VCALENDAR");
   return z.map(falten).join("\r\n") + "\r\n";
@@ -594,7 +596,7 @@ export function coachDazu(D, liste) {
     // Je Mannschaft eine Kopie mit derselben id: jeder Reiter zeigt sie, Woche/Kalender/Mitteilungen nehmen sie einmal.
     const alle = coachTeile(s.reiter).map(r => D.teams.find(t => t.reiter === r)).filter(Boolean);
     const ts = alle.filter(t => !eigeneSpiele(D, t).some(sp => !sp.coach && tagLuxD(sp.d) === s.datum
-      && (s.art === "Nachholspiel" || gegnerPasst(s.gegner, (D.teams.some(o => o.id === sp.h.id || (o.ids || []).includes(sp.h.id)) ? sp.a : sp.h).n))));
+      && (s.art === "Nachholspiel" || (s.art === "Hallenturnier" && sp.lalux) || gegnerPasst(s.gegner, (D.teams.some(o => o.id === sp.h.id || (o.ids || []).includes(sp.h.id)) ? sp.a : sp.h).n))));
     if (ts.length < alle.length) D.coachDoppelt.push(s.id);
     const mehrere = ts.length > 1 ? coachName(s.reiter) : null;
     for (const t of ts) {
@@ -656,6 +658,10 @@ async function main() {
   try { bam = await (await import("./bambini.mjs")).bamHolen(); console.log("BAM:", bam.quellen.join(", ")); }
   catch (e) { console.error("BAM:", e.message); bam = bamAus(alt); }
   bamDazu(neu, bam);
+  // LALUX Indoor Cup aus den FLF-PDFs (tools/lalux.mjs), vom Nutzer 23.11.2026. Fehler → alte Liste.
+  try { const l = await (await import("./lalux.mjs")).laluxHolen(); neu.lalux = l.liste; console.log("LALUX:", l.quellen.join(", "), "–", l.liste.length, "Turniere mit Koeppchen"); }
+  catch (e) { console.error("LALUX:", e.message); neu.lalux = alt.lalux || []; }
+  (await import("./lalux.mjs")).laluxDazu(neu, neu.lalux);
   // Coach-Spiele vom Worker. Fehler → die vom letzten Mal (stehen ohne Namen in der Datei, `coach`).
   try { const r = await fetch(COACH_URL); if (!r.ok) throw new Error("HTTP " + r.status); neu.coach = (await r.json()).spiele; }
   catch (e) { console.error("Coach:", e.message); neu.coach = alt.coach || []; }

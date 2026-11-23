@@ -17,6 +17,7 @@ const FUPA_STAND = FUPA.api;
 FUPA.api = true;
 import { turniere, bamDaten, pdfListe, isoLux, zeitAusOrt } from "../tools/bambini.mjs";
 import { bamAus, bamDazu, coachDazu, COACH_ID, gegnerPasst, strasse, adressenAus, gegnerForm, ortName, icsEvents, historieAus } from "../tools/fussball.mjs";
+import { gruppen as laluxGruppen, halleTermin, laluxDazu } from "../tools/lalux.mjs";
 import { unsereRtlSpiele, rtlZuordnen, rtlFaellig, rtlHolen } from "../tools/rtl.mjs";
 import { ortAus, wetterSpiele, wetterZu, wetterHolen } from "../tools/wetter.mjs";
 import { vereineAus, logosHolen } from "../tools/logos.mjs";
@@ -1287,6 +1288,56 @@ gleich(M.nachSpieltag(D.klassen[19189].spiele).map(([t, s]) => [t, s.length]), [
   ok(mEreignisse(altB, altB, null, freitag).ereignisse.find(e => e.id === "heute:9202610241")?.text.startsWith("10:30 (sauf changement)"), "BAM: ohne Wochenprogramm „sauf changement“");
   bamDazu(D0, null);
   ok(D0.teams.length === 5, "BAM: ohne BAM-Daten bleibt alles, wie es ist");
+}
+// LALUX Indoor Cup (vom Nutzer, 23.11.2026): Gruppen aus den FLF-PDFs (tools/lalux.mjs).
+{
+  const zelle = (x, y, t) => { const w = []; for (const teil of t.split(" ")) { w.push({ x0: x, x1: x + teil.length * 4, y, t: teil }); x += teil.length * 4 + 3; } return w; };
+  // Drei Spalten, jede Zelle mittig um 100/300/500 (wie im PDF: zentriert).
+  const z3 = (y, ...t) => t.flatMap((s, i) => s ? zelle([100, 300, 500][i] - s.length * 2, y, s) : []);
+  const seite1 = [...zelle(150, 10, "U13 MINIMES - 1er tour ( 73 équipes) - répartitions régionales"), ...z3(30, "FC Koeppchen Wormeldange", "Red Boys Aspelt", "Avenir Beggen")];
+  const seite2 = [...zelle(180, 10, "Tournois du weekend du 02/01/2027"),
+    ...z3(30, "Groupe A (6)", "Groupe B (6)", "Groupe C (6)"),
+    ...z3(42, "TANDEL - 03/01 09.00", "CONSDORF - 13.12. 14.00", "WEILER-LA-TOUR 02/01 09.00"),
+    ...z3(54, "FC Bastendorf 47", "Victoria Rosport", "Yellow Boys Weiler-la-Tour"),
+    ...z3(66, "Orania Vianden", "US Sandweiler", "FC Mondercange"),
+    ...z3(78, "Entente Heiderscheid/Feulen/Grevels", "FC Koeppchen Wormeldange", "UNA Strassen"),
+    ...z3(90, "Sporting Mertzig", "Swift Hesperange", "Red Star Merl-Belair"),
+    ...z3(110, "Groupe D (6)", "Groupe E (6)", "Groupe F (6)"), ...z3(122, "X - 04/01 09.00", "Y - 04/01 09.00", "Z - 04/01 09.00"),
+    ...z3(134, "A1", "B1", "C1"), ...z3(146, "A2", "B2", "C2"), ...z3(158, "A3", "B3", "C3")];
+  const seite3 = [...zelle(150, 10, "U13 MINIMES - 2e tour (36 équipes)"), ...zelle(150, 30, "Tournois du weekend du 16/01/2027"), ...z3(50, "Groupe A", "Groupe C", "Groupe E")];
+  const g = laluxGruppen([seite1, seite2, seite3], 2026);
+  gleich(g, [{ runde: 1, gruppe: "B", datum: "2026-12-13", zeit: "14:00", halle: "Consdorf", teams: ["Victoria Rosport", "US Sandweiler", "FC Koeppchen Wormeldange", "Swift Hesperange"] }],
+    "LALUX: unsere Gruppe mit Halle, Termin (Dezember im Jahr davor), Mannschaften; Verteilliste und leere 2. Runde übergangen");
+  ok(halleTermin("DIFFERDANGE 05/12 09.00")?.halle === "Differdange" && halleTermin("WEILER-LA-TOUR - 12/12 09.00")?.halle === "Weiler-la-Tour"
+     && halleTermin("ESCH/ALZETTE - 13/12 09.00")?.halle === "Esch/Alzette" && halleTermin("REMICH - 03/01")?.zeit === null && halleTermin("Orania Vianden") === null,
+     "LALUX: Halle und Termin in allen Schreibweisen, ohne Uhrzeit null, Mannschaftsname ist kein Termin");
+  // Lieber nichts als etwas Falsches: Halle/Termin unserer Gruppe nicht lesbar → Abbruch.
+  let geworfen = false; try { laluxGruppen([seite1, seite2.map(w => w.t === "13.12." ? { ...w, t: "bald" } : w)], 2026); } catch (e) { geworfen = true; }
+  ok(geworfen, "LALUX: unklare Gruppe mit Koeppchen → Abbruch (alter Stand bleibt)");
+  // Einhängen: bei jeder Mannschaft der Altersklasse (MIN 1 und MIN 2), aber als ein Spiel (gleiche id).
+  const D1 = { saison: { id: 9 }, klassen: {}, teams: [
+    { id: 45396, ids: [45396], n: "FC Koeppchen Wormeldange", kat: "U13", reiter: "MIN 1", kurz: "MIN", klassen: [], datei: "u13-1.ics", gruppe: { name: "Minimes U13", datei: "minimes-u13.ics" } },
+    { id: 45397, ids: [45397], n: "FC Koeppchen Wormeldange II", kat: "U13", reiter: "MIN 2", kurz: "MIN", klassen: [], datei: "u13-2.ics", gruppe: { name: "Minimes U13", datei: "minimes-u13.ics" } },
+    { id: 45400, ids: [45400], n: "FC Koeppchen Wormeldange I", kat: "U11", reiter: "POU 1", kurz: "POU", klassen: [], datei: "u11-1.ics", gruppe: { name: "Poussins U11", datei: "poussins-u11.ics" } },
+    { id: 45401, ids: [45401], n: "FC Koeppchen Wormeldange II", kat: "U11", reiter: "POU 2", kurz: "POU", klassen: [], datei: "u11-2.ics", gruppe: { name: "Poussins U11", datei: "poussins-u11.ics" } }] };
+  laluxDazu(D1, [{ kat: "U13", ...g[0] }, { kat: "U11", runde: 1, gruppe: "K", datum: "2026-12-13", zeit: "09:00", halle: "Rosport", teams: ["FC Koeppchen Wormeldange II", "B", "C"] }]);
+  const m1 = eigeneSpiele(D1, D1.teams[0]), m2 = eigeneSpiele(D1, D1.teams[1]), p1 = eigeneSpiele(D1, D1.teams[2]), p2 = eigeneSpiele(D1, D1.teams[3]);
+  ok(m1.length === 1 && m2.length === 1 && m1[0].id === m2[0].id && m1[0].d === "2026-12-13T14:00:00+01:00" && m1[0].ort === "Consdorf"
+     && m1[0].lalux.mannschaften === "MIN" && m1[0].h.n === "LALUX Indoor Cup · Gruppe B" && m1[0].a.id === 45396 && m1[0].lalux.mit.length === 3 && !m1[0].erg,
+     "LALUX: ein Turnier bei MIN 1 und MIN 2 mit derselben id, Gegner = Gruppe, ohne Ergebnis");
+  ok(p1.length === 0 && p2.length === 1 && p2[0].h.id === 45401 && !p2[0].lalux.mannschaften, "LALUX: „… II“ nur bei der II, als Gastgeber (zuerst genannt) heim");
+  const kal = icsGruppe(D1, D1.teams[0].gruppe);
+  ok((kal.match(/BEGIN:VEVENT/g) || []).length === 1 && kal.includes("Koeppchen MIN · LALUX Indoor in Consdorf") && kal.includes("DTEND:20261213T160000Z") && kal.includes("Gruppe B"),
+     "LALUX: im Gruppen-Kalender einmal, mit Halle im Titel, 3 Stunden, Gruppe in der Beschreibung");
+  const me = mEreignisse(D1, D1, null, Date.parse("2026-12-12T12:00:00+01:00")).ereignisse.find(e => e.id === "heute:" + m1[0].id);
+  ok(me?.titel === "MIN · Morgen Spiel" && me.text === "14:00 · LALUX Indoor Cup in Consdorf (1. Runde, Gruppe B)", "LALUX: „Morgen Spiel“ für die Minimes mit Halle, Runde und Gruppe");
+  ok(!mEreignisse({ ...D1, klassen: { x: { id: "x", n: "x", typ: "CC", spiele: [] } }, teams: D1.teams.map(t => ({ ...t, klassen: ["x"] })) }, D1, null, Date.parse("2026-12-01T12:00:00+01:00")).ereignisse.some(e => e.art === "neu"),
+     "LALUX: kein „Neues Spiel“");
+  laluxDazu(D1, [{ kat: "U13", ...g[0] }]);
+  ok(eigeneSpiele(D1, D1.teams[0]).length === 1, "LALUX: zweimal eingehängt bleibt ein Spiel");
+  // Hat ein Trainer dasselbe Hallenturnier über Coach eingetragen, zeigt die App nur das der FLF.
+  coachDazu(D1, [{ id: 5, reiter: "MIN 1", art: "Hallenturnier", datum: "2026-12-13", zeit: "14:00", gegner: "Halle Consdorf", heim: false, ort: "Consdorf", abgesagt: false }]);
+  ok(D1.coachDoppelt.includes(5) && !eigeneSpiele(D1, D1.teams[0]).some(s => s.coach), "LALUX: gleiches Hallenturnier vom Trainer → nur das der FLF");
 }
 // Coach, Stufe 1 (vom Nutzer, 27.10.2026): Trainer-Spiele vom Worker → Klassen wie BAM.
 {

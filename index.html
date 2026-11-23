@@ -882,7 +882,7 @@ function wocheSpiele(D, tage, now) {
     for (const sp of [...v.kommend, ...v.gespielt]) {
       if (seen.has(sp.id) || !tage.includes(tagLux(Date.parse(sp.d)))) continue;
       const wt = zuTeam.get(sp.wir);
-      seen.set(sp.id, { ...sp, reiter: sp.coach?.mannschaften || wt?.reiter || wt?.kurz || wt?.kat || t.reiter, tab: wt?.reiter ? wt.id : t.id, heim: sp.h.id === sp.wir });
+      seen.set(sp.id, { ...sp, reiter: sp.coach?.mannschaften || sp.lalux?.mannschaften || wt?.reiter || wt?.kurz || wt?.kat || t.reiter, tab: wt?.reiter ? wt.id : t.id, heim: sp.h.id === sp.wir });
     }
   }
   const alle = [...seen.values()].sort((a, b) => a.d.localeCompare(b.d) || a.reiter.localeCompare(b.reiter));
@@ -892,7 +892,7 @@ function wocheSpiele(D, tage, now) {
   return alle;
 }
 // Art eines Spiels fürs Schild: Pokal, Freundschaftsspiel, oder was der Trainer gewählt hat (Coach: Turnier …).
-const artText = sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : sp.typ === "FM" ? "Freundschaftsspiel" : "";
+const artText = sp => sp.coach ? sp.coach.art : sp.lalux ? "LALUX Indoor" : sp.typ === "CUP" ? "Pokal" : sp.typ === "FM" ? "Freundschaftsspiel" : "";
 // Trainer-Spiel für mehrere Mannschaften: „MIN 1+MIN 2“ → „MIN 1+2“ (wie coachName in tools/fussball.mjs).
 const coachTeile = r => String(r || "").split("+").filter(Boolean);
 function coachName(r) {
@@ -900,7 +900,10 @@ function coachName(r) {
   return l.length > 1 && m.every(x => x && x[1] === m[0][1]) ? `${m[0][1]} ${m.map(x => x[2]).join("+")}` : l.join(" + ");
 }
 // Zusatz eines Trainer-Spiels: „bis ca. 15:00 · Trikots weiß“.
-const coachZusatz = sp => sp.coach ? [sp.coach.ende ? "bis ca. " + sp.coach.ende : "", sp.coach.bem || ""].filter(Boolean).join(" · ") : "";
+// Schild in Heute-/Morgen-/Countdown-Kasten: Art des Trainer-Spiels, LALUX, Pokal.
+const pillArt = sp => sp.coach ? sp.coach.art : sp.lalux ? "LALUX Indoor" : sp.typ === "CUP" ? "Pokal" : "";
+// LALUX Indoor Cup (tools/lalux.mjs): Runde und die anderen Mannschaften der Gruppe — steht dort, wo beim Trainer-Spiel der Zusatz steht.
+const coachZusatz = sp => sp.lalux ? `${sp.lalux.runde} · mit ${sp.lalux.mit.map(anzeige).join(", ")}` : sp.coach ? [sp.coach.ende ? "bis ca. " + sp.coach.ende : "", sp.coach.bem || ""].filter(Boolean).join(" · ") : "";
 // Kleines grünes „COACH“ an jedem Trainer-Spiel (vom Nutzer, 27.10.2026): man sieht sofort, dass es kein FLF-Spiel ist.
 const coachZeichen = sp => sp.coach ? `<span class="coachz">COACH</span>` : "";
 const zeitOffen = sp => new Date(sp.d).toLocaleTimeString("de-DE", { timeZone: "Europe/Luxembourg", hour: "2-digit", minute: "2-digit" }) === "00:00";
@@ -979,7 +982,7 @@ function aktuellerSpieltag(k, now = Date.now()) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "22.11.2026 neu c";
+const FASSUNG = "23.11.2026 neu a";
 const KEY = "fussball_v1";
 // ---- Neue Ansicht: Auswahl oben, Leiste unten (vom Nutzer, 19.11.2026; Bauplan in IDEEN.md) ----
 // Bis zum Start bei allen nur für Geräte mit eigenem Code („pro“) oder Tester-Code („test“); „Alte Ansicht“ unter „Mehr“ schaltet zurück.
@@ -1431,18 +1434,18 @@ function renderInnen() {
   const kinder = istKinder(v);
   // Ohne FuPa-Schnittstelle: am Spieltag das FuPa-Widget unter dem Kasten (Seniors 1–3, nicht bei Trainer-Spielen).
   const fw = !FUPA_API && heute && !heute.sp.coach && FUPA_WIDGET[v.team.reiter];
-  if (heute) h += heuteHtml(heute, v.ids, { live: FUPA_API && !heute.sp.coach && (v.team.reiter === LIVE_REITER || !!(D.fupa || {})[heute.sp.id]), widget: !!fw, pill: sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "",
+  if (heute) h += heuteHtml(heute, v.ids, { live: FUPA_API && !heute.sp.coach && (v.team.reiter === LIVE_REITER || !!(D.fupa || {})[heute.sp.id]), widget: !!fw, pill: pillArt,
     ohneLive: "Das Ergebnis erscheint, sobald es eingetragen ist.", koeppi: kinder, motto: true, form: v.team.kat === "Seniors" && !heute.sp.coach && heute.sp.typ !== "FM",
     fupaUrl: (D.fupa || {})[heute.sp.id] ? "https://www.fupa.net/match/" + D.fupa[heute.sp.id]
       : L && L.flfId === heute.sp.id && L.url ? L.url : "https://www.fupa.net/club/fc-koeppchen" });
   if (fw) h += fupaWidgetHtml(fw, v.team.reiter, heute.sp.d);
   // Morgen-Kasten für alle Mannschaften (Seniors seit 8.11.2026, vom Nutzer), Koeppi nur bei den Kindern.
   const morgen = !heute && !lv && spieltagMorgen(v, now);
-  if (morgen) h += morgenHtml(morgen, v.ids, sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "", kinder,
+  if (morgen) h += morgenHtml(morgen, v.ids, pillArt, kinder,
     v.team.kat === "Seniors" && !morgen.sp.coach && morgen.sp.typ !== "FM");   // Form auch am Vortag (vom Nutzer, 8.11.2026)
   // „Nächstes Spiel“ mit Countdown über dem „Letzten Spiel“ (vom Nutzer, 20.11.2026, nur neue Ansicht).
   const nx = NEU && !heute && !lv && !morgen && naechstesSpiel(v, now);
-  if (nx) h += naechstesHtml(nx, v.ids, sp => sp.coach ? sp.coach.art : sp.typ === "CUP" ? "Pokal" : "");
+  if (nx) h += naechstesHtml(nx, v.ids, pillArt);
   h += letztesHtml(v, now, !!nx);
   if (lv) h += liveHtml(lv, n => anzeige(n).startsWith("Koeppchen"), "offiziell zählt die FLF");
 
@@ -1455,7 +1458,7 @@ function renderInnen() {
     if (i === 0) {
       h += `<div class="next"><div class="when">${coachZeichen(sp)}${esc(wann(sp))} <span class="muted" style="font-family:Barlow;font-size:14px;letter-spacing:0">${bisDahin(sp.d, now)}</span></div>
         ${spielZeile(sp, ids, `${sp.ort ? "📍 " + esc(sp.ort) : ""}${pokal}<br>${esc(coachZusatz(sp) || sp.klasse)}`)}</div>`;
-    } else h += spielZeile(sp, ids, `${coachZeichen(sp)}${esc(wann(sp))}${sp.ort ? " · 📍 " + esc(sp.ort) : ""}${pokal}${sp.coach && coachZusatz(sp) ? "<br>" + esc(coachZusatz(sp)) : ""}`);
+    } else h += spielZeile(sp, ids, `${coachZeichen(sp)}${esc(wann(sp))}${sp.ort ? " · 📍 " + esc(sp.ort) : ""}${pokal}${coachZusatz(sp) ? "<br>" + esc(coachZusatz(sp)) : ""}`);
   });
   if (v.kommend.length > ZEIG)
     h += `<div class="muted" style="text-align:center;font-size:12.5px;margin-top:8px">+ ${v.kommend.length - ZEIG} weitere unter „Alle Spiele der Klasse“</div>`;
@@ -2062,7 +2065,7 @@ function wocheHtml(tage, alle, now, leiste) {
           : s.gespielt ? "" : esc(zeitOffen(s) ? "Uhrzeit offen" : wann(s).split(" · ")[1]),
         // Stadion, solange die FLF kein Ergebnis hat — auch während das Spiel läuft (vom Nutzer).
         !s0.gespielt && s.ort ? "📍 " + esc(s.ort) : "",
-        s.abgesagt ? "<b>abgesagt</b>" : "", s.coach ? esc(s.coach.art) : s.typ === "CUP" ? "Pokal" : s.typ === "FM" ? "Test" : "",
+        s.abgesagt ? "<b>abgesagt</b>" : "", s.coach ? esc(s.coach.art) : s.lalux ? "LALUX Indoor" : s.typ === "CUP" ? "Pokal" : s.typ === "FM" ? "Test" : "",
         s.forfait ? "Forfait" : "",
         !lv && pokalOffen(s) ? "<b>nach 90 Min., Endstand folgt</b>" : !lv && pokalArt(s) ? esc(pokalArt(s)) : "",
         s.zugleich.length ? `<span class="wzugleich">gleichzeitig mit ${esc(s.zugleich.join(", "))}</span>` : "",

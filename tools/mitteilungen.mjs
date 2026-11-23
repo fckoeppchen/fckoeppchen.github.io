@@ -112,7 +112,9 @@ export function ereignisse(alt, neu, vorher, now) {
       // BAM: kein Gegner, sondern ein Mini-Spieltag mit mehreren Mannschaften (Uhrzeit sicher erst mit dem Wochenprogramm).
       // Coach-Turniere: „10:00 · Turnier: FC Mondercange“ statt „gegen“.
       const turnier = sp.coach && !coachMitGegner(sp.coach.art);
-      const was = sp.bam ? `${uhr(sp.d)}${sp.bam.zeitSicher ? "" : " (sauf changement)"} · Mini-Spieltag${wo}`
+      // LALUX Indoor Cup (tools/lalux.mjs): Turniertag in der Halle, die Gegner stehen in der App.
+      const was = sp.lalux ? `${offen ? "Uhrzeit noch offen" : uhr(sp.d)} · LALUX Indoor Cup in ${sp.ort} (${sp.lalux.runde}, Gruppe ${sp.lalux.gruppe})`
+        : sp.bam ? `${uhr(sp.d)}${sp.bam.zeitSicher ? "" : " (sauf changement)"} · Mini-Spieltag${wo}`
         : turnier ? `${offen ? "Uhrzeit noch offen" : uhr(sp.d)} · ${sp.coach.art}: ${sp.coach.gegner}${wo}`
         : (offen ? `Uhrzeit noch offen · gegen ${gegner}` : `${uhr(sp.d)} gegen ${gegner}`) + wo;
       const ende = t => offen ? umLux(t, 22) : d;
@@ -207,7 +209,7 @@ export function ereignisse(alt, neu, vorher, now) {
       const altT = (alt.teams || []).find(o => o.id === t.id), altKl = new Set(altT?.klassen || []);
       if (!altT) continue;
       // Coach-Spiele nicht: die bekommen mit Stufe 2 einen eigenen Haken („Trainer: neu, geändert, abgesagt“).
-      const neue = eigeneSpiele(neu, t).filter(sp => !altSp.has(sp.id) && Date.parse(sp.d) > now && !sp.forfait && !sp.coach);
+      const neue = eigeneSpiele(neu, t).filter(sp => !altSp.has(sp.id) && Date.parse(sp.d) > now && !sp.forfait && !sp.coach && !sp.lalux);
       const phasen = new Map(), einzeln = [];
       for (const sp of neue) {
         const k = t.klassen.map(id => neu.klassen[id]).find(k => k && k.spiele.some(x => x.id === sp.id));

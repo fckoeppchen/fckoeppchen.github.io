@@ -575,6 +575,21 @@ eigenen Newschannel verteilen, die alte Adresse war zu lang. Neu: GitHub-**Organ
 - **Fassung 20.11. neu r** (vom Nutzer, Muster vorher gezeigt): **Morgen-Kasten** (`morgenHtml`, Klasse `morgenk`) — Kopf = Datum („Samstag, 21. November“),
   im Kasten groß und grün „Morgen Spieltag! ⚽“ (`.mgross`, Bebas, `clamp(24px,8.4vw,34px)`, einzeilig bis 320 px), darunter kleiner fett „Anstoß 18:30“ (`.mzeit`).
   Anlass: „Anstoß 18:30“ groß las sich wie heute. Heute-Kasten unverändert. **Mehr → „Datenschutz / Kontakt“**, ebenso der Kopf des Abschnitts in der Fußzeile.
+- **LALUX Indoor Cup automatisch** (vom Nutzer, 23.11.2026, Fassung 23.11. neu a): `tools/lalux.mjs` liest die PDFs der Seite
+  www.flf.lu/lalux-indoor-84127v4 („2026-2027 LALUX MINIMES/POUSSINS/PUPILLES.pdf“; Mädchen und Kalender nicht) mit `pdftotext -bbox`.
+  Je Runde („1er tour“, „2e tour“, „3e tour“, „Finale“) Gruppen in drei Spalten: Kopf „Groupe K (6)“, darunter Halle + Termin
+  (`halleTermin`: „ROSPORT - 03/01 14.00“, auch ohne Strich, „13.12.“, ohne Uhrzeit → offen), darunter die Mannschaften (die erste ist
+  Gastgeber → heim). Jahr aus „Tournois du weekend du …/2027“, sonst aus dem Dateinamen. Jedes Wort zur nächsten Gruppen-Mitte (lange Namen
+  laufen über). Die späteren Runden stehen als leere Gerüste im selben PDF — sie füllen sich von selbst, sobald die FLF sie einträgt.
+  Gruppe mit Koeppchen nicht lesbar → Fehler → alte Liste (`D.lalux`), Rest des Abrufs läuft. Am 23.11. alle 36 Gruppen der 1. Runde
+  gelesen: U11 Gruppe K Rosport 13.12. 09:00, U9 Gruppe L Consdorf 13.12. 14:00, U13 Gruppe K Rosport 3.1. 14:00.
+  `laluxDazu`: je Mannschaft der Altersklasse eine Klasse `lalux-<id>` (typ FM, ohne Ergebnisse) mit demselben Spiel (id `7<Datum><Kat>`) —
+  die FLF meldet eine Mannschaft je Altersklasse, die Kinder werden jede Woche neu verteilt; meldet sie „… I/II“, nur dort. Name „MIN“/„POU“/
+  „PUP“ (`lalux.mannschaften`, wie bei Coach „MIN 1+2“), Gegner „LALUX Indoor Cup · Gruppe K“, Schild „LALUX Indoor“ (`pillArt`, `artText`),
+  darunter „1. Runde · mit …“ (`coachZusatz`). Kalender (Gruppen-Kalender einmal) „⚽ Koeppchen MIN · LALUX Indoor in Rosport“, 3 Stunden,
+  Gruppe und Gegner in der Beschreibung. Mitteilung „MIN · Morgen Spiel“ („14:00 · LALUX Indoor Cup in Rosport (1. Runde, Gruppe K)“),
+  kein „Neues Spiel“. Trainer-Eintrag „Hallenturnier“ am selben Tag → nur das der FLF (wie `coachDoppelt`). Koeppi, Morgen-/Heute-Kasten,
+  Woche, „Letztes Spiel“ ohne Sonderweg. Tests (548) mit Gegenproben; Browser mit gestellter Uhr (MIN 1, POU Vortag, PUP Spieltag, Woche, danach).
 - **Leiste der Spieltage in „Unsere Woche“** (vom Nutzer, 22.11.2026, Fassung 22.11. neu a; Muster A/B/C gezeigt, gewählt B + Knopf „Woche“ links):
   unter dem Kasten „Unsere Woche“ eine wischbare Leiste (`wocheLeiste`, `.kstrip`, `.kc`): ganz links „🗓️ Woche · alle Spiele“ (Standard, Ansicht wie
   bisher), dann jeder Tag der nächsten 21 Tage (`LEISTE_TAGE`) mit Spielen oder Events („Sa 28.11. · 6 Spiele“, „Fr 4.12. · 1 Event“, heute „Heute“).
