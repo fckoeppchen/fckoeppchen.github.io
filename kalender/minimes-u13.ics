@@ -160,4 +160,14 @@ SUMMARY:⚽ Koeppchen MIN 1 – CS Grevenmacher I · Uhrzeit offen
 LOCATION:Am Ga (Wormeldange\, synth.)
 DESCRIPTION:U13 Minimes Cl3 S2 Phase 2\, Spieltag 5
 END:VEVENT
+BEGIN:VEVENT
+UID:flf-72027010313@fc-koeppchen
+DTSTAMP:20260701T000000Z
+DTSTART:20270103T130000Z
+DTEND:20270103T160000Z
+SUMMARY:⚽ Koeppchen MIN · LALUX Indoor in Rosport
+LOCATION:Rosport
+DESCRIPTION:LALUX Indoor Cup\, 1. Runde\, Gruppe K\nMit Victoria Rosport\, 
+ US Sandweiler\, Swift Hesperange\, FC Les Aiglons Dalheim\, Avenir Beggen
+END:VEVENT
 END:VCALENDAR

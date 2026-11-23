@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-23T03:05:34.490Z",
+ "stand": "2026-11-23T06:43:12.955Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -71,6 +71,7 @@
     19615,
     19617,
     19961,
+    "lalux-45396",
     "coach-45396"
    ],
    "reiter": "MIN 1",
@@ -92,7 +93,8 @@
    "alter": "U13 Minimes",
    "kurz": "MIN",
    "klassen": [
-    19233
+    19233,
+    "lalux-45397"
    ],
    "reiter": "MIN 2",
    "datei": "u13-2.ics",
@@ -115,6 +117,7 @@
    "klassen": [
     19563,
     19361,
+    "lalux-45395",
     "coach-45395"
    ],
    "reiter": "POU 1",
@@ -136,7 +139,8 @@
    "alter": "U11 Poussins",
    "kurz": "POU",
    "klassen": [
-    19369
+    19369,
+    "lalux-45394"
    ],
    "reiter": "POU 2",
    "datei": "u11-2.ics",
@@ -159,6 +163,7 @@
    "klassen": [
     19563,
     19447,
+    "lalux-45392",
     "coach-45392"
    ],
    "reiter": "PUP 1",
@@ -180,7 +185,8 @@
    "alter": "U9 Pupilles",
    "kurz": "PUP",
    "klassen": [
-    19451
+    19451,
+    "lalux-45393"
    ],
    "reiter": "PUP 2",
    "datei": "u9-2.ics",
@@ -19526,6 +19532,246 @@
    ],
    "start": "2026-09-26"
   },
+  "lalux-45392": {
+   "id": "lalux-45392",
+   "n": "LALUX Indoor Cup",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 72026121309,
+     "d": "2026-12-13T14:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 0,
+      "n": "LALUX Indoor Cup · Gruppe L"
+     },
+     "a": {
+      "id": 45392,
+      "n": "FC Koeppchen Wormeldange PUP"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Consdorf",
+     "lalux": {
+      "runde": "1. Runde",
+      "gruppe": "L",
+      "mit": [
+       "US Berdorf-Consdorf 01",
+       "Avenir Beggen",
+       "Tricolore Gasperich",
+       "Red Star Merl-Belair",
+       "Jeunesse Junglinster"
+      ],
+      "mannschaften": "PUP"
+     }
+    }
+   ],
+   "start": "2026-12-13"
+  },
+  "lalux-45393": {
+   "id": "lalux-45393",
+   "n": "LALUX Indoor Cup",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 72026121309,
+     "d": "2026-12-13T14:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 0,
+      "n": "LALUX Indoor Cup · Gruppe L"
+     },
+     "a": {
+      "id": 45393,
+      "n": "FC Koeppchen Wormeldange PUP"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Consdorf",
+     "lalux": {
+      "runde": "1. Runde",
+      "gruppe": "L",
+      "mit": [
+       "US Berdorf-Consdorf 01",
+       "Avenir Beggen",
+       "Tricolore Gasperich",
+       "Red Star Merl-Belair",
+       "Jeunesse Junglinster"
+      ],
+      "mannschaften": "PUP"
+     }
+    }
+   ],
+   "start": "2026-12-13"
+  },
+  "lalux-45395": {
+   "id": "lalux-45395",
+   "n": "LALUX Indoor Cup",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 72026121311,
+     "d": "2026-12-13T09:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 0,
+      "n": "LALUX Indoor Cup · Gruppe K"
+     },
+     "a": {
+      "id": 45395,
+      "n": "FC Koeppchen Wormeldange POU"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Rosport",
+     "lalux": {
+      "runde": "1. Runde",
+      "gruppe": "K",
+      "mit": [
+       "Victoria Rosport",
+       "Union Sportive Hostert",
+       "FC Kopstal ‘33",
+       "Entente Biwer/Berbourg",
+       "Swift Hesperange"
+      ],
+      "mannschaften": "POU"
+     }
+    }
+   ],
+   "start": "2026-12-13"
+  },
+  "lalux-45394": {
+   "id": "lalux-45394",
+   "n": "LALUX Indoor Cup",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 72026121311,
+     "d": "2026-12-13T09:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 0,
+      "n": "LALUX Indoor Cup · Gruppe K"
+     },
+     "a": {
+      "id": 45394,
+      "n": "FC Koeppchen Wormeldange POU"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Rosport",
+     "lalux": {
+      "runde": "1. Runde",
+      "gruppe": "K",
+      "mit": [
+       "Victoria Rosport",
+       "Union Sportive Hostert",
+       "FC Kopstal ‘33",
+       "Entente Biwer/Berbourg",
+       "Swift Hesperange"
+      ],
+      "mannschaften": "POU"
+     }
+    }
+   ],
+   "start": "2026-12-13"
+  },
+  "lalux-45396": {
+   "id": "lalux-45396",
+   "n": "LALUX Indoor Cup",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 72027010313,
+     "d": "2027-01-03T14:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 0,
+      "n": "LALUX Indoor Cup · Gruppe K"
+     },
+     "a": {
+      "id": 45396,
+      "n": "FC Koeppchen Wormeldange MIN"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Rosport",
+     "lalux": {
+      "runde": "1. Runde",
+      "gruppe": "K",
+      "mit": [
+       "Victoria Rosport",
+       "US Sandweiler",
+       "Swift Hesperange",
+       "FC Les Aiglons Dalheim",
+       "Avenir Beggen"
+      ],
+      "mannschaften": "MIN"
+     }
+    }
+   ],
+   "start": "2027-01-03"
+  },
+  "lalux-45397": {
+   "id": "lalux-45397",
+   "n": "LALUX Indoor Cup",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 72027010313,
+     "d": "2027-01-03T14:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 0,
+      "n": "LALUX Indoor Cup · Gruppe K"
+     },
+     "a": {
+      "id": 45397,
+      "n": "FC Koeppchen Wormeldange MIN"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Rosport",
+     "lalux": {
+      "runde": "1. Runde",
+      "gruppe": "K",
+      "mit": [
+       "Victoria Rosport",
+       "US Sandweiler",
+       "Swift Hesperange",
+       "FC Les Aiglons Dalheim",
+       "Avenir Beggen"
+      ],
+      "mannschaften": "MIN"
+     }
+    }
+   ],
+   "start": "2027-01-03"
+  },
   "coach-45392": {
    "id": "coach-45392",
    "n": "Vom Trainer eingetragen",
@@ -24580,6 +24826,56 @@
   }
  },
  "fupa": {},
+ "lalux": [
+  {
+   "kat": "U9",
+   "runde": 1,
+   "gruppe": "L",
+   "datum": "2026-12-13",
+   "zeit": "14:00",
+   "halle": "Consdorf",
+   "teams": [
+    "US Berdorf-Consdorf 01",
+    "Avenir Beggen",
+    "Tricolore Gasperich",
+    "FC Koeppchen Wormeldange",
+    "Red Star Merl-Belair",
+    "Jeunesse Junglinster"
+   ]
+  },
+  {
+   "kat": "U11",
+   "runde": 1,
+   "gruppe": "K",
+   "datum": "2026-12-13",
+   "zeit": "09:00",
+   "halle": "Rosport",
+   "teams": [
+    "Victoria Rosport",
+    "Union Sportive Hostert",
+    "FC Kopstal ‘33",
+    "Entente Biwer/Berbourg",
+    "Swift Hesperange",
+    "FC Koeppchen Wormeldange"
+   ]
+  },
+  {
+   "kat": "U13",
+   "runde": 1,
+   "gruppe": "K",
+   "datum": "2027-01-03",
+   "zeit": "14:00",
+   "halle": "Rosport",
+   "teams": [
+    "Victoria Rosport",
+    "US Sandweiler",
+    "FC Koeppchen Wormeldange",
+    "Swift Hesperange",
+    "FC Les Aiglons Dalheim",
+    "Avenir Beggen"
+   ]
+  }
+ ],
  "coach": [
   {
    "id": 4,
