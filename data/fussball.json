@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-23T22:31:51.066Z",
+ "stand": "2026-11-24T04:19:33.775Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -27213,14 +27213,7 @@
   "Terrain 2 (Lintgen, synth.)": "Rue de la Gare, L-7448 Lintgen",
   "Terrain Op Birkelt (Larochette, synth.)": "Plateau Birkelt, L-7620 Larochette"
  },
- "wetter": {
-  "1011085": {
-   "c": 0,
-   "t": -1,
-   "r": 0,
-   "w": 5
-  }
- },
+ "wetter": {},
  "wetterOrte": {
   "LU-5499 Dreiborn": [
    49.617,
