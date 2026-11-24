@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-24T11:02:01.461Z",
+ "stand": "2026-11-24T21:16:50.986Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -8351,9 +8351,9 @@
       "id": 44743,
       "n": "Jeunesse Biwer"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 4,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Mensdorf, synth.)"
     },

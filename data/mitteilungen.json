@@ -76,17 +76,6 @@
    "reiter": [
     "Seniors 2"
    ],
-   "id": "ende:1011085",
-   "art": "ende",
-   "titel": "Seniors 2 · Endstand",
-   "text": "Résidence Walferdange I 5:4 Koeppchen I",
-   "ab": 1795473140768,
-   "bis": 1795537940768
-  },
-  {
-   "reiter": [
-    "Seniors 2"
-   ],
    "id": "tabelle:18918:45403:8:10:7:2026-11-24",
    "art": "tabelle",
    "titel": "Seniors 2 · Tabelle",
@@ -98,6 +87,17 @@
    },
    "ab": 1795500000000,
    "bis": 1795586400000
+  },
+  {
+   "reiter": [
+    "Seniors 3"
+   ],
+   "id": "spieltag:18936:8",
+   "art": "spieltag",
+   "titel": "Seniors 3 · Spieltag",
+   "text": "Spieltag 8 komplett: Koeppchen II 6:0 Minerva Lintgen · alle Ergebnisse in der App",
+   "ab": 1795555023718,
+   "bis": 1795641423718
   }
  ],
  "live": []
