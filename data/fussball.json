@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-24T04:19:33.775Z",
+ "stand": "2026-11-24T11:02:01.461Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -7359,14 +7359,26 @@
      "n": "Jeunesse Biwer",
      "sp": 7,
      "s": 6,
-     "u": 1,
-     "nl": 0,
-     "t": 37,
-     "g": 7,
-     "pkt": 19
+     "u": 0,
+     "nl": 1,
+     "t": 38,
+     "g": 9,
+     "pkt": 18
     },
     {
      "pl": 3,
+     "id": 46587,
+     "n": "Olympia Christnach-Waldbillig I",
+     "sp": 8,
+     "s": 6,
+     "u": 0,
+     "nl": 2,
+     "t": 22,
+     "g": 16,
+     "pkt": 18
+    },
+    {
+     "pl": 4,
      "id": 45006,
      "n": "US Moutfort-Medingen",
      "sp": 8,
@@ -7376,18 +7388,6 @@
      "t": 33,
      "g": 14,
      "pkt": 17
-    },
-    {
-     "pl": 4,
-     "id": 46587,
-     "n": "Olympia Christnach-Waldbillig I",
-     "sp": 8,
-     "s": 5,
-     "u": 1,
-     "nl": 2,
-     "t": 20,
-     "g": 15,
-     "pkt": 16
     },
     {
      "pl": 5,
@@ -8114,8 +8114,8 @@
       "id": 44743,
       "n": "Jeunesse Biwer"
      },
-     "hs": 0,
-     "as": 0,
+     "hs": 2,
+     "as": 1,
      "gespielt": true,
      "forfait": false,
      "ort": "Terrain Am Lahr (Christnach)"
@@ -18644,8 +18644,26 @@
      "ort": "Terrain Munsbach (synth.)"
     },
     {
+     "id": 6320041,
+     "d": "2026-12-05T14:30:00+01:00",
+     "tag": 4,
+     "h": {
+      "id": 45746,
+      "n": "Tricolore Gasperich"
+     },
+     "a": {
+      "id": 45928,
+      "n": "ENT Munsbach/Mensdorf/Canach I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Emile Bintner (Luxembourg, synth.)"
+    },
+    {
      "id": 6320042,
-     "d": "2026-12-05T00:00:01+01:00",
+     "d": "2026-12-05T15:00:00+01:00",
      "tag": 4,
      "h": {
       "id": 45399,
@@ -18663,7 +18681,7 @@
     },
     {
      "id": 6320043,
-     "d": "2026-12-05T00:00:01+01:00",
+     "d": "2026-12-05T16:30:00+01:00",
      "tag": 4,
      "h": {
       "id": 46200,
@@ -18678,24 +18696,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain Am Brill (Moutfort, synth.)"
-    },
-    {
-     "id": 6320041,
-     "d": "2026-12-05T14:30:00+01:00",
-     "tag": 4,
-     "h": {
-      "id": 45746,
-      "n": "Tricolore Gasperich"
-     },
-     "a": {
-      "id": 45928,
-      "n": "ENT Munsbach/Mensdorf/Canach I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Emile Bintner (Luxembourg, synth.)"
     },
     {
      "id": 6320053,
@@ -18997,24 +18997,6 @@
      "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
-     "id": 6345041,
-     "d": "2026-12-05T00:00:01+01:00",
-     "tag": 4,
-     "h": {
-      "id": 46022,
-      "n": "Union Remich/Bous I"
-     },
-     "a": {
-      "id": 44755,
-      "n": "Victoria Rosport I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain um Gréin (Remich, synth.)"
-    },
-    {
      "id": 6345042,
      "d": "2026-12-05T14:30:00+01:00",
      "tag": 4,
@@ -19049,6 +19031,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Berbourg, synth.)"
+    },
+    {
+     "id": 6345041,
+     "d": "2026-12-05T16:00:00+01:00",
+     "tag": 4,
+     "h": {
+      "id": 46022,
+      "n": "Union Remich/Bous I"
+     },
+     "a": {
+      "id": 44755,
+      "n": "Victoria Rosport I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain um Gréin (Remich, synth.)"
     },
     {
      "id": 6345052,
