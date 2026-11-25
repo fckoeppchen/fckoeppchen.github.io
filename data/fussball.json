@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-25T06:01:54.921Z",
+ "stand": "2026-11-25T21:16:45.485Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -5731,24 +5731,6 @@
      "ort": "Stade Thillenberg 1 (Differdange)"
     },
     {
-     "id": 1011086,
-     "d": "2026-11-23T20:00:00+01:00",
-     "tag": 8,
-     "h": {
-      "id": 46224,
-      "n": "FC Lorentzweiler"
-     },
-     "a": {
-      "id": 44750,
-      "n": "Victoria Rosport"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Lorentzweiler, synth.)"
-    },
-    {
      "id": 1011083,
      "d": "2026-11-23T20:00:00+01:00",
      "tag": 8,
@@ -6035,6 +6017,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Pétange, synth.)"
+    },
+    {
+     "id": 1011086,
+     "d": "2026-12-14T20:00:00+01:00",
+     "tag": 8,
+     "h": {
+      "id": 46224,
+      "n": "FC Lorentzweiler"
+     },
+     "a": {
+      "id": 44750,
+      "n": "Victoria Rosport"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Lorentzweiler, synth.)"
     },
     {
      "id": 1011113,
@@ -19428,7 +19428,7 @@
     },
     {
      "id": 9202611212,
-     "d": "2026-11-21T09:30:00+01:00",
+     "d": "2026-11-21T10:30:00+01:00",
      "tag": 7,
      "h": {
       "id": 0,
@@ -19449,12 +19449,12 @@
        "Jeunesse Junglinster II",
        "US Moutfort-Medingen"
       ],
-      "zeitSicher": true
+      "zeitSicher": false
      }
     },
     {
      "id": 9202611211,
-     "d": "2026-11-21T09:30:00+01:00",
+     "d": "2026-11-21T10:30:00+01:00",
      "tag": 7,
      "h": {
       "id": 0,
@@ -19475,7 +19475,7 @@
        "Daring Echternach II",
        "Union Mertert-Wasserbillig"
       ],
-      "zeitSicher": true
+      "zeitSicher": false
      }
     },
     {
