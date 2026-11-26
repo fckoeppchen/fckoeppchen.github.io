@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-26T06:02:09.640Z",
+ "stand": "2026-11-26T11:01:49.456Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -19069,24 +19069,6 @@
      "ort": "Am Ga (Wormeldange, synth.)"
     },
     {
-     "id": 6345051,
-     "d": "2026-12-12T01:30:00+01:00",
-     "tag": 5,
-     "h": {
-      "id": 46353,
-      "n": "ENT Biwer/Berbourg/UMW I"
-     },
-     "a": {
-      "id": 46022,
-      "n": "Union Remich/Bous I"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Berbourg, synth.)"
-    },
-    {
      "id": 6345053,
      "d": "2026-12-12T01:30:00+01:00",
      "tag": 5,
@@ -19103,6 +19085,24 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Junglinster, synth.)"
+    },
+    {
+     "id": 6345051,
+     "d": "2026-12-12T14:00:00+01:00",
+     "tag": 5,
+     "h": {
+      "id": 46353,
+      "n": "ENT Biwer/Berbourg/UMW I"
+     },
+     "a": {
+      "id": 46022,
+      "n": "Union Remich/Bous I"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain au Parc (Mertert, synth.)"
     }
    ],
    "start": "2026-11-14T16:00:00+01:00"
