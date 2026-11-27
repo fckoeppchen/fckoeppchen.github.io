@@ -82,7 +82,109 @@
    "text": "Spieltag 8 komplett (3 Spiele verlegt): Résidence Walferdange I 5:4 Koeppchen I · alle Ergebnisse in der App",
    "ab": 1795727839055,
    "bis": 1795814239055
+  },
+  {
+   "reiter": [
+    "Seniors 3"
+   ],
+   "id": "heute:1015094",
+   "art": "heute",
+   "titel": "Seniors 3 · Heute Spiel",
+   "text": "20:00 gegen Jeunesse Biwer · 📍 Terrain 2 (Biwer)",
+   "ab": 1795770000000,
+   "bis": 1795806000000
+  },
+  {
+   "reiter": [
+    "SCO",
+    "Scolaires U15"
+   ],
+   "id": "heute:6320033",
+   "art": "heute",
+   "titel": "SCO · Morgen Spiel",
+   "text": "17:30 gegen ENT Munsbach/Mensdorf/Canach I · 📍 Terrain Munsbach (synth.)",
+   "ab": 1795802400000,
+   "bis": 1795883400000
+  },
+  {
+   "reiter": [
+    "MIN 1",
+    "Minimes U13"
+   ],
+   "id": "heute:6345031",
+   "art": "heute",
+   "titel": "MIN 1 · Morgen Spiel",
+   "text": "16:30 gegen Union Remich/Bous I · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1795802400000,
+   "bis": 1795879800000
+  },
+  {
+   "reiter": [
+    "PUP 1",
+    "Pupilles U9"
+   ],
+   "id": "heute:6716085",
+   "art": "heute",
+   "titel": "PUP 1 · Morgen Spiel",
+   "text": "15:00 gegen US Moutfort-Medingen I · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1795802400000,
+   "bis": 1795874400000
+  },
+  {
+   "reiter": [
+    "PUP 2",
+    "Pupilles U9"
+   ],
+   "id": "heute:6717085",
+   "art": "heute",
+   "titel": "PUP 2 · Morgen Spiel",
+   "text": "15:00 gegen US Moutfort-Medingen II · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1795802400000,
+   "bis": 1795874400000
+  },
+  {
+   "reiter": [
+    "BAM 1",
+    "Bambinis U7"
+   ],
+   "id": "heute:9202611281",
+   "art": "heute",
+   "titel": "BAM 1 · Morgen Spiel",
+   "text": "10:30 · Mini-Spieltag · 📍 Terrain Ralingen (synth.)",
+   "ab": 1795802400000,
+   "bis": 1795858200000
+  },
+  {
+   "reiter": [
+    "BAM 2",
+    "Bambinis U7"
+   ],
+   "id": "heute:9202611282",
+   "art": "heute",
+   "titel": "BAM 2 · Morgen Spiel",
+   "text": "10:30 · Mini-Spieltag · 📍 Am Ga (Wormeldange, synth.)",
+   "ab": 1795802400000,
+   "bis": 1795858200000
   }
  ],
- "live": []
+ "live": [
+  {
+   "id": 1015094,
+   "reiter": [
+    "Seniors 3 · live"
+   ],
+   "titel": "📡 Seniors 3",
+   "d": "2026-11-27T20:00:00+01:00",
+   "h": "Jeunesse Biwer",
+   "a": "Koeppchen II",
+   "wirHeim": false,
+   "gegner": "Jeunesse Biwer",
+   "anstoss": "2026-11-27T20:00:00+01:00",
+   "fupaTeam": "mr2",
+   "fupaWir": "fc-koeppchen",
+   "ticker": "lticker:1015094",
+   "halbzeit": "lhalbzeit:1015094",
+   "ende": "ende-live:1015094"
+  }
+ ]
 }
