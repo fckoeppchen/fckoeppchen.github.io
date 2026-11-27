@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-27T11:01:52.298Z",
+ "stand": "2026-11-27T21:16:47.605Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -2497,6 +2497,24 @@
      "ort": "Terrain In Bertzent (Niederfeulen, synth.)"
     },
     {
+     "id": 1002155,
+     "d": "2026-12-04T20:00:00+01:00",
+     "tag": 15,
+     "h": {
+      "id": 44650,
+      "n": "Marisca Mersch"
+     },
+     "a": {
+      "id": 45031,
+      "n": "Jeunesse Canach"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Stade Schintgespesch (Mersch)"
+    },
+    {
      "id": 1002156,
      "d": "2026-12-05T18:00:00+01:00",
      "tag": 15,
@@ -2603,24 +2621,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 1 (Mondercange)"
-    },
-    {
-     "id": 1002155,
-     "d": "2026-12-06T16:00:00+01:00",
-     "tag": 15,
-     "h": {
-      "id": 44650,
-      "n": "Marisca Mersch"
-     },
-     "a": {
-      "id": 45031,
-      "n": "Jeunesse Canach"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Stade Schintgespesch (Mersch)"
     },
     {
      "id": 1002153,
@@ -8358,6 +8358,24 @@
      "ort": "Terrain 2 (Mensdorf, synth.)"
     },
     {
+     "id": 1015094,
+     "d": "2026-11-27T00:00:01+01:00",
+     "tag": 9,
+     "h": {
+      "id": 44743,
+      "n": "Jeunesse Biwer"
+     },
+     "a": {
+      "id": 45404,
+      "n": "FC Koeppchen Wormeldange II"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Terrain 2 (Biwer)"
+    },
+    {
      "id": 1015092,
      "d": "2026-11-27T20:00:00+01:00",
      "tag": 9,
@@ -8374,24 +8392,6 @@
      "gespielt": false,
      "forfait": false,
      "ort": "Terrain 2 (Stegen, synth.)"
-    },
-    {
-     "id": 1015094,
-     "d": "2026-11-27T20:00:00+01:00",
-     "tag": 9,
-     "h": {
-      "id": 44743,
-      "n": "Jeunesse Biwer"
-     },
-     "a": {
-      "id": 45404,
-      "n": "FC Koeppchen Wormeldange II"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Terrain 2 (Biwer)"
     },
     {
      "id": 1015095,
@@ -8441,9 +8441,9 @@
       "id": 46227,
       "n": "Avenir Beggen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Am Brill (Moutfort, synth.)"
     },
@@ -19533,86 +19533,6 @@
    ],
    "start": "2026-09-26"
   },
-  "lalux-45392": {
-   "id": "lalux-45392",
-   "n": "LALUX Indoor Cup",
-   "typ": "FM",
-   "ergebnisse": false,
-   "tabelle": null,
-   "spiele": [
-    {
-     "id": 72026121309,
-     "d": "2026-12-13T14:00:00+01:00",
-     "tag": null,
-     "h": {
-      "id": 0,
-      "n": "LALUX Indoor Cup · Gruppe L"
-     },
-     "a": {
-      "id": 45392,
-      "n": "FC Koeppchen Wormeldange PUP"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Consdorf",
-     "lalux": {
-      "runde": "1. Runde",
-      "gruppe": "L",
-      "mit": [
-       "US Berdorf-Consdorf 01",
-       "Avenir Beggen",
-       "Tricolore Gasperich",
-       "Red Star Merl-Belair",
-       "Jeunesse Junglinster"
-      ],
-      "mannschaften": "PUP"
-     }
-    }
-   ],
-   "start": "2026-12-13"
-  },
-  "lalux-45393": {
-   "id": "lalux-45393",
-   "n": "LALUX Indoor Cup",
-   "typ": "FM",
-   "ergebnisse": false,
-   "tabelle": null,
-   "spiele": [
-    {
-     "id": 72026121309,
-     "d": "2026-12-13T14:00:00+01:00",
-     "tag": null,
-     "h": {
-      "id": 0,
-      "n": "LALUX Indoor Cup · Gruppe L"
-     },
-     "a": {
-      "id": 45393,
-      "n": "FC Koeppchen Wormeldange PUP"
-     },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
-     "forfait": false,
-     "ort": "Consdorf",
-     "lalux": {
-      "runde": "1. Runde",
-      "gruppe": "L",
-      "mit": [
-       "US Berdorf-Consdorf 01",
-       "Avenir Beggen",
-       "Tricolore Gasperich",
-       "Red Star Merl-Belair",
-       "Jeunesse Junglinster"
-      ],
-      "mannschaften": "PUP"
-     }
-    }
-   ],
-   "start": "2026-12-13"
-  },
   "lalux-45395": {
    "id": "lalux-45395",
    "n": "LALUX Indoor Cup",
@@ -19688,6 +19608,86 @@
        "Swift Hesperange"
       ],
       "mannschaften": "POU"
+     }
+    }
+   ],
+   "start": "2026-12-13"
+  },
+  "lalux-45392": {
+   "id": "lalux-45392",
+   "n": "LALUX Indoor Cup",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 72026121309,
+     "d": "2026-12-13T14:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 0,
+      "n": "LALUX Indoor Cup · Gruppe L"
+     },
+     "a": {
+      "id": 45392,
+      "n": "FC Koeppchen Wormeldange PUP"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Consdorf",
+     "lalux": {
+      "runde": "1. Runde",
+      "gruppe": "L",
+      "mit": [
+       "US Berdorf-Consdorf 01",
+       "Avenir Beggen",
+       "Tricolore Gasperich",
+       "Red Star Merl-Belair",
+       "Jeunesse Junglinster"
+      ],
+      "mannschaften": "PUP"
+     }
+    }
+   ],
+   "start": "2026-12-13"
+  },
+  "lalux-45393": {
+   "id": "lalux-45393",
+   "n": "LALUX Indoor Cup",
+   "typ": "FM",
+   "ergebnisse": false,
+   "tabelle": null,
+   "spiele": [
+    {
+     "id": 72026121309,
+     "d": "2026-12-13T14:00:00+01:00",
+     "tag": null,
+     "h": {
+      "id": 0,
+      "n": "LALUX Indoor Cup · Gruppe L"
+     },
+     "a": {
+      "id": 45393,
+      "n": "FC Koeppchen Wormeldange PUP"
+     },
+     "hs": null,
+     "as": null,
+     "gespielt": false,
+     "forfait": false,
+     "ort": "Consdorf",
+     "lalux": {
+      "runde": "1. Runde",
+      "gruppe": "L",
+      "mit": [
+       "US Berdorf-Consdorf 01",
+       "Avenir Beggen",
+       "Tricolore Gasperich",
+       "Red Star Merl-Belair",
+       "Jeunesse Junglinster"
+      ],
+      "mannschaften": "PUP"
      }
     }
    ],
@@ -24829,22 +24829,6 @@
  "fupa": {},
  "lalux": [
   {
-   "kat": "U9",
-   "runde": 1,
-   "gruppe": "L",
-   "datum": "2026-12-13",
-   "zeit": "14:00",
-   "halle": "Consdorf",
-   "teams": [
-    "US Berdorf-Consdorf 01",
-    "Avenir Beggen",
-    "Tricolore Gasperich",
-    "FC Koeppchen Wormeldange",
-    "Red Star Merl-Belair",
-    "Jeunesse Junglinster"
-   ]
-  },
-  {
    "kat": "U11",
    "runde": 1,
    "gruppe": "K",
@@ -24858,6 +24842,22 @@
     "Entente Biwer/Berbourg",
     "Swift Hesperange",
     "FC Koeppchen Wormeldange"
+   ]
+  },
+  {
+   "kat": "U9",
+   "runde": 1,
+   "gruppe": "L",
+   "datum": "2026-12-13",
+   "zeit": "14:00",
+   "halle": "Consdorf",
+   "teams": [
+    "US Berdorf-Consdorf 01",
+    "Avenir Beggen",
+    "Tricolore Gasperich",
+    "FC Koeppchen Wormeldange",
+    "Red Star Merl-Belair",
+    "Jeunesse Junglinster"
    ]
   },
   {
@@ -27214,12 +27214,6 @@
   "Terrain Op Birkelt (Larochette, synth.)": "Plateau Birkelt, L-7620 Larochette"
  },
  "wetter": {
-  "1015094": {
-   "c": 0,
-   "t": -3,
-   "r": 0,
-   "w": 5
-  },
   "6320033": {
    "c": 3,
    "t": 0,
@@ -27230,25 +27224,25 @@
    "c": 3,
    "t": 0,
    "r": 0,
-   "w": 0
+   "w": 5
   },
   "6716085": {
-   "c": 2,
+   "c": 3,
    "t": 2,
    "r": 0,
    "w": 10
   },
   "6717085": {
-   "c": 2,
+   "c": 3,
    "t": 2,
    "r": 0,
    "w": 10
   },
   "9202611282": {
    "c": 0,
-   "t": -1,
+   "t": -2,
    "r": 0,
-   "w": 5
+   "w": 10
   },
   "9202611281": {
    "c": 0,

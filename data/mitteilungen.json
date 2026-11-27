@@ -85,17 +85,6 @@
   },
   {
    "reiter": [
-    "Seniors 3"
-   ],
-   "id": "heute:1015094",
-   "art": "heute",
-   "titel": "Seniors 3 · Heute Spiel",
-   "text": "20:00 gegen Jeunesse Biwer · 📍 Terrain 2 (Biwer)",
-   "ab": 1795770000000,
-   "bis": 1795806000000
-  },
-  {
-   "reiter": [
     "SCO",
     "Scolaires U15"
    ],
@@ -174,12 +163,12 @@
     "Seniors 3 · live"
    ],
    "titel": "📡 Seniors 3",
-   "d": "2026-11-27T20:00:00+01:00",
+   "d": "2026-11-27T00:00:01+01:00",
    "h": "Jeunesse Biwer",
    "a": "Koeppchen II",
    "wirHeim": false,
    "gegner": "Jeunesse Biwer",
-   "anstoss": "2026-11-27T20:00:00+01:00",
+   "anstoss": "2026-11-27T00:00:01+01:00",
    "fupaTeam": "mr2",
    "fupaWir": "fc-koeppchen",
    "ticker": "lticker:1015094",
