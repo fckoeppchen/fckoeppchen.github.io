@@ -74,17 +74,6 @@
   },
   {
    "reiter": [
-    "Seniors 2"
-   ],
-   "id": "spieltag:18918:8",
-   "art": "spieltag",
-   "titel": "Seniors 2 · Spieltag",
-   "text": "Spieltag 8 komplett (3 Spiele verlegt): Résidence Walferdange I 5:4 Koeppchen I · alle Ergebnisse in der App",
-   "ab": 1795727839055,
-   "bis": 1795814239055
-  },
-  {
-   "reiter": [
     "SCO",
     "Scolaires U15"
    ],
@@ -154,6 +143,22 @@
    "text": "10:30 · Mini-Spieltag · 📍 Am Ga (Wormeldange, synth.)",
    "ab": 1795802400000,
    "bis": 1795858200000
+  },
+  {
+   "reiter": [
+    "Seniors 2"
+   ],
+   "id": "tabelle:18918:45403:8:10:8:2026-11-28",
+   "art": "tabelle",
+   "titel": "Seniors 2 · Tabelle",
+   "text": "Koeppchen I jetzt 8. Platz (vorher 7.) · 10 Punkte aus 8 Spielen",
+   "basis": {
+    "pl": 7,
+    "pkt": 10,
+    "sp": 8
+   },
+   "ab": 1795845600000,
+   "bis": 1795932000000
   }
  ],
  "live": [

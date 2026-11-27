@@ -1,5 +1,5 @@
 {
- "stand": "2026-11-27T21:16:47.605Z",
+ "stand": "2026-11-27T22:31:50.773Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -4849,16 +4849,28 @@
      "pl": 4,
      "id": 45482,
      "n": "US Rumelange",
-     "sp": 8,
+     "sp": 9,
      "s": 4,
      "u": 1,
-     "nl": 3,
-     "t": 20,
-     "g": 23,
+     "nl": 4,
+     "t": 22,
+     "g": 26,
      "pkt": 13
     },
     {
      "pl": 5,
+     "id": 45230,
+     "n": "U.N. Käerjeng 97 I",
+     "sp": 8,
+     "s": 4,
+     "u": 0,
+     "nl": 4,
+     "t": 20,
+     "g": 30,
+     "pkt": 12
+    },
+    {
+     "pl": 6,
      "id": 44750,
      "n": "Victoria Rosport",
      "sp": 7,
@@ -4870,7 +4882,7 @@
      "pkt": 11
     },
     {
-     "pl": 6,
+     "pl": 7,
      "id": 44553,
      "n": "Union Titus Pétange I",
      "sp": 7,
@@ -4882,7 +4894,7 @@
      "pkt": 10
     },
     {
-     "pl": 7,
+     "pl": 8,
      "id": 45403,
      "n": "FC Koeppchen Wormeldange I",
      "sp": 8,
@@ -4894,7 +4906,7 @@
      "pkt": 10
     },
     {
-     "pl": 8,
+     "pl": 9,
      "id": 44981,
      "n": "Racing FC Union Luxembourg",
      "sp": 8,
@@ -4903,18 +4915,6 @@
      "nl": 3,
      "t": 21,
      "g": 26,
-     "pkt": 9
-    },
-    {
-     "pl": 9,
-     "id": 45230,
-     "n": "U.N. Käerjeng 97 I",
-     "sp": 7,
-     "s": 3,
-     "u": 0,
-     "nl": 4,
-     "t": 17,
-     "g": 28,
      "pkt": 9
     },
     {
@@ -5814,9 +5814,9 @@
       "id": 45230,
       "n": "U.N. Käerjeng 97 I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Rumelange, synth.)"
     },
@@ -7345,16 +7345,28 @@
      "pl": 1,
      "id": 46227,
      "n": "Avenir Beggen",
-     "sp": 8,
+     "sp": 9,
      "s": 7,
      "u": 1,
-     "nl": 0,
+     "nl": 1,
      "t": 35,
-     "g": 10,
+     "g": 13,
      "pkt": 22
     },
     {
      "pl": 2,
+     "id": 45006,
+     "n": "US Moutfort-Medingen",
+     "sp": 9,
+     "s": 6,
+     "u": 2,
+     "nl": 1,
+     "t": 36,
+     "g": 14,
+     "pkt": 20
+    },
+    {
+     "pl": 3,
      "id": 44743,
      "n": "Jeunesse Biwer",
      "sp": 8,
@@ -7366,7 +7378,7 @@
      "pkt": 18
     },
     {
-     "pl": 3,
+     "pl": 4,
      "id": 46587,
      "n": "Olympia Christnach-Waldbillig I",
      "sp": 8,
@@ -7376,18 +7388,6 @@
      "t": 22,
      "g": 16,
      "pkt": 18
-    },
-    {
-     "pl": 4,
-     "id": 45006,
-     "n": "US Moutfort-Medingen",
-     "sp": 8,
-     "s": 5,
-     "u": 2,
-     "nl": 1,
-     "t": 33,
-     "g": 14,
-     "pkt": 17
     },
     {
      "pl": 5,
@@ -7429,49 +7429,49 @@
      "pl": 8,
      "id": 45607,
      "n": "FC Munsbach",
-     "sp": 8,
+     "sp": 9,
      "s": 2,
      "u": 3,
-     "nl": 3,
-     "t": 20,
-     "g": 26,
+     "nl": 4,
+     "t": 21,
+     "g": 28,
      "pkt": 9
     },
     {
      "pl": 9,
-     "id": 46181,
-     "n": "ENT CSG/Canach II",
-     "sp": 8,
+     "id": 45335,
+     "n": "Blo-Wäiss Medernach",
+     "sp": 9,
      "s": 2,
      "u": 2,
-     "nl": 4,
-     "t": 23,
-     "g": 23,
+     "nl": 5,
+     "t": 28,
+     "g": 32,
      "pkt": 8
     },
     {
      "pl": 10,
-     "id": 45335,
-     "n": "Blo-Wäiss Medernach",
-     "sp": 8,
-     "s": 1,
+     "id": 46181,
+     "n": "ENT CSG/Canach II",
+     "sp": 9,
+     "s": 2,
      "u": 2,
      "nl": 5,
-     "t": 16,
-     "g": 29,
-     "pkt": 5
+     "t": 26,
+     "g": 35,
+     "pkt": 8
     },
     {
      "pl": 11,
      "id": 44628,
      "n": "Minerva Lintgen",
-     "sp": 8,
-     "s": 1,
+     "sp": 9,
+     "s": 2,
      "u": 1,
      "nl": 6,
-     "t": 19,
-     "g": 52,
-     "pkt": 4
+     "t": 21,
+     "g": 53,
+     "pkt": 7
     },
     {
      "pl": 12,
@@ -8387,9 +8387,9 @@
       "id": 46181,
       "n": "ENT CSG/Canach II"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 12,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Stegen, synth.)"
     },
@@ -8405,9 +8405,9 @@
       "id": 45607,
       "n": "FC Munsbach"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Lintgen, synth.)"
     },
@@ -27221,7 +27221,7 @@
    "w": 5
   },
   "6345031": {
-   "c": 3,
+   "c": 2,
    "t": 0,
    "r": 0,
    "w": 5
@@ -27240,7 +27240,7 @@
   },
   "9202611282": {
    "c": 0,
-   "t": -2,
+   "t": -1,
    "r": 0,
    "w": 10
   },
