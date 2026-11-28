@@ -50,30 +50,6 @@
   },
   {
    "reiter": [
-    "BAM 1",
-    "Bambinis U7"
-   ],
-   "id": "zeit:9202611281:2026-11-28T10:30:00+01:00",
-   "art": "uhrzeit",
-   "titel": "BAM 1 · Uhrzeit",
-   "text": "Uhrzeit steht fest: Sa., 28.11. um 10:30 · Mini-Spieltag · 📍 Terrain Ralingen (synth.)",
-   "ab": 1795036631108,
-   "bis": 1795858200000
-  },
-  {
-   "reiter": [
-    "BAM 2",
-    "Bambinis U7"
-   ],
-   "id": "zeit:9202611282:2026-11-28T10:30:00+01:00",
-   "art": "uhrzeit",
-   "titel": "BAM 2 · Uhrzeit",
-   "text": "Uhrzeit steht fest: Sa., 28.11. um 10:30 · Mini-Spieltag · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1795036631108,
-   "bis": 1795858200000
-  },
-  {
-   "reiter": [
     "SCO",
     "Scolaires U15"
    ],
@@ -119,30 +95,6 @@
    "text": "15:00 gegen US Moutfort-Medingen II · 📍 Am Ga (Wormeldange, synth.)",
    "ab": 1795802400000,
    "bis": 1795874400000
-  },
-  {
-   "reiter": [
-    "BAM 1",
-    "Bambinis U7"
-   ],
-   "id": "heute:9202611281",
-   "art": "heute",
-   "titel": "BAM 1 · Morgen Spiel",
-   "text": "10:30 · Mini-Spieltag · 📍 Terrain Ralingen (synth.)",
-   "ab": 1795802400000,
-   "bis": 1795858200000
-  },
-  {
-   "reiter": [
-    "BAM 2",
-    "Bambinis U7"
-   ],
-   "id": "heute:9202611282",
-   "art": "heute",
-   "titel": "BAM 2 · Morgen Spiel",
-   "text": "10:30 · Mini-Spieltag · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1795802400000,
-   "bis": 1795858200000
   },
   {
    "reiter": [
