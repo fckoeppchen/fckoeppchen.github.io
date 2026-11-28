@@ -26,30 +26,6 @@
   },
   {
    "reiter": [
-    "PUP 1",
-    "Pupilles U9"
-   ],
-   "id": "zeit:6716085:2026-11-28T15:00:00+01:00",
-   "art": "uhrzeit",
-   "titel": "PUP 1 · Uhrzeit",
-   "text": "Uhrzeit steht fest: Sa., 28.11. um 15:00 gegen US Moutfort-Medingen I · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1794431833156,
-   "bis": 1795874400000
-  },
-  {
-   "reiter": [
-    "PUP 2",
-    "Pupilles U9"
-   ],
-   "id": "zeit:6717085:2026-11-28T15:00:00+01:00",
-   "art": "uhrzeit",
-   "titel": "PUP 2 · Uhrzeit",
-   "text": "Uhrzeit steht fest: Sa., 28.11. um 15:00 gegen US Moutfort-Medingen II · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1794431833156,
-   "bis": 1795874400000
-  },
-  {
-   "reiter": [
     "SCO",
     "Scolaires U15"
    ],
@@ -71,30 +47,6 @@
    "text": "16:30 gegen Union Remich/Bous I · 📍 Am Ga (Wormeldange, synth.)",
    "ab": 1795802400000,
    "bis": 1795879800000
-  },
-  {
-   "reiter": [
-    "PUP 1",
-    "Pupilles U9"
-   ],
-   "id": "heute:6716085",
-   "art": "heute",
-   "titel": "PUP 1 · Morgen Spiel",
-   "text": "15:00 gegen US Moutfort-Medingen I · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1795802400000,
-   "bis": 1795874400000
-  },
-  {
-   "reiter": [
-    "PUP 2",
-    "Pupilles U9"
-   ],
-   "id": "heute:6717085",
-   "art": "heute",
-   "titel": "PUP 2 · Morgen Spiel",
-   "text": "15:00 gegen US Moutfort-Medingen II · 📍 Am Ga (Wormeldange, synth.)",
-   "ab": 1795802400000,
-   "bis": 1795874400000
   },
   {
    "reiter": [
