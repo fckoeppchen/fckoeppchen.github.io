@@ -159,26 +159,43 @@
    },
    "ab": 1795845600000,
    "bis": 1795932000000
+  },
+  {
+   "reiter": [
+    "POU 1",
+    "Poussins U11"
+   ],
+   "id": "heute:6685085",
+   "art": "heute",
+   "titel": "POU 1 · Morgen Spiel",
+   "text": "10:30 gegen CS Grevenmacher I · 📍 Terrain 2 (Grevenmacher, synth.)",
+   "ab": 1795888800000,
+   "bis": 1795944600000
+  },
+  {
+   "reiter": [
+    "POU 2",
+    "Poussins U11"
+   ],
+   "id": "heute:6687085",
+   "art": "heute",
+   "titel": "POU 2 · Morgen Spiel",
+   "text": "10:30 gegen Daring Echternach II · 📍 Terrain Breil (Echternach, synth.)",
+   "ab": 1795888800000,
+   "bis": 1795944600000
+  },
+  {
+   "reiter": [
+    "MIN 1",
+    "Minimes U13"
+   ],
+   "id": "heute:8000000006",
+   "art": "heute",
+   "titel": "MIN 1 · Morgen Spiel",
+   "text": "09:30 · Hallenturnier: FC Longwy · 📍 Longwy",
+   "ab": 1795888800000,
+   "bis": 1795941000000
   }
  ],
- "live": [
-  {
-   "id": 1015094,
-   "reiter": [
-    "Seniors 3 · live"
-   ],
-   "titel": "📡 Seniors 3",
-   "d": "2026-11-27T00:00:01+01:00",
-   "h": "Jeunesse Biwer",
-   "a": "Koeppchen II",
-   "wirHeim": false,
-   "gegner": "Jeunesse Biwer",
-   "anstoss": "2026-11-27T00:00:01+01:00",
-   "fupaTeam": "mr2",
-   "fupaWir": "fc-koeppchen",
-   "ticker": "lticker:1015094",
-   "halbzeit": "lhalbzeit:1015094",
-   "ende": "ende-live:1015094"
-  }
- ]
+ "live": []
 }
